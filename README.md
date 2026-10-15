@@ -1,9 +1,17 @@
 # G53 — Marthe
 
-Gruppeprosjekt i **IBE160 Programmering med KI** ved Høgskolen i Molde, høsten 2026 (15 studiepoeng).
+Soloprosjekt i **IBE160 Programmering med KI** ved Høgskolen i Molde, høsten 2026 (15 studiepoeng).
 
-Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og kvalitetssikring med KI.
+Repoet inneholder applikasjonen og dokumentasjon av utvikling, testing og kvalitetssikring med KI.
 
-## Medlemmer
+## Medlem
 
-- Marthe Kalland
+- Marthe Kalland (soloprosjekt)
+
+## Prosessdokumentasjon
+
+- [Prosessdokumentasjon – oversikt](docs/process/README.md)
+- [Vurderingskriterier (sammendrag)](docs/process/vurderingskriterier.md)
+- [Beslutningslogg](docs/process/decisions.md)
+- [Planleggingsdokumenter (BMad)](_bmad-output/planning-artifacts/)
+- Konvensjoner for KI-assistert utvikling: [CLAUDE.md](CLAUDE.md)
