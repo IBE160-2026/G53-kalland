@@ -59,3 +59,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Course material: grading guide stays local, summary is in docs/process/vurderingskriterier.md
+docs/process/sensorveiledning-*.pdf
