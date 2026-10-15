@@ -11,7 +11,7 @@ Tema fra brukeren: $ARGUMENTS
 
 1. **Samle fakta**
    - Les gjennom samtalen i denne økten.
-   - Finn forrige øktlogg i `docs/process/sessions/` (nyeste fil) og kjør `git log --oneline --since=<dato for forrige økt>` på gjeldende branch, samt `git status --short` og `git branch --show-current`.
+   - Finn forrige øktlogg i `docs/process/sessions/` (nyeste fil) og kjør `git log --oneline --since="<dato for forrige økt> 00:00"` på gjeldende branch (uten klokkeslett tolker git datoen som nåværende klokkeslett den dagen, og commits tidligere samme dag faller bort), samt `git status --short` og `git branch --show-current`.
    - Les dagens promptlogg i `docs/process/prompts/YYYY-MM-DD.md` for å finne tidspunktene til promptene i denne økten.
 
 2. **Skriv utkast** til `docs/process/sessions/YYYY-MM-DD-<slug>.md` (slug fra temaet, små bokstaver, bindestreker; legg til `-2` osv. hvis filen finnes) med denne strukturen:
