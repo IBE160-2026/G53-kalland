@@ -118,8 +118,8 @@ Template:
 - **Date:** 2026-10-16
 - **Status:** Accepted
 - **Context:** Issue #4 stayed open after PR #5 resolved it, because the PR did not reference the issue. Merged branches were also left behind locally and on GitHub.
-- **Alternatives:** (a) Manual clean-up sessions now and then. (b) Let GitHub and git do it: closing keywords in PRs, auto-delete of head branches on merge, and `fetch.prune`.
-- **Decision:** (b). PRs that resolve an issue say `Closes #<n>`. The repo setting "Automatically delete head branches" is on. Locally, `fetch.prune` is on, and local branches whose remote is gone are deleted after pulling `main` (command in `CLAUDE.md`).
+- **Alternatives:** (a) Manual clean-up sessions now and then. (b) Let GitHub and git do it: closing keywords in PRs, the repo setting "Automatically delete head branches", and `fetch.prune`. (c) As (b), but a GitHub Actions workflow deletes the merged branch, since changing repo settings needs admin access, which the student account does not have (the API returns 404).
+- **Decision:** (c). PRs that resolve an issue say `Closes #<n>`. `.github/workflows/delete-merged-branch.yml` deletes the head branch when a PR is merged. Locally, `fetch.prune` is on, and local branches whose remote is gone are deleted after pulling `main` (command in `CLAUDE.md`).
 - **Rationale:** Issues and branches stay in sync with what is merged, with no extra manual step to forget.
-- **Consequences:** A merged branch is gone from GitHub straight away. Work that continues after a merge goes on a new branch.
+- **Consequences:** A merged branch is gone from GitHub straight away, provided Actions are enabled for the organization (to be confirmed on the first merge). Work that continues after a merge goes on a new branch.
 - **Trace:** issue #4, PR #5, branch `chore/repo-cleanup`
