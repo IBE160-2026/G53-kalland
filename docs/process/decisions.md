@@ -35,6 +35,7 @@ Mal:
 - **Begrunnelse:** Fullstendige, automatiske logger er sterkere bevis enn manuelle utdrag og glemmes ikke. Python i stedet for jq fordi det kjører likt på flere maskiner.
 - **Konsekvenser:** Promptloggen committes sammen med arbeidet den hører til. Hooken fanger bare prompts, ikke svar; svar, korrigeringer og avvisninger dokumenteres med `/log-session`. Ikke lim inn ekte hemmeligheter i prompts selv om maskering finnes.
 - **Spor:** branch `chore/process-setup`, [øktlogg 2026-10-15](sessions/2026-10-15-prosessoppsett.md)
+- **Oppdatert 2026-10-16:** Utvidet av D-007. Claudes svar fanges nå også, i transkripsjoner, og `/log-session` er erstattet av `/wrap-up`.
 
 ## D-003: Norsk prosessdokumentasjon, engelske BMad-artefakter
 - **Dato:** 2026-10-15
@@ -62,3 +63,13 @@ Mal:
 - **Status:** Åpen
 - **Kontekst:** Tilbakemeldingen på product brief (`_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/tilbakemelding-product-brief.md`) sier at V1 er stor for én person, at KI-metadata trenger testmodus/mock så sensor kan kjøre appen uten vår API-nøkkel, og at to suksesskriterier ikke er testbare.
 - **Beslutning:** Ikke tatt ennå. Må avklares før PRD og arkitektur.
+
+## D-007: Transkripsjoner per økt og `/wrap-up` som fast øktslutt
+- **Dato:** 2026-10-16
+- **Status:** Vedtatt
+- **Kontekst:** Promptloggen (D-002) viser bare hva vi spurte om, ikke hva KI svarte. Kriterium 1 ser etter eksempler på at KI-forslag ble rettet eller avvist, og det sees best i selve samtalen. Avslutningen av en økt var dessuten flere manuelle steg som lett glemmes.
+- **Alternativer:** (a) Bare kuraterte øktlogger, som før. (b) Committe rå JSONL-transkripsjoner. (c) Gjøre transkripsjonen om til markdown med bare bruker- og Claude-tekst, maskert.
+- **Beslutning:** (c). `.claude/hooks/transcript-to-md.py` skriver `docs/process/transcripts/<dato for første melding>-<økt-ID>.md`. `/wrap-up` erstatter `/log-session`: den lager transkripsjonen, skriver øktloggen med lenke til den, oppdaterer beslutningsloggen, scanner prosessfilene for hemmeligheter og stopper ved treff, og committer og pusher prosessfilene. På `main` lager den en `docs/`-branch og PR. Maskeringen er flyttet til `.claude/hooks/redact.py`, så promptlogg, transkripsjoner og scan bruker de samme mønstrene. En `SessionEnd`-hook er sikkerhetsnett: den skriver transkripsjonen bare hvis `/wrap-up` ikke har laget den.
+- **Begrunnelse:** Rå JSONL er uleselig for sensor og inneholder verktøyresultater med filinnhold. Verktøykall og thinking utelates fordi det viktige for sporbarheten er dialogen og vurderingene; commits viser hva som faktisk ble endret. Transkripsjonen lages inne i `/wrap-up`, fordi SessionEnd kjører først etter at `/wrap-up` har committet. Først lot vi hooken overskrive filen med de siste meldingene, men det ville gitt en ucommittet fil ved hver øktstart som neste `/wrap-up` committet på en tilfeldig branch, f.eks. en story-branch. Derfor overskriver hooken ikke.
+- **Konsekvenser:** Repoet er offentlig, så alt som skrives i en økt blir publisert; maskering fanger kjente nøkkelformater, men ikke alt. Meldingene etter `/wrap-up` (godkjenning og commit-rapport) kommer ikke med i transkripsjonen; committen viser utfallet. Transkripsjonsformatet er ikke et dokumentert API, så scriptet har tester med en syntetisk fixture (`.claude/hooks/tests/`). Tidligere økter får ikke transkripsjoner i ettertid; logger skal ikke etterkonstrueres.
+- **Spor:** branch `chore/session-transcripts`

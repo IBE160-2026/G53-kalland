@@ -8,6 +8,14 @@ Repoet inneholder applikasjonen og dokumentasjon av utvikling, testing og kvalit
 
 - Marthe Kalland (soloprosjekt)
 
+## Tester
+
+Applikasjonen er ikke laget ennå. Verktøyene for prosesslogging (`.claude/hooks/`) har tester som bare trenger Python 3.10 eller nyere:
+
+```bash
+python3 -m unittest discover -s .claude/hooks/tests
+```
+
 ## Prosessdokumentasjon
 
 - [Prosessdokumentasjon – oversikt](docs/process/README.md)

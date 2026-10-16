@@ -19,7 +19,13 @@ Repoet vurderes etter `docs/process/vurderingskriterier.md`. **Prosess og KI-sty
 - Funksjoner skal kunne spores til en story i `_bmad-output/`. Endres planen, oppdater BMad-dokumentet **og** legg inn en oppføring i `docs/process/decisions.md`.
 - Valg av teknologi, arkitektur, omfang eller arbeidsform → ny `D-xxx` i `docs/process/decisions.md`.
 - Prompts logges automatisk til `docs/process/prompts/` (hook). Commit promptloggen sammen med arbeidet den hører til.
-- Avslutt hver arbeidsøkt med `/log-session`. Kjør `/grading-check` ukentlig og før frist.
+- Transkripsjonen av hver økt lagres som `docs/process/transcripts/<dato>-<økt-ID>.md` (bare bruker- og Claude-tekst, maskert). `/wrap-up` lager den; en SessionEnd-hook lager den bare hvis `/wrap-up` ikke ble kjørt.
+- Kjør `/grading-check` ukentlig og før frist.
+
+## Rutine ved øktslutt
+1. Kjør `/wrap-up <tema>`. Den skriver øktloggen med lenke til transkripsjonen, oppdaterer `decisions.md`, scanner prosessfilene for hemmeligheter (stopper ved treff), og committer og pusher **bare** prosessfilene. På `main` lager den en `docs/`-branch og en PR i stedet. Å kjøre `/wrap-up` er tillatelse til den committen og pushen.
+2. Avslutt økten (`/exit`). Meldingene etter `/wrap-up` kommer ikke med i transkripsjonen; committen viser utfallet. Glemmer du `/wrap-up`, skriver hooken transkripsjonen, og neste `/wrap-up` committer den.
+3. Ikke lag logger eller transkripsjoner for tidligere økter i ettertid.
 - Når brukeren avviser eller retter et forslag fra deg, skal det med i øktloggen. Ikke skjul eller pynt på det.
 
 ## Kode og kvalitet
