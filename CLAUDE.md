@@ -1,48 +1,49 @@
 # CLAUDE.md
 
-Soloprosjekt i IBE160 Programmering med KI (høst 2026): CRM/DAM for et designbyrå. Se product brief og tilbakemelding i `_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/`.
+Solo project in IBE160 Programmering med KI (autumn 2026): CRM/DAM for a design agency. See the product brief and the teacher's feedback (English translation: `tilbakemelding-product-brief.en.md`) in `_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/`.
 
-Repoet vurderes etter `docs/process/vurderingskriterier.md`. **Prosess og KI-styring teller 30 %**, så sporbarhet fra plan → prompt → commit → beslutning er like viktig som koden.
+The repo is graded against `docs/process/vurderingskriterier.en.md` (English translation of `vurderingskriterier.md`). **Process and AI governance counts 30 %**, so traceability from plan → prompt → commit → decision matters as much as the code.
 
-## Språk
-- `README.md`, `CLAUDE.md` og `docs/process/` skrives på norsk.
-- BMad-artefakter i `_bmad-output/` skrives på engelsk (`_bmad/config.toml`).
-- Kode, identifikatorer og kodekommentarer på engelsk.
+## Language
+- All docs, code, comments and commit messages are written in English. This includes `README.md`, `CLAUDE.md`, `docs/process/`, `.claude/commands/` and the BMad artifacts in `_bmad-output/` (`_bmad/config.toml`). (D-008)
+- Originals of external Norwegian sources (the teacher's feedback, the grading guide summary) are kept unchanged. The English translation lives next to the original as `<name>.en.md`; refer to the English version.
+- Historical prompt logs, session logs and transcripts are process evidence and are never translated or edited afterwards.
+- The app's Norwegian UI strings and language packs are product content and stay Norwegian.
 
-## Arbeidsflyt
-- Aldri commit direkte til `main`. Én branch per story/oppgave: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`.
-- Merge via pull request. PR-beskrivelsen har: hva og hvorfor, lenke til story, hvordan det er testet, og hva som ble endret eller avvist i KI-forslag.
-- Små, avgrensede commits med beskrivende meldinger på formen `type(scope): beskrivelse [S-<epic>.<story>]`, f.eks. `feat(upload): duplikatsjekk med hash [S-2.3]`. Typer: `feat`, `fix`, `test`, `refactor`, `docs`, `chore`.
-- Ikke commit eller push uten at brukeren ber om det.
+## Workflow
+- Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`.
+- Merge via pull request. The PR description covers: what and why, a link to the story, how it was tested, and what was changed or rejected in AI suggestions.
+- Small, focused commits with descriptive messages in the form `type(scope): description [S-<epic>.<story>]`, e.g. `feat(upload): duplicate check with hash [S-2.3]`. Types: `feat`, `fix`, `test`, `refactor`, `docs`, `chore`.
+- Do not commit or push unless the user asks for it.
 
-## Sporbarhet og dokumentasjon
-- Funksjoner skal kunne spores til en story i `_bmad-output/`. Endres planen, oppdater BMad-dokumentet **og** legg inn en oppføring i `docs/process/decisions.md`.
-- Valg av teknologi, arkitektur, omfang eller arbeidsform → ny `D-xxx` i `docs/process/decisions.md`.
-- Prompts logges automatisk til `docs/process/prompts/` (hook). Commit promptloggen sammen med arbeidet den hører til.
-- Transkripsjonen av hver økt lagres som `docs/process/transcripts/<dato>-<økt-ID>.md` (bare bruker- og Claude-tekst, maskert). `/wrap-up` lager den; en SessionEnd-hook lager den bare hvis `/wrap-up` ikke ble kjørt.
-- Kjør `/grading-check` ukentlig og før frist.
+## Traceability and documentation
+- Features must be traceable to a story in `_bmad-output/`. If the plan changes, update the BMad document **and** add an entry to `docs/process/decisions.md`.
+- Choices of technology, architecture, scope or way of working → a new `D-xxx` in `docs/process/decisions.md`.
+- Prompts are logged automatically to `docs/process/prompts/` (hook). Commit the prompt log together with the work it belongs to.
+- The transcript of each session is saved as `docs/process/transcripts/<date>-<session-ID>.md` (user and Claude text only, redacted). `/wrap-up` creates it; a SessionEnd hook creates it only if `/wrap-up` was not run.
+- Run `/grading-check` weekly and before the deadline.
 
-## Rutine ved øktslutt
-1. Kjør `/wrap-up <tema>`. Den skriver øktloggen med lenke til transkripsjonen, oppdaterer `decisions.md`, scanner prosessfilene for hemmeligheter (stopper ved treff), og committer og pusher **bare** prosessfilene. På `main` lager den en `docs/`-branch og en PR i stedet. Å kjøre `/wrap-up` er tillatelse til den committen og pushen.
-2. Avslutt økten (`/exit`). Meldingene etter `/wrap-up` kommer ikke med i transkripsjonen; committen viser utfallet. Glemmer du `/wrap-up`, skriver hooken transkripsjonen, og neste `/wrap-up` committer den.
-3. Ikke lag logger eller transkripsjoner for tidligere økter i ettertid.
-- Når brukeren avviser eller retter et forslag fra deg, skal det med i øktloggen. Ikke skjul eller pynt på det.
+## End-of-session routine
+1. Run `/wrap-up <topic>`. It writes the session log with a link to the transcript, updates `decisions.md`, scans the process files for secrets (stops on a hit), and commits and pushes **only** the process files. On `main` it creates a `docs/` branch and a PR instead. Running `/wrap-up` is permission for that commit and push.
+2. End the session (`/exit`). Messages after `/wrap-up` are not included in the transcript; the commit shows the outcome. If you forget `/wrap-up`, the hook writes the transcript and the next `/wrap-up` commits it.
+3. Do not create logs or transcripts for earlier sessions after the fact.
+- When the user rejects or corrects a suggestion from you, it goes into the session log. Do not hide or embellish it.
 
-## Kode og kvalitet
-- Hver feature leveres med tester av meningsfull logikk (særlig tilgangsregler: synlighet × pris). Testkommandoen i README skal alltid stemme.
-- Den eksterne KI-tjenesten (bildemetadata) skal ha mock/testmodus slik at appen kan kjøres og testes uten API-nøkkel.
-- Valider input og håndter feil med forståelige meldinger.
-- Ingen død kode, utkommenterte rester eller dupliserte filer fra tidligere forsøk. Slett heller enn å kommentere ut.
-- Hold deg til oppgaven: ikke skriv om filer utenfor det som er bedt om.
+## Code and quality
+- Every feature ships with tests of meaningful logic (especially access rules: visibility × price). The test command in the README must always be correct.
+- The external AI service (image metadata) must have a mock/test mode so the app can be run and tested without an API key.
+- Validate input and handle errors with understandable messages.
+- No dead code, commented-out leftovers or duplicated files from earlier attempts. Delete rather than comment out.
+- Stay on task: do not rewrite files beyond what was asked.
 
-## Sikkerhet og ryddighet
-- Aldri hemmeligheter i kode, prompts eller logger. Konfigurasjon via miljøvariabler; dokumenter alle i `.env.example`.
-- Ikke commit `.env`, `node_modules`, `venv`, build-mapper eller store binærfiler (se `.gitignore`).
-- Ingen løse filer i rotmappen. Dokumentasjon i `docs/`, planlegging i `_bmad-output/`.
-- Sensorveiledningen (PDF) skal ikke versjoneres (D-004).
+## Security and tidiness
+- Never secrets in code, prompts or logs. Configuration via environment variables; document all of them in `.env.example`.
+- Do not commit `.env`, `node_modules`, `venv`, build folders or large binary files (see `.gitignore`).
+- No loose files in the root folder. Documentation in `docs/`, planning in `_bmad-output/`.
+- The grading guide (PDF) must not be versioned (D-004).
 
 ## README
-Hold `README.md` oppdatert med: hva appen gjør og for hvem, forutsetninger med versjoner, eksakte installasjons- og oppstartskommandoer, miljøvariabler, testdata, hvordan testene kjøres, mappeoversikt og lenke til `docs/process/`.
+Keep `README.md` up to date with: what the app does and for whom, prerequisites with versions, exact installation and startup commands, environment variables, test data, how to run the tests, a folder overview and a link to `docs/process/`.
 
-## Push-tilgang
-Push krever GitHub-kontoen `marthekalland3`. Sjekk `gh api repos/IBE160-2026/G53-kalland --jq '.permissions.push'` før push.
+## Push access
+Pushing requires the GitHub account `marthekalland3`. Check `gh api repos/IBE160-2026/G53-kalland --jq '.permissions.push'` before pushing.

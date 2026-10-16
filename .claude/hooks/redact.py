@@ -39,7 +39,7 @@ def scan(paths: list[str]) -> int:
         try:
             lines = Path(path).read_text(encoding="utf-8").splitlines()
         except OSError as e:
-            print(f"{path}: kunne ikke leses ({e})")
+            print(f"{path}: could not be read ({e})")
             hits += 1
             continue
         for number, line in enumerate(lines, 1):
@@ -51,5 +51,5 @@ def scan(paths: list[str]) -> int:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] != "--scan":
-        sys.exit("Bruk: redact.py --scan FIL...")
+        sys.exit("Usage: redact.py --scan FILE...")
     sys.exit(scan(sys.argv[2:]))

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""UserPromptSubmit-hook: logger hver prompt til docs/process/prompts/YYYY-MM-DD.md.
+"""UserPromptSubmit hook: logs every prompt to docs/process/prompts/YYYY-MM-DD.md.
 
-Loggen committes som spor av KI-bruk (kriterium 1 i sensorveiledningen), så
-ting som ser ut som hemmeligheter maskeres før de skrives. Hooken skal aldri
-blokkere en prompt: alle feil svelges og scriptet avslutter alltid med 0.
+The log is committed as evidence of AI use (criterion 1 in the grading guide), so
+anything that looks like a secret is masked before it is written. The hook must never
+block a prompt: all errors are swallowed and the script always exits with 0.
 """
 
 import json
@@ -24,13 +24,13 @@ def current_branch(cwd: Path) -> str:
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
             cwd=cwd, capture_output=True, text=True, timeout=2,
         )
-        return result.stdout.strip() or "ukjent"
+        return result.stdout.strip() or "unknown"
     except Exception:
-        return "ukjent"
+        return "unknown"
 
 
 def fence_for(text: str) -> str:
-    # Fence lengre enn lengste backtick-rekke i prompten, så markdown ikke brytes.
+    # Fence longer than the longest backtick run in the prompt, so the markdown does not break.
     longest = max((len(run) for run in re.findall(r"`+", text)), default=0)
     return "`" * max(3, longest + 1)
 
@@ -48,9 +48,9 @@ def main() -> None:
 
     text = redact(prompt)
     fence = fence_for(text)
-    session = (data.get("session_id") or "ukjent")[:8]
+    session = (data.get("session_id") or "unknown")[:8]
     entry = (
-        f"### {now:%H:%M:%S} · økt `{session}` · branch `{current_branch(project_dir)}`\n\n"
+        f"### {now:%H:%M:%S} · session `{session}` · branch `{current_branch(project_dir)}`\n\n"
         f"{fence}text\n{text}\n{fence}\n\n"
     )
 
@@ -58,9 +58,9 @@ def main() -> None:
     with log_file.open("a", encoding="utf-8") as f:
         if is_new:
             f.write(
-                f"# Prompt-logg {now:%Y-%m-%d}\n\n"
-                "Automatisk logget av `.claude/hooks/log-prompt.py`. "
-                "Hemmeligheter maskeres. Øktoppsummeringer ligger i `../sessions/`.\n\n"
+                f"# Prompt log {now:%Y-%m-%d}\n\n"
+                "Logged automatically by `.claude/hooks/log-prompt.py`. "
+                "Secrets are masked. Session summaries are in `../sessions/`.\n\n"
             )
         f.write(entry)
 

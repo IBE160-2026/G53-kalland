@@ -1,19 +1,19 @@
-# Beslutningslogg
+# Decision log
 
-Viktige valg om teknologi, arkitektur, omfang og arbeidsform. Nye beslutninger legges nederst med neste ledige nummer. En beslutning som erstattes, markeres med **Status: Erstattet av D-xxx** – den slettes ikke.
+Important choices about technology, architecture, scope and way of working. New decisions are added at the bottom with the next free number. A decision that is replaced is marked **Status: Superseded by D-xxx** – it is not deleted. Entries up to D-007 were written in Norwegian before D-008 and are kept as recorded.
 
-Mal:
+Template:
 
 ```markdown
-## D-xxx: <kort tittel>
-- **Dato:** YYYY-MM-DD
-- **Status:** Vedtatt | Åpen | Erstattet av D-xxx
-- **Kontekst:** Hvorfor måtte vi bestemme noe?
-- **Alternativer:** Hva vurderte vi?
-- **Beslutning:** Hva valgte vi?
-- **Begrunnelse:** Hvorfor?
-- **Konsekvenser:** Hva betyr det videre?
-- **Spor:** commit/PR/story/øktlogg
+## D-xxx: <short title>
+- **Date:** YYYY-MM-DD
+- **Status:** Accepted | Open | Superseded by D-xxx
+- **Context:** Why did we have to decide something?
+- **Alternatives:** What did we consider?
+- **Decision:** What did we choose?
+- **Rationale:** Why?
+- **Consequences:** What does it mean going forward?
+- **Trace:** commit/PR/story/session log
 ```
 
 ---
@@ -39,7 +39,7 @@ Mal:
 
 ## D-003: Norsk prosessdokumentasjon, engelske BMad-artefakter
 - **Dato:** 2026-10-15
-- **Status:** Vedtatt
+- **Status:** Superseded by D-008
 - **Kontekst:** README og emnet er på norsk; BMad er konfigurert med `document_output_language = "English"`.
 - **Beslutning:** `README.md`, `CLAUDE.md` og `docs/process/` skrives på norsk. BMad-artefakter i `_bmad-output/` forblir på engelsk.
 - **Spor:** `_bmad/config.toml`
@@ -73,3 +73,13 @@ Mal:
 - **Begrunnelse:** Rå JSONL er uleselig for sensor og inneholder verktøyresultater med filinnhold. Verktøykall og thinking utelates fordi det viktige for sporbarheten er dialogen og vurderingene; commits viser hva som faktisk ble endret. Transkripsjonen lages inne i `/wrap-up`, fordi SessionEnd kjører først etter at `/wrap-up` har committet. Først lot vi hooken overskrive filen med de siste meldingene, men det ville gitt en ucommittet fil ved hver øktstart som neste `/wrap-up` committet på en tilfeldig branch, f.eks. en story-branch. Derfor overskriver hooken ikke.
 - **Konsekvenser:** Repoet er offentlig, så alt som skrives i en økt blir publisert; maskering fanger kjente nøkkelformater, men ikke alt. Meldingene etter `/wrap-up` (godkjenning og commit-rapport) kommer ikke med i transkripsjonen; committen viser utfallet. Transkripsjonsformatet er ikke et dokumentert API, så scriptet har tester med en syntetisk fixture (`.claude/hooks/tests/`). Tidligere økter får ikke transkripsjoner i ettertid; logger skal ikke etterkonstrueres.
 - **Spor:** branch `chore/session-transcripts`
+
+## D-008: English as the working language of the repo
+- **Date:** 2026-10-16
+- **Status:** Accepted
+- **Context:** D-003 split the repo into Norwegian process docs and English BMad artifacts, so the same project was documented in two languages and the commands, CLAUDE.md and hooks mixed both. Some sources are external and Norwegian: the teacher's feedback on the product brief and the grading guide (summarized in `vurderingskriterier.md`).
+- **Alternatives:** (a) Keep D-003. (b) Translate everything, including external sources and historical logs. (c) English for everything we write; keep external Norwegian originals unchanged with an English translation next to them; leave historical logs as they are.
+- **Decision:** (c). All docs, code, comments and commit messages are written in English. External Norwegian sources keep their original and get a translation as `<name>.en.md` (`docs/process/vurderingskriterier.en.md`, `_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/tilbakemelding-product-brief.en.md`); CLAUDE.md and the commands point to the English versions. Prompt logs, session logs and transcripts written before this decision, and decision entries D-001–D-007, are not translated. The app's Norwegian UI strings and language packs are product content and are not covered.
+- **Rationale:** One working language makes the repo consistent for Claude and readers, and matches the BMad output language. Originals of external sources are evidence of what we were actually told, so they are not edited; the translation is a convenience, and the original wins if they differ. Historical logs are process evidence and must not be rewritten afterwards (see D-007).
+- **Consequences:** The hooks now write English headings: the prompt log marks sessions as ``session `xxxxxxxx` `` instead of ``økt `xxxxxxxx` ``, and `/wrap-up` accepts both when finding the session ID. The redaction mask stays `[MASKERT]` so the secret scan treats already-masked lines in older logs as clean, and the `passord` pattern stays because prompts may still contain Norwegian. The translations must be updated if the originals change.
+- **Trace:** branch `chore/english-only`

@@ -1,25 +1,25 @@
 # G53 — Marthe
 
-Soloprosjekt i **IBE160 Programmering med KI** ved Høgskolen i Molde, høsten 2026 (15 studiepoeng).
+Solo project in **IBE160 Programmering med KI** (Programming with AI) at Molde University College, autumn 2026 (15 ECTS).
 
-Repoet inneholder applikasjonen og dokumentasjon av utvikling, testing og kvalitetssikring med KI.
+The repo contains the application and documentation of how it was developed, tested and quality-assured with AI.
 
-## Medlem
+## Member
 
-- Marthe Kalland (soloprosjekt)
+- Marthe Kalland (solo project)
 
-## Tester
+## Tests
 
-Applikasjonen er ikke laget ennå. Verktøyene for prosesslogging (`.claude/hooks/`) har tester som bare trenger Python 3.10 eller nyere:
+The application has not been built yet. The process logging tools (`.claude/hooks/`) have tests that only need Python 3.10 or newer:
 
 ```bash
 python3 -m unittest discover -s .claude/hooks/tests
 ```
 
-## Prosessdokumentasjon
+## Process documentation
 
-- [Prosessdokumentasjon – oversikt](docs/process/README.md)
-- [Vurderingskriterier (sammendrag)](docs/process/vurderingskriterier.md)
-- [Beslutningslogg](docs/process/decisions.md)
-- [Planleggingsdokumenter (BMad)](_bmad-output/planning-artifacts/)
-- Konvensjoner for KI-assistert utvikling: [CLAUDE.md](CLAUDE.md)
+- [Process documentation – overview](docs/process/README.md)
+- [Grading criteria (summary, English)](docs/process/vurderingskriterier.en.md) · [Norwegian original](docs/process/vurderingskriterier.md)
+- [Decision log](docs/process/decisions.md)
+- [Planning documents (BMad)](_bmad-output/planning-artifacts/)
+- Conventions for AI-assisted development: [CLAUDE.md](CLAUDE.md)
