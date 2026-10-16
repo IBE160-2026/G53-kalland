@@ -113,3 +113,13 @@ Template:
 - **Rationale:** The file hash stays stable, so exact duplicate detection keeps working, and a metadata edit does not blur what a file version is. Clients' copies do not reveal where, for example, a portrait was taken.
 - **Consequences:** The stored file does not reflect current metadata; downstream documents must not assume it does. Export needs a metadata-writing step and a test that downloaded files carry edits and no GPS.
 - **Trace:** issue #7, `addendum.md` section "Metadata handling"
+
+## D-012: Automatic repo hygiene for issues and branches
+- **Date:** 2026-10-16
+- **Status:** Accepted
+- **Context:** Issue #4 stayed open after PR #5 resolved it, because the PR did not reference the issue. Merged branches were also left behind locally and on GitHub.
+- **Alternatives:** (a) Manual clean-up sessions now and then. (b) Let GitHub and git do it: closing keywords in PRs, auto-delete of head branches on merge, and `fetch.prune`.
+- **Decision:** (b). PRs that resolve an issue say `Closes #<n>`. The repo setting "Automatically delete head branches" is on. Locally, `fetch.prune` is on, and local branches whose remote is gone are deleted after pulling `main` (command in `CLAUDE.md`).
+- **Rationale:** Issues and branches stay in sync with what is merged, with no extra manual step to forget.
+- **Consequences:** A merged branch is gone from GitHub straight away. Work that continues after a merge goes on a new branch.
+- **Trace:** issue #4, PR #5, branch `chore/repo-cleanup`
