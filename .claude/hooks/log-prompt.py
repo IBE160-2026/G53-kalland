@@ -14,26 +14,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-SECRET_PATTERNS = [
-    re.compile(r"sk-(?:ant-)?[A-Za-z0-9_-]{16,}"),
-    re.compile(r"(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}"),
-    re.compile(r"github_pat_[A-Za-z0-9_]{20,}"),
-    re.compile(r"AKIA[0-9A-Z]{16}"),
-    re.compile(r"(?i)bearer\s+[A-Za-z0-9._~+/-]{16,}=*"),
-    re.compile(
-        r"(?i)\b([A-Z0-9_]*(?:api[_-]?key|secret|password|passord|token)[A-Z0-9_]*)"
-        r"(\s*[=:]\s*)(\"[^\"]+\"|'[^']+'|\S+)"
-    ),
-]
-
-
-def redact(text: str) -> str:
-    for pattern in SECRET_PATTERNS:
-        if pattern.groups == 3:
-            text = pattern.sub(lambda m: f"{m.group(1)}{m.group(2)}[MASKERT]", text)
-        else:
-            text = pattern.sub("[MASKERT]", text)
-    return text
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from redact import redact  # noqa: E402
 
 
 def current_branch(cwd: Path) -> str:
