@@ -60,7 +60,7 @@ Template:
 
 ## D-006: Avgrensning av V1
 - **Dato:** 2026-10-15
-- **Status:** Åpen
+- **Status:** Superseded by D-009
 - **Kontekst:** Tilbakemeldingen på product brief (`_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/tilbakemelding-product-brief.md`) sier at V1 er stor for én person, at KI-metadata trenger testmodus/mock så sensor kan kjøre appen uten vår API-nøkkel, og at to suksesskriterier ikke er testbare.
 - **Beslutning:** Ikke tatt ennå. Må avklares før PRD og arkitektur.
 
@@ -83,3 +83,33 @@ Template:
 - **Rationale:** One working language makes the repo consistent for Claude and readers, and matches the BMad output language. Originals of external sources are evidence of what we were actually told, so they are not edited; the translation is a convenience, and the original wins if they differ. Historical logs are process evidence and must not be rewritten afterwards (see D-007).
 - **Consequences:** The hooks now write English headings: the prompt log marks sessions as ``session `xxxxxxxx` `` instead of ``økt `xxxxxxxx` ``, and `/wrap-up` accepts both when finding the session ID. The redaction mask stays `[MASKERT]` so the secret scan treats already-masked lines in older logs as clean, and the `passord` pattern stays because prompts may still contain Norwegian. The translations must be updated if the originals change.
 - **Trace:** branch `chore/english-only`
+
+## D-009: V1 scope after feedback on the product brief
+- **Date:** 2026-10-16
+- **Status:** Accepted
+- **Context:** Resolves D-006. The teacher's feedback (`_bmad-output/planning-artifacts/briefs/brief-g53-kalland-2026-09-11/tilbakemelding-product-brief.en.md`) said v1 was too large for one person, that the AI metadata had no plan for running without our key, and that two success criteria could not be tested.
+- **Alternatives:** (a) Keep the September scope. (b) Narrow v1 to the core flow and push everything else to later stages without regard for the data model. (c) Narrow v1 to the core flow, but let deferred features shape the v1 data model where retrofitting would force a rewrite.
+- **Decision:** (c). v1 (December 2026) is the course deliverable on sample data, not the agency's production rollout: client register, upload with embedded metadata and AI metadata (all fields editable), exact-hash duplicate rejection with a filename warning, visibility × price, client dashboard with search, small unwatermarked previews of paid images, downloads and logged purchases. Versioning is a stretch goal; the data model supports it from day one. Stage 2: near-duplicates, backup, tenant and client branding, map view, more AI providers, Tripletex, Norwegian language pack. A deferred feature gets a v1 accommodation only if it is a field, a relation, or a convention that is free at the start and expensive to retrofit. The success criteria were replaced with seven checkable ones.
+- **Rationale:** A stable core flow scores better than a large, half-finished one, and the agency's real rollout does not depend on the course deadline. The accommodation rule answers the wish to avoid rewrites without building speculative features.
+- **Consequences:** Backup and filename-based rejection (September decisions) are reversed; this is logged as overrides in the brief's `.memlog.md`. The PRD builds on the revised brief and addendum. "Can be extended without a rewrite" is a design constraint, not a success criterion.
+- **Trace:** issue #7, branch `docs/product-brief-feedback`, `brief.md` and `addendum.md` in the brief folder
+
+## D-010: AI providers for image metadata
+- **Date:** 2026-10-16
+- **Status:** Accepted
+- **Context:** The feedback asked which language model creates the metadata, what it costs, and how the examiner runs the app without our key.
+- **Alternatives:** Cloud API (Gemini Flash), CLI tools (Claude Code, Codex, Gemini CLI), a local model via Ollama (Gemma 4 12B), and a mock. Building all three real families with fallback in v1 was considered and rejected as too much scope.
+- **Decision:** One provider interface. v1 ships a mock provider (default for tests and the examiner) and the Claude Code CLI as the real provider. Codex and Gemini CLI, cloud APIs with a user-supplied key (Gemini Flash first) and a local Ollama model (Gemma 4 12B) come in stage 2. In v1, an AI failure leaves empty fields for manual editing; there is no fallback chain.
+- **Rationale:** The agency already pays for Claude Code and Codex, so the CLI is the cheapest real provider for the agency. The mock makes the app runnable and testable without a key, subscription or local model.
+- **Consequences:** The server needs the Claude Code CLI installed and logged in to use the real provider. Gemini's free tier may use submitted data, which must be considered before real agency images go through it.
+- **Trace:** issue #7, `addendum.md` section "AI providers"
+
+## D-011: Metadata is written into files on export, and GPS is stripped for clients
+- **Date:** 2026-10-16
+- **Status:** Accepted
+- **Context:** Embedded metadata (EXIF, IPTC, XMP) can be wrong, and corrections must reach the image file itself. Writing edits into the stored file would change its hash on every edit.
+- **Alternatives:** (a) Write on edit: change the stored file, and hash only the pixel data for duplicate detection. (b) Write on export: keep the stored original unchanged, use the database as the source of truth, and write current metadata into the copy that is downloaded.
+- **Decision:** (b). GPS is kept internally (for a later map view) and stripped from every copy a client downloads.
+- **Rationale:** The file hash stays stable, so exact duplicate detection keeps working, and a metadata edit does not blur what a file version is. Clients' copies do not reveal where, for example, a portrait was taken.
+- **Consequences:** The stored file does not reflect current metadata; downstream documents must not assume it does. Export needs a metadata-writing step and a test that downloaded files carry edits and no GPS.
+- **Trace:** issue #7, `addendum.md` section "Metadata handling"
