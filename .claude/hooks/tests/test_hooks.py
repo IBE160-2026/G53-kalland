@@ -57,7 +57,7 @@ class TranscriptToMarkdownTest(unittest.TestCase):
 
     def test_keeps_only_user_and_assistant_text(self):
         turns = t2m.load_turns(self.transcript)
-        self.assertEqual([t["speaker"] for t in turns], ["Bruker", "Claude", "Bruker"])
+        self.assertEqual([t["speaker"] for t in turns], ["User", "Claude", "User"])
         everything = "\n".join(t["text"] for t in turns)
         for dropped in ("secret thoughts", "toolu_1", "tool output", "hidden reminder", "Expanded command body", "Subagent prompt"):
             self.assertNotIn(dropped, everything)
@@ -137,7 +137,7 @@ class LogPromptTest(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0)
         log = next((tmp / "docs/process/prompts").glob("*.md")).read_text(encoding="utf-8")
-        self.assertIn("økt `abcd1234`", log)
+        self.assertIn("session `abcd1234`", log)
         self.assertNotIn(FAKE_KEY, log)
 
 

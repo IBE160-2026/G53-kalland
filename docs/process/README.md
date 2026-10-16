@@ -1,15 +1,15 @@
-# Prosessdokumentasjon
+# Process documentation
 
-Spor av hvordan appen er planlagt, bygget og kvalitetssikret med KI.
+Evidence of how the app was planned, built and quality-assured with AI. Everything here is written in English (D-008); prompt logs, session logs and transcripts written before D-008 stay in Norwegian as recorded.
 
-| Hva | Hvor | Hvordan det lages |
+| What | Where | How it is made |
 |---|---|---|
-| Vurderingskriterier (sammendrag) | [`vurderingskriterier.md`](vurderingskriterier.md) | Manuelt |
-| Beslutningslogg | [`decisions.md`](decisions.md) | Manuelt og via `/wrap-up` |
-| Promptlogg per dag | [`prompts/`](prompts/) | Automatisk, hook `.claude/hooks/log-prompt.py` |
-| Transkripsjoner per økt | [`transcripts/`](transcripts/) | `/wrap-up` via `.claude/hooks/transcript-to-md.py`; SessionEnd-hook som sikkerhetsnett hvis `/wrap-up` ikke ble kjørt |
-| Øktoppsummeringer | [`sessions/`](sessions/) | `/wrap-up` ved slutten av hver arbeidsøkt |
-| Egenvurderinger mot kriteriene | `grading-checks/` | `/grading-check` ukentlig og før frist |
-| Planleggingsdokumenter (BMad) | [`../../_bmad-output/planning-artifacts/`](../../_bmad-output/planning-artifacts/) | BMad-skills |
+| Grading criteria (summary) | [`vurderingskriterier.en.md`](vurderingskriterier.en.md) (Norwegian original: [`vurderingskriterier.md`](vurderingskriterier.md)) | Manually |
+| Decision log | [`decisions.md`](decisions.md) | Manually and via `/wrap-up` |
+| Prompt log per day | [`prompts/`](prompts/) | Automatically, hook `.claude/hooks/log-prompt.py` |
+| Transcripts per session | [`transcripts/`](transcripts/) | `/wrap-up` via `.claude/hooks/transcript-to-md.py`; SessionEnd hook as a safety net if `/wrap-up` was not run |
+| Session summaries | [`sessions/`](sessions/) | `/wrap-up` at the end of each working session |
+| Self-assessments against the criteria | `grading-checks/` | `/grading-check` weekly and before the deadline |
+| Planning documents (BMad) | [`../../_bmad-output/planning-artifacts/`](../../_bmad-output/planning-artifacts/) | BMad skills |
 
-**Slik henger det sammen:** en prompt i `prompts/` → hele samtalen i `transcripts/` → oppsummert med vurdering av KI-forslaget i `sessions/` → commit/PR som refererer story-ID → eventuelle valg i `decisions.md`.
+**How it fits together:** a prompt in `prompts/` → the whole conversation in `transcripts/` → summarized with an assessment of the AI suggestion in `sessions/` → a commit/PR that references the story ID → any choices in `decisions.md`.
