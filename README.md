@@ -18,6 +18,8 @@ python3 -m unittest discover -s .claude/hooks/tests
 
 ## Process documentation
 
+Process documentation lives in `docs/process/` on `main`, but is committed in its own `docs/process-*` pull requests, separate from code ([D-013](docs/process/decisions.md#d-013-process-files-are-committed-separately-from-code)).
+
 - [Process documentation – overview](docs/process/README.md)
 - [Grading criteria (summary, English)](docs/process/vurderingskriterier.en.md) · [Norwegian original](docs/process/vurderingskriterier.md)
 - [Decision log](docs/process/decisions.md)

@@ -11,7 +11,7 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 - The app's Norwegian UI strings and language packs are product content and stay Norwegian.
 
 ## Workflow
-- Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`.
+- Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`. Process files go on `docs/process-<date>`, created only by `/commit-logs`.
 - Merge via pull request. The PR description covers: what and why, a link to the story, how it was tested, and what was changed or rejected in AI suggestions.
 - A PR that resolves an issue says `Closes #<n>` in its description, so the issue closes on merge. (D-012)
 - Keep the repo tidy: a workflow (`.github/workflows/delete-merged-branch.yml`) deletes the remote branch on merge, and `fetch.prune` drops stale remote refs. After pulling `main`, delete local branches whose remote is gone: `git branch -vv | awk '/: gone]/{print $1}' | xargs -n1 git branch -d`. (D-012)
@@ -21,14 +21,18 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 ## Traceability and documentation
 - Features must be traceable to a story in `_bmad-output/`. If the plan changes, update the BMad document **and** add an entry to `docs/process/decisions.md`.
 - Choices of technology, architecture, scope or way of working → a new `D-xxx` in `docs/process/decisions.md`.
-- Prompts are logged automatically to `docs/process/prompts/` (hook). Commit the prompt log together with the work it belongs to.
+- Prompts are logged automatically to `docs/process/prompts/` (hook).
 - The transcript of each session is saved as `docs/process/transcripts/<date>-<session-ID>.md` (user and Claude text only, redacted). `/wrap-up` creates it; a SessionEnd hook creates it only if `/wrap-up` was not run.
+- Process files are committed separately from code (D-013). Code commits and code PRs never touch `docs/process/`; stage code by explicit path, never `git add -A` or `git add .`. The `process-separation` workflow fails a PR that mixes the two.
+- Code PR descriptions link to the relevant session log(s) in `docs/process/sessions/` and reference decisions by ID (D-xxx). Each session log lists the code branch, commits and PR it worked on.
 - Run `/grading-check` weekly and before the deadline.
 
 ## End-of-session routine
-1. Run `/wrap-up <topic>`. It writes the session log with a link to the transcript, updates `decisions.md`, scans the process files for secrets (stops on a hit), and commits and pushes **only** the process files. On `main` it creates a `docs/` branch and a PR instead. Running `/wrap-up` is permission for that commit and push.
-2. End the session (`/exit`). Messages after `/wrap-up` are not included in the transcript; the commit shows the outcome. If you forget `/wrap-up`, the hook writes the transcript and the next `/wrap-up` commits it.
-3. Do not create logs or transcripts for earlier sessions after the fact.
+1. Run `/wrap-up <topic>`. It writes the transcript, the session log (with a link to the transcript and the code branch, commits and PR) and updates `decisions.md`, all in `docs/process/`. It runs no git commands that change anything.
+2. End the session (`/exit`). Messages after `/wrap-up` are not included in the transcript. If you forget `/wrap-up`, the SessionEnd hook writes the transcript.
+3. Whenever the user chooses, on `main` with no code changes in progress: run `/commit-logs`. It scans the process files for secrets (stops on a hit), commits everything uncommitted in `docs/process/` (possibly several sessions) on `docs/process-<date>`, pushes, and merges it through its own PR. Running `/commit-logs` is permission for exactly that.
+- Running `/wrap-up` or `/commit-logs` is never permission to commit code.
+- Do not create logs or transcripts for earlier sessions after the fact.
 - When the user rejects or corrects a suggestion from you, it goes into the session log. Do not hide or embellish it.
 
 ## Code and quality
