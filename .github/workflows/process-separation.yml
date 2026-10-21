@@ -1,0 +1,30 @@
+# Fails a pull request that changes both docs/process/ and other files (D-013).
+# Process files are committed separately from code with /commit-logs.
+name: Process separation
+
+on:
+  pull_request:
+
+jobs:
+  process-separation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check that process files and code are not mixed
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          changed=$(git diff --name-only "$BASE...$HEAD")
+          process=$(echo "$changed" | grep '^docs/process/' || true)
+          other=$(echo "$changed" | grep -v '^docs/process/' | grep . || true)
+          if [ -n "$process" ] && [ -n "$other" ]; then
+            echo "This PR changes both docs/process/ and other files."
+            echo "Commit process files separately with /commit-logs (D-013)."
+            echo "Process files:"; echo "$process"
+            echo "Other files:"; echo "$other"
+            exit 1
+          fi
+          echo "OK: the PR does not mix process files and other files."
