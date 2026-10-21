@@ -123,3 +123,13 @@ Template:
 - **Rationale:** Issues and branches stay in sync with what is merged, with no extra manual step to forget.
 - **Consequences:** A merged branch is gone from GitHub straight away, provided Actions are enabled for the organization (to be confirmed on the first merge). Work that continues after a merge goes on a new branch.
 - **Trace:** issue #4, PR #5, branch `chore/repo-cleanup`
+
+## D-013: Process files are committed separately from code
+- **Date:** 2026-10-21
+- **Status:** Accepted
+- **Context:** `/wrap-up` committed the process files on whatever branch was checked out, so prompt logs and session logs ended up in the same branches and PRs as code. Process and code should be kept apart, in a single repo.
+- **Alternatives:** (a) Keep committing process files together with code. (b) An orphan branch `process`, checked out as a worktree at `docs/process/` and never merged into `main`. (c) Keep `docs/process/` on `main`, but commit it only through its own `docs/process-<date>` PRs.
+- **Decision:** (c). `/wrap-up` only writes documentation. The new `/commit-logs` commits everything uncommitted in `docs/process/` on `docs/process-<date>`, runs the secret scan, and merges it through its own PR; it runs only on `main`. Code commits never touch `docs/process/`; code PRs link to session logs and reference D-xxx. A workflow (`process-separation.yml`) fails any PR that mixes the two.
+- **Rationale:** (b) was rejected: the examiner checks out the last commit on `main`, which would contain no process documents, every link between code and logs would cross branches (the grading guide's "partly implicit" level), and the orphan branch would lose the existing history. (c) keeps the logs in the examiner's checkout while the history shows the separation. `/commit-logs` runs on `main` because git refuses to switch branches when untracked local copies of files merged to `main` exist, even with identical content (tested); and it merges its own PR straight away so new prompts are never written into a file that `main` does not track yet.
+- **Consequences:** Process files stay uncommitted between `/commit-logs` runs, possibly across several sessions. The grading criteria files stay in `docs/process/`, since the Norwegian original links to `decisions.md` and must not be edited.
+- **Trace:** branch `chore/logging-rework`, session log 2026-10-21
