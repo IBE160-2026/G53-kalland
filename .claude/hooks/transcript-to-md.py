@@ -146,8 +146,8 @@ def main() -> None:
     try:
         data = json.load(sys.stdin)
         project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or project_dir)
-        # Safety net only: a transcript written by /wrap-up is already committed, and
-        # overwriting it would leave a dirty working tree for the next session.
+        # Safety net only: never overwrite a transcript written by /wrap-up, which
+        # already holds the session as the user approved it.
         convert(Path(data["transcript_path"]), data["session_id"], project_dir, overwrite=False)
     except Exception:
         pass
