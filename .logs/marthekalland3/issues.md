@@ -7,4 +7,5 @@
 - [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — ask the agency about linking a Claude Console organisation to the Team plan (otherwise personal Console account)
 - [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — pilot ~20 sample images on Claude Haiku 5.5 for Norwegian quality and latency before architecture
 - [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — research metadata libraries (EXIF/IPTC/XMP, GPS stripping, exiftool install burden) before the PRD
-- [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — update project-plan.md to target v1 by 2026-12-05
+- [x] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — update project-plan.md to target v1 by 2026-12-05 (løst 2026-10-28)
+- [ ] 2026-10-28 [haiku-pilot](994-2026-10-28-13-24-47-haiku-pilot.md) — pilot images live only in the `docs/haiku-pilot` worktree; move them out before `finish.sh` or rebuild them from `sources.md`
