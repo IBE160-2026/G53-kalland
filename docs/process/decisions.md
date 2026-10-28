@@ -143,3 +143,13 @@ Template:
 - **Rationale:** The teacher's log works the way the teacher expects, and the teacher's updates pull in without conflicts. `docs/process/` keeps the full trace (prompts, transcripts, decisions) that the grading guide asks for. Log commits are separate commits, so code and logs stay apart in the history even when they share a PR.
 - **Consequences:** Code PRs may contain `Logg:` commits. A log commit made on `main` stays local until the next `/commit-logs`, which branches from `main` and carries it along. If a later skill version changes how it commits, this decision must be checked again.
 - **Trace:** commits `e4caf48`, `5afbf34`, branch `chore/sesjonslogg-integration`, PR #14, session log 2026-10-28
+
+## D-015: Local reflection notes per session
+- **Date:** 2026-10-28
+- **Status:** Accepted
+- **Context:** The assignment ends with a reflection report (template in `docs/reflections/reflection-report-template.en.md`). Notes written during the project make it easier to write, but the user wants them separate from the process logs. Everything typed in the chat is logged by the prompt hook and the transcript.
+- **Alternatives:** (a) The user answers reflection questions in the chat at `/wrap-up`. (b) As (a), but the hooks filter out the answers. (c) `/wrap-up` adds an empty entry to a notes file, and the user writes in their own editor. For the location: a hidden `.reflections/` folder, or `docs/reflections/`. For versioning: commit the notes, or keep them local.
+- **Decision:** (c). As the last step, `/wrap-up` appends an empty entry (date, session ID, link to the session log, six questions mapped to sections in the template) to `docs/reflections/notes.md` without reading earlier entries. The file is gitignored. Claude never reads, quotes or logs its content. The template (Norwegian original and English translation) is versioned in `docs/reflections/`. No separate `/reflect` command.
+- **Rationale:** (a) would put the reflections in prompts and transcripts; (b) is fragile, and the text would still reach the model and the transcript. `docs/reflections/` keeps everything in the repo, as the user wanted, and outside `docs/process/`, which `/commit-logs` commits automatically. Keeping the notes local makes it easier to write honestly.
+- **Consequences:** The notes have no backup through git; they are lost if the local clone is deleted. Whether to commit them is left open. Only the existence of the notes is part of the trace, not what they say.
+- **Trace:** commit `abafdc9`, branch `chore/reflection-notes`, PR #18, session log 2026-10-28
