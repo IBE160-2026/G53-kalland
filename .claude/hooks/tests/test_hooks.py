@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -31,6 +32,20 @@ def assistant(*blocks):
 
 def text(value):
     return {"type": "text", "text": value}
+
+
+def git(cwd, *args):
+    subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *args], cwd=cwd, check=True, capture_output=True)
+
+
+def repo_with_worktree(tmp: Path) -> tuple[Path, Path]:
+    """A main checkout with one commit, and a worktree next to it on its own branch."""
+    main, worktree = tmp / "repo", tmp / "repo-feature"
+    main.mkdir()
+    git(main, "init", "-q", "-b", "main")
+    git(main, "commit", "-q", "--allow-empty", "-m", "init")
+    git(main, "worktree", "add", "-q", "-b", "chore/feature", str(worktree))
+    return main.resolve(), worktree.resolve()
 
 
 FIXTURE = [
@@ -87,24 +102,38 @@ class TranscriptToMarkdownTest(unittest.TestCase):
         self.assertIsNone(self.convert())
         self.assertFalse((self.tmp / "docs").exists())
 
-    def test_overwrite_false_keeps_existing_transcript(self):
-        out = self.convert()
-        out.write_text("written by /wrap-up", encoding="utf-8")
-        self.assertIsNone(self.convert(overwrite=False))
-        self.assertEqual(out.read_text(encoding="utf-8"), "written by /wrap-up")
-        self.convert()
-        self.assertNotEqual(out.read_text(encoding="utf-8"), "written by /wrap-up")
-
-    def run_hook(self, stdin):
+    def run_hook(self, stdin, project_dir=None):
         return subprocess.run(
-            [sys.executable, str(HOOKS / "transcript-to-md.py")], input=stdin, text=True,
-            capture_output=True, env={"CLAUDE_PROJECT_DIR": str(self.tmp), "HOME": str(self.tmp)},
+            [sys.executable, str(HOOKS / "transcript-to-md.py")], input=stdin, text=True, capture_output=True,
+            env={**os.environ, "CLAUDE_PROJECT_DIR": str(project_dir or self.tmp), "HOME": str(self.tmp)},
         )
 
-    def test_hook_mode_writes_transcript(self):
-        payload = {"session_id": SESSION_ID, "transcript_path": str(self.transcript), "hook_event_name": "SessionEnd", "reason": "other"}
-        self.assertEqual(self.run_hook(json.dumps(payload)).returncode, 0)
-        self.assertTrue((self.tmp / "docs/process/transcripts/2026-10-16-abcd1234.md").exists())
+    def session_end(self):
+        return json.dumps({"session_id": SESSION_ID, "transcript_path": str(self.transcript), "hook_event_name": "SessionEnd", "reason": "other"})
+
+    def test_hook_mode_overwrites_earlier_transcript(self):
+        out = self.tmp / "docs/process/transcripts/2026-10-16-abcd1234.md"
+        out.parent.mkdir(parents=True)
+        out.write_text("older version", encoding="utf-8")
+        self.assertEqual(self.run_hook(self.session_end()).returncode, 0)
+        self.assertIn("Looking at it.", out.read_text(encoding="utf-8"))
+
+    def test_hook_in_worktree_writes_to_main_checkout(self):
+        main, worktree = repo_with_worktree(self.tmp)
+        self.assertEqual(self.run_hook(self.session_end(), project_dir=worktree).returncode, 0)
+        self.assertTrue((main / "docs/process/transcripts/2026-10-16-abcd1234.md").exists())
+        self.assertFalse((worktree / "docs").exists())
+
+    def test_manual_mode_finds_transcript_in_any_project_folder(self):
+        projects = self.tmp / ".claude/projects/-some-worktree"
+        projects.mkdir(parents=True)
+        self.transcript.rename(projects / self.transcript.name)
+        result = subprocess.run(
+            [sys.executable, str(HOOKS / "transcript-to-md.py"), "--session", SESSION_ID[:8]], text=True, capture_output=True,
+            env={**os.environ, "CLAUDE_PROJECT_DIR": str(self.tmp), "HOME": str(self.tmp)},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.strip().endswith("docs/process/transcripts/2026-10-16-abcd1234.md"))
 
     def test_hook_mode_never_fails_on_bad_input(self):
         for stdin in ("not json", "{}", json.dumps({"session_id": "x", "transcript_path": "/missing.jsonl"})):
@@ -128,17 +157,34 @@ class RedactTest(unittest.TestCase):
 
 
 class LogPromptTest(unittest.TestCase):
-    def test_prompt_is_logged_masked(self):
-        tmp = Path(tempfile.mkdtemp())
-        prompt = json.dumps({"prompt": f"use {FAKE_KEY}", "session_id": SESSION_ID})
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def run_hook(self, prompt, project_dir=None):
         result = subprocess.run(
-            [sys.executable, str(HOOKS / "log-prompt.py")], input=prompt, text=True,
-            capture_output=True, env={"CLAUDE_PROJECT_DIR": str(tmp)},
+            [sys.executable, str(HOOKS / "log-prompt.py")], text=True, capture_output=True,
+            input=json.dumps({"prompt": prompt, "session_id": SESSION_ID}),
+            env={**os.environ, "CLAUDE_PROJECT_DIR": str(project_dir or self.tmp)},
         )
         self.assertEqual(result.returncode, 0)
-        log = next((tmp / "docs/process/prompts").glob("*.md")).read_text(encoding="utf-8")
+        return result.stdout
+
+    def test_prompt_is_logged_masked(self):
+        self.assertEqual(self.run_hook(f"use {FAKE_KEY}"), "")
+        log = next((self.tmp / "docs/process/prompts").glob("*.md")).read_text(encoding="utf-8")
         self.assertIn("session `abcd1234`", log)
         self.assertNotIn(FAKE_KEY, log)
+
+    def test_prompt_in_worktree_is_logged_in_main_checkout_with_worktree_branch(self):
+        main, worktree = repo_with_worktree(self.tmp)
+        self.run_hook("hello", project_dir=worktree)
+        log = next((main / "docs/process/prompts").glob("*.md")).read_text(encoding="utf-8")
+        self.assertIn("branch `chore/feature`", log)
+        self.assertFalse((worktree / "docs").exists())
+
+    def test_wrap_up_prints_session_id_and_main_checkout(self):
+        main, worktree = repo_with_worktree(self.tmp)
+        self.assertEqual(self.run_hook("/wrap-up topic", project_dir=worktree).strip(), f"Session ID: abcd1234. Main checkout: {main}")
 
 
 if __name__ == "__main__":

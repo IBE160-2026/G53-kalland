@@ -3,14 +3,15 @@
 
 Keeps only user and Claude text: tool calls, tool results, thinking, metadata
 and expanded command bodies (isMeta) are dropped. Secrets are masked. Output goes
-to docs/process/transcripts/<date of first message>-<first 8 chars of session_id>.md.
+to docs/process/transcripts/<date of first message>-<first 8 chars of session_id>.md
+in the main checkout, also when the session runs in a worktree (D-016).
 
 Two modes:
-- SessionEnd hook (safety net): reads the hook input (JSON with transcript_path
-  and session_id) from stdin and writes only if /wrap-up has not already created
-  the file. Always exits 0 so it never interferes with the session closing.
-- Manual / from /wrap-up: `transcript-to-md.py --session <id prefix>` finds the
-  transcript under ~/.claude/projects/, overwrites the file and prints its path.
+- SessionEnd hook: reads the hook input (JSON with transcript_path and session_id)
+  from stdin and writes the whole session, overwriting any earlier version. Always
+  exits 0 so it never interferes with the session closing.
+- Manual backup: `transcript-to-md.py --session <id prefix>` finds the transcript
+  under ~/.claude/projects/ (any worktree), writes the file and prints its path.
 """
 
 import json
@@ -21,6 +22,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from main_checkout import main_checkout  # noqa: E402
 from redact import redact  # noqa: E402
 
 COMMAND_NAME = re.compile(r"<command-name>(.*?)</command-name>", re.S)
@@ -113,21 +115,20 @@ def render(turns: list[dict], session_id: str) -> str:
     return "\n".join(lines)
 
 
-def convert(transcript: Path, session_id: str, project_dir: Path, overwrite: bool = True) -> Path | None:
+def convert(transcript: Path, session_id: str, project_dir: Path) -> Path | None:
     turns = load_turns(transcript)
     if not any(t["speaker"] == "User" for t in turns) or not turns[0]["time"]:
         return None
-    out = project_dir / "docs" / "process" / "transcripts" / f"{turns[0]['time']:%Y-%m-%d}-{session_id[:8]}.md"
-    if out.exists() and not overwrite:
-        return None
+    out = main_checkout(project_dir) / "docs" / "process" / "transcripts" / f"{turns[0]['time']:%Y-%m-%d}-{session_id[:8]}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render(turns, session_id), encoding="utf-8")
     return out
 
 
-def find_transcript(prefix: str, project_dir: Path) -> Path:
-    projects = Path.home() / ".claude" / "projects" / re.sub(r"[^A-Za-z0-9]", "-", str(project_dir))
-    matches = sorted(projects.glob(f"{prefix}*.jsonl"))
+def find_transcript(prefix: str) -> Path:
+    # Each worktree has its own folder under ~/.claude/projects/, so search them all.
+    projects = Path.home() / ".claude" / "projects"
+    matches = sorted(projects.glob(f"*/{prefix}*.jsonl"))
     if len(matches) != 1:
         sys.exit(f"Found {len(matches)} transcripts for session '{prefix}' in {projects}")
     return matches[0]
@@ -136,19 +137,17 @@ def find_transcript(prefix: str, project_dir: Path) -> Path:
 def main() -> None:
     project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()).resolve()
     if len(sys.argv) == 3 and sys.argv[1] == "--session":
-        transcript = find_transcript(sys.argv[2], project_dir)
+        transcript = find_transcript(sys.argv[2])
         out = convert(transcript, transcript.stem, project_dir)
         if not out:
             sys.exit(f"No user messages in {transcript}")
-        print(out.relative_to(project_dir))
+        print(out)
         return
 
     try:
         data = json.load(sys.stdin)
         project_dir = Path(os.environ.get("CLAUDE_PROJECT_DIR") or data.get("cwd") or project_dir)
-        # Safety net only: never overwrite a transcript written by /wrap-up, which
-        # already holds the session as the user approved it.
-        convert(Path(data["transcript_path"]), data["session_id"], project_dir, overwrite=False)
+        convert(Path(data["transcript_path"]), data["session_id"], project_dir)
     except Exception:
         pass
 
