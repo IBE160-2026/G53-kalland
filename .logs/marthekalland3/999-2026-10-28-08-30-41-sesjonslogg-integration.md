@@ -14,7 +14,10 @@ The teacher's `sesjonslogg` skill arrived with `git pull` (`e4caf48`). Keep it a
 - Branch `chore/sesjonslogg-integration`, commit `5afbf34`: `CLAUDE.md` (exception + 8-step end-of-session routine) and `.github/workflows/process-separation.yml` (ignores `.logs/`).
 - PR #14: https://github.com/IBE160-2026/G53-kalland/pull/14
 - Ran the check's filter logic locally: process + `.logs/` → OK, code + `.logs/` → OK, process + code → FAIL (unchanged).
-- D-014 written in `docs/process/decisions.md` (uncommitted; goes with the next `/commit-logs`).
+- D-014 written in `docs/process/decisions.md`.
+- `/wrap-up`: session log `docs/process/sessions/2026-10-28-sesjonslogg-integration.md` and transcript `docs/process/transcripts/2026-10-28-5229a5cc.md`; D-014 trace updated with `5afbf34` and PR #14.
+- PR #14 merged (`93946ee`), with the `process-separation` check passing. This closes the open item about merge order.
+- `/commit-logs`: `c9814ad` on `docs/process-2026-10-28`, merged through PR #15 (`d751b43`): https://github.com/IBE160-2026/G53-kalland/pull/15. It included D-014, today's session log, prompt log and transcript, and the 2026-10-21 transcript. Secret scan clean; check passed; merged branch deleted.
 
 ### Åpne punkter
-- Merge PR #14 before the first `/commit-logs` that carries a `Logg:` commit from `main`; until then the old check fails that PR.
+Ingen.
