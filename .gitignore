@@ -62,3 +62,6 @@ Thumbs.db
 
 # Course material: grading guide stays local, summary is in docs/process/vurderingskriterier.md
 docs/process/sensorveiledning-*.pdf
+
+# Personal reflection notes per session stay local; written by /wrap-up, used for the final reflection report
+docs/reflections/notes.md

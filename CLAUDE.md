@@ -27,6 +27,7 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 - Process files are committed separately from code (D-013). Code commits and code PRs never touch `docs/process/`; stage code by explicit path, never `git add -A` or `git add .`. The `process-separation` workflow fails a PR that mixes the two.
 - Code PR descriptions link to the relevant session log(s) in `docs/process/sessions/` and reference decisions by ID (D-xxx). Each session log lists the code branch, commits and PR it worked on.
 - Run `/grading-check` weekly and before the deadline.
+- Reflection notes for the final reflection report live in `docs/reflections/notes.md`, one entry per session, added empty by `/wrap-up` and written by the user in their editor. The file is local only (gitignored). Never read, quote or log its content. The report template is `docs/reflections/reflection-report-template.en.md`.
 
 ## End-of-session routine
 In Claude:
