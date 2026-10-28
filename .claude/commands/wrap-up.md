@@ -5,7 +5,7 @@ argument-hint: "[short topic for the session]"
 
 End this working session. The session log is evidence for criterion 1 (process and AI governance) and 3 (quality assurance) in `docs/process/vurderingskriterier.en.md`, so it must be **concrete and tied to actual changes**, not generic.
 
-This command only writes documentation in `docs/process/`. It never stages, commits, pushes, switches branches or opens PRs; process files are committed later with `/commit-logs` (D-013). Running `/wrap-up` is not permission to commit anything.
+This command only writes documentation in `docs/process/`, plus an empty entry in the local reflection notes (`docs/reflections/notes.md`). It never stages, commits, pushes, switches branches or opens PRs; process files are committed later with `/commit-logs` (D-013). Running `/wrap-up` is not permission to commit anything.
 
 Topic from the user: $ARGUMENTS
 
@@ -53,10 +53,33 @@ Topic from the user: $ARGUMENTS
 
 5. **Show the draft** (session log + changes to decisions.md) to the user and **wait for approval**. Write the files once the draft is approved, then rerun the transcript script (step 2).
 
-6. **Report** every file created or changed in `docs/process/` (path and one line on what changed), and remind the user to `/exit` and to run `/commit-logs` on `main` when they want the process files committed.
+6. **Reflection note.** After the final transcript run, append an empty entry for this session to `docs/reflections/notes.md` (local only, gitignored). Append with a shell heredoc (`cat >> docs/reflections/notes.md`) so earlier entries are never read; create the file with the heading `# Reflection notes` first if it does not exist. The section numbers refer to `docs/reflections/reflection-report-template.en.md`.
+
+   ```markdown
+
+   ## YYYY-MM-DD · session <session-ID> · <topic>
+   Session log: [sessions/YYYY-MM-DD-<slug>.md](../process/sessions/YYYY-MM-DD-<slug>.md)
+
+   **What did I do, and how did I use AI?** (2.4)
+
+   **Problem or challenge, and how was it solved? What role did AI play?** (3.1, 3.3)
+
+   **Where did AI help, and where did it go wrong or have to be corrected?** (4.1, 4.2, 6.2)
+
+   **Did I understand what was made, or did I just accept it?** (4.2, 5.3)
+
+   **What did I learn?** (7.1)
+
+   **Other thoughts** (ethics, data sharing, what I would do differently) (5, 7.2)
+   ```
+
+   Then ask the user to open `docs/reflections/notes.md` in their editor and write the reflection in their own words there, not in the chat (the chat is logged to prompts and transcripts).
+
+7. **Report** every file created or changed in `docs/process/` (path and one line on what changed), and remind the user to `/exit` and to run `/commit-logs` on `main` when they want the process files committed.
 
 ## Rules
 - Write only what actually happened. Do not invent rejections, bugs or rationales; ask the user if the rationale for a choice is unclear.
 - Do not create transcripts or logs for earlier sessions after the fact; logs must not be reconstructed.
 - No secrets, tokens or content from `.env` in the log.
+- Never read, quote or summarise `docs/reflections/notes.md`, and never mention its content in the session log, transcript or decisions.
 - English (see D-008).
