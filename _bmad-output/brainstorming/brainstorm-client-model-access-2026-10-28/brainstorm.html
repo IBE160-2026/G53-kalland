@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who Holds the Keys</title>
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffaf0; --ink:#2b2418; --muted:#6f6352; --line:#d9cdb6;
+  --brass:#b0832b; --brass-soft:#f1e2bf; --teal:#1f6f6b; --teal-soft:#d6ecea;
+  --rust:#a8452e; --rust-soft:#f5ddd5; --ok:#2f7a3d; --no:#9a3a2a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17140f; --paper:#211d16; --ink:#efe6d4; --muted:#b3a68f; --line:#3d3528;
+    --brass:#d9a845; --brass-soft:#3a2f18; --teal:#5fc1ba; --teal-soft:#16302e;
+    --rust:#e07a5f; --rust-soft:#3a1f18; --ok:#6fcf7f; --no:#f08a72;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17140f; --paper:#211d16; --ink:#efe6d4; --muted:#b3a68f; --line:#3d3528;
+  --brass:#d9a845; --brass-soft:#3a2f18; --teal:#5fc1ba; --teal-soft:#16302e;
+  --rust:#e07a5f; --rust-soft:#3a1f18; --ok:#6fcf7f; --no:#f08a72;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Georgia,"Iowan Old Style",serif}
+main{max-width:980px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:0 0 .3em;letter-spacing:-.01em}
+h2{font-size:1.6rem;margin:2.6em 0 .3em;display:flex;gap:.5em;align-items:center}
+h2 .num{font:600 .8rem/1 ui-monospace,Menlo,monospace;color:var(--paper);background:var(--brass);border-radius:999px;padding:.45em .7em}
+.lede{color:var(--muted);max-width:60ch;font-size:1.1rem}
+.meta{font:13px ui-monospace,Menlo,monospace;color:var(--muted);margin-top:1em}
+.sub{color:var(--muted);margin:.2em 0 1.2em}
+svg.keyhole{width:64px;height:64px;float:right;margin-left:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+/* Morphological grid */
+.morph{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:10px;align-items:start}
+.mrow b{font:600 13px ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding-top:6px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px dashed var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--muted)}
+.opt.pick{border:1.5px solid var(--brass);background:var(--brass-soft);color:var(--ink);font-weight:600}
+.opt.pick::before{content:"🔑 ";}
+.opt.later{text-decoration:line-through;opacity:.7}
+@media (max-width:600px){.mrow{grid-template-columns:1fr}.mrow b{padding-top:0}}
+/* Personas */
+.personas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.persona{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
+.persona .who{font-weight:700}
+.persona .role{font:12px ui-monospace,Menlo,monospace;color:var(--teal);text-transform:uppercase;letter-spacing:.05em}
+.persona ul{margin:.6em 0 0;padding-left:1.1em}
+.persona li{margin:.25em 0;font-size:15px}
+/* Flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.flip{perspective:900px;min-height:170px;cursor:pointer;border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit}
+.flip .in{position:relative;width:100%;height:100%;min-height:170px;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:16px;backface-visibility:hidden;border:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.face.front{background:var(--rust-soft)}
+.face.back{background:var(--teal-soft);transform:rotateY(180deg)}
+.tag{font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase}
+.front .tag{color:var(--rust)} .back .tag{color:var(--teal)}
+.face .test{margin-top:auto;font:12px ui-monospace,Menlo,monospace;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}}
+/* Truth table */
+.tablewrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:620px;background:var(--paper);font-size:14px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font:600 12px ui-monospace,Menlo,monospace;text-transform:uppercase;color:var(--muted);background:var(--brass-soft)}
+td.y{color:var(--ok);font-weight:700} td.n{color:var(--no)}
+td code{font-size:12px;color:var(--muted)}
+/* Climax */
+.vault{margin-top:2.6em;background:linear-gradient(135deg,var(--brass-soft),var(--teal-soft));border:1px solid var(--line);border-radius:22px;padding:28px 22px}
+.vault h2{margin-top:0}
+.laws{counter-reset:law;display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.laws li{counter-increment:law;background:var(--paper);border-radius:14px;padding:14px 16px 14px 58px;position:relative;border:1px solid var(--line)}
+.laws li::before{content:counter(law);position:absolute;left:14px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--brass);color:var(--paper);display:grid;place-items:center;font:700 15px ui-monospace,Menlo,monospace}
+.laws b{display:block}
+.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:14px}
+.open div{background:var(--paper);border:1.5px dashed var(--rust);border-radius:12px;padding:12px 14px;font-size:15px}
+.open div b{color:var(--rust);display:block;font:600 12px ui-monospace,Menlo,monospace;text-transform:uppercase}
+.later-list{columns:2 240px;font-size:15px;color:var(--muted)}
+footer{margin-top:3em;font:13px ui-monospace,Menlo,monospace;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<svg class="keyhole" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="var(--brass-soft)" stroke="var(--brass)" stroke-width="2"/><circle cx="32" cy="25" r="8" fill="var(--ink)"/><path d="M27 30h10l3 18H24z" fill="var(--ink)"/></svg>
+<h1>Who holds the keys?</h1>
+<p class="lede">A brainstorm on the CRM-DAM client model: who a "client" is, who owns a purchase, and what happens to access when things change. The result is a handful of rules and a truth table the PRD can adopt as they stand.</p>
+<p class="meta">2026-10-28 · Ideate-for-me · 103 ideas · 4 techniques · target v1 2026-12-05</p>
+
+<h2><span class="num">1</span> Morphological Analysis</h2>
+<p class="sub">Each parameter of the client model and its options. 🔑 marks the recommended pick for v1; struck-through options are deferred.</p>
+<div class="card morph">
+  <div class="mrow"><b>Who is a client</b><div class="opts"><span class="opt">One shared login</span><span class="opt pick">Organisation + contacts</span><span class="opt later">Contacts in many orgs</span><span class="opt later">Sub-orgs (brands)</span></div></div>
+  <div class="mrow"><b>Purchase owner</b><div class="opts"><span class="opt">The user</span><span class="opt pick">The org (buyer recorded)</span></div></div>
+  <div class="mrow"><b>Access unit</b><div class="opts"><span class="opt">User</span><span class="opt pick">Organisation</span><span class="opt later">Collection / shoot</span></div></div>
+  <div class="mrow"><b>Colleague visibility</b><div class="opts"><span class="opt">Own purchases only</span><span class="opt pick">Whole org history</span><span class="opt later">Client-admin sees all</span></div></div>
+  <div class="mrow"><b>Account creation</b><div class="opts"><span class="opt pick">Agency admin creates</span><span class="opt">Self-signup + approval</span><span class="opt later">Client-admin invites</span></div></div>
+  <div class="mrow"><b>Login without email</b><div class="opts"><span class="opt">Temp password shown once</span><span class="opt pick">Single-use setup link</span><span class="opt later">Emailed link (stage 2)</span></div></div>
+  <div class="mrow"><b>Leaving</b><div class="opts"><span class="opt">Hard delete</span><span class="opt pick">Deactivate, keep history</span></div></div>
+  <div class="mrow"><b>CRM record</b><div class="opts"><span class="opt pick">Name · org no. · status · billing email · notes · account manager</span><span class="opt later">Addresses, projects, logo</span></div></div>
+</div>
+
+<h2><span class="num">2</span> Persona Journey</h2>
+<p class="sub">Walking through the system as each kind of person and noting what they run into.</p>
+<div class="personas">
+  <div class="persona"><div class="role">Client manager</div><div class="who">Kari, Fjordkaffe AS</div><ul><li>Buys an image; the confirmation says "invoiced to Fjordkaffe AS, ekskl. mva".</li><li>Opens to "Nye bilder til dere" instead of an empty search box.</li><li>Wants to know usage rights → a licence text field?</li></ul></div>
+  <div class="persona"><div class="role">New contact</div><div class="who">Ola, junior</div><ul><li>Gets a setup link from the agency. If it has expired, the page tells him who to ask.</li><li>Sees Kari's purchase badged "Kjøpt av organisasjonen", with no buy button.</li></ul></div>
+  <div class="persona"><div class="role">Departing employee</div><div class="who">Per</div><ul><li>Deactivated by the admin. Blocked on his next request, not when his session runs out.</li><li>His purchases stay with the org.</li></ul></div>
+  <div class="persona"><div class="role">Agency admin</div><div class="who">Marthe</div><ul><li>Shares an image from the image page or the client card.</li><li>"View as client" to check what org X sees.</li><li>Purchases per org per month, ready for invoicing.</li></ul></div>
+  <div class="persona"><div class="role">Curious client</div><div class="who">Mallory</div><ul><li>Guesses asset IDs and gets 404, not 403.</li><li>Crafted POST to buy a hidden image: refused by the server.</li><li>Search counts never reveal another client's images.</li></ul></div>
+  <div class="persona"><div class="role">Examiner</div><div class="who">The teacher</div><ul><li>Seed data: Fjordkaffe (2 contacts), Nordlys Sykkel (1), Gammel Kunde AS (inactive).</li><li>A shared purchase is visible to both Fjordkaffe contacts.</li></ul></div>
+</div>
+
+<h2><span class="num">3</span> Worst Possible Idea</h2>
+<p class="sub">The worst rule we could think of, flipped into a good one. Click a card to flip it; the back shows the test it gives.</p>
+<div class="flips" id="flips"></div>
+
+<h2><span class="num">4</span> The truth table</h2>
+<p class="sub">From the point of view of one org's contact, with the asset active. The PRD adopts it as the spec, and each row becomes one named test.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Row</th><th>Visibility for this org</th><th>Price</th><th>Bought</th><th>See</th><th>Download original</th><th>Buy</th></tr></thead>
+<tbody>
+<tr><td><code>A1</code></td><td>Public</td><td>Free</td><td>–</td><td class="y">yes</td><td class="y">yes</td><td class="n">no</td></tr>
+<tr><td><code>A2</code></td><td>Public</td><td>Paid</td><td>no</td><td class="y">preview</td><td class="n">no</td><td class="y">yes</td></tr>
+<tr><td><code>A3</code></td><td>Public</td><td>Paid</td><td>yes</td><td class="y">yes</td><td class="y">yes</td><td class="n">no (already)</td></tr>
+<tr><td><code>A4</code></td><td>Restricted, org on list</td><td>Free</td><td>–</td><td class="y">yes</td><td class="y">yes</td><td class="n">no</td></tr>
+<tr><td><code>A5</code></td><td>Restricted, org on list</td><td>Paid</td><td>no</td><td class="y">preview</td><td class="n">no</td><td class="y">yes</td></tr>
+<tr><td><code>A6</code></td><td>Restricted, org on list</td><td>Paid</td><td>yes</td><td class="y">yes</td><td class="y">yes</td><td class="n">no</td></tr>
+<tr><td><code>A7</code></td><td>Restricted, org not on list</td><td>Free</td><td>–</td><td class="n">404</td><td class="n">no</td><td class="n">no</td></tr>
+<tr><td><code>A8</code></td><td>Restricted, org not on list</td><td>Paid</td><td>no</td><td class="n">404</td><td class="n">no</td><td class="n">no</td></tr>
+<tr><td><code>A9</code></td><td>Restricted, org not on list</td><td>Paid</td><td>yes (bought before removal)</td><td class="y">yes</td><td class="y">yes</td><td class="n">no</td></tr>
+<tr><td><code>A10</code></td><td>Internal-only</td><td>Free</td><td>–</td><td class="n">404</td><td class="n">no</td><td class="n">no</td></tr>
+<tr><td><code>A11</code></td><td>Internal-only</td><td>Paid</td><td>no</td><td class="n">404</td><td class="n">no</td><td class="n">no</td></tr>
+<tr><td><code>A12</code></td><td>Internal-only</td><td>Paid</td><td>yes (bought before change)</td><td class="y">yes</td><td class="y">yes</td><td class="n">no</td></tr>
+</tbody></table></div>
+<p class="sub" style="margin-top:.8em">Edge tests on top of the table: <b>S1</b> deactivated contact → rejected on the next request · <b>S2</b> deactivated org → all its contacts rejected · <b>S3</b> archived asset → still in "Mine bilder" for buyers, gone from Butikk · <b>S4</b> restricted with an empty list = internal-only · <b>S5</b> two simultaneous purchases → one row · <b>S6</b> every admin route with a client session → 403 · <b>S7</b> buying a free asset → refused · <b>S8</b> setup link reused or expired → refused · <b>S9</b> deactivating the last admin → refused · <b>S10</b> deleting an org that has purchases → refused.</p>
+
+<section class="vault">
+<h2>🔐 The five rules that emerged</h2>
+<ol class="laws">
+  <li><b>The org holds the key; the person turns it.</b>The organisation is the unit of access, ownership and history. The user is the unit of login and audit.</li>
+  <li><b>There are two kinds of key.</b>A <em>visibility grant</em> is free and follows the current visibility. A <em>purchase grant</em> is permanent: it survives changes to visibility and price, archiving, and the buyer leaving.</li>
+  <li><b>Nothing with history is ever deleted.</b>Assets and orgs that have purchases are archived or deactivated, never hard-deleted. This one rule settles most of the edge cases.</li>
+  <li><b>Login doesn't need email.</b>Admins issue single-use setup links. In stage 2 the same token is simply sent by email, so nothing needs rebuilding.</li>
+  <li><b>All access checks go through one place.</b>canSee, canDownloadOriginal and canBuy live in one module, matching the truth table above row by row. That gives a traceable line from plan to code to test.</li>
+</ol>
+<h2 style="margin-top:1.4em;font-size:1.2rem">Still for you to decide</h2>
+<div class="open">
+  <div><b>Free → paid</b>If an org downloaded an image while it was free, does it keep access after the price is set? Suggested: no, but the admin is warned how many orgs downloaded it.</div>
+  <div><b>Licence text</b>A plain usage-terms field on each image in v1, or wait for stage 2?</div>
+  <div><b>View as client</b>Include in v1, or keep as a stretch goal?</div>
+  <div><b>Credentials</b>A setup link (recommended) or a temporary password shown once?</div>
+</div>
+</section>
+
+<h2 style="font-size:1.2rem">Deferred to later stages</h2>
+<ul class="later-list">
+  <li>Client-admin role who invites colleagues</li><li>Contacts in several orgs</li><li>Sub-orgs for brands</li><li>Spending limits and approvals</li><li>Time-limited licences (nullable expires_at)</li><li>Price tiers by usage</li><li>Per-org price overrides</li><li>Share links without an account</li><li>Access requests from clients</li><li>Email notifications</li><li>Refunds or voiding a purchase</li><li>Merging orgs</li>
+</ul>
+
+<footer>Source: .memlog.md in this folder · bmad-brainstorming · CRM-DAM (IBE160)</footer>
+</main>
+<script>
+const flips=[
+ ["Changing visibility takes away images the client bought.","A purchase grants permanent access, whatever happens to visibility later.","A12: bought, then made internal-only → still downloadable"],
+ ["Unsharing a free image doesn't take it away; the client keeps it forever.","Free access follows the current visibility.","Org removed from a free restricted image → 404"],
+ ["Raising the price charges earlier buyers again.","The price is frozen on the purchase row, in øre, excluding VAT.","Price changed after purchase → history shows the old price"],
+ ["Deleting an image deletes the purchase records too.","A purchased image is archived, never deleted.","S3: archived → still in Mine bilder for buyers"],
+ ["Search counts reveal another client's images.","Search, thumbnails and counts run only on the images this org can see.","Org B's restricted keyword → 0 hits for org A"],
+ ["A restricted image with an empty list behaves as public.","An empty list is treated as internal-only, and the admin is warned.","S4"],
+ ["Two colleagues buy the same image and the org is charged twice.","A unique constraint on (org, asset) allows only one purchase.","S5: two simultaneous purchases → one row"],
+ ["A crafted request buys a hidden image.","The server checks canBuy on every purchase.","A11 via POST → refused"],
+ ["Deactivated staff keep a working session.","Active status is checked on every request.","S1 / S2"],
+ ["Setup links work forever.","Links are single-use and expire after about 72 hours.","S8"],
+ ["The last admin locks themselves out.","Deactivating the last admin is refused.","S9"],
+ ["The invoice shows the image's new title after a rename.","The title is saved on the purchase row at the time of purchase.","Renamed after purchase → history shows the old title"]
+];
+const box=document.getElementById('flips');
+flips.forEach(([w,f,t])=>{
+  const b=document.createElement('button');b.className='flip';b.type='button';
+  b.setAttribute('aria-label','Worst idea: '+w+' Flip: '+f);
+  b.innerHTML=`<div class="in"><div class="face front"><span class="tag">Worst idea</span><span>${w}</span><span class="test">click to flip ↻</span></div><div class="face back"><span class="tag">Flip</span><span>${f}</span><span class="test">test: ${t}</span></div></div>`;
+  b.addEventListener('click',()=>b.classList.toggle('on'));
+  box.appendChild(b);
+});
+</script>
+</body>
+</html>
