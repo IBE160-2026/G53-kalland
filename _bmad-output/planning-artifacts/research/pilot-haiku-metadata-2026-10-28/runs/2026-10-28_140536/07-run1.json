@@ -1,0 +1,34 @@
+{
+  "image": "07.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:06:09 18:19:47"
+  },
+  "latency_s": 3.36,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 285,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000451,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Person i profil med svart hodeplagg og gullørering",
+    "description": "Bildet viser en person i profil med lukkede øyne, svart tørkle rundt hodet og store gullringer i ørene. Den uskarpe lyse bakgrunnen gir et rolig og ettertenksomt uttrykk, egnet til temaer som ro, verdighet og innsiktsfull stemning. Fotografiet er tatt i juni 2024.",
+    "altText": "Person i profil med lukkede øyne, svart tørkle rundt hodet og store gullringer, foran lys, uskarp vegg.",
+    "keywords": [
+      "profil",
+      "portrett",
+      "svart tørkle",
+      "gullørering",
+      "ro",
+      "ettertenksomhet",
+      "lys bakgrunn",
+      "juni 2024",
+      "sommer 2024",
+      "hodeplagg",
+      "nærbilde",
+      "stille stemning"
+    ]
+  }
+}

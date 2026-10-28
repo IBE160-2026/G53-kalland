@@ -1,0 +1,39 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 9.01,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 1320,
+  "thinking_tokens": 1048,
+  "cost_usd": 0.000994,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Trehus med gavler på Bryggen i Bergen",
+    "description": "Rekke med rødmalte trehus med spisse gavler langs Bryggen i Bergen, med skilt for butikker som Julehuset og Bryggen Husflid. Bildet er tatt en kjølig vinterdag i mars 2023, med få mennesker på plassen og delvis skyet himmel.",
+    "altText": "Rekke med spisse, rødmalte trehus med gavler på Bryggen i Bergen. En person i gul jakke går over den tomme plassen.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "gavlhus",
+      "rødmalte hus",
+      "vinter",
+      "mars 2023",
+      "bybilde",
+      "brostein",
+      "butikkfasade",
+      "julebutikk",
+      "Vestlandet",
+      "tomt torg"
+    ]
+  }
+}

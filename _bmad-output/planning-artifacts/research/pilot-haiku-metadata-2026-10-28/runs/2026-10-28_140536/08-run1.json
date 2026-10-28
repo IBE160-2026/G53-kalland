@@ -1,0 +1,37 @@
+{
+  "image": "08.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:06:26 13:57:10"
+  },
+  "latency_s": 4.67,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 313,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000465,
+  "valid_json": true,
+  "checks": "altText 151 chars",
+  "output": {
+    "title": "Gruppe sitter i skyggefull hage utendørs",
+    "description": "Seks personer sitter på en lav steinmur i en grønn, skyggefull hage om sommeren og følger med på en samtale. En person i forgrunnen med nummerlapp og notatblokk ser mot de andre, og rosa flagg og et gult målebånd på gresset tyder på et feltarbeid eller en workshop. Stemningen er rolig og samarbeidspreget.",
+    "altText": "Seks personer sitter på en steinmur i en grønn hage i sommerlys og snakker sammen. En person i forgrunnen holder notatblokk. Rosa flagg står i gresset.",
+    "keywords": [
+      "gruppe",
+      "workshop",
+      "samtale",
+      "hage",
+      "sommer",
+      "skygge",
+      "steinmur",
+      "notatblokk",
+      "feltarbeid",
+      "samarbeid",
+      "personer",
+      "utendørs",
+      "grønt",
+      "lysgrønn",
+      "rosa flagg"
+    ]
+  }
+}

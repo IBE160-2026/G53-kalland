@@ -1,0 +1,40 @@
+{
+  "image": "11.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:08:18 13:24:46",
+    "gps": {
+      "latitude": 63.43603,
+      "longitude": 10.39291
+    }
+  },
+  "latency_s": 8.9,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 1216,
+  "thinking_tokens": 892,
+  "cost_usd": 0.00092,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Jernbaneområde med kjøreledninger sett fra vei",
+    "description": "Bildet viser en veibane med gul dobbeltlinje og et stålrekkverk langs en grønn skråning, med et jernbaneområde bak. Over sporene henger kjøreledninger og master, og i bakgrunnen står en moderne grå bygning, et gult hus og fargerike containere. Stemningen er rolig og sommerlig, med blå himmel og lette skyer, tatt i august 2022.",
+    "altText": "Veibane med gul dobbeltlinje og rekkverk foran et jernbaneområde med kjøreledninger, grå bygning og gult hus under blå himmel.",
+    "keywords": [
+      "jernbane",
+      "jernbaneområde",
+      "kjøreledninger",
+      "togspor",
+      "rekkverk",
+      "veibane",
+      "gul dobbeltlinje",
+      "containere",
+      "industriområde",
+      "moderne bygning",
+      "gult hus",
+      "sommer",
+      "august 2022",
+      "blå himmel"
+    ]
+  }
+}

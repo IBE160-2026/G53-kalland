@@ -1,0 +1,41 @@
+{
+  "image": "14.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:01:10 20:40:06",
+    "gps": {
+      "latitude": 68.43875,
+      "longitude": 17.42672
+    }
+  },
+  "latency_s": 4.6,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 280,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000452,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Avstandsskilt i Narvik om natten",
+    "description": "Et gult retningsskilt med avstander til byer i Norge og Europa står lyst opp mot en mørk nattehimmel og snødekt bakke i Narvik. Skiltet viser blant annet avstanden til Nordpolen, og stemningen er kald og vinterlig i januar.",
+    "altText": "Gult retningsskilt i Narvik om natten, med avstander til byer som Oslo, Paris, Stockholm og Køben­havn. Snø på bakken og mørk himmel.",
+    "keywords": [
+      "Narvik",
+      "avstandsskilt",
+      "retningsskilt",
+      "vinter",
+      "natt",
+      "snø",
+      "Nordpolen",
+      "avstand",
+      "Nord-Norge",
+      "reisemål",
+      "gult skilt",
+      "januar",
+      "byskilt",
+      "Tromsø",
+      "Oslo"
+    ]
+  }
+}

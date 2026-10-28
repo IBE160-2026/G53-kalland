@@ -1,0 +1,43 @@
+{
+  "image": "13.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:22 15:22:09",
+    "gps": {
+      "latitude": 67.94724,
+      "longitude": 13.11746
+    },
+    "caption": "default",
+    "place": "Reine, Norway"
+  },
+  "latency_s": 5.51,
+  "stop_reason": "end_turn",
+  "input_tokens": 2584,
+  "output_tokens": 312,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000414,
+  "valid_json": true,
+  "checks": "altText 177 chars",
+  "output": {
+    "title": "Fjell og fjord i panoramautsikt",
+    "description": "Et 360-graders panorama fra en fjord med skarpe, grønne fjell som speiler seg i stille, mørkt vann. Øyer med små bygninger og en turkis lagune i forgrunnen gir et rolig, storslagent inntrykk. Skyene er lagdelte og grå, og stemningen er kald og klar i slutten av sommeren.",
+    "altText": "Panoramabilde av steile fjell med grønne skråninger som speiler seg i stille fjordvann. Små øyer med hus ligger spredt, og en turkis lagune skimtes i forgrunnen under grå skyer.",
+    "keywords": [
+      "fjell",
+      "fjord",
+      "panorama",
+      "360 grader",
+      "speiling",
+      "øyer",
+      "lofoten",
+      "reine",
+      "sommer",
+      "turkis vann",
+      "kystlandskap",
+      "bebyggelse",
+      "skyer",
+      "norsk natur",
+      "flyfoto"
+    ]
+  }
+}

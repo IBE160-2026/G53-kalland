@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgB9LpVuZvcoBrEXK8v",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQS7gkKEAgTGAI4AUIIdGhpbmtpbmcSDDLjnDD6wPTpJzM24xoMRXSJByfzUlZJbqJ7IjDMRIwCe4yOXixDTwy6lpxFtWSw5FPKzIlxXiECRyxfzmyu7VBMOUT1C4UGQJdkKBwqiwlHv6albuS/UlOqIu33ahFmM9lAbEq0Kxc91I7KdqQSIHAEwQU7NQqgTURowZaxqHfb8miVLoAY4ldYkApENe47eA2+URhJXPvnOGZgBnhZPk8OU3oPpY1W+6KJ1PqyNRJsMrimtxnpEaQ4TtMPJ7GnhzyYTPxjBvrx/5/gIUOiHl1VBmRd7DDl6v8HWdDhvYdrzUW0NqwvtAzYz6w+j4rtMYBlTYoUq5a4dPRWUiLzTPwflwOsPHlr/bxoy7Ye4GNV79YJJmJTV5vy91Moy/8h3CXZe40t78QQLkjSy8MtFpwVSAwIw+QX3Rt5J5RHE4jDnBF/qpR86er52tAq/t+u19H64w+sSe+dnIudmXMdZO2mSAnJWa4WRsZmOqWANfGSa2uSGCo2eAgH9CTm8VI78Oh4kh/vQ0H+XB+I5Pn5A938b2cHcevqBwXUbkck96O1oyg/DjM/qw5YIOjhq6dBe+4Y/VhhB3j7SaX20nwPt2Wt27ADMNF50hthZtpq4vfX9Z0VeHayxDWtHO8dSPAAQ8wFnT0IQCRKBD51hFnuIB505N4EwPJGMP80xrTLCm7xg+wlRnvNFdc2q3FFO7fA5NSynxiQG1/eS85zU8Z/M28UHxAYcDmmSb//93f0+qE+9Ia5NJycc0EDQZvKWba+SXL9eJv0NVxbkxnYhyxnjCvqRACI/EWs/OdLVflFpS1r63nqWnP8d7aFHUBA/k+AAomkpiHtv9QBbu8hNrN4AEnsyjQtaLf83GmSuz75nu+pJ8tUMZd0e84tl8So7gKaFhjd10NJW53dvlIwb2+nWqIk729tcWYxk4tlbjdvB1Xxrd/WHqq8Uetwvw3qL0AQJdbrE6bXgQwUxotPpc+0lBDRoHbaKWU48KyxdpggEIun3AJsdVXHlIJWiHWB1VGxA97GbqyQ48ZEP1KjIPeFa5UkVp4OujNDzQAbMGoUqhBERWfhMXazaV/EMdu+6kMBSL7J5JGTO8hwZ7vvZgmrnqNI67p04al0eeA6T9HRP2sNFJXrsd7ZCL3ugZx9rG4HurNJKdX2Ow7KWRKsh5bNJeIsZjhtjOiCduPuO+nehfjbxuFb+fFZZaRc0s40HgXSfOv+cVScDQrK+nsQY07a/D4BpeF7iIGxo4ah0zV4oNcdCWZKXryeEfHKwhWSVfolQ8mdWDyRFsjB2O/x3dvcZ2sOMJ6c0csK8fSzgrphPfyXs9si0A48VcOi0MbbK3jUQgDlxXw2yzczH6uX//Z1bsdKVcgKwv+vVs5SWgtJ/7WW1Fy9wJvfkaHYWJ5k0FeRgEux0BD4Fr6vL6qH+5UKqiGlOOEdo9f9EKCYinqyLyzL3rS0YkoNMzfMjEL9aEHG0HkbypSkIS2PlvzgI+Ts9m9ecSXJqot9d7y5uNr3NNGWZQJwA7D/ceokJupYIgUS0w2rN11ZL63UQkj1sqRLaUeAydAWowrw/5k89fx+HK8/x+Hd3cH5bGVWFrD+9fZzE9Tlzr+n+/n/cRAROW3UEhGBa29l6B0Sc8s5V8f9r9Q6Yih2wW/4gNgSeBgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Moderne kulturbygg med glassfasade ved vannet om natten\",\"description\":\"Et moderne bygg med stor glassfasade som lyser varmt oransje mot en mørkeblå kveldshimmel. Det skrånende steintaket går ned mot vannet, og refleksjonene i sjøen forsterker den rolige stemningen. Fotografiet er tatt 1. august 2025 kl. 23:01.\",\"altText\":\"Opplyst moderne bygg med glassfasade og skrånende steintak ved vann i blå kveldstime, med refleksjoner i vannet.\",\"keywords\":[\"arkitektur\",\"kulturbygg\",\"glassfasade\",\"kveld\",\"blå time\",\"nattebilde\",\"vann\",\"refleksjon\",\"steintak\",\"moderne arkitektur\",\"belysning\",\"bygning ved sjø\",\"sommer\",\"2025\",\"skråt tak\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2005,
+    "output_tokens": 540,
+    "output_tokens_details": {
+      "thinking_tokens": 248
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

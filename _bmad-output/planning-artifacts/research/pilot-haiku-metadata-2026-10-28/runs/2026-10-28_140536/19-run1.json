@@ -1,0 +1,39 @@
+{
+  "image": "19.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:25 22:19:00",
+    "gps": {
+      "latitude": -19.52478,
+      "longitude": -40.61739
+    }
+  },
+  "latency_s": 3.32,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 284,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000476,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Pariserhjul med lysspor om natten",
+    "description": "Et pariserhjul fotografert nedenfra mot en mørk nattehimmel, med bevegelsesuskarphet og lysspor i fargede lys. Bildet gir en livlig, energisk stemning fra en fornøyelsespark eller et tivoli, og er egnet til bruk i prosjekter om underholdning, sommer og nattelivet.",
+    "altText": "Pariserhjul om natten fotografert nedenfra, med fargerike lys og uskarpe bevegelsesspor mot en mørk himmel.",
+    "keywords": [
+      "pariserhjul",
+      "nattebilde",
+      "lysspor",
+      "fornøyelsespark",
+      "tivoli",
+      "sommer",
+      "bevegelse",
+      "mørk himmel",
+      "fargerike lys",
+      "karusell",
+      "underholdning",
+      "nattelys",
+      "høst"
+    ]
+  }
+}

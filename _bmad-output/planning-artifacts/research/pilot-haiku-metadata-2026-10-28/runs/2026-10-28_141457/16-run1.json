@@ -1,0 +1,58 @@
+{
+  "image": "16.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:10:24 08:35:17",
+    "existingKeywords": [
+      "Coffee",
+      "Commercial Photography",
+      "Ed Gregory",
+      "Free",
+      "Free Stock Photos",
+      "Girl",
+      "Public Domain",
+      "Stock Images",
+      "Stock Photo",
+      "Stock Photography",
+      "Stock Photos",
+      "Stokpic",
+      "cafe",
+      "capuccino",
+      "hand",
+      "milk",
+      "morning",
+      "spoon",
+      "sugar"
+    ]
+  },
+  "latency_s": 3.08,
+  "stop_reason": "end_turn",
+  "input_tokens": 3260,
+  "output_tokens": 276,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000464,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Hånd som rører i kopp cappuccino",
+    "description": "En person i strikkegenser holder en teskje og rører i en hvit kopp cappuccino på et stripete bord. Bildet har en varm, rolig og hjemlig stemning, med lys fra siden og en lett uskarp bakgrunn. Det passer til temaer som kafé, kaffe, pause og vinter.",
+    "altText": "Hånd med teskje som rører i en hvit kopp cappuccino på et stripete bord, med en strikkegenser i bakgrunnen.",
+    "keywords": [
+      "kaffe",
+      "cappuccino",
+      "kaffekopp",
+      "kafé",
+      "hånd",
+      "teskje",
+      "strikkegenser",
+      "stripete duk",
+      "sukkerpose",
+      "melkeskum",
+      "varm drikke",
+      "pause",
+      "morgen",
+      "vinter",
+      "hjemlig"
+    ]
+  }
+}

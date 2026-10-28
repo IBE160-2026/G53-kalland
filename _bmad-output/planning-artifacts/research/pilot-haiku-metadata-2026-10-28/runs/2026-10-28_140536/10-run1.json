@@ -1,0 +1,42 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 3.37,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 301,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000485,
+  "valid_json": true,
+  "checks": "16 keywords; altText 167 chars",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus",
+    "description": "Rekke med falmede trehus i Bryggen, med det røde hjørnehuset Julehuset i forgrunnen og en person med gul jakke til venstre. Lyset er svakt og kjølig, og bildet er tatt tidlig på våren, i mars 2023.",
+    "altText": "Rekke med gamle trehus i ulike farger langs en brosteinsplass i Bergen. Et rødt hus i forgrunnen har skilt med teksten Julehuset. Person med gul jakke går til venstre.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "gamle bygninger",
+      "røde hus",
+      "Julehuset",
+      "bygård",
+      "gavlhus",
+      "vinter",
+      "mars",
+      "brosteinsgate",
+      "sykkelfri plass",
+      "fotgjengerområde",
+      "turisme",
+      "arkitektur",
+      "Vestlandet"
+    ]
+  }
+}

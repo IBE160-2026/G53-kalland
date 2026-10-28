@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgjXFLNopMHGe8BHf5X",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSuQkKEAgTGAI4AUIIdGhpbmtpbmcSDAYa+ZX7ub0gaAM02hoMnkX6cdbMn3s79HHDIjDFsYQYxoCpMWv8P11YIuu6TieXEJS9RNcCawiv+9cm72CL1BS/hkCHCs2SOKAdrsIq1ghxw46/U/1v3q7epFg1tlo2qG6zgMftMJ/8LkZXatKDSTP4AyzsNDLktzWlrDBrDR6OQEDrbjSefL8m8Y9wcpuGeDHTSEn1P5PCvAuuxAe6zYjr9gLLOb6agHDQT+Y6wuzNX7y2zVPF8gM29WF+SueRd68iv2cpGrQ+mvii2Jzw4NyQ1m7fpNwt5R8Rg98zh3vTo1t7L6KMl401GQTNqZLK8CM4ik97S9A/Myuc/UFUgWzswFsltXd9QBQav2UeU6vXD+91GIGt2KyJ1oYNhVkggARSe/BdWhm+lZJdPhY6xhOeJvHe43oZgeeJLbudet/u7r+HpE1/HGdh+TB7ur9EpSQIwjJfECz0H+mzooJyBFwrxZHB0irUSB55S7JL9p6NxBhMspSSM+B8PenHhs1VCw2B/5I80I/cpZwM5d7pv+YPKwcIj6EaMv2mnQVzIaCdn055mPVL5M1HVs0dxpNbsiMM/CHzYj4LzHsHnMmAYKRiXaEC4sJ+1PuPsJs/J63foOAM8zDKDm8Ko6uPyCK867BXuDN0KR8cCttSNeiGYN1aLOwsAdw5hYrQ6lYB2Jor2ooGlC9zjAc54taLFy5m4VEUUaOo7EI+Pw6vAnp/JyYfLIWMF+lhg9DfAZJ+YeBiUw9nCoApdHkfvWtB0v4Msk1kbRyeKrqliKcHShZf9DewFoJHoeSu1/nkqsgt/npZz9kLz5bDAlyz3z3EiinXtJMRya9Fu+5sB4DzlPNTr8cmWfp9dLtmtQTyL9q9ituiROo0OVwQkn3UbyjtC1tMG1HBnYLpeUo+o2lIzPiamyf78Hi+4Sc57tlNNs47TTX7enUYm5C9FmYSOg0Um95GVSvPDlYoat2FKhfJkc21zIe66OgfFSsYz6qw6bXgCR+pBCI20bx05yFdOCHqquGh97N0HJzNecKX7sgkIoiBl1IBxgXc/5tv8QH5JJNdXZCXwXDDCfIF6QOhDon/G+eNXf163m2cZFMklOeqdksOgYdathmGOsfG3Vi+QRW4ikuVri/v6hotbD/3gK/nO0OZk1UpmZWE4ykPGoyG6DcGQ4/FZeDkk9fBg+AHHppnSUGfVfFbEzOvqzHSw7UWoZ4uGLxiOismYVELSZg6HC97shdjtlddsL31yuRGk05laBSqZiCKedD/oJ8+aZr1JjZ5/GQALA4gK8iQ4x+BqbaeTbIMckJKSc5+n/lbB+asqsibfOMvODocLYt9PLOWQ0ey/A0Ks5UqzvvkBCWim8CXAg7OiP0W+KPLko+mi4/KqECrq3eb0kgAgTi8p4amI7aatkC/CmQiEdAkeQWJisu+EWY2E5oM125adjJRMNblyERwoIzIvJECUZqVMEk4JBUEZBQKXmEhauKelEQX765JP7+05ZJ21uK5lOWEyPrY9lRLz9b87zpP7hTKrFh55PH8YPXqTD/HBSCX2V3GAG9tOmXdqlsq3dLLHCyWOTd40VoxUXIfMaUYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Operahuset i Oslo i blå time om sommeren\",\"description\":\"Oslo Operahus fotografert i skumring med blå himmel og varmt lys fra de glassdekte fasadene. Speilingene i vannet i forgrunnen gir en rolig og elegant stemning, egnet til bruk om arkitektur, kultur og Oslo.\",\"altText\":\"Oslo Operahus i skumring med varmt opplyste glassfasader, skrått hvitt tak som går ned mot vannet, og lysrefleksjoner i vannet foran.\",\"keywords\":[\"Operahuset\",\"Oslo\",\"arkitektur\",\"kveldsstemning\",\"blå time\",\"glassfasade\",\"marmor\",\"vannspeiling\",\"sommer 2025\",\"kulturbygg\",\"Bjørvika\",\"skrå tak\",\"nattfoto\",\"offentlig bygg\",\"Norge\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2246,
+    "output_tokens": 515,
+    "output_tokens_details": {
+      "thinking_tokens": 225
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

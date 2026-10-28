@@ -1,0 +1,41 @@
+{
+  "image": "14.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:01:10 20:40:06",
+    "gps": {
+      "latitude": 68.43875,
+      "longitude": 17.42672
+    }
+  },
+  "latency_s": 4.95,
+  "stop_reason": "end_turn",
+  "input_tokens": 2880,
+  "output_tokens": 810,
+  "thinking_tokens": 519,
+  "cost_usd": 0.000693,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Skiltstolpe med avstander i Narvik om natten",
+    "description": "Gul skiltstolpe med avstander til byer i Norge og Europa, og øverst 2407 km til Nordpolen. Bildet er tatt om kvelden i snøen, med lys fra to lykter ved foten og bybelysning i bakgrunnen. Tatt 10. januar 2026 kl. 20:40.",
+    "altText": "Gul skiltstolpe i snøen om natten i Narvik, med avstander til byer som Oslo, Paris og København og 2407 km til Nordpolen.",
+    "keywords": [
+      "skiltstolpe",
+      "avstandsskilt",
+      "Narvik",
+      "Nordpolen",
+      "nattfoto",
+      "vinter",
+      "snø",
+      "Nordland",
+      "Nord-Norge",
+      "reiseskilt",
+      "gult skilt",
+      "kveld",
+      "avstander",
+      "Oslo",
+      "København"
+    ]
+  }
+}

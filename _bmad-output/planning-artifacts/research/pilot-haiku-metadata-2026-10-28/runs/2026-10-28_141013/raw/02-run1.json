@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgyvhcP1cBZ9mAa7bGt",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQS/wkKEAgTGAI4AUIIdGhpbmtpbmcSDLxHmEYeQeiXa88gQhoMomYrGe/+kyqkCX7yIjANFeoEpXo/bO9mfumWG0puLiirCP3KbMkudb2Jp3Bl8N6ubg3DZNxahRQUnSdKZVAqnAnIpKgU4QqwuUmZ0dWV3wLVrN4Iyx5FD5gSey2hb2t9q+jTxOLgnGTA97krTbDmeGfpsiBJIWpM4tiXwZDXL/79vNsyA5ZNG1BQwyRdfQ89xtOzLLRZ6tIaHsyY1/ZGY9AxFSDDFHMaqQqgLxtJuTXTF93kAlJud7GUR+tLS7OnzoyOtK7xXVqmZB2+7hcMwMvd13IitpvPnFy9+VdW170jyfJVU1/gwH2pj2frkUX7QQcpYFithLcD8TIvY5pxSESrHxXjgCgbfCPDg8SwGpufRmf0wQfeyDIRIa8474K6EirTg4YVPr11kkU3/TvKglXQxt5AyDShzVZrXe1z+/Vau9zWhp8sa7Ljphd7Edihp3hcd78gyw07ayNOPgeHrkfitB7MPUgIlZIHkrvETSl5eSy7KA01ztaQW1TdtbVpkjtylZyKP2cT3bXnHDgUJXaPhBYWw8KHqjRcLq8jQsDQx0f6AeuoXYdTihIrZn0cMDeyB6TVicSenGhpV614PKR+N0bP43lTIp+9xcvwv7NjgJPNnSciWAOOF/FEaAO0kVWA3zwy2+gyHOSH2+Mr/jX407zFp+jYwiEHtrTKuPnHwYoWLKBUgL3EkhJblRGDWXghm9FmwwbM4CkzA46DzwNwglZsAlecT92R8iNyvlcVC0+9YZxcWRgipLIN/IgCU1dpziQdV4OfT672WoTAdRzym7BabFwuhvrJ+AlsxB2pZYdJ0Mus9Vzvkn76vLzHoiNRaQ61BVQW26o/L8cVwc9MgxxgiP7GEbJnfURcSv1ndHBoE+7Altpagk/jIsCslO9kNA3mixMpnLVWbR7Hd6X6rSgz4BB2hX0y4nVTK8pijW/eNVI0n/gu1DNS6yLnn829U3jXYWAHWQtOiVaz3+ryY/AQPfaZqekA7Zg5bzF7eU62dPbgvEmOS7SCt5gWVfz8hn7HzYVPIPtIGUfFJpYI6XWg4ZJF2iko8HoLa3mw1F1hDJixD4uSa5vVFnKkluclRB+ZbtIXI3+UY8Dk4DOjlk+8L5rkpb06y9fOMUjYfHjvR5Fzi3MecK2pbEKxZV8L+6I+DurL2lo9xBjfS1JZEI1YqL4tdFHaT+j2FyEmrB25LAPM+ULv/X/omXyXKyL4wcOrYOttYq1FIcW4jLXyISS6w+g2LfDu9yCWcIuMvRIXMKCK7dE0GTkO5Yli7+Xv8UQUtQkWE24eyB5kfFC4Ou9HuYKe90hMthJOS+FL6rVwhCSv2k7eDFRQxVNfLM3PP9By37c8zYoUfkke6KDy1KXbJyTRUi6w69gvPWrET7Hq06G9DWUzpXQQUEcTIUbP+A5fSbHOx6c1jDMhIwfrozpkxdyivaQwilGQ5BoJKrbeexcUtvEP4S/Vj0YmuPWFuAIeICQ9sP+dOblNZrtUZGPBYosCJwCtUBesZyPP0a3Ek9G2HIJ+mAL8r2XwuLxeY3uscZ2P1m/Z+7uOzcmTi9EUi+/cnN0ATxnFnvGdV8z5F11PPxrF8JBSpr+RX4eo2o8j028k7q8RyEvzr4sNO1Y2AM9IwTyJbD5mpghIPGCLULiasKG/CEGbGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Pastasalat med krabbepinner på hvitt fat\",\"description\":\"Et fat med pastasalat av spiralpasta, krabbepinner, gulrot og grønnsaksbiter i en kremet majonesdressing. Fatet står på en rød duk, og en serveringsskje ligger i kanten. Bildet er tatt i desember 2011 og passer til matserier, hverdagsmat og festmat.\",\"altText\":\"Ovalt hvitt fat med pastasalat av spiralpasta, rosa krabbepinner og gulrotbiter i majonesdressing, med serveringsskje, på rød duk.\",\"keywords\":[\"pastasalat\",\"krabbepinner\",\"spiralpasta\",\"majones\",\"gulrot\",\"salat\",\"hvitt fat\",\"serveringsskje\",\"rød duk\",\"matfotografi\",\"kald rett\",\"buffé\",\"desember 2011\",\"sommersalat\",\"tilbehør\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3264,
+    "output_tokens": 609,
+    "output_tokens_details": {
+      "thinking_tokens": 304
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

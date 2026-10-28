@@ -1,0 +1,35 @@
+{
+  "image": "03.jpg",
+  "run": 1,
+  "metadata": {},
+  "latency_s": 4.18,
+  "stop_reason": "end_turn",
+  "input_tokens": 3059,
+  "output_tokens": 304,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000458,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Brød, mel og korn på mørk bakgrunn",
+    "description": "Stilleben med ulike brød, skivet fullkornsbrød, en skål med havregrøt eller havremos, hvetekaker med rosiner, mel og aks av korn på en grønn steinflate. Bildet gir et jordnært, varmt og håndverkspreget inntrykk, egnet til temaer om bakst, kornprodukter og sunn mat.",
+    "altText": "Stilleben med brød, skivet grovbrød, skål med havregrøt, mel, kornaks, havregryn og kjeks med rosiner på grønn steinflate.",
+    "keywords": [
+      "brød",
+      "bakst",
+      "fullkornsbrød",
+      "skivet brød",
+      "mel",
+      "korn",
+      "kornaks",
+      "havregryn",
+      "havregrøt",
+      "kjeks",
+      "rosiner",
+      "stilleben",
+      "matfotografi",
+      "bakeri",
+      "grønn bakgrunn"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUg5vDeZXbUXMYTu4ZYB",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSmgoKEAgTGAI4AUIIdGhpbmtpbmcSDD+7Likd0uGvY32ayxoMUb7k39YOPhZPl8RWIjAoTzCC7m5XORdGgonglC+1KgwC2IZihvdnPArkCQ4q1uRBDbA5tfncs7P8EZkrdQIqtwmT6piSWa2SfQvI7+7PZ3uN1a7hLljVo0V6gqmjezPbwwfbVomFxwsutxcuPb5JG6PgyBcpNFjbJJlH3Xw4CnZ9OrDpHRN3eBRBqA1QIeU2/L0N0ESVrZ2uET7KKHDh7dNrcdoVGrR5tFABPPEIWtfTDK3rXTgWXjn+734C0cqT3FoZQfW6YLE/6qUl0M3cH1mqc8IPaWF7XOt5YNgFDfB+BA9QFHr2ZzFgE4FNkNDmOdGNLectgdji8lDAZqLq0gebmFV5VOZi9OM2iwylkNm0GV/FxWf3OVA4A9QvN6zkkKqhn0nLbgkUHYIRv8x+Gi01EfG7SJoerNkBizK70qWCZJ4Lo7nq8SMlK1Lc4KUm3Bbdq3TUxC9lZxLkFN04l9OWqZcmHT2j+1OuzA7/wdYT2PL3GwOoIeFdpNcC7tOYDRti0K01yW8yy4eoEcVqdSeleIjlNkOnkQiMP3XAIBHmxCYC3yskNUFedBCgSGkKpmuZp/nIlZlL42UK775TK/BL7smplO4e6M04WkXSlieQnWgFg9109HJFWbxMXfjNQSJOkK5UVrwYPn7bediwjH9sas1wH7SfmlRq8mHg1BlWw6fJhG9mI48WcGx4GZBSkeq0ugGve1KLH9fjV1hDNuh4BG2VIxJ5s9dAZ4nbSGflTWRHpuw7E/oGKS6rgyIBLkeQAG3G/gNSK2CmJTpl9+yX73j6DN0inswaoTiR+emDOspNgT45v3jsltwsbrxvfcOOliFVTFWJRcNb52sRtmVMTFOpKTD60xfs24RO74JoInDvkxBLogYpJhXVY15Pgbm4meOQGeu0Px/BEUk+3o9ln2gboeqSeZ18jsfxO8PunJKMzecEER4x8ukaDWbbE8rav0cxSqXUovKMmisuAM7UJji9MuAJeay6pPw6pdWFdI4O0yLJIqhw+RBq6dK7R+RU9uZERVT2cnSKr/moviakq66bpSRYqWBlV5AprqmPMuH1u4tpahsSatOxwPSflMmXLPz2FH3Qw3+FOwjKmbDyl50W2GQfzky26QsLL27VYYENVfvfF37IRii3E/YzuxJ+/OyesLGvXRKwGotYm6EbmkjwuDI3wHG+ysnR6+9r3HSpNtw15cyrmAN5SOuCiodASlGplFVjyH6CKLDE4G/KJDsIU4Na+v7WCOppaWr4jB0he3XcAqA6OlfcCfAlA9AJoOhDMNUdpQl3WAGgKx0/Evtorbf1PDMiumZx7d1s/lOOqqH7au7JO02zI6sCN1U5GGCIumduaCN7LCEGDGYzWLvoDnCAahAbFuOtIa03JNuly3S/2A3v5QS+AB1uXehqimlvINQBUPrWtdg0/uZ3vNzylLaspSjSpo04agyN3AYdpjQWcDOfr4wbLT6cLiuMpFKxElOE2WHm+q90FQ4KBNQ+z0qchPfDxp7WCCMc6fNG5Mv9uVt9R22Mh8bAVFQ1Sfuz1k4Jcgm1JeZXxXgzJkH7+laA2dp2VqtdoAP/lF4xu8IqD7lRduYYdMWjxabVg4/du0PG2spDjeb5WaYvCIDPTHOYKNHqf3pMmiFY4LcSGuLYHVKvH07llHDMRqo3ujfRcs4AD1Kfe3i+Pv9w1w1YMPNzGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Moderne kulturbygg med skrånende steintak ved vann om kvelden\",\"description\":\"Et moderne kulturbygg med skrånende steintak og opplyst glassfasade fotografert i blåtimen, med reflekser i vannet i forgrunnen. Bildet gir en rolig, elegant og arkitektonisk stemning, og passer til prosjekter om arkitektur, kultur og byrom. Bildet er tatt 1. august 2025 kl. 23:01.\",\"altText\":\"Opplyst moderne bygning med skrånende steintak og glassfasade i mørkeblå kveldslys, speiler seg i vann i forgrunnen.\",\"keywords\":[\"arkitektur\",\"kulturbygg\",\"moderne arkitektur\",\"blåtime\",\"kveld\",\"nattbilde\",\"glassfasade\",\"steintak\",\"skrånende tak\",\"vann\",\"refleksjon\",\"belysning\",\"byrom\",\"sommer\",\"2025\",\"august\",\"kystby\",\"offentlig bygg\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2005,
+    "output_tokens": 586,
+    "output_tokens_details": {
+      "thinking_tokens": 258
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

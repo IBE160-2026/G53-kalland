@@ -1,0 +1,44 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 5.15,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 634,
+  "thinking_tokens": 306,
+  "cost_usd": 0.000627,
+  "valid_json": true,
+  "checks": "18 keywords; altText 158 chars",
+  "output": {
+    "title": "Røde trehus og Julehuset på Bryggen, Bergen",
+    "description": "Rekke med røde og fargerike trehus med takkvister langs Bryggen i Bergen, tatt en vinterdag i mars. Skiltene viser butikker som Julehuset, Audhild Viken og Bryggen Husflid. Stemningen er rolig og kald, med en gående person i gul jakke til venstre.",
+    "altText": "Røde trehus med spisse gavler på Bryggen i Bergen, med skilt for Julehuset og Audhild Viken. En person i gul jakke går på torget under en delvis skyet himmel.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "Julehuset",
+      "trehus",
+      "gamle trehus",
+      "Hanseatisk kontor",
+      "røde hus",
+      "gavl",
+      "vinter",
+      "mars",
+      "Vestlandet",
+      "Norge",
+      "turisme",
+      "kulturminne",
+      "UNESCO",
+      "gatebilde",
+      "fotgjenger",
+      "brosteinsgate"
+    ]
+  }
+}

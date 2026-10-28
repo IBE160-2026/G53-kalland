@@ -1,0 +1,10 @@
+image,run,valid_json,latency_s,input_tokens,output_tokens,thinking_tokens,cost_usd,stop_reason,checks
+06.jpg,1,True,6.05,2005,887,606,0.000644,end_turn,
+06.jpg,2,True,4.51,2005,540,248,0.00047,end_turn,
+06.jpg,3,True,5.63,2005,591,306,0.000496,end_turn,
+10.jpg,1,True,5.27,3104,601,271,0.000611,end_turn,altText 161 chars
+10.jpg,2,True,5.14,3104,649,280,0.000635,end_turn,17 keywords; altText 162 chars
+10.jpg,3,True,5.03,3104,566,234,0.000593,end_turn,altText 164 chars
+18.png,1,True,4.02,3573,332,0,0.000523,end_turn,
+18.png,2,True,3.8,3573,314,0,0.000514,end_turn,
+18.png,3,True,4.35,3573,349,0,0.000532,end_turn,

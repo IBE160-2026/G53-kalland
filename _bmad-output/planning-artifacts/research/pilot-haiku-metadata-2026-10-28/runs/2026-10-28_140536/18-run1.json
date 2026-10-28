@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 3.6,
+  "stop_reason": "end_turn",
+  "input_tokens": 3814,
+  "output_tokens": 309,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000536,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med blå, rød, sort og gul",
+    "description": "Et abstrakt maleri med dristige penselstrøk på hvit bakgrunn: en blå og rødbrun ring til venstre, en tykk svart stripe i midten og en gul form til høyre. Bildet gir et energisk og grafisk uttrykk, egnet til kunstneriske eller tydelig fargesterke designprosjekter. Det er tatt i mai 2014.",
+    "altText": "Abstrakt maleri på hvit bakgrunn med en blå og rødbrun ring, en svart vertikal stripe og en gul penselform til høyre.",
+    "keywords": [
+      "abstrakt maleri",
+      "penselstrøk",
+      "blå",
+      "rød",
+      "gul",
+      "svart",
+      "hvit bakgrunn",
+      "grafisk",
+      "fargerikt",
+      "kunst",
+      "ring",
+      "malerkunst",
+      "mai 2014",
+      "abstrakt kunst",
+      "design"
+    ]
+  }
+}

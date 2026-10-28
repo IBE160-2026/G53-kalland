@@ -1,0 +1,58 @@
+{
+  "image": "16.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:10:24 08:35:17",
+    "existingKeywords": [
+      "Coffee",
+      "Commercial Photography",
+      "Ed Gregory",
+      "Free",
+      "Free Stock Photos",
+      "Girl",
+      "Public Domain",
+      "Stock Images",
+      "Stock Photo",
+      "Stock Photography",
+      "Stock Photos",
+      "Stokpic",
+      "cafe",
+      "capuccino",
+      "hand",
+      "milk",
+      "morning",
+      "spoon",
+      "sugar"
+    ]
+  },
+  "latency_s": 3.14,
+  "stop_reason": "end_turn",
+  "input_tokens": 3260,
+  "output_tokens": 256,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000454,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Hånd rører i kaffekopp med skje",
+    "description": "Nærbilde av en hånd i genserermet som rører i en hvit kopp cappuccino med en metallskje, skumlaget og en sukkerpakke synlig på bordet. Lys, varm stemning fra oktober, passer til temaer om kafé, hygge og pauser.",
+    "altText": "Hånd i mønstret genser rører med en metallskje i en hvit kopp cappuccino på et stripete bord, med sukkerpakke og serviett.",
+    "keywords": [
+      "kaffe",
+      "cappuccino",
+      "kafé",
+      "hånd",
+      "skje",
+      "kopp",
+      "skumlag",
+      "sukkerpakke",
+      "stripete bord",
+      "genser",
+      "frokost",
+      "hygge",
+      "varm drikke",
+      "høst",
+      "servering"
+    ]
+  }
+}

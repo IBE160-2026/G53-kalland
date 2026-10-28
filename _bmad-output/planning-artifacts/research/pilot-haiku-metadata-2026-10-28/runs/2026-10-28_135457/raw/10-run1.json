@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUfpRJRi24VKSTgKY4JU",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSoQkKEAgTGAI4AUIIdGhpbmtpbmcSDHImOkmbEUMVTV0XRhoMA3hu2HzREaGydLNwIjBCygBuJyJofEuNBLlGPJYVhhAGqat1zf/rYblVuNCUP/1ViXQgt8y5Y/n9xhx3Bgsqvgg2hpygZFYnDZa0KD+kpURpy/6Z0os3hmWkvvZQVfocjaJi+wy+9Nx4SwBz6ocNpMTBRcueQyMYwvFDIB/hQCmYeZbOD+2F8ceXeJz+rEcI1T3GFBsZccEnw+fR6LLsxtrmrequayKwHk7O/btW9VxmzERF6YS4LpNsSX8SVw0XuyvKTkkU3k8P1qRwg28+G90dNd6o7SJ0F2Wfja3YFElkWOAgVPfoyQtroQxy2H7B3FVAEjZYirxQaUb/4nJA3t9CQ+Ec/pGYysSQRdVNZX4zZrCSYD1reW5z/sfZYM49oOFGVUL3uUA5cwEwwfiHLBsCW/ySyjuIaLun3abdoGpNN7Q9q3nCJOq3ih9U8l8pAXYRLuhlcoV/pRIKVwS2SJut+35yigmVr0t5LUKnSziMo9Y33DSRln5S38PXv5vjr7Uvy+A3zf9YaBRi9/TGV6A4pQqmf3tx/Rk3ARt6u5WBFX/GLsoS9G9ofbIo82XOkQKNL93XMnsODiMmZwZnMs1ipuyv+n4Z0iRQkUfKXrKUPnHw6nrfe9a89B4OffXg78nxyK1zHD9pHCwQgZpQL8GBSI8WJ/cGz/HRNVVVMFYWJICMU4YSLrVF6czc4p/TiF2rFyPMxiHkXDGdu4JGI2Av6zjkj7fiqmKTPzSeWVPRJc2FyUmdE9yslf8IXLzOJUUKr8TOys18Dk+PiAoGU0nwyzBr/ds/HNO9BbZEkfrBeJ2bOF9cpskRppBkVi+DbtmVnJDK4v1tlSX+kqBFojTmUxbImW3P1sPktlxF9JPsGzOUbMj0sRKMauMuBBoX1Lf7TGXo+KkoQuIfttlxjxhT09CP2uFyoCgqFPOx1W5eTN+/ZKUvSgfr/q/pOS9YuaGeOLCn3ICUXW6sepBGYy3SIbiDs6Or98T5CTzRAlxEvz6J4/GXAazTK4lljbCKVidwk4vXgfI5Olb257mb+Wrz4YJ0vHWHE+8y97Q/GpXu6XTk7u/kAijTfeb5bH4yp4Xa/gU36jUhiUOVYA+wBWhe/5CIMmO+GqIAZD4Eu2k1PJ4Qh/vClbgyC8ISVbnwRfbkErTuVxg6w/uQweEnzGJQWSfIzND9bPw4R+xfWbe+1uLzdfOe+lN0asr327cKj8ZfxZVEYjzS4NEfOi3+h+kgAmeLo8RPSXmrhj/RLyBSin1KDv0R3//+/MW2zVsG3dod4OhCocQeUU136NBwL7D84Uy6PxEHM3R7jAPatLIKHIX9/4wT5+xudMNqdSSsWkdpwHICGLul5SulBhJHUsaDOSlf5XyuGGUMG0iI+G5lRZSZWtOTvP76kKefn0yyn/jEts0kwMDRfy9y0hoWMUVnJ/5JYR/2UkmIkPsujAeTyEfrHUvpOga/ztSHG5JXXTkexTBB/GTEoOom9oowxd9hg6CiiL5OajQFHdQXUwFwAmw/MXHLcdGyGOakiu0YAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Bryggen i Bergen med røde trehus og Julehuset\",\"description\":\"Røde og fargerike trehus i rekke langs Bryggen i Bergen, fotografert 20. mars 2023 på en delvis overskyet dag. Butikkene Julehuset, Audhild Viken og Bryggen Husflid vises tydelig i fasadene, og en person i gul jakke og med ryggsekk går over den brolagte plassen.\",\"altText\":\"Røde trehus med takvinduer og butikkskilt på Bryggen i Bergen. En person med gul jakke og ryggsekk går over en brolagt plass under blå himmel.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"trehus\",\"Julehuset\",\"gamle bygårder\",\"UNESCO-verdensarv\",\"Bryggen Husflid\",\"bybilde\",\"vinter\",\"brosteinsgate\",\"gul jakke\",\"ryggsekk\",\"Vestlandet\",\"turisme\",\"fasade\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 611,
+    "output_tokens_details": {
+      "thinking_tokens": 286
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUg9QCxrUYekHypy8hC6",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Abstrakt maleri med brune, blå, svarte og gule penselstrøk\",\"description\":\"Et abstrakt maleri på lys bakgrunn med en tykk rødbrun og blå ring, en svart penselstrøk og en gul, kraftig form til høyre. Uttrykket er energisk og expressivt, med synlige penselspor og tørr pensel i kantene. Bildet er tatt 8. mai 2014 og kan brukes som kunstnerisk element i grafisk design.\",\"altText\":\"Abstrakt maleri med en rødbrun og blå ring, en svart penselstrøk og en gul form mot lys bakgrunn.\",\"keywords\":[\"abstrakt\",\"maleri\",\"penselstrøk\",\"akvarell\",\"gul\",\"blå\",\"rødbrun\",\"svart\",\"ekspressiv\",\"kunst\",\"grafisk element\",\"bakgrunn\",\"2014\",\"malerier\",\"abstrakt kunst\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3573,
+    "output_tokens": 310,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

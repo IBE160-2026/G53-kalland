@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUgir49B3DLXytGCGmNa",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Vårtrær i tåke over grønn hage\",\"description\":\"En hage med gressplen og frodige trær som knopper seg tidlig på våren, med bare grener på de eldre trærne til venstre. Himmelen er grå og diset, og en gul busk gir et lite fargeinnslag. Stemningen er rolig og lys, typisk for en tidlig vårmorgen i april 2024.\",\"altText\":\"Gressplen i diset vårlandskap med knoppede trær i forgrunnen, bare grener på trær til venstre og en gul busk midt i bildet under grå himmel.\",\"keywords\":[\"vår\",\"april\",\"tåke\",\"knopper\",\"frisk løvspiring\",\"hage\",\"gressplen\",\"grønn\",\"trær\",\"gul busk\",\"diset\",\"morgen\",\"naturlandskap\",\"vårstemning\",\"grå himmel\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2785,
+    "output_tokens": 279,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

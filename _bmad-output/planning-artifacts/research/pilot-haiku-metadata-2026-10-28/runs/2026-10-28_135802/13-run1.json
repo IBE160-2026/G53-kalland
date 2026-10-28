@@ -1,0 +1,43 @@
+{
+  "image": "13.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:22 15:22:09",
+    "gps": {
+      "latitude": 67.94724,
+      "longitude": 13.11746
+    },
+    "caption": "default",
+    "place": "Reine, Norway"
+  },
+  "latency_s": 3.32,
+  "stop_reason": "end_turn",
+  "input_tokens": 2343,
+  "output_tokens": 294,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000381,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Panorama av fjell og fjord i Reine, Lofoten",
+    "description": "Et 360-graders panorama tatt fra luften over fjorden ved Reine i Lofoten, med skarpe fjelltopper, små fiskevær og turkisfarget vann i forgrunnen. Skyene er grå og stemningen er rolig og majestetisk, egnet til reisemateriell, naturtema og bakgrunner.",
+    "altText": "Panoramabilde av steile fjell, grønne holmer og speilblank fjord under en overskyet himmel, med et lite fiskevær til venstre og høyre.",
+    "keywords": [
+      "Lofoten",
+      "Reine",
+      "Norge",
+      "fjord",
+      "fjell",
+      "panorama",
+      "360 grader",
+      "dronefoto",
+      "fiskevær",
+      "sjø",
+      "refleksjon",
+      "overskyet",
+      "naturlandskap",
+      "turkis vann",
+      "Nordland"
+    ]
+  }
+}

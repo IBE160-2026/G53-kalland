@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 3.74,
+  "stop_reason": "end_turn",
+  "input_tokens": 3573,
+  "output_tokens": 310,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000512,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med brune, blå, svarte og gule penselstrøk",
+    "description": "Et abstrakt maleri på lys bakgrunn med en tykk rødbrun og blå ring, en svart penselstrøk og en gul, kraftig form til høyre. Uttrykket er energisk og expressivt, med synlige penselspor og tørr pensel i kantene. Bildet er tatt 8. mai 2014 og kan brukes som kunstnerisk element i grafisk design.",
+    "altText": "Abstrakt maleri med en rødbrun og blå ring, en svart penselstrøk og en gul form mot lys bakgrunn.",
+    "keywords": [
+      "abstrakt",
+      "maleri",
+      "penselstrøk",
+      "akvarell",
+      "gul",
+      "blå",
+      "rødbrun",
+      "svart",
+      "ekspressiv",
+      "kunst",
+      "grafisk element",
+      "bakgrunn",
+      "2014",
+      "malerier",
+      "abstrakt kunst"
+    ]
+  }
+}

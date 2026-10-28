@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 3.12,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 269,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000469,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Trehusbebyggelse ved Bryggen med julehus",
+    "description": "Rekke med fargerike trehus i Bryggen-området, med skilt for Julehuset, Audhild Viken og Briggen Husflid. Bildet er tatt i mars 2023 og gir et rolig, gråvær bymiljø med bare trær og få mennesker i gaten.",
+    "altText": "Rød trebygning med skilt for Julehuset og Audhild Viken, rekke med trehus i bakgrunnen, en person med gul jakke til venstre.",
+    "keywords": [
+      "Bryggen",
+      "trehus",
+      "Julehuset",
+      "Bergen",
+      "gamle trehus",
+      "bygård",
+      "gateliv",
+      "vinter",
+      "fasade",
+      "rød fasade",
+      "butikk",
+      "turisme",
+      "brostein",
+      "gate",
+      "bymiljø"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgCHbCCNHFdp7AyS7Pp",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQStAkKEAgTGAI4AUIIdGhpbmtpbmcSDKz30dF/zxpTC7QMQBoMc2bmYk4hOD6VnfzYIjCOK1N1j3nvRIsjqLGq0VqCI0AUroMg0mJuT8XLaQoHh8iH2vypCogvOPhTZjh3xXEq0Qi+38p5H1bZlQgcOuGrvREdbpbBCMVc5V94AB7j4IJGVQrBEN/jHDIs/zNXlNwcweAf0LWNHvTY4/WhkHBVO3Ajq0gOmGVEJ/L4+g3Es4JMSdA6iyzRB0Zs8DtwXFSZK3HTssfrgFHhOmi9aC5vbAVYxElO8sprA38OJKiRePLvmjh1f2uC1Y6VXmbXShydP0GXRoXBsBgAgDcwisSc7iiFfJ0VLYD74sD3AhiQzaxcYe+c8vjZevSh97FLmJPBIxQw1m8YBum6xDXQINX3TimrF3BZzJUwzoD4+WRb/DIiiXY4rwYeNuqmhUzU2GhC5paPuNXK/gymZse/lnLMYrqJbz0NbuM5lB8X9SLkZ81LF9r9uWF0OlvZxSCbOSnnhI1p/JwntJeCyGBMv1C33FvjwzLnUFjZx/3gE4qlNVg8zqufuK354sZCaILn0IBhx/M8NC22lzjYLZxKzejlS3TC0aHENjOlDaw2zjfCEoceFNSSbGQ8sXJLpRxOszoD7MKMOw2zxq4UYemLVSsAZZCll83HbCZH0bjjEuKa6TMGlX3/pMV96+IDZDVQE4wlxAlsOKgfQ19t6HU0KG5liXzoxFn8TfLblwamry9eucTv3rKmvyIjIbVoerg/Hc/Ym1MY02KcSCxPCeoA9k5nTJkOKCRvDysuLUlgKxM7m6qcrtfnK6eN2wwJ9JHBNATyHUOrQyuWQvmMINhKhp0t/Hf70J/xPTNQViwhB7dMHKMhkESiL4wOH4o55brt45dy0aS0NalzMaI6Tqw+KRwU1G5fLaqTymb+mhrSo6EIjA2W7ySEat+WXn7P+QFiEx+n+UgpytzkcFu6gLCqCPjexrCUQMhwIIKRLXojXSY4r3I+5mg2MENPBcDDcS0XvBEiTmh/6WY9ShQrrcnLd/bXGbYfe1r+Jp2QQ+b802jslLpd/IECMNuf+iTjoDtkS4JfmDcgZ5v0tfxTVN5QnCQFXaqrMynKJIuJvs183gmNY+RkQjGkNJbKUf1RvdHPLK5mK9c76SaG3QTmo/wDI/7GYnMq//WazG94mpsyOjaH36nXhuPm5IvGhPLviSmekHDc4QVt1TjEm3XnOosxTq6tQCG+RQugqWPTnnTex0k+iim3Lk1eWLoaGNp2ClbhxH/l5ThZxrAHmw887D03G42cPCmlx0eYkPeStNJ0eKTyDbgmLpikO1Bb7kFq8dbVtQOebqqOpZX8iM0Stktx5nBmrpxBd6jZ7w7EmMbQvuEMS2g44vF8EQEQgwcY+R4/FS1lB2gVeUBu/RO568GIipnAz/D01u7s3IDkYC9KdUDSlsjTXNjhDt6O7Z/+RUP3wP4ReA3wOsqbl+u8BKKSjHmVxhhigEBOfXC42s//9M48N8IGZbELYTx5ramFVCcHH+Aga0CPncivihOWiH/6g6IzIBrrKNusJwfZR1H98vkOgfzoag1ZHex4qJr9inL/oD44WML7GAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Bryggen i Bergen med røde trehus og Julehuset\",\"description\":\"Røde og fargerike trehus i rekke langs Bryggen i Bergen, fotografert en klar vårdag i mars 2023 med delvis skyet himmel og kalde trær. Fasadene viser skilt for Julehuset, Audhild Viken, Knut Skorstveit og Bryggen Husflid. En person med gul jakke og ryggsekk går over brosteinsplassen.\",\"altText\":\"Rekke med røde og fargerike trehus på Bryggen i Bergen under en blå himmel. Et rødt hus har skiltet Julehuset, og en person i gul jakke går på torget til venstre.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"Vestlandet\",\"Norge\",\"trehus\",\"gamle bygårder\",\"Hanseatisk kontor\",\"Julehuset\",\"Audhild Viken\",\"Knut Skorstveit\",\"Bryggen Husflid\",\"brosteinsgate\",\"vinter\",\"mars 2023\",\"UNESCO-verdensarv\",\"rødt trehus\",\"reise\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 649,
+    "output_tokens_details": {
+      "thinking_tokens": 280
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgjqkpD7vitsfhYhWz6",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQStwkKEAgTGAI4AUIIdGhpbmtpbmcSDAIyDqe9h3knKRCLrhoM+DB1IviOUVEfEflQIjCDlAX7ftiARS+yseVFFjs+dAltOX1CAF7YuxeWgH32WsZEKTYstxDHeMRcLhG/9hAq1AiHgdHUCvfy85fZGFXRr8yEOIeWHDOrnAXfwcU6i12KIiqKUpu+pc5oM35Trapg1MiXrG9zl4W1DrKW9ePZoDa5cgJY+VlypLirpguYQBxa0EkB/79mMLqInWXVtGvFiSqr+Xuaiz+jhseK42HM/fOo1PAQkH9568mYGWLz5OzSX6iFr/3A0c435D6ysfkn0gnULMGMVSQEh6Os7lxaCxgPQjZhCgCVJQFBv32+nbtxFnUxk8iL5t+uvpbt0KKwfWNEAWRd3Qu1l/LLpXNRaS9L1nZL3W4h0K3NA6Ba+hECXvCYZxkfef9PsmNfWRtQAZgngGixsIVS6rVsGz1nOjR+SXc14cgunN9UQK3sNBpTcpFCg/mWK7b2Edltr03xK1mT9TwGPHT5NIFrOc0LTJTpig0bdQUYT6Bb1MpA5ZGZDFLxRTPiTdEtk9JYqXNrOw2FxImQqkiWzbFNbZ3sKIGNdTH6vVUW7IM8o+ljmS30yZUGztQeIgg9LgmrODZr1fU5thH7923Di1zT2CeDVKyBkG5/DSIMZ9nWW9tsYHf+cVdG1/0hG/wLSMfTmBGYAgw9mbA8JoAivpediO47ilC13nE6FdOMOIrqUCYod2PJHfAABuAT3CmtUYuqJ7GwMKONS2J0sa/RoUlgQruvcLPsuk0Kf5xBBEuQofNoNPUozAON0Ncrd5U/ttfGmgvv09zuoiO5qqYo3JHCB23bypVa59sNEdtc2MJg/Bhwkq3twFDKtAOPn9bvLwtJykOx1uS3IWn+IyqeOkcxQse6xinbmjblghr6H9NW2mhDR4V8EJDl6fkfqsfEccA56hkN2dQfWgNH7BplGp8/W7fkWrK74bCa/14HoKajp2nyVJGFFE9M5+JRO+SbN24fllWDCYcm9DgXsSZO97ruOWEjeCxPykucxL9O7sox5+yjK0qiaJktySh0x3MqiC68DeT4HYs/sqM338at+JqrCO/I3NAkLxsz2xomLdp3wF9m8PA+rBUdSc0hdFnpl4P/xHBIZmnaK59viDreAlwHskcTh4fkXwFTOaqChs7Y5LbwmDaEmK7ZvRdFcDDoqnkv4OuR9/ERClibzLK0iV5SdLIhpYaNGEG3nNcnZWeMAJX+do1yMTQJ0Qiyn1u6b7Czz+pTJrfDZH8DdiJr3UcnNIUv3ZO6H8V0HcG5vulXsFdv2EpXCxWE5zol9SvlTxGl5C5V/at7fmF0nRLfPoUImkIAaxFhsMbyuhEyBfC6U31U258Nj02hOdI/67w5anBwyDhhuXCBe7D6b+x5iIByi/hM5yJhkFroBlw2j+4CE7Dxw0brzE9IXieQj3EOvHebItDQgtGsgrB+C65u//pL8NJ9wBtH9bx/CKC/894co6d6N7K+HOTwNJNucUTlXBujMj3p887pDa4J2y7McT7pAkL2IgbMX4Aw/x6z59XPv8CHrDCVVuDgxtzREfzr/clqq/Q+dBf0Z9JGGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Operahuset i Oslo om kvelden\",\"description\":\"Nattfoto av Operahuset i Oslo i blå time, med det opplyste glassfasaden og de skrånende takflatene reflektert i vannet foran. Stemningsfullt bilde i august 2025, egnet til arkitektur, kultur og byprofilering.\",\"altText\":\"Operahuset i Oslo i blå time, med gyllent opplyste glassfasader og skrånende hvite takflater, speilet i mørkt vann i forgrunnen.\",\"keywords\":[\"Operahuset\",\"Oslo\",\"arkitektur\",\"blå time\",\"kveld\",\"glassfasade\",\"bygning\",\"refleksjon\",\"vann\",\"sommer\",\"kulturbygg\",\"belysning\",\"skråtak\",\"bylandskap\",\"norsk arkitektur\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2246,
+    "output_tokens": 521,
+    "output_tokens_details": {
+      "thinking_tokens": 250
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

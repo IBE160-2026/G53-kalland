@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUh1EopEFGsGPuXotpdJ",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"UNESCO-skilt for Bryggen i Bergen\",\"description\":\"Nærbilde av en bronsefarget skiltplate med UNESCO-logoen og teksten om at Bryggen i Bergen er innskrevet på verdensarvlisten fra 1979, på norsk og engelsk. Skiltet er festet på en rød trevegg, og bildet gir et nøkternt og informativt inntrykk. Egnet til bruk i presentasjoner og prosjekter om norsk kulturarv.\",\"altText\":\"Bronsefarget UNESCO-skilt på rød trevegg med teksten BRYGGEN I BERGEN, som forteller at stedet er innskrevet på verdensarvlisten i 1979.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"UNESCO\",\"verdensarv\",\"kulturarv\",\"skilt\",\"skiltplate\",\"rød trevegg\",\"Vestlandet\",\"Norge\",\"bronse\",\"innskriving\",\"verdensarvliste\",\"vår 2023\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3345,
+    "output_tokens": 339,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

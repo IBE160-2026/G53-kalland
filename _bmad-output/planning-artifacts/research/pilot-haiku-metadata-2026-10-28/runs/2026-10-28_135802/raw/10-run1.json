@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUg72esw7h1iS1RKqHwy",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQS/AkKEAgTGAI4AUIIdGhpbmtpbmcSDF2dk4dblKDB3FJIghoMyaKcrfAnJ6ApNJsrIjCq/u2WtDIX8KiAsyb6j2X2lKjymghiTg5ATAlVsg37paJ+9dQjfAjJTgNEw1rqzPcqmQm8SHska5tvBs27yICXfYs358tES2wjrxWKjMeXqO5E4HAzM6AWJibOqMQyQVAOizD1of25BFi8H90onwxcHiVA0u9rwVIqp1f+Y+OBpUfBK42Ytpxqpz9e2toj90pJnnukFl2khk3K3PuVDZDAWhekSYfZy5B4JTPzo27Z4FVAAJZx+gU/kYK7Mf2TA3kgZLx7xNNvU/yy1JYG83SxvEUZlqdmFfCBpvj8zlnY8lk/mGDKQNx09LpUqnN/aQVJaIl2ahbr6/SlPC4fdrOImgBMMMD6/1vFBgbdkzKhacjpGMugfL5ozMH1c/IaL02A10oGrxeSfSLAz3jVXrykWVwBdusetAILNKnC5hDKIM9UJ6cTUKswG3dS6KA+RILCe+BMtnlfiNPXBI0S6er5vQiqsrHReQxYJgf0KIDRgPRuMTaMGixzs45DVPOCSw7lnskV/xnCwhVOVEmD+Z1ewX6X7ZjJo0CXA+ZJpTjTsuUTD6AIo3W+1lruux23vRytkhsvkky6SryTD9XToOidadoosuZunWJBLaeKZ5djjLb+Pf042AWsepvJuzFpV9pe/w9+s1CK3aenW/CJ6G/cZStaWS+IbTXMnX1Q/yYcd6SkWbZxZASO8rOlrqckg58g8OoPK904YWTzbS085du7QsIlE9cFJQwsRGfVYkS4KwwL0oJHliTKVCgrqbVcw3ENwrTl041OdQ0BSHXkPnJch2pSUKkB0vNNHB9CfsZ/TccX9ZexIzT72auNWe2ZUQ0vhuwUeuuQth/D+TgMMAMJq8OeEITWfRB3W6FwO0vLRnNevnGy9ZTxmmRtcyKhE1T3pD5tmQG/EOML/VrXG8v1oOOFiSScCz6CLxqyYtprVWopN90CVKntYM/Igo5wAwVfwz0m6tMn/a8YYDzwWp1/buKX4UpBVvCDs88OxMqBajCW1xGAX+qCsHnvnhXk0MpuOW18BLoCjqSmWVgN59HerTqe+crPloHTbUqa385Y1DC3uMZcSeaN44R8dx+Rj0/D3EjjPi5nQP7RXPf3AEvQ6HoAlPgd30vv9u+mo0iHGFzmdvYt8X2hd5/+3jdS89hz4/05VAq4MHragjQ3DVY68g74o//+UoCnKPa5vkH0+Ek/3cdgSf/Eux5bwz72hctEebTKr1BKVWLt+SWIeEKyF7myEas4BIsqKS8XHgw/aL4lqFgqQZlFpUee6aRqmhI0ObanJKhfuPAYrWwynsJtGtVDjjiskT9oX2Vo1sO8QHqTlLDsvdIwR4xh7/JxrKrucPBw/x0ZBQvX4NTTRtcYdBdLgQtN5xEdtLkipm6R0Ybl8WLupF8O1V2Q558BGjqBIS8MEW3eVjdq6KFhhxt2CI7D47BI6bOt5gdjx1dbSiUU22uOQ42zTtPp9psAPBnaTZaS0vxKYuMGOTLrLQ5UpwTC1bZDsgV1oNdAVG43j3xmVy33CqIWf6Kfs+L7JjUAr2s+FlScSzgbBGQc5IRVEvGuz0SwKEzzrqxWmRDHYKvzckUFQrXpyvzMUcT4v4EHZSUytUUD28O33H1P4S4dl7lmjB2oX7qIvgzEGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Røde trehus og Julehuset på Bryggen, Bergen\",\"description\":\"Rekke med røde og fargerike trehus med takkvister langs Bryggen i Bergen, tatt en vinterdag i mars. Skiltene viser butikker som Julehuset, Audhild Viken og Bryggen Husflid. Stemningen er rolig og kald, med en gående person i gul jakke til venstre.\",\"altText\":\"Røde trehus med spisse gavler på Bryggen i Bergen, med skilt for Julehuset og Audhild Viken. En person i gul jakke går på torget under en delvis skyet himmel.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"Julehuset\",\"trehus\",\"gamle trehus\",\"Hanseatisk kontor\",\"røde hus\",\"gavl\",\"vinter\",\"mars\",\"Vestlandet\",\"Norge\",\"turisme\",\"kulturminne\",\"UNESCO\",\"gatebilde\",\"fotgjenger\",\"brosteinsgate\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 634,
+    "output_tokens_details": {
+      "thinking_tokens": 306
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

@@ -1,0 +1,2 @@
+image,run,valid_json,latency_s,input_tokens,output_tokens,thinking_tokens,cost_usd,stop_reason,checks
+10.jpg,1,True,9.8,3104,1317,1011,0.000969,end_turn,

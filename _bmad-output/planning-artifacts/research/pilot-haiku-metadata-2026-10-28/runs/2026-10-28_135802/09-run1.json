@@ -1,0 +1,37 @@
+{
+  "image": "09.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2025:02:16 13:21:32"
+  },
+  "latency_s": 3.24,
+  "stop_reason": "end_turn",
+  "input_tokens": 2845,
+  "output_tokens": 276,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000423,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Person med røde handleposer i snøstorm",
+    "description": "En person i mørk vinterjakke med pelskrage går nedover en snødekt fortau med to røde handleposer i hendene. Bilde i gråtoner med rødt som eneste fargeaksent, og en bil og snøfokk i bakgrunnen gir en kald, stille vinterstemning.",
+    "altText": "Person i mørk vinterjakke med to røde handleposer går på snødekt fortau i snøfokk. Bil står i bakgrunnen, og bildet er i gråtoner med rød farge.",
+    "keywords": [
+      "vinter",
+      "snø",
+      "snøstorm",
+      "handling",
+      "handleposer",
+      "rød",
+      "gråtoner",
+      "fortau",
+      "gå",
+      "bil",
+      "vinterjakke",
+      "kaldt vær",
+      "snøfokk",
+      "byliv",
+      "februar 2025"
+    ]
+  }
+}

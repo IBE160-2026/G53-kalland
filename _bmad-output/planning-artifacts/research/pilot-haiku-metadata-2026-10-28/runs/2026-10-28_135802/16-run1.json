@@ -1,0 +1,59 @@
+{
+  "image": "16.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:10:24 08:35:17",
+    "existingKeywords": [
+      "Coffee",
+      "Commercial Photography",
+      "Ed Gregory",
+      "Free",
+      "Free Stock Photos",
+      "Girl",
+      "Public Domain",
+      "Stock Images",
+      "Stock Photo",
+      "Stock Photography",
+      "Stock Photos",
+      "Stokpic",
+      "cafe",
+      "capuccino",
+      "hand",
+      "milk",
+      "morning",
+      "spoon",
+      "sugar"
+    ]
+  },
+  "latency_s": 3.73,
+  "stop_reason": "end_turn",
+  "input_tokens": 3019,
+  "output_tokens": 234,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000419,
+  "valid_json": true,
+  "checks": "16 keywords",
+  "output": {
+    "title": "Hånd som rører i cappuccino med skje",
+    "description": "En person i strikket genser rører i en hvit kopp cappuccino på et stripete bord med sukkerpakke og serviett. Varm, rolig morgenstemning med solfylte, lune toner.",
+    "altText": "Hånd i strikket genser rører med en skje i en hvit kopp cappuccino på et stripete bord med sukkerpakke og serviett.",
+    "keywords": [
+      "cappuccino",
+      "kaffe",
+      "kafé",
+      "morgen",
+      "hånd",
+      "skje",
+      "melkeskum",
+      "sukker",
+      "strikkegenser",
+      "varm drikke",
+      "kopp",
+      "frokost",
+      "hjemmekos",
+      "stripete duk",
+      "interiør",
+      "vinter"
+    ]
+  }
+}

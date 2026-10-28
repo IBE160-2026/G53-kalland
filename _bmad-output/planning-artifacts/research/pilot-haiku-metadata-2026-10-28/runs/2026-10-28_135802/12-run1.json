@@ -1,0 +1,44 @@
+{
+  "image": "12.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:09:06 14:09:21",
+    "gps": {
+      "latitude": 69.6889,
+      "longitude": 18.98008
+    }
+  },
+  "latency_s": 3.09,
+  "stop_reason": "end_turn",
+  "input_tokens": 2880,
+  "output_tokens": 298,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000437,
+  "valid_json": true,
+  "checks": "18 keywords",
+  "output": {
+    "title": "Grusti langs stille innsjø med bjørkeskog på høsten",
+    "description": "Et grasbevokst stiskille går langs en rolig innsjø med speilblankt vann og tett bjørkeskog på begge sider. Overskyet himmel og gulnende løv gir en stille, høstlig stemning. Bildet egner seg til temaer om natur, friluftsliv og det nordlige landskapet.",
+    "altText": "Grasbevokst sti langs en stille innsjø, med bjørker og gulnende løvskog på venstre side og et vidt, overskyet landskap i bakgrunnen.",
+    "keywords": [
+      "bjørkeskog",
+      "innsjø",
+      "sti",
+      "høst",
+      "natur",
+      "friluftsliv",
+      "landskap",
+      "vann",
+      "speiling",
+      "gras",
+      "bjørk",
+      "overskyet",
+      "tundra",
+      "Troms",
+      "Nord-Norge",
+      "september 2022",
+      "utmark",
+      "stille"
+    ]
+  }
+}

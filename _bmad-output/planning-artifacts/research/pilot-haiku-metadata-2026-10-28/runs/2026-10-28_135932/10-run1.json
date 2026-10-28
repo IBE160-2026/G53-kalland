@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 5.27,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 601,
+  "thinking_tokens": 271,
+  "cost_usd": 0.000611,
+  "valid_json": true,
+  "checks": "altText 161 chars",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus og Julehuset",
+    "description": "Rekke med røde og fargerike trehus i Bryggen i Bergen, fotografert i mars 2023 med lav vintersol og en kal tre i forgrunnen. Butikkfasadene viser navn som Audhild Viken og Julehuset, og bildet passer til reportasjer om reise, byliv og norsk trearkitektur.",
+    "altText": "Rekke med røde og fargerike trehus i Bryggen i Bergen. Til høyre står et kaldt tre, og en person i gul jakke med sekk går over torget under en lett skyet himmel.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "Hanseatisk bygning",
+      "UNESCO",
+      "Julehuset",
+      "Vestlandet",
+      "norsk arkitektur",
+      "gamle trehus",
+      "gatebilde",
+      "vinter",
+      "mars 2023",
+      "kaldt tre",
+      "fotgjenger",
+      "tur til Bergen"
+    ]
+  }
+}

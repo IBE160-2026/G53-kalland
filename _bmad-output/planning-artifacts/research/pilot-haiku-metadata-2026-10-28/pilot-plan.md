@@ -1,6 +1,6 @@
 ---
 title: "Pilot plan: Claude Haiku 5.5 for Norwegian image metadata"
-status: draft
+status: complete
 created: 2026-10-28
 ---
 

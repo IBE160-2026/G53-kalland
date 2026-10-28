@@ -1,0 +1,37 @@
+{
+  "image": "05.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2015:04:19 16:36:02"
+  },
+  "latency_s": 3.52,
+  "stop_reason": "end_turn",
+  "input_tokens": 3310,
+  "output_tokens": 316,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000489,
+  "valid_json": true,
+  "checks": "altText 162 chars",
+  "output": {
+    "title": "Lyst stue med glassbord og katteklatretre",
+    "description": "En lys stue med spisebord i glass, rottingstoler og et kattetre i sisal. Store skyvegardiner i hvitt slipper inn dagslys fra en balkong med utsikt mot bybebyggelse. En liten hund sitter på gulvet i forgrunnen; bildet er fra april 2015 og gir en rolig, hjemlig stemning.",
+    "altText": "Lyst interiør med rundt glassbord, rottingstoler, kattetre i sisal og store hvite skyvegardiner mot en bybalkong. En liten hund sitter på gulvet nederst i bildet.",
+    "keywords": [
+      "stue",
+      "interiør",
+      "spisebord",
+      "glassbord",
+      "rottingstol",
+      "kattetre",
+      "hvite gardiner",
+      "skyvegardiner",
+      "lys stue",
+      "hjemmekontor",
+      "hund",
+      "hjem",
+      "balkong",
+      "bolig",
+      "april 2015"
+    ]
+  }
+}

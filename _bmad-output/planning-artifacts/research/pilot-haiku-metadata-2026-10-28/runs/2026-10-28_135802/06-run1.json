@@ -1,0 +1,40 @@
+{
+  "image": "06.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2025:08:01 23:01:40"
+  },
+  "latency_s": 5.2,
+  "stop_reason": "end_turn",
+  "input_tokens": 2005,
+  "output_tokens": 586,
+  "thinking_tokens": 258,
+  "cost_usd": 0.000494,
+  "valid_json": true,
+  "checks": "18 keywords",
+  "output": {
+    "title": "Moderne kulturbygg med skrånende steintak ved vann om kvelden",
+    "description": "Et moderne kulturbygg med skrånende steintak og opplyst glassfasade fotografert i blåtimen, med reflekser i vannet i forgrunnen. Bildet gir en rolig, elegant og arkitektonisk stemning, og passer til prosjekter om arkitektur, kultur og byrom. Bildet er tatt 1. august 2025 kl. 23:01.",
+    "altText": "Opplyst moderne bygning med skrånende steintak og glassfasade i mørkeblå kveldslys, speiler seg i vann i forgrunnen.",
+    "keywords": [
+      "arkitektur",
+      "kulturbygg",
+      "moderne arkitektur",
+      "blåtime",
+      "kveld",
+      "nattbilde",
+      "glassfasade",
+      "steintak",
+      "skrånende tak",
+      "vann",
+      "refleksjon",
+      "belysning",
+      "byrom",
+      "sommer",
+      "2025",
+      "august",
+      "kystby",
+      "offentlig bygg"
+    ]
+  }
+}

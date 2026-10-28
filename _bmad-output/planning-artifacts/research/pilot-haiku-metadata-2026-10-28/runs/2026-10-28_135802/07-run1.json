@@ -1,0 +1,37 @@
+{
+  "image": "07.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:06:09 18:19:47"
+  },
+  "latency_s": 3.05,
+  "stop_reason": "end_turn",
+  "input_tokens": 2845,
+  "output_tokens": 277,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000423,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Kvinne i profil med svart turban og gull-ørering",
+    "description": "Profilbilde av en kvinne med lukkede øyne, kledd i svart hodeplagg og svart topp, med store gullringer i ørene. Den lyse, uskarpe bakgrunnen gir et rolig og ettertenksomt uttrykk. Bildet er tatt 9. juni 2024.",
+    "altText": "Kvinne i profil med lukkede øyne, svart turban og store gullringer i ørene, mot en lys, uskarp bakgrunn.",
+    "keywords": [
+      "portrett",
+      "profil",
+      "kvinne",
+      "turban",
+      "svart hodeplagg",
+      "gullringer",
+      "øreringer",
+      "lukkede øyne",
+      "ro",
+      "ettertenksom",
+      "innendørs",
+      "lys bakgrunn",
+      "hodeplagg",
+      "2024",
+      "juni"
+    ]
+  }
+}

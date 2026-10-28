@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 2,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 3.76,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 330,
+  "thinking_tokens": 0,
+  "cost_usd": 0.0005,
+  "valid_json": true,
+  "checks": "altText 160 chars",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus",
+    "description": "Rekke med tradisjonelle trehus i rødt og andre fargetoner langs en brosteinsplass i Bergen, med skarpe gavler og bare trær i forgrunnen. Stemningen er rolig og kald, typisk for en vinterdag i Bergen. Bildet passer til reportasjer om Bryggen, Bergen eller norsk byarkitektur.",
+    "altText": "Rekke med røde og fargerike trehus med spisse gavler i Bergen. En person med gul jakke og ryggsekk går på brosteinen til venstre. Bare trær og overskyet himmel.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "gamle bygninger",
+      "arkitektur",
+      "gavler",
+      "brosteinsgate",
+      "vinter",
+      "rødt trehus",
+      "norsk byarkitektur",
+      "Vestlandet",
+      "julehus",
+      "fotgjenger",
+      "bybilde",
+      "Hanseatisk"
+    ]
+  }
+}

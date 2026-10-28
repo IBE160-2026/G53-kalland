@@ -1,0 +1,35 @@
+{
+  "image": "03.jpg",
+  "run": 1,
+  "metadata": {},
+  "latency_s": 5.77,
+  "stop_reason": "end_turn",
+  "input_tokens": 2818,
+  "output_tokens": 313,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000438,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Brød, mel, havregryn og korn på mørk bakgrunn",
+    "description": "Et stillleben med ulike bakevarer: skiver av brødbrød med frø og korn, et hvitt brød og et stort rundt brød, en haug med hvetemel, en skål med havregrøt eller havremiks, kjeks med rosiner og strå av korn og havre. Bildet har en varm, rustikk og naturlig stemning, og passer til temaer om bakst, kosthold og gårdsprodukter.",
+    "altText": "Stillleben med brød i skiver, hvetemel, havregrøt i brun skål, kjeks, korn og havreaks på mørkegrønn bakgrunn.",
+    "keywords": [
+      "brød",
+      "bakst",
+      "mel",
+      "havregryn",
+      "korn",
+      "hvete",
+      "havre",
+      "kjeks",
+      "frokost",
+      "kosthold",
+      "stillleben",
+      "brødskiver",
+      "helkorn",
+      "matfotografi",
+      "bakeri"
+    ]
+  }
+}

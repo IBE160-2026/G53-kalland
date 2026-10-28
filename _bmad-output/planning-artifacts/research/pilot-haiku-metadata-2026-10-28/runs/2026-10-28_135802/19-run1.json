@@ -1,0 +1,43 @@
+{
+  "image": "19.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:25 22:19:00",
+    "gps": {
+      "latitude": -19.52478,
+      "longitude": -40.61739
+    }
+  },
+  "latency_s": 5.04,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 526,
+  "thinking_tokens": 217,
+  "cost_usd": 0.000573,
+  "valid_json": true,
+  "checks": "17 keywords",
+  "output": {
+    "title": "Pariserhjul i motlys om natten med lysspor",
+    "description": "Et pariserhjul fotografert nedenfra om natten, trolig med lang eksponering, som gir fargerike lysspor og uskarpe bevegelser. Stemningen er livlig og festlig, typisk for en fornøyelsespark eller et marked. Bildet egner seg til tema om underholdning, sommer og nattliv.",
+    "altText": "Pariserhjul med fargerike lys og bevegelsesuskarphet mot en mørk nattehimmel, sett nedenfra med metallkonstruksjon i forgrunnen.",
+    "keywords": [
+      "pariserhjul",
+      "fornøyelsespark",
+      "nattebilde",
+      "lang eksponering",
+      "lysspor",
+      "karneval",
+      "underholdning",
+      "neonlys",
+      "fargerik",
+      "bevegelse",
+      "sommer",
+      "nattlig",
+      "forlystelse",
+      "gondol",
+      "Brasil",
+      "2024",
+      "august"
+    ]
+  }
+}

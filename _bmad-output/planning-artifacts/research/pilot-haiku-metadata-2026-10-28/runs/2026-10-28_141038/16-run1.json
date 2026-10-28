@@ -1,0 +1,56 @@
+{
+  "image": "16.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:10:24 08:35:17",
+    "existingKeywords": [
+      "Coffee",
+      "Commercial Photography",
+      "Ed Gregory",
+      "Free",
+      "Free Stock Photos",
+      "Girl",
+      "Public Domain",
+      "Stock Images",
+      "Stock Photo",
+      "Stock Photography",
+      "Stock Photos",
+      "Stokpic",
+      "cafe",
+      "capuccino",
+      "hand",
+      "milk",
+      "morning",
+      "spoon",
+      "sugar"
+    ]
+  },
+  "latency_s": 4.26,
+  "stop_reason": "end_turn",
+  "input_tokens": 3260,
+  "output_tokens": 269,
+  "thinking_tokens": 0,
+  "cost_usd": 0.00921,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Hånd rører i kaffekopp med skje",
+    "description": "Nærbilde av en hånd i en strikket genser som holder en skje over en hvit kopp med melkekaffe. Skummet drypper fra skjeen, og to sukkerpakker ligger på det stripete duken ved siden av. Varmt og hyggelig lys gir en rolig kafé- og pausestemning.",
+    "altText": "Hånd i mønstret strikkegenser holder en skje med melkeskum over en hvit kaffekopp på et fat, på en stripete duk med sukkerpakker",
+    "keywords": [
+      "kaffe",
+      "cappuccino",
+      "kaffekopp",
+      "skje",
+      "hånd",
+      "melk",
+      "sukker",
+      "kafé",
+      "strikkegenser",
+      "stripete duk",
+      "kaffepause",
+      "høst",
+      "nærbilde"
+    ]
+  }
+}

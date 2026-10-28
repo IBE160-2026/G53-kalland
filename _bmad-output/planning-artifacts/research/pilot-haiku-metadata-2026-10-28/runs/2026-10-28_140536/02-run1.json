@@ -1,0 +1,37 @@
+{
+  "image": "02.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2011:12:09 17:39:56",
+    "caption": "                               "
+  },
+  "latency_s": 3.96,
+  "stop_reason": "end_turn",
+  "input_tokens": 3264,
+  "output_tokens": 296,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000474,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Pastasalat med krabbepinner på hvit tallerken",
+    "description": "En oval hvit tallerken med pastasalat blandet med krabbepinner, rød kli og finhakket grønnsaker i en lys majones. Bildet er tatt på vinteren 2011 mot et rødt duk, og gir en hverdagslig, appetittvekkende stemning til bruk i matrelaterte prosjekter.",
+    "altText": "Pastasalat med hvit majonesdressing, rød krabbepinner og små bitene av gulrot og grønnsaker på en oval hvit tallerken mot rød bakgrunn.",
+    "keywords": [
+      "pastasalat",
+      "krabbepinner",
+      "majones",
+      "salat",
+      "mat",
+      "tallerken",
+      "rød bakgrunn",
+      "hvit tallerken",
+      "gulrot",
+      "vinter",
+      "hverdagsmat",
+      "buffet",
+      "kald rett",
+      "servering"
+    ]
+  }
+}

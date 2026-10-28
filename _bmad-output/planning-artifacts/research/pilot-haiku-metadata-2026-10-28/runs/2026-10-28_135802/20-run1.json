@@ -1,0 +1,43 @@
+{
+  "image": "20.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:04:12 09:45:29",
+    "gps": {
+      "latitude": 55.05976,
+      "longitude": 14.78216
+    }
+  },
+  "latency_s": 4.36,
+  "stop_reason": "end_turn",
+  "input_tokens": 2544,
+  "output_tokens": 320,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000414,
+  "valid_json": true,
+  "checks": "17 keywords",
+  "output": {
+    "title": "Tåkete hage med spirende trær tidlig på våren",
+    "description": "En fuktig og tåkete vårmorgen i en frodig hage med grønt gress og delvis bladløse frukttrær. Nye knopper og lysegrønne blader på de forgrunnede trærne, og en gul busk i midten gir et friskt, rolig og litt melankolsk preg. Bildet passer til temaer som vår, natur, hagearbeid og stille landlig atmosfære.",
+    "altText": "Tåkete hage om våren med gress, bladløse frukttrær og nye knopper på trærne, en gul busk i midten og grå himmel.",
+    "keywords": [
+      "vår",
+      "hage",
+      "tåke",
+      "gress",
+      "frukttre",
+      "spirende knopper",
+      "vårmorgen",
+      "natur",
+      "landlig",
+      "grønt",
+      "gul busk",
+      "tåkete dag",
+      "bladknopper",
+      "eng",
+      "rolig stemning",
+      "Mecklenburg-Vorpommern",
+      "april 2024"
+    ]
+  }
+}

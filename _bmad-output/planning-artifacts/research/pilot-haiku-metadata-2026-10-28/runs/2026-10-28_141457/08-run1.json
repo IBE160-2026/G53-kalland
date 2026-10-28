@@ -1,0 +1,37 @@
+{
+  "image": "08.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:06:26 13:57:10"
+  },
+  "latency_s": 5.23,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 279,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000448,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Gruppe sitter utendørs i skogsbakke med notatblokker",
+    "description": "Seks personer sitter i skyggen på en steinmur blant grønne trær og busker, og flere av dem noterer i blokker. Pinner med rosa flagg og et gult målebånd på gresset antyder en feltaktivitet eller en guidet omvisning i sommerlig, avslappet stemning fra juni 2023.",
+    "altText": "Seks personer sitter på en steinmur i skyggen under trær og noterer i blokker, mens rosa flagg står i gresset foran dem.",
+    "keywords": [
+      "gruppe",
+      "utendørs",
+      "sommer",
+      "juni 2023",
+      "trær",
+      "skygge",
+      "steinmur",
+      "notatblokk",
+      "feltarbeid",
+      "målebånd",
+      "flagg",
+      "samtale",
+      "undervisning",
+      "skog",
+      "mennesker"
+    ]
+  }
+}

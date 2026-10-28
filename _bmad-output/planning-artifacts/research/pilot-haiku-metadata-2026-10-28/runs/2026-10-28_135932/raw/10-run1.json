@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgBuGWiuxwZFLLJEJ7V",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSngkKEAgTGAI4AUIIdGhpbmtpbmcSDME5wj7wwgIW+DljfBoMLRHPGSQ3szd9W8/cIjA95L1jFfQj7mzpjvpZ/RcM4oGaCVP3t4Qm49ayw2vwQUwVE0IRldyCZdpqTVWraHgquwjftIYP5Fdkqv5HjkXEJ1Juv7Jonwvp9Y0A+0BfHeY9/4V2/bGex/LHZv/PBUi44knADh7iSG++/mZ2GiQoKseCd6cPG9FGxPgSD7gQcXdHB7qF0XSgffl3bJbXMv2kmPFZJhTuxeSl/daIZel2YaIE9nad3Tbr2pl86xESCLS2fAXr+Hg3mf+Tuwr+FrH2EYG7kHARV++lBxxP7D5fa74l7C7mbpAt9oeCizza2vfmiXXKCtZnGOI9Fi8WWr7XgZSnAmPLuxhfdYlDas2p865GuKEvD3mj0nWsaEzDUaFHImaN5aryzVeUVjEUdBpN2jtS4Dpof+pCVmh/8a3hY2gNGgmRqUYswRTmETy0LWwgBXI9nZuibvzuT+0JyAcMvjc50O2P4uFV6lRE+lhRPy/YyWWM5pLQEMUsS+tySnpQB1b7lkmbg+QKfz5cZGhsLqZimPDGBRxMQLMIeFkX5b25Mhh9Koc+JaJ4Mq1ysRXOyzfDMnlvI2xjlBoTs07XjZd3oy6S4KD5zciZFjv6AZp1AaPsASSKFr1Pd6YaUY40JYWaQrCZt48Y72P5+zwsikPb2KdsrrA7wPCycUSI2jcA/aZh2tf8ZhCLRQy3fjLwYybNKqSDoB1MRKT+MIinZsEAVhjSxw1X5F9CuCXiGMLjdVvEeSb0CnZormsvH/D4BjE+6h5A7oLZrClp4YuDNSDViWhgzxOpMmVoIdMijR+2+bZHzGipoRI928NS8C9dDM62Wuc9fISu0MxyBmUH6Vk50N/SJ0GPGvpEWr/Mm+Z5PAl07RF8TzT1IfYQxe/odKEKLrS9C2OSdf7V/WBPKNDFoISHGmCNbl4hvAtjzX5Jn42d6lrLW6+YhBwACXnI5fmVaDLpgDqyAMOSoGwVGWJhUiVq7A4iZuQicczasGzAwAP3Kl2Cni8Chw2QW5UW/r8HW48JL3pvn1Xw3JmwqNuXOHX06P6f/758qEh6YWT+59JtvcXXnlHUjYUNn0EiTUTY4YJgdUkqHf5dbKN1WgiCtw8b9nIhHlikyMZpjByEmFp0rxfeeYVdoPefag0tsdbnBVkBKP3xyhlqEi3z+NJ4M3jQ0FGstRvEQ3jxNck+W0lvKEMEQmyneDRQOcxzwmZmQftuYu0d5GvT70ucwe0VPsbI0nsmFvU1kT9KBHF/D2ek/4BFr3RxLS5/QV9uyTwlZadEcqV4Rnounc9jcJXoztgofWJjcobqCxs3Od8rB/HITx7JKhFm40PQ/487oWHEGDkmEtJrONFRMGSiLj2XI/SgKbyG4xGYaEvLGKjVh07cfWq3Tl9SfGml6KlhHfnFSq+t8HJQZdIYNRlTuzbYHNmkKgcq0frDHP9eiSCHOnQCZ5QpK8PFcGQeQbG7u28kGGctp7LJfIkiMfdgh94cIA7WgZNUOustzDezwphhtOGlmsFjcbabp9wYAQ==",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Bryggen i Bergen med røde trehus og Julehuset\",\"description\":\"Rekke med røde og fargerike trehus i Bryggen i Bergen, fotografert i mars 2023 med lav vintersol og en kal tre i forgrunnen. Butikkfasadene viser navn som Audhild Viken og Julehuset, og bildet passer til reportasjer om reise, byliv og norsk trearkitektur.\",\"altText\":\"Rekke med røde og fargerike trehus i Bryggen i Bergen. Til høyre står et kaldt tre, og en person i gul jakke med sekk går over torget under en lett skyet himmel.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"trehus\",\"Hanseatisk bygning\",\"UNESCO\",\"Julehuset\",\"Vestlandet\",\"norsk arkitektur\",\"gamle trehus\",\"gatebilde\",\"vinter\",\"mars 2023\",\"kaldt tre\",\"fotgjenger\",\"tur til Bergen\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 601,
+    "output_tokens_details": {
+      "thinking_tokens": 271
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

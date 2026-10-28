@@ -1,0 +1,36 @@
+{
+  "image": "01.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2019:11:05 12:44:02"
+  },
+  "latency_s": 3.14,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 256,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000437,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Gul og rosa leppebalsam i runde beholdere",
+    "description": "To runde leppebalsamer, den ene gul med striper og den andre rosa, plassert side om side mot en lys bakgrunn. Bildet har et lekent, fargerikt og rent produktuttrykk, høsten 2019.",
+    "altText": "To runde leppebalsamer side om side på lys bakgrunn: den venstre er gul med lyse striper, den høyre er rosa med en oval markering.",
+    "keywords": [
+      "leppebalsam",
+      "produktfoto",
+      "gul",
+      "rosa",
+      "runde beholdere",
+      "striper",
+      "lys bakgrunn",
+      "kosmetikk",
+      "stilleben",
+      "fargerik",
+      "høst 2019",
+      "produktfotografering",
+      "hudpleie",
+      "minimalistisk"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 3.97,
+  "stop_reason": "end_turn",
+  "input_tokens": 3814,
+  "output_tokens": 293,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000528,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med blå, rød, svart og gul pensel",
+    "description": "Ekspressiv abstrakt komposisjon på hvit bakgrunn med en blå og rødbrun ring, en tykk svart penselstrøk og en gul form øverst til høyre. Bildet gir et energisk, grafisk uttrykk som passer til kunstneriske og illustrative prosjekter.",
+    "altText": "Abstrakt maleri på hvit bakgrunn: en blå og rødbrun ring til venstre, en svart vertikal penselstrøk i midten og en gul form øverst til høyre.",
+    "keywords": [
+      "abstrakt",
+      "maleri",
+      "penselstrøk",
+      "akvarell",
+      "gul",
+      "blå",
+      "rød",
+      "svart",
+      "grafisk",
+      "ekspressiv",
+      "kunst",
+      "hvit bakgrunn",
+      "form",
+      "komposisjon",
+      "mai 2014"
+    ]
+  }
+}

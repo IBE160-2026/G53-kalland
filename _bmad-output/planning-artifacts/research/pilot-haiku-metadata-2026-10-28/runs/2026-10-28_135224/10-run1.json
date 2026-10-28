@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 9.8,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 1317,
+  "thinking_tokens": 1011,
+  "cost_usd": 0.000969,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Julehuset og trehusene på Bryggen i Bergen",
+    "description": "Rød trebygning med butikken Julehuset i hjørnet av Bryggen i Bergen, fotografert en formiddag i mars 2023 (20. mars kl. 10:50). En kvinne i gul jakke og med ryggsekk går over den tomme plassen under en delvis skyet himmel, og stemningen er rolig og kjølig.",
+    "altText": "Rad av fargerike trehus med spisse gavler på Bryggen i Bergen. En kvinne i gul jakke og ryggsekk går på den tomme plassen.",
+    "keywords": [
+      "bryggen",
+      "bergen",
+      "trehus",
+      "gamle trehus",
+      "spisse gavler",
+      "rød fasade",
+      "julehuset",
+      "butikk",
+      "vinter",
+      "mars 2023",
+      "bymiljø",
+      "brosteinsgate",
+      "gul jakke",
+      "skyet himmel",
+      "vestlandet"
+    ]
+  }
+}

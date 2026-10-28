@@ -1,0 +1,40 @@
+{
+  "image": "04.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:02:25 10:13:44",
+    "gps": {
+      "latitude": 50.8098,
+      "longitude": -0.37889
+    }
+  },
+  "latency_s": 2.96,
+  "stop_reason": "end_turn",
+  "input_tokens": 3401,
+  "output_tokens": 254,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000467,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Interiør av kafé med trebord og menytavle",
+    "description": "Lys kafé med lyse trestoler og bord på fliselagt gulv, en vitrine med kaker og bakst og tavler med meny og drikke. Rolig og vennlig stemning, egnet til bruk i bilder om kafémiljø, lokal servering og enkel interiørdesign.",
+    "altText": "Lys kafé med lyse trebord og stoler, kakedisk til venstre og svarte menytavler med kritt på veggen.",
+    "keywords": [
+      "kafé",
+      "interiør",
+      "trebord",
+      "trestoler",
+      "menytavle",
+      "kakedisk",
+      "servering",
+      "lys interiør",
+      "kaffebar",
+      "spisested",
+      "fliser",
+      "vinter",
+      "restaurant",
+      "skandinavisk stil"
+    ]
+  }
+}

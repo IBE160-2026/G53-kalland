@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUgkzzxnQmwzJNjfGrcN",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Abstrakt maleri med blå, rød, svart og gul penselstrøk\",\"description\":\"Ekspressiv abstrakt komposisjon på hvit bakgrunn med en tykk blå og rødbrun sirkelform, en svart vertikal streng og en gul penselstrøk til høyre. Uttrykket er energisk og grafisk, og bildet egner seg til bruk der man vil vise kraftige farger og dynamisk form. Fotografert våren 2014.\",\"altText\":\"Abstrakt maleri på hvit bakgrunn: en blå og rødbrun oval form, en svart vertikal penselstrøk og en gul strøk til høyre.\",\"keywords\":[\"abstrakt maleri\",\"penselstrøk\",\"blå\",\"rød\",\"svart\",\"gul\",\"malerkunst\",\"grafisk\",\"ekspressiv\",\"fargerik\",\"kunst\",\"hvit bakgrunn\",\"form\",\"vår 2014\",\"komposisjon\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3814,
+    "output_tokens": 317,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}
