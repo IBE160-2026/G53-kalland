@@ -7,6 +7,8 @@ updated: 2026-10-28
 
 # Product Brief: CRM-DAM
 
+> **Superseded by the PRD where they differ** (2026-10-28): see [`prds/prd-g53-kalland-2026-10-28/prd.md`](../../prds/prd-g53-kalland-2026-10-28/prd.md) and D-022 in `docs/process/decisions.md`. Among the changes: price set by licence type in USD, cart and checkout without invoices, side-by-side review of filename matches, and all location data removed from client copies. This brief is kept as written, to show how the plan evolved.
+
 ## Executive Summary
 
 CRM-DAM is a modular platform that starts by solving a real, daily problem at a working design agency: staff lose significant time hunting for images in the agency's own image bank because there is no proper system for organizing, tagging, and finding them. The same platform doubles as a gated, client-facing storefront — clients log into their own dashboard to view the images already licensed to them at no cost, and to browse and purchase from the agency's wider stock pool, without emailing the agency and waiting for a reply. It is built as modules on a CRM backbone (see Vision).
