@@ -1,0 +1,8 @@
+# D2 Subscription limits and terms — round 1 digest (accessed 2026-10-28)
+
+- claim: Claude Code is governed by Consumer Terms for Free/Pro/Max and Commercial Terms for Team/Enterprise/API. | src: code.claude.com/docs/en/legal-and-compliance | Anthropic | conf: high | class: regulatory/terms
+- claim: "OAuth authentication is intended exclusively for purchasers of Claude Free, Pro, Max, Team, and Enterprise subscription plans and is designed to support ordinary use of Claude Code and other native Anthropic applications." | same src | high
+- claim: "Developers building products or services that interact with Claude's capabilities, including those using the Agent SDK, should use API key authentication through Claude Console or a supported cloud provider." Anthropic "may [enforce] without prior notice." | same src | high
+- claim: "Advertised usage limits for Pro and Max plans assume ordinary, individual usage of Claude Code and the Agent SDK." | same src | high
+- claim: Agent SDK / `claude -p` signed-in usage still draws from subscription limits; a planned change was paused (notice 2026-06-15). | src: support.claude.com/en/articles/15036540 | Anthropic | conf: medium (fetched summary)
+- claim: Since Oct 2026, Max and Team plans include monthly Claude Platform API credits ($100 Max 5x, $200 Max 20x, up to $500 pooled on Team) usable for the Claude API and Agent SDK via an API key from a linked Console org; not for Claude Code subscription usage; expire each billing cycle. | src: platform.claude.com/docs/en/about-claude/api-credits-for-subscribers; support.claude.com/en/articles/17154008 | Anthropic (2 pages) + secondary (aicatchup, developersdigest) | conf: high
