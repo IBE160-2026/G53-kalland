@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 3,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 4.35,
+  "stop_reason": "end_turn",
+  "input_tokens": 3573,
+  "output_tokens": 349,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000532,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med rød, blå, svart og gul pensel",
+    "description": "Ekspressiv abstrakt komposisjon på hvit bakgrunn med en tykk rødbrun og blå ring, et svart penselstrøk og et gult, kraftig penselstrøk. Uttrykket er dynamisk og direkte, med synlige penselspor og varierte tekstrer. Bildet egner seg til kunstnerisk bruk, bakgrunner og grafiske uttrykk som trenger et energisk, fargerikt element. Opprettet 8. mai 2014.",
+    "altText": "Abstrakt maleri på hvit bakgrunn med en rødbrun og blå ring, et svart penselstrøk og et gult penselstrøk til høyre.",
+    "keywords": [
+      "abstrakt",
+      "maleri",
+      "akvarell",
+      "penselstrøk",
+      "fargerik",
+      "rød",
+      "blå",
+      "gul",
+      "svart",
+      "ekspressiv",
+      "kunst",
+      "grafisk element",
+      "hvit bakgrunn",
+      "2014",
+      "moderne kunst"
+    ]
+  }
+}

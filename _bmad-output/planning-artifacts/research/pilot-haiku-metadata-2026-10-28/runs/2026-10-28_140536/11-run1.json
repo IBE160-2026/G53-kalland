@@ -1,0 +1,41 @@
+{
+  "image": "11.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:08:18 13:24:46",
+    "gps": {
+      "latitude": 63.43603,
+      "longitude": 10.39291
+    }
+  },
+  "latency_s": 3.62,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 309,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000467,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Jernbanestasjon med kontaktledninger og veirekkverk",
+    "description": "Bildet viser et jernbaneområde med kontaktledninger, master og spor, sett fra en vei avgrenset av et stålrekkverk. Til høyre står en moderne bygning i lys grå fasade, og i bakgrunnen er en gul bygning med stillas. Det er en klar sommerdag i august 2022, med delvis skyet himmel.",
+    "altText": "Vei med stålrekkverk og jernbaneområde i bakgrunnen med kontaktledninger, masterog en moderne grå bygning til høyre på en klar sommerdag.",
+    "keywords": [
+      "jernbane",
+      "jernbanespor",
+      "kontaktledning",
+      "jernbanestasjon",
+      "rekkverk",
+      "vei",
+      "sommer",
+      "august",
+      "moderne bygning",
+      "infrastruktur",
+      "stillas",
+      "himmel",
+      "byggeområde",
+      "transport",
+      "skinner"
+    ]
+  }
+}

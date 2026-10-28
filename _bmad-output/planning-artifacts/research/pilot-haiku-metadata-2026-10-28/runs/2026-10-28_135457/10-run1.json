@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 5.13,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 611,
+  "thinking_tokens": 286,
+  "cost_usd": 0.000616,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus og Julehuset",
+    "description": "Røde og fargerike trehus i rekke langs Bryggen i Bergen, fotografert 20. mars 2023 på en delvis overskyet dag. Butikkene Julehuset, Audhild Viken og Bryggen Husflid vises tydelig i fasadene, og en person i gul jakke og med ryggsekk går over den brolagte plassen.",
+    "altText": "Røde trehus med takvinduer og butikkskilt på Bryggen i Bergen. En person med gul jakke og ryggsekk går over en brolagt plass under blå himmel.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "Julehuset",
+      "gamle bygårder",
+      "UNESCO-verdensarv",
+      "Bryggen Husflid",
+      "bybilde",
+      "vinter",
+      "brosteinsgate",
+      "gul jakke",
+      "ryggsekk",
+      "Vestlandet",
+      "turisme",
+      "fasade"
+    ]
+  }
+}

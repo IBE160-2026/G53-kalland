@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 2,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 3.8,
+  "stop_reason": "end_turn",
+  "input_tokens": 3573,
+  "output_tokens": 314,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000514,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med rød, blå, svart og gul",
+    "description": "Et abstrakt maleri på hvit bakgrunn med en tykk rødbrun og blå ring, en svart penselstrøk og en gul flekk. Uttrykket er energisk og ekspressivt, med synlige penselstrøk og tørre kanter. Bildet er tatt 8. mai 2014 og kan brukes som grafisk element eller inspirasjon i designarbeid.",
+    "altText": "Abstrakt maleri på hvit bakgrunn: en rødbrun og blå ring til venstre, en svart vertikal penselstrøk og en gul form øverst til høyre.",
+    "keywords": [
+      "abstrakt",
+      "maleri",
+      "penselstrøk",
+      "ekspressiv",
+      "rød",
+      "blå",
+      "gul",
+      "svart",
+      "hvit bakgrunn",
+      "akryl",
+      "grafisk element",
+      "kunst",
+      "fargerik",
+      "2014",
+      "mai 2014"
+    ]
+  }
+}

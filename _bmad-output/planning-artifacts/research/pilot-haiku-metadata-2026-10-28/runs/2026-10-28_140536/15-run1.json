@@ -1,0 +1,39 @@
+{
+  "image": "15.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:51:20",
+    "gps": {
+      "latitude": 60.39733,
+      "longitude": 5.32349
+    }
+  },
+  "latency_s": 2.87,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 327,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000498,
+  "valid_json": true,
+  "checks": "altText 157 chars",
+  "output": {
+    "title": "UNESCO-skilt for Bryggen i Bergen",
+    "description": "Et bronsefarget skilt på en rødmalt trevegg som viser UNESCO-logoen og teksten om at Bryggen i Bergen er innskrevet på UNESCOs liste over verdensarven i 1979. Teksten er på norsk og engelsk, og bildet er nøkternt og dokumentarisk. Fotografert i mars 2023.",
+    "altText": "Bronsefarget skilt på rød trevegg med UNESCO-logoen og teksten «Bryggen i Bergen», innskrevet på UNESCOs liste over verdensarven i 1979, på norsk og engelsk.",
+    "keywords": [
+      "UNESCO",
+      "verdensarv",
+      "Bryggen",
+      "Bergen",
+      "skilt",
+      "kulturarv",
+      "rød trevegg",
+      "bronseskilt",
+      "Vestlandet",
+      "innskrevet",
+      "tofspråklig",
+      "verdensarvliste",
+      "bygningsskilt"
+    ]
+  }
+}

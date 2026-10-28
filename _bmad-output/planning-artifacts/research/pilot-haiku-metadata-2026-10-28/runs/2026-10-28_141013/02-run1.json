@@ -1,0 +1,38 @@
+{
+  "image": "02.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2011:12:09 17:39:56",
+    "caption": "                               "
+  },
+  "latency_s": 5.1,
+  "stop_reason": "end_turn",
+  "input_tokens": 3264,
+  "output_tokens": 609,
+  "thinking_tokens": 304,
+  "cost_usd": 0.000631,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Pastasalat med krabbepinner på hvitt fat",
+    "description": "Et fat med pastasalat av spiralpasta, krabbepinner, gulrot og grønnsaksbiter i en kremet majonesdressing. Fatet står på en rød duk, og en serveringsskje ligger i kanten. Bildet er tatt i desember 2011 og passer til matserier, hverdagsmat og festmat.",
+    "altText": "Ovalt hvitt fat med pastasalat av spiralpasta, rosa krabbepinner og gulrotbiter i majonesdressing, med serveringsskje, på rød duk.",
+    "keywords": [
+      "pastasalat",
+      "krabbepinner",
+      "spiralpasta",
+      "majones",
+      "gulrot",
+      "salat",
+      "hvitt fat",
+      "serveringsskje",
+      "rød duk",
+      "matfotografi",
+      "kald rett",
+      "buffé",
+      "desember 2011",
+      "sommersalat",
+      "tilbehør"
+    ]
+  }
+}

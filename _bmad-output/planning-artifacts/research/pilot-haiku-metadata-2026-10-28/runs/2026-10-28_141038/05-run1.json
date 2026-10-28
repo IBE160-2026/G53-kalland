@@ -1,0 +1,34 @@
+{
+  "image": "05.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2015:04:19 16:36:02"
+  },
+  "latency_s": 4.85,
+  "stop_reason": "end_turn",
+  "input_tokens": 3310,
+  "output_tokens": 303,
+  "thinking_tokens": 0,
+  "cost_usd": 0.00965,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Lys stue med spisegruppe og utsikt over hustak",
+    "description": "Lyst hjørnerom med glassbord og fire flettede stoler foran store vinduer med hvite rullegardiner. Til venstre står en hvit hylle med kaffekanne, kopper og en stor svart lampe, og bak bordet står et klatretre for katt. En liten hund skimtes nederst i bildet, og stemningen er rolig og dagligdags.",
+    "altText": "Lys stue med rundt glassbord og flettede stoler foran vinduer med hvite gardiner, hvit hylle til venstre, klatretre for katt og treskrin til høyre.",
+    "keywords": [
+      "stue",
+      "interiør",
+      "spisegruppe",
+      "glassbord",
+      "flettede stoler",
+      "rullegardiner",
+      "hvit hylle",
+      "klatretre for katt",
+      "hjørnevindu",
+      "lyst rom",
+      "bolig",
+      "parkett"
+    ]
+  }
+}

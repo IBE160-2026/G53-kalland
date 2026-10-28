@@ -2,14 +2,14 @@
 title: "Project Plan: CRM-DAM"
 status: draft
 created: 2026-10-21
-updated: 2026-10-21
+updated: 2026-10-28
 ---
 
 # Project Plan: CRM-DAM
 
 Phase-by-phase plan from the finished [product brief](briefs/brief-g53-kalland-2026-09-11/brief.md) to the v1 delivery, following the BMad workflow. Estimates are rough focused hours, including the end-of-session routine.
 
-**Assumptions:** deadline mid-December 2026 (exact date to be confirmed), solo build, about 7–8 weeks from 2026-10-21.
+**Assumptions:** v1 runs by 2026-12-05 (own target; the official deadline is not set yet, likely mid-December), solo build, about 6.5 weeks from 2026-10-21. The weeks after the target are a buffer for adjustments and the reflection report.
 
 ## Phase 1 – Planning (≈ 1.5 weeks, 14–20 h)
 
@@ -27,7 +27,7 @@ Phase-by-phase plan from the finished [product brief](briefs/brief-g53-kalland-2
 | Epic (likely split) | Estimate |
 |---|---|
 | Skeleton: project setup, linter, test runner, database, login, seeded users, README v0 | 6–10 h |
-| Upload: metadata extraction, mock and Claude CLI providers, hash duplicate check, editing | 12–16 h |
+| Upload: metadata extraction, mock and Claude API providers, hash duplicate check, editing | 12–16 h |
 | Access model and client portal: visibility × price, search, previews, access-matrix tests | 10–14 h |
 | Purchases and downloads: purchase log, metadata written on export, GPS stripped | 8–12 h |
 | Polish: accessibility, responsive layout, error and empty states, README, clean-machine test | 6–8 h |
@@ -48,8 +48,9 @@ Per story: branch → `bmad-build` → code review with PR comments → PR with 
 | 43 | PRD and preparation work |
 | 44 | UX, sketches, architecture |
 | 45 | Epics and stories, sprint planning, start the skeleton |
-| 46–49 | Build |
-| 50 | Polish, freeze, delivery |
+| 46–48 | Build |
+| 49 | Polish and freeze: v1 runs by Saturday 2026-12-05 |
+| 50– | Buffer for adjustments, delivery, reflection report |
 
 The schedule is tight. Keeping planning to about 1.5 weeks and doing the preparation work in parallel protects the build time.
 
@@ -104,5 +105,5 @@ Write the access matrix (visibility × price × client on list or not × bought 
 
 ## Open items
 
-- Exact deadline date.
+- Official deadline date (v1 targets 2026-12-05 regardless).
 - Available hours per week.

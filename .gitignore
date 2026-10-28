@@ -63,5 +63,8 @@ Thumbs.db
 # Course material: grading guide stays local, summary is in docs/process/vurderingskriterier.md
 docs/process/sensorveiledning-*.pdf
 
+# Pilot images stay local; their sources and licences are listed in the committed sources.md
+_bmad-output/planning-artifacts/research/pilot-haiku-metadata-*/images/
+
 # Personal reflection notes per session stay local; written by /wrap-up, used for the final reflection report
 docs/reflections/notes.md

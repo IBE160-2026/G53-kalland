@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUgDgDjtys8JtidgcA4T",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Abstrakt maleri med rød, blå, svart og gul pensel\",\"description\":\"Ekspressiv abstrakt komposisjon på hvit bakgrunn med en tykk rødbrun og blå ring, et svart penselstrøk og et gult, kraftig penselstrøk. Uttrykket er dynamisk og direkte, med synlige penselspor og varierte tekstrer. Bildet egner seg til kunstnerisk bruk, bakgrunner og grafiske uttrykk som trenger et energisk, fargerikt element. Opprettet 8. mai 2014.\",\"altText\":\"Abstrakt maleri på hvit bakgrunn med en rødbrun og blå ring, et svart penselstrøk og et gult penselstrøk til høyre.\",\"keywords\":[\"abstrakt\",\"maleri\",\"akvarell\",\"penselstrøk\",\"fargerik\",\"rød\",\"blå\",\"gul\",\"svart\",\"ekspressiv\",\"kunst\",\"grafisk element\",\"hvit bakgrunn\",\"2014\",\"moderne kunst\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3573,
+    "output_tokens": 349,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

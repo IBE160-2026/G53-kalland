@@ -1,0 +1,40 @@
+{
+  "image": "19.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:25 22:19:00",
+    "gps": {
+      "latitude": -19.52478,
+      "longitude": -40.61739
+    }
+  },
+  "latency_s": 6.62,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 950,
+  "thinking_tokens": 660,
+  "cost_usd": 0.000809,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Pariserhjul i bevegelse om natten",
+    "description": "Et opplyst pariserhjul fotografert om natten med lang lukkertid, som gir fargede lysstriper og bevegelsesuskarphet. Bildet er tatt i august 2024 og gir en livlig, festlig stemning fra en fornøyelsespark eller et tivoli.",
+    "altText": "Pariserhjul med fargerike lys og bevegelsesuskarphet mot mørk himmel om natten, sett nedenfra med metallstativ i forgrunnen.",
+    "keywords": [
+      "pariserhjul",
+      "fornøyelsespark",
+      "tivoli",
+      "natt",
+      "nattbilde",
+      "lys",
+      "fargerike lys",
+      "langtidseksponering",
+      "bevegelsesuskarphet",
+      "mørk himmel",
+      "metallkonstruksjon",
+      "lysstriper",
+      "sommer",
+      "august 2024"
+    ]
+  }
+}

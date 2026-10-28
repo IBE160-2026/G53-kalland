@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 4.02,
+  "stop_reason": "end_turn",
+  "input_tokens": 3573,
+  "output_tokens": 332,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000523,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med rødbrun, blå, svart og gul pensel",
+    "description": "Et abstrakt maleri på hvit bakgrunn med expressive penselstrøk i rødbrunt, kobolt­blått, svart og gul. Den blå og rødbrune formen minner om en rund figur, mens den svarte og gule streken gir kontrast og energi. Uttrykket er dynamisk og kraftfullt, egnet til kunstneriske eller kreative prosjekter.",
+    "altText": "Abstrakt maleri på hvit bakgrunn: en rødbrun og blå ring til venstre, en svart vertikal strek og en gul penselstrøk øverst til høyre.",
+    "keywords": [
+      "abstrakt",
+      "maleri",
+      "pensel",
+      "penselstrøk",
+      "akvarell",
+      "kobberblå",
+      "rødbrun",
+      "svart",
+      "gul",
+      "fargerik",
+      "ekspressiv",
+      "kunst",
+      "håndlaget",
+      "minimalistisk",
+      "hvit bakgrunn"
+    ]
+  }
+}

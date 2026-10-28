@@ -1,0 +1,40 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 6.84,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 990,
+  "thinking_tokens": 695,
+  "cost_usd": 0.00083,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Rødmalte trehus med gavler på Bryggen i Bergen",
+    "description": "En rekke spisse trehus med gavler langs Bryggen i Bergen, der det røde huset i forgrunnen har skilt for julehus-butikker og julepynt i vinduene. Bildet er tatt i mars 2023 og gir en kald, rolig vinterstemning med lys himmel.",
+    "altText": "Rekke med spisse trehus med gavler på Bryggen i Bergen. Det røde huset i forgrunnen har skilt med \"Julehuset\", og en person går på brosteinsplassen.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "gavlhus",
+      "gamle trehus",
+      "rødt hus",
+      "julehus",
+      "butikk",
+      "bybilde",
+      "Vestlandet",
+      "Norge",
+      "brosteinsbelegg",
+      "vinter",
+      "mars 2023"
+    ]
+  }
+}

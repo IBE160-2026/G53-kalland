@@ -1,0 +1,35 @@
+{
+  "image": "01.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2019:11:05 12:44:02"
+  },
+  "latency_s": 3.36,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 298,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000458,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Gul og rosa leppepomadebeholdere på hvit bakgrunn",
+    "description": "To runde, egg-formede beholdere i gul med stripemønster og rosa, plassert side om side på en lys, nøytral bakgrunn. Bildet har en ren, lekende produktstil som passer til kosmetikk, hudpleie og produktpresentasjoner rettet mot et ungdommelig publikum. Fotografert på høsten 2019.",
+    "altText": "To runde beholdere side om side: den venstre er gul med lyse striper, den høyre er rosa. Hvit bakgrunn.",
+    "keywords": [
+      "leppepomade",
+      "kosmetikk",
+      "produktfoto",
+      "gul",
+      "rosa",
+      "stripete",
+      "hvit bakgrunn",
+      "produktpresentasjon",
+      "hudpleie",
+      "studiofoto",
+      "runde beholdere",
+      "pastellfarger",
+      "høst 2019"
+    ]
+  }
+}

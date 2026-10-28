@@ -1,0 +1,35 @@
+{
+  "image": "02.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2011:12:09 17:39:56",
+    "caption": "                               "
+  },
+  "latency_s": 7.93,
+  "stop_reason": "end_turn",
+  "input_tokens": 3264,
+  "output_tokens": 278,
+  "thinking_tokens": 0,
+  "cost_usd": 0.009308,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Kremet pastasalat på hvitt serveringsfat",
+    "description": "Et stort, ovalt fat med pastasalat i kremet dressing, med biter av rød og hvit krabbepinne, revet gulrot og små grønne biter. Fatet står på rød duk, og bildet passer som illustrasjon til buffet, selskapsmat og oppskrifter. Bildet er tatt i desember 2011.",
+    "altText": "Ovalt hvitt fat fylt med kremet pastasalat med krabbepinner og revet gulrot, plassert på en rød duk, sett ovenfra.",
+    "keywords": [
+      "pastasalat",
+      "krabbepinner",
+      "salat",
+      "kremet dressing",
+      "serveringsfat",
+      "buffet",
+      "selskapsmat",
+      "rød duk",
+      "spiralpasta",
+      "gulrot",
+      "mat",
+      "desember"
+    ]
+  }
+}

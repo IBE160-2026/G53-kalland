@@ -1,0 +1,43 @@
+{
+  "image": "13.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:08:22 15:22:09",
+    "gps": {
+      "latitude": 67.94724,
+      "longitude": 13.11746
+    },
+    "caption": "default",
+    "place": "Reine, Norway"
+  },
+  "latency_s": 7.19,
+  "stop_reason": "end_turn",
+  "input_tokens": 2584,
+  "output_tokens": 1226,
+  "thinking_tokens": 951,
+  "cost_usd": 0.000871,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Panorama av fjord og fjell i Reine",
+    "description": "360-graders panoramabilde fra Reine i august 2024 med steile fjell, små øyer og bebyggelse langs en rolig fjord under skyet himmel. Stemningen er stille og dempet, med speilblank sjø og turkise partier nær en liten holme, godt egnet til reise- og naturtemaer.",
+    "altText": "Panoramabilde av en fjord med steile, takkede fjell, små øyer med bebyggelse og speilblankt vann under skyet himmel.",
+    "keywords": [
+      "panorama",
+      "360-grader",
+      "fjord",
+      "fjell",
+      "Reine",
+      "øyer",
+      "sjø",
+      "skyet himmel",
+      "Norge",
+      "naturlandskap",
+      "speilblank sjø",
+      "turkist vann",
+      "bebyggelse",
+      "august 2024",
+      "sommer"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "image": "10.jpg",
+  "run": 3,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 3.56,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 294,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000481,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus",
+    "description": "Rekke med tradisjonelle trehus i rødt og andre farger langs Bryggen i Bergen, med skilt for butikker som Julehuset og Bryggen Husflid. Bildet er tatt om våren i kald, lys dagsstemning med delvis skyet himmel og et tomt torg.",
+    "altText": "Rød trebygning med skilt for Julehuset og Audhild Viken på Bryggen i Bergen, med en rekke gamle trehus i bakgrunnen under en delvis skyet himmel.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "trehus",
+      "gamle trehus",
+      "Julehuset",
+      "Bryggen Husflid",
+      "rød bygning",
+      "gavebutikk",
+      "vår",
+      "vinter",
+      "bygård",
+      "gatebilde",
+      "Vestland",
+      "Norge",
+      "sørlandet"
+    ]
+  }
+}

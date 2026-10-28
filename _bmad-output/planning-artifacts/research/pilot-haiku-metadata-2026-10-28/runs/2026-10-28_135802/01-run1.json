@@ -1,0 +1,37 @@
+{
+  "image": "01.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2019:11:05 12:44:02"
+  },
+  "latency_s": 3.73,
+  "stop_reason": "end_turn",
+  "input_tokens": 2845,
+  "output_tokens": 319,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000444,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Gule og rosa runde leppepomadeesker på hvit bakgrunn",
+    "description": "To runde, plastlignende beholdere står side om side mot en lys, nøytral bakgrunn. Den gule har randmønster, mens den rosa er glatt med en oval fordypning. Bildet har en ren, leken og produktfokusert stil, egnet for produktpresentasjon og enkel, moderne reklame. Opptaksdato er 5. november 2019.",
+    "altText": "To runde plastbeholdere side om side: en gul med lyse horisontale striper og en rosa med glatt overflate, mot hvit bakgrunn.",
+    "keywords": [
+      "leppepomade",
+      "kosmetikk",
+      "produktfoto",
+      "gul",
+      "rosa",
+      "runde beholdere",
+      "hvit bakgrunn",
+      "studiofoto",
+      "produktfotografering",
+      "plastbeholder",
+      "personlig pleie",
+      "minimalistisk",
+      "2019",
+      "pastellfarger",
+      "reklame"
+    ]
+  }
+}

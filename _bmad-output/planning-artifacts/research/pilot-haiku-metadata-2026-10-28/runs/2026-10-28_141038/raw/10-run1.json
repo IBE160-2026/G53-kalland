@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUh2i4vXAMunatFZDikV",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Røde trehus langs Bryggen en vårdag\",\"description\":\"Rekke med trehus med spisse gavler, hvor det fremste huset er rødt med teglsteinstak og butikken Julehuset i første etasje. Skiltene Stiftelsen Bryggen, Audhild Viken og Briggen Husflid er synlige. Noen av husene lenger bort er dekket av hvitt stillas-plast, og stemningen er rolig med blå himmel og bart tre.\",\"altText\":\"Rød trebygning med butikken Julehuset og flere fargerike trehus på rad, brosteinsbelagt gate, en person med gul jakke og ryggsekk, blå himmel.\",\"keywords\":[\"Bryggen\",\"trehus\",\"røde hus\",\"Julehuset\",\"bygate\",\"brostein\",\"gavler\",\"fasade\",\"butikkfasade\",\"mars\",\"vår\",\"turistmål\",\"Norge\",\"arkitektur\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-sonnet-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3345,
+    "output_tokens": 310,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

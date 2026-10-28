@@ -1,0 +1,40 @@
+{
+  "image": "10.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 7.17,
+  "stop_reason": "end_turn",
+  "input_tokens": 3345,
+  "output_tokens": 310,
+  "thinking_tokens": 0,
+  "cost_usd": 0.00979,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Røde trehus langs Bryggen en vårdag",
+    "description": "Rekke med trehus med spisse gavler, hvor det fremste huset er rødt med teglsteinstak og butikken Julehuset i første etasje. Skiltene Stiftelsen Bryggen, Audhild Viken og Briggen Husflid er synlige. Noen av husene lenger bort er dekket av hvitt stillas-plast, og stemningen er rolig med blå himmel og bart tre.",
+    "altText": "Rød trebygning med butikken Julehuset og flere fargerike trehus på rad, brosteinsbelagt gate, en person med gul jakke og ryggsekk, blå himmel.",
+    "keywords": [
+      "Bryggen",
+      "trehus",
+      "røde hus",
+      "Julehuset",
+      "bygate",
+      "brostein",
+      "gavler",
+      "fasade",
+      "butikkfasade",
+      "mars",
+      "vår",
+      "turistmål",
+      "Norge",
+      "arkitektur"
+    ]
+  }
+}

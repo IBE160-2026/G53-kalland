@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUg5aYhsM8vhW446LNN5",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Lys stue med glassbord, rattanstoler og kattetre\",\"description\":\"Et lyst interiør med spisekrok ved store vinduer med gardiner, rattanstoler rundt et glassbord og et kattetre i tre og sisal. Ved vinduene ser man utsikt over bygninger og en balkong under en overskyet himmel. Rolig og hjemmekoselig stemning, tatt i april 2015.\",\"altText\":\"Lys stue med spisebord i glass, fire rattanstoler, kattetre og store vinduer med utsikt mot bygårder under overskyet himmel.\",\"keywords\":[\"stue\",\"interiør\",\"spisekrok\",\"glassbord\",\"rattanstol\",\"kattetre\",\"store vinduer\",\"lys stue\",\"gardiner\",\"hjem\",\"bolig\",\"leilighet\",\"utsikt\",\"balkong\",\"oppbevaring\",\"hvit hylle\",\"innredning\",\"april 2015\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3069,
+    "output_tokens": 304,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

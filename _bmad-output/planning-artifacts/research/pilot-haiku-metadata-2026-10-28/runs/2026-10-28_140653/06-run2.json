@@ -1,0 +1,37 @@
+{
+  "image": "06.jpg",
+  "run": 2,
+  "metadata": {
+    "dateTaken": "2025:08:01 23:01:40"
+  },
+  "latency_s": 4.29,
+  "stop_reason": "end_turn",
+  "input_tokens": 2246,
+  "output_tokens": 515,
+  "thinking_tokens": 225,
+  "cost_usd": 0.000482,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Operahuset i Oslo i blå time om sommeren",
+    "description": "Oslo Operahus fotografert i skumring med blå himmel og varmt lys fra de glassdekte fasadene. Speilingene i vannet i forgrunnen gir en rolig og elegant stemning, egnet til bruk om arkitektur, kultur og Oslo.",
+    "altText": "Oslo Operahus i skumring med varmt opplyste glassfasader, skrått hvitt tak som går ned mot vannet, og lysrefleksjoner i vannet foran.",
+    "keywords": [
+      "Operahuset",
+      "Oslo",
+      "arkitektur",
+      "kveldsstemning",
+      "blå time",
+      "glassfasade",
+      "marmor",
+      "vannspeiling",
+      "sommer 2025",
+      "kulturbygg",
+      "Bjørvika",
+      "skrå tak",
+      "nattfoto",
+      "offentlig bygg",
+      "Norge"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "image": "12.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:09:06 14:09:21",
+    "gps": {
+      "latitude": 69.6889,
+      "longitude": 18.98008
+    }
+  },
+  "latency_s": 3.55,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 246,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000435,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Grusti langs vann med bjørketrær om høsten",
+    "description": "Et gresskledd stisystem går langs en stille innsjø, med bjørketrær på venstre side og lavt skogkledd terreng i bakgrunnen. Lys, rolig stemning fra en overskyet ettermiddag i begynnelsen av september 2022.",
+    "altText": "Grønn grussti går mellom bjørketrær til venstre og et stille vann til høyre, med gult og grønt løv og overskyet himmel.",
+    "keywords": [
+      "natur",
+      "landskap",
+      "innsjø",
+      "bjørketrær",
+      "sti",
+      "høst",
+      "september",
+      "2022",
+      "vegetasjon",
+      "lyng",
+      "stille",
+      "nordlig natur",
+      "gress",
+      "skog",
+      "overskyet"
+    ]
+  }
+}

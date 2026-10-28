@@ -1,0 +1,37 @@
+{
+  "image": "09.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2025:02:16 13:21:32"
+  },
+  "latency_s": 3.38,
+  "stop_reason": "end_turn",
+  "input_tokens": 3086,
+  "output_tokens": 294,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000456,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Person med røde handleposer i snøstorm",
+    "description": "En person i svart vinterjakke med hette går gjennom snøtung gate og bærer to røde handleposer. Bildet er grått med et rødt innslag, og fargen gir sterk kontrast mot den hvite snøen. Stemningen er kald og stille, egnet til temaer om vinter, handling og hverdagsliv i dårlig vær.",
+    "altText": "Person i svart vinterjakke med hette går i snøvær og bærer to røde handleposer. Bil og snøhauger i bakgrunnen, bildet er nesten helt i gråtoner.",
+    "keywords": [
+      "vinter",
+      "snøstorm",
+      "snø",
+      "handling",
+      "handlepose",
+      "rød",
+      "gråtoner",
+      "person",
+      "gate",
+      "kaldt vær",
+      "vinterjakke",
+      "februar",
+      "snøfall",
+      "hverdagsliv",
+      "kontrast"
+    ]
+  }
+}

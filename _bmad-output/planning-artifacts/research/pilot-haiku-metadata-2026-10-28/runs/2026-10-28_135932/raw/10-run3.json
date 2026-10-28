@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgCfxqFrVRfh3QQfEvb",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSyQgKEAgTGAI4AUIIdGhpbmtpbmcSDAMHt6RQpFgdFbunghoM55joRQNFnfdLOXM+IjDrfDaMwZLGfIOSJ00/rzk6iRAnfgmy77hkfQe23lC5gpBfkWc8bWJAZIB3YZu79gwq5gebXwI67N9F7CIsbCOWEB4D+EuFkacpfUGNtUZebrAIPSbC2Rt3FdPk5EugDwqLRAVF0GI6OHWVpcdCpu+8vi0x6qaPMlrtAk+kmk4KDSr9TT83q7AozjdY9SSUp8DE4+4PfaO8y3tghYssx99hydd9zZStQEIwlBRQD7FmFKKgCvNQgYQq6JXCw0xCkU9+hf0RCQ1yDqTCGy2TLHY8t+YEWtU1cXp2f0o5dXCqhNcg9jTM8GvFGDSecVZacj3B9JWEJQ8pxyOuZvUGDE8LoGvIBQ9d4PGSF44+T4YyZNU0Aug/1QSzjBQC0W4yGP5Q8fHHvAxu981lHmGCN3VRLDbY9SYXW5oNuRKAv2KaF0xWktwAL8ibjCOPMFQrszJXOPnRnHqNncDZsrUsu1TTiZOlHuupgc1WU19nIEhEzyxI5l2UNehwDDs1uQ7/w5WStZLDbKwJuoL3YHYzcMTbGz1ZS0R8Th/8UJoLjsM4Aaprpi4R4WSizoeGb9x8gaHtgE62bYBIy6niiNtGjS4fgWDVooEh2ltuLRKc6INTmhHUfMNmyfGq2d8W14NkHPKOjQsJs8rO2p3b3swMOMKvO+++8/2Q8Sowo8Kd08qxQY5iOQbjMW1r2ejjmbawB004RPmD7AOEAkpSO9V8t3oqMeFJJSWvUu7+8cOBZFcKzhlJjcixllta52UgtR835ouCl7UprH1cxTKSiIndHdFrkXqdIVmznN6q5E9VjcPz+sPwfjr3vEKfXt7kcQIaRQWlyyKMqHlpcM2XPQiHO4H2q+vYLmJZEnxXTsfgiI//W7WHbxCWX8fJbsrlwn6GCI4Byg55Tum8g2B0AX7bDPZ1OH3p6TDb0FW0bBmOclTs5djrpEZ0wm3flzPAPO4a/QNjDIdaNf9vrbxzxzgjcWmDVsHO+BGgwLXUrIWkFxIQac4xiWM4XBMFoJ7S2tti3WNtnSaq6PRqTJJzy7n+v/gcOviVsDvAAhCeXy5unbz6KzSu/0rOfeCvLSQ+V4W3zxspsfRDZXJgVQ3ScsZyS3utUs3lK2rFGI0oyhWcdpWfcJLXx4RvsG4EWmuF7m8Xro+KB8f0qVF4Mhk+Q/Ud4/oHqvkgOfruPdoQieCpMHoTBA6fRBD7+OOvTaSkzmwKbHe98VLQFo76GLZLXav1/AV55dPj7FG3yXmpl7A+ZUr9lWSOrD7zngMcttApEzXrDVLrledPo3p6Ef2eVMJ6Fh6qMsKrVNGDi9t7FmFus9HwewgAIOghERnQpZtgFLGNlsGajdvATk7SkRMfMT5lCUuHY5bCDUIr/x0SxCl+m6X2rxvU3zySNSXDYxgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Bryggen i Bergen med røde trehus og Julehuset\",\"description\":\"Rekke med høye, fargerike trehus på Bryggen i Bergen, fotografert en vårdag i mars 2023 (tatt kl. 10:50). Det røde hovedhuset har skilt for Julehuset og Audhild Viken, og en ensom gående på torget gir et rolig, kjølig vintermiljø.\",\"altText\":\"Rekke med fargerike trehus på Bryggen i Bergen under en blå himmel. Det store røde huset til høyre har skiltet Julehuset. En person i gul jakke går på brolagt torg.\",\"keywords\":[\"Bryggen\",\"Bergen\",\"Vestlandet\",\"trehus\",\"gamle trehus\",\"Hanseatisk kontor\",\"Julehuset\",\"Bryggen Husflid\",\"UNESCO-verdensarv\",\"gamlebyen\",\"mars 2023\",\"vinter\",\"Norge\",\"bygningsarkitektur\",\"sentrum\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 566,
+    "output_tokens_details": {
+      "thinking_tokens": 234
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

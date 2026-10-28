@@ -1,0 +1,35 @@
+{
+  "image": "06.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2025:08:01 23:01:40"
+  },
+  "latency_s": 4.83,
+  "stop_reason": "end_turn",
+  "input_tokens": 2246,
+  "output_tokens": 648,
+  "thinking_tokens": 385,
+  "cost_usd": 0.000549,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Operahuset i Oslo i kveldsstemning",
+    "description": "Operahuset i Oslo fotografert om kvelden, med varm innendørsbelysning gjennom glassfasaden og skumringshimmel over bygget. Lysene speiler seg i vannet foran, og bildet passer til arkitektur, sommer og byprofilering.",
+    "altText": "Operahuset i Oslo med opplyst glassfasade og skrånende tak i kveldsmørket, med lysrefleksjoner i vannet foran.",
+    "keywords": [
+      "Operahuset",
+      "Oslo",
+      "arkitektur",
+      "moderne arkitektur",
+      "kveld",
+      "skumring",
+      "speiling i vann",
+      "glassfasade",
+      "belysning",
+      "sommer 2025",
+      "havnefront",
+      "byggverk",
+      "kulturbygg"
+    ]
+  }
+}

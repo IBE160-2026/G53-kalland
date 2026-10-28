@@ -1,0 +1,50 @@
+{
+  "image": "17.jpeg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:02:15 18:49:33",
+    "existingKeywords": [
+      "Eaststreet",
+      "Meditation",
+      "Prag",
+      "S/W",
+      "Shop",
+      "Straßenfotografie"
+    ]
+  },
+  "latency_s": 3.58,
+  "stop_reason": "end_turn",
+  "input_tokens": 2855,
+  "output_tokens": 322,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000447,
+  "valid_json": true,
+  "checks": "20 keywords",
+  "output": {
+    "title": "Person går alene på smal gate om kvelden",
+    "description": "Svart-hvitt nattfoto av en person i silhuett som går langs en smal brolagt gate, belyst av gammeldagse gatelykter. Stemningen er stille, melankolsk og urban. Skiltet på fasaden viser navnet «Komenského», og bildet passer til temaer som ensomhet, byliv og gatefotografi.",
+    "altText": "Svart-hvitt nattbilde: en mørk silhuett av en person går på brolagt fortau under gatelykter langs en gammel bygård.",
+    "keywords": [
+      "nattfotografi",
+      "svart-hvitt",
+      "gatefotografi",
+      "gatelykt",
+      "silhuett",
+      "ensomhet",
+      "meditasjon",
+      "Praha",
+      "bygate",
+      "brolagt gate",
+      "fortau",
+      "nattgate",
+      "gammel bygning",
+      "urbant",
+      "stillhet",
+      "fotgjenger",
+      "Østgate",
+      "butikk",
+      "straßenfotografie",
+      "februar 2014"
+    ]
+  }
+}

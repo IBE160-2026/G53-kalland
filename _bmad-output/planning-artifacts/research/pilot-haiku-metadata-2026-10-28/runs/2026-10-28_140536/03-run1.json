@@ -1,0 +1,35 @@
+{
+  "image": "03.jpg",
+  "run": 1,
+  "metadata": {},
+  "latency_s": 3.18,
+  "stop_reason": "end_turn",
+  "input_tokens": 3059,
+  "output_tokens": 274,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000443,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Brød, mel og kornprodukter på mørk bakgrunn",
+    "description": "Stilleben med ulike brød, skivet grovbrød, kjeks, hvetemel, havre og korn på en grønn steinflate. Bildet gir et varmt, naturlig og jordnært inntrykk, egnet til bakeri-, sunnhets- eller matkommunikasjon.",
+    "altText": "Stilleben med brød, skivet grovbrød, mel, havreaks, kornaks, kjeks og en skål med havregrøt på en grønn steinflate.",
+    "keywords": [
+      "brød",
+      "grovbrød",
+      "mel",
+      "korn",
+      "havre",
+      "hvete",
+      "kjeks",
+      "bakeri",
+      "bakverk",
+      "kornprodukter",
+      "stilleben",
+      "havregryn",
+      "skivet brød",
+      "matfotografi",
+      "sunn mat"
+    ]
+  }
+}

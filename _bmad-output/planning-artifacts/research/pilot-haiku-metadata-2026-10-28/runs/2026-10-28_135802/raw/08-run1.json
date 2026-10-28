@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUg6XzCMP7qjpEUQSoo9",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Gruppe sitter i skyggen under trær utendørs\",\"description\":\"Seks personer sitter på en lav steinmur i en grønn hage i sterk sommersol, og flere holder notatblokker og kladdebøker. Stemningen er rolig og konsentrert, som under en undervisning eller en gruppesamtale ute i naturen. Bildet er tatt 26. juni 2023 på formiddagen.\",\"altText\":\"Seks personer sitter på en steinmur i skyggen under høye trær og tar del i en samtale. Flere har notatblokker og rosa flagg står i gresset.\",\"keywords\":[\"gruppe\",\"samtale\",\"utendørs\",\"skygge\",\"trær\",\"steinmur\",\"sommer\",\"notatblokk\",\"undervisning\",\"workshop\",\"fellesskap\",\"hage\",\"grønt\",\"dagslys\",\"2023\",\"juni\",\"rosa flagg\",\"sitte\",\"lytte\",\"natur\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2845,
+    "output_tokens": 301,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

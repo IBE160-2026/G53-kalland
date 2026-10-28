@@ -1,0 +1,45 @@
+{
+  "image": "17.jpeg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:02:15 18:49:33",
+    "existingKeywords": [
+      "Eaststreet",
+      "Meditation",
+      "Prag",
+      "S/W",
+      "Shop",
+      "Straßenfotografie"
+    ]
+  },
+  "latency_s": 3.45,
+  "stop_reason": "end_turn",
+  "input_tokens": 3096,
+  "output_tokens": 293,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000456,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Person går alene på smal gate om natten",
+    "description": "Svart-hvitt-bilde av en person som går alene langs en brolagt fortau i en smal gate om natten, opplyst av gatelykter med dekorative jernfester. Stemningen er stille, melankolsk og urban, med dype skygger som dominerer bildet. Bildet er tatt i februar 2014 og egner seg til bruk om ensomhet, byliv og nattlige gatescener.",
+    "altText": "Svart-hvitt-bilde av en person som går alene på brolagt fortau i en mørk gate, lyst opp av gatelykter på husveggene.",
+    "keywords": [
+      "nattscene",
+      "gatelykt",
+      "gate",
+      "fortau",
+      "person",
+      "alene",
+      "svart-hvitt",
+      "mørk",
+      "by",
+      "nattlig",
+      "ensomhet",
+      "stille",
+      "arkitektur",
+      "gatefotografi",
+      "skygge"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "image": "06.jpg",
+  "run": 3,
+  "metadata": {
+    "dateTaken": "2025:08:01 23:01:40"
+  },
+  "latency_s": 4.37,
+  "stop_reason": "end_turn",
+  "input_tokens": 2246,
+  "output_tokens": 521,
+  "thinking_tokens": 250,
+  "cost_usd": 0.000485,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Operahuset i Oslo om kvelden",
+    "description": "Nattfoto av Operahuset i Oslo i blå time, med det opplyste glassfasaden og de skrånende takflatene reflektert i vannet foran. Stemningsfullt bilde i august 2025, egnet til arkitektur, kultur og byprofilering.",
+    "altText": "Operahuset i Oslo i blå time, med gyllent opplyste glassfasader og skrånende hvite takflater, speilet i mørkt vann i forgrunnen.",
+    "keywords": [
+      "Operahuset",
+      "Oslo",
+      "arkitektur",
+      "blå time",
+      "kveld",
+      "glassfasade",
+      "bygning",
+      "refleksjon",
+      "vann",
+      "sommer",
+      "kulturbygg",
+      "belysning",
+      "skråtak",
+      "bylandskap",
+      "norsk arkitektur"
+    ]
+  }
+}

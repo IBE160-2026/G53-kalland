@@ -1,0 +1,41 @@
+{
+  "image": "11.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:08:18 13:24:46",
+    "gps": {
+      "latitude": 63.43603,
+      "longitude": 10.39291
+    }
+  },
+  "latency_s": 3.79,
+  "stop_reason": "end_turn",
+  "input_tokens": 2880,
+  "output_tokens": 310,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000443,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Jernbanespor og kontaktledning sett fra veibru",
+    "description": "Bildet viser et jernbaneområde med kontaktledninger over flere spor, containere og en gul bygning i bakgrunnen, sett fra en vei med gjerde i forgrunnen. Lyset er klart og sommerlig under en blå himmel med spredte skyer, og motivet gir et nøkternt, industrielt preg. Tatt 18. august 2022 kl. 13:24.",
+    "altText": "Jernbaneområde med mange spor og kontaktledninger, containere og gule og grå bygninger under blå himmel, sett over et veigelender.",
+    "keywords": [
+      "jernbane",
+      "jernbanespor",
+      "kontaktledning",
+      "togspor",
+      "jernbanestasjon",
+      "containere",
+      "industriområde",
+      "gjerde",
+      "veg",
+      "sommer",
+      "august 2022",
+      "Trondheim",
+      "godsterminal",
+      "infrastruktur",
+      "bybilde"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "image": "17.jpeg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2014:02:15 18:49:33",
+    "existingKeywords": [
+      "Eaststreet",
+      "Meditation",
+      "Prag",
+      "S/W",
+      "Shop",
+      "Straßenfotografie"
+    ]
+  },
+  "latency_s": 7.99,
+  "stop_reason": "end_turn",
+  "input_tokens": 3096,
+  "output_tokens": 1195,
+  "thinking_tokens": 932,
+  "cost_usd": 0.000907,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Person går alene i opplyst nattgate i Prag",
+    "description": "Svart-hvitt nattbilde av en smal brosteinsgate i Prag, der en person går alene langs fortauet mellom gamle gatelykter. Bildet har en stille, melankolsk stemning og passer til atmosfæriske bruksområder.",
+    "altText": "Svart-hvitt nattbilde av en smal brosteinsgate med opplyste gatelykter, gamle bygninger og en person som går alene langs fortauet.",
+    "keywords": [
+      "natt",
+      "gatefotografi",
+      "sort-hvitt",
+      "Prag",
+      "gatelykter",
+      "brostein",
+      "smal gate",
+      "person som går",
+      "meditasjon",
+      "fortau",
+      "gammel bygning",
+      "februar 2014",
+      "nattfotografi",
+      "ensom",
+      "gate"
+    ]
+  }
+}

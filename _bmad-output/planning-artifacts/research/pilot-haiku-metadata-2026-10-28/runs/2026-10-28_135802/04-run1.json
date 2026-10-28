@@ -1,0 +1,44 @@
+{
+  "image": "04.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:02:25 10:13:44",
+    "gps": {
+      "latitude": 50.8098,
+      "longitude": -0.37889
+    }
+  },
+  "latency_s": 6.66,
+  "stop_reason": "end_turn",
+  "input_tokens": 3160,
+  "output_tokens": 783,
+  "thinking_tokens": 387,
+  "cost_usd": 0.000708,
+  "valid_json": true,
+  "checks": "18 keywords",
+  "output": {
+    "title": "Kafé med trebord, menytavler og vitrine med bakverk",
+    "description": "Innendørs bilde av et lyst kafélokale med lyse trestoler og bord, svarte kritttavler med meny og en kjøledisk med bakverk og kaker. Veggene har mintgrønn panel og det er hengt opp innrammede bilder. Stemningen er rolig, lys og hjemmekoselig, egnet til bruk i bakgrunnsbilder for kafé, mat eller lokal handel. Bildet er tatt 25. februar 2026 og GPS-posisjonen (50,8098, -0,37889) tyder på Brighton i England.",
+    "altText": "Lyst kafélokale med lyse trebord og stoler, svarte menytavler på veggen og en kjøledisk med bakverk og kaker i forgrunnen til venstre.",
+    "keywords": [
+      "kafé",
+      "interiør",
+      "kafeinteriør",
+      "trebord",
+      "trestoler",
+      "menytavle",
+      "kritttavle",
+      "bakverk",
+      "vitrine",
+      "kjøledisk",
+      "kaffebar",
+      "lyst interiør",
+      "mintgrønn vegg",
+      "restaurant",
+      "spisested",
+      "Brighton",
+      "England",
+      "2026"
+    ]
+  }
+}

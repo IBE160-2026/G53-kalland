@@ -1,0 +1,39 @@
+{
+  "image": "12.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2022:09:06 14:09:21",
+    "gps": {
+      "latitude": 69.6889,
+      "longitude": 18.98008
+    }
+  },
+  "latency_s": 5.87,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 813,
+  "thinking_tokens": 575,
+  "cost_usd": 0.000719,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Gresskledd sti langs stille innsjø med bjørketrær",
+    "description": "En gresskledd sti går langs en stille innsjø, med bjørketrær på venstre side og lyse siv langs vannkanten. Overskyet himmel og gulnende løv gir et rolig, naturpreget uttrykk fra september 2022.",
+    "altText": "Gresskledd sti langs en stille innsjø, med bjørketrær til venstre og siv langs vannkanten under overskyet himmel.",
+    "keywords": [
+      "sti",
+      "innsjø",
+      "bjørkeskog",
+      "bjørketrær",
+      "siv",
+      "vannkant",
+      "natur",
+      "høst",
+      "september 2022",
+      "overskyet",
+      "landskap",
+      "stille vann",
+      "gress"
+    ]
+  }
+}

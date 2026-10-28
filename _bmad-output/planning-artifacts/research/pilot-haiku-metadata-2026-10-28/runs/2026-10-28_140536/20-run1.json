@@ -1,0 +1,41 @@
+{
+  "image": "20.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:04:12 09:45:29",
+    "gps": {
+      "latitude": 55.05976,
+      "longitude": 14.78216
+    }
+  },
+  "latency_s": 3.73,
+  "stop_reason": "end_turn",
+  "input_tokens": 2785,
+  "output_tokens": 279,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000418,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Vårtrær i tåke over grønn hage",
+    "description": "En hage med gressplen og frodige trær som knopper seg tidlig på våren, med bare grener på de eldre trærne til venstre. Himmelen er grå og diset, og en gul busk gir et lite fargeinnslag. Stemningen er rolig og lys, typisk for en tidlig vårmorgen i april 2024.",
+    "altText": "Gressplen i diset vårlandskap med knoppede trær i forgrunnen, bare grener på trær til venstre og en gul busk midt i bildet under grå himmel.",
+    "keywords": [
+      "vår",
+      "april",
+      "tåke",
+      "knopper",
+      "frisk løvspiring",
+      "hage",
+      "gressplen",
+      "grønn",
+      "trær",
+      "gul busk",
+      "diset",
+      "morgen",
+      "naturlandskap",
+      "vårstemning",
+      "grå himmel"
+    ]
+  }
+}

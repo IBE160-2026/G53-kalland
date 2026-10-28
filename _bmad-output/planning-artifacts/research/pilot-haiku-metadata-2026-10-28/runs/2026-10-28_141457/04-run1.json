@@ -1,0 +1,39 @@
+{
+  "image": "04.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:02:25 10:13:44",
+    "gps": {
+      "latitude": 50.8098,
+      "longitude": -0.37889
+    }
+  },
+  "latency_s": 7.11,
+  "stop_reason": "end_turn",
+  "input_tokens": 3401,
+  "output_tokens": 1152,
+  "thinking_tokens": 875,
+  "cost_usd": 0.000916,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Lys kafé med trebord og menytavler",
+    "description": "Et lyst kafeinteriør med trebord og trestoler, mintgrønne paneler og en glassdisk med kaker og bakverk. Svarte menytavler med kritt henger på veggene, og gulvet er lyst flisbelagt. Stemningen er enkel og imøtekommende, og bildet passer til kafé-, servering- eller frokostmateriell.",
+    "altText": "Lys kafé med trebord og trestoler, en glassdisk med kaker og svarte menytavler med kritt på veggene.",
+    "keywords": [
+      "kafé",
+      "kafeinteriør",
+      "trebord",
+      "trestoler",
+      "menytavle",
+      "kakedisk",
+      "servering",
+      "spisested",
+      "lyst interiør",
+      "mintgrønn",
+      "frokost",
+      "kaffemeny",
+      "flisgulv"
+    ]
+  }
+}

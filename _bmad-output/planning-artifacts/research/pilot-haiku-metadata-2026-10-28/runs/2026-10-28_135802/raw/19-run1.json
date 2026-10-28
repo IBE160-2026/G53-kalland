@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUg9dfbfq8gVDR14t1nv",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQSlgkKEAgTGAI4AUIIdGhpbmtpbmcSDMhQF1CJDfrmlpzrLRoMU1cXnHyU1m9n+s7qIjCZ6HujOdUKzxinxn5hTNtmIP58m0bdse7ZEQkAjw54FIdNNdumlz0yKt5devevJRYqswj98vhQlS3Hq15g7zvfah/ahYhWd5wiUIbTFoIb0xcWzwV2O5sH2s44OCDjMVNKAsShkGvwbL/9PqOnTmzvUxJsFy9gKZdSN7w+YiFT/B/ziZ0w94U9BygbvKh3Klchf7CVf/aTd9B2zr3Zxhhljn4IIKSfbqfyCciQT+x2qyHE6hnTMAQ1zDJK0Lth7AOrirhXSH0FYn14O826ezbA6SAz3xzXCQxilVECxyrT7bhowuyqqsGf4qfaA0W9txxH8IsPy5qJENbOO/4MYCCZZOFYXy/5jNJX9zONODglwrGKMXMqbg6hC/62C2HwWYAWDsevj5A7H6CWosNwuaG8qVpToeeuEjA73zx6v5qvNoH5h7S78Kk7H3ucMqeDbmtlSTzNKrd1i6iFuzR0aXJXluGTNcnrwliD/gIBnw79AiUaA7ZkOSe91VRXs3gcsTOZfc6U7XZ1KcTJiFKJs46XuKxJjqgo+3RV3EInq2ZOa5Sxdq/va8JbHSwD+i7aCnfyd6Dsts1v9hIrqxLNyJE1hlMUokz0WUFqashuCEhXSn9ms9Yl5TgUj6lQ2xG+JWmdPPIcfVkbt9t3YOSB7uUG6p3FxBWkpECCgl5iBMgIpGgC/opZJN1vCblBB76hFfLIQvt7bKdn1wP2GWMeO1SnkKD0o/VIw4fAhDcWf1qr4O+/MixeZFMGHcp1p5eGh+Ip3Y3B4+HSN/nLKI7bwh91WL+IADvmKy8qwOskk+ae4MRUDo+72lzT/Y++mF98Zs3xkpyve/iwJ+30PjZNk9rFPQBsdjDAHUKKzk/M46eu/1qL+MRPCZwt3WvlcfwUV5nRH3rM9TeCEoX0ISy25vlpJ8tzHPiULvPMCjNrefYzcJLd1+ke8ykFymoLmrc8JbpjHRfrciI/P+67Vp9WGq88vTjs/N2gSmUEFVu9QCZvfUI6jNPk6h4VgRjUrg0oWWRxvm8/hmMYNq/KnNI5Q3HGxjf8ez887sFvZ1tagrxZx4qCaM/XMMjDHRlh2I0uXydILfyOFJGSndP02Qsaw+68uHwzaD0cemGP59hm5pQwDzCL+sgSya7p3/xFA+Kb5iP30607p8sdm7xh3ic3XA3L9qjmKDd8pwQypvRXg45IMxfpu+UCF9kKJuaswP1/gPHziTFeJFhQNa6R6m14qWP2RZ64ILID/VPBk3Uh3E9K5jZkJcGqat+u1Ce4frxLQK7KWGIdd6sYBwsCKPUjk+f0BRNHQ1hp/zZoyfcpbdZywVwQtnGwSQEh3zpMNghFZi4oSMwLBbRJjYf7BxXfKe/4Vt3dHpfL6Bd8b0ZJxXGgaTNRYKyJWxmLQiSMlmGn75MtW8M8hBu0aR5hEJeabW+6QbPu9vqgazMfC5G8N/Fq9RgXO4LjNEf+QBVJLrsJs8JFcsFoBkWrSvlaEzUYlNxkNnU4o9OZGAE=",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Pariserhjul i motlys om natten med lysspor\",\"description\":\"Et pariserhjul fotografert nedenfra om natten, trolig med lang eksponering, som gir fargerike lysspor og uskarpe bevegelser. Stemningen er livlig og festlig, typisk for en fornøyelsespark eller et marked. Bildet egner seg til tema om underholdning, sommer og nattliv.\",\"altText\":\"Pariserhjul med fargerike lys og bevegelsesuskarphet mot en mørk nattehimmel, sett nedenfra med metallkonstruksjon i forgrunnen.\",\"keywords\":[\"pariserhjul\",\"fornøyelsespark\",\"nattebilde\",\"lang eksponering\",\"lysspor\",\"karneval\",\"underholdning\",\"neonlys\",\"fargerik\",\"bevegelse\",\"sommer\",\"nattlig\",\"forlystelse\",\"gondol\",\"Brasil\",\"2024\",\"august\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3104,
+    "output_tokens": 526,
+    "output_tokens_details": {
+      "thinking_tokens": 217
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

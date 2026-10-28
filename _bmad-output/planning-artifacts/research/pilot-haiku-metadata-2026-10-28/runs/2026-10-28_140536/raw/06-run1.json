@@ -1,0 +1,40 @@
+{
+  "id": "msg_011CgUgenXTGCDv1zi6bCHuY",
+  "container": null,
+  "content": [
+    {
+      "signature": "CAQS1gkKEAgTGAI4AUIIdGhpbmtpbmcSDCL+4excai7OAyX07BoMhCjVECbHBvxyQ+KgIjAYrRPFRvEPmRTT8Ispjb6ukSGEoAx1wQYBZILPobQb32cJisqTpg1mS5GDsP2NYTYq8whreUqPDIQuyT6dAlNuTOg4a5rmAE7OcUfWMcdeKq7k9G/zsT3u38dVOXwkFcaaml0lf/CjpAYeG2M+IYB/mu9RI2a/3HEKJPJAMwxwmS1AfsvpL75FM8kcGoFVE+0zIOe1OJ/pliaDVa/AiOVTg6uDzieI+u4LGtQE5ISrGhBGEijFwYIRwKedmB89YLk6MAP4TTb4aTAhTVHuPAhBpOpulOUzngXzDu4s+BCaX2yk6HneVKK/hv6sVE0U8LleMLCh8wfRJX8SIqimhBbEj2r7qObTkLS7+bXDjE1ggyiiz0+KPmFTcLSLMH9w2+g+6YNH0tE4nkiu1VvWY9LhGRIVWriAH2OdT/OgkpHJ77N0TFmj8QZb4BzYMTZXm7n1VKGB9uruBk4XhM+/Z9zokPE3/nw3g38AfdmZY28FVlPbfrb8YdaIpY8WdKnl0b/wn371MObo1I4Uz6PH5GEpF4YUxKnLcgqgLg5qu+y+y4hsKzrJUq144S3EhVpP6P8H5hoJ//6Dp8QeC1PzNy05Id+n2O32dfATPzfLN+Rrs7LeA9gt6f5djY69PJGdBzpTZSlo7UKVvUyFtR3o+AvAH07hmx/8OR/nwdTtaOqtFEkPiFLmRLhR7GgSEInTQfuOuyGuHmYkp4RG+MPzmk2MtmJhRW+RVNZddijn2cj9rBEbHiBdwMoFnYFXG1+n1NkGi1Ou6DGjp8uHBmjwpWKMDdGADErAgbeuMvHkLbYI6wmFVV75gvfFfiiUVov7mMjbrldXHY+TNFHPy0pwbYMuhrPLeE8udsPp/Nkap7eKo9p/tU50RdsSmUgKm59CkkercRdtZboF/zOZB/s0YU2T1omEvqgcz9/ouUn47j/NBJLdbiVrW/rwy2zvOhyeomIrs6qIHCyXJ1CDWRvjtBf6+HTuRB/hbr/GIC0OtpYPJ+lwm8f+ExOgxmokG3MuYNrt9ROH0Kbp0SLbp6mda9AaYGK6wflOp2OR12F7KdGDdFfBTR1WNpt0n9Evhgmy0xLygNq96kEqQD4tNtdttDyIF8s1tvOp1faW2kamtAPsC/BL4/y+zaF9cgygX+hOe6hty7Pxdtv4rOZwWbqvuAHLoCfPAeRXxz93ts1RVotPa0GLGh1+Ba5gw70c7H6u6C8PGh3oI8boX+YZDT62J6J5jRSuwPDC3wBaDfI84QixPSL340kZMbBwYNMUW7K6Ja3tKgaLM/PRiVfHyuuzEEEiJb8Qrn9P/VjEop0JRRzwUnXXUzsCVileto/61MHzc3+KoOM4Jb208Qk7na6BMovAz0h+IcGXOFZI+p/I0axF2u/Cjw4Oz9vD/cjNm0CnpwROde9fkvAx/GAi44fX4CLFvHFTq6vOuoxo2/RJMY9SkJC3ecbSX3xgaQV7jZayLQ7SFkPHB+ePaMcClrD1zoztWdd7w0ya2TvrYABjq9ojOOIQ+W6zbyaetAQ0FJSz7ItIGEC9X02v7a5LZJA9k93L4hI5iIjKXiMrmIoIwYCpH9JYOFpAPRgB",
+      "thinking": "",
+      "type": "thinking"
+    },
+    {
+      "citations": null,
+      "text": "{\"title\":\"Operahuset i Oslo i kveldsbelysning\",\"description\":\"Operahuset i Oslo fotografert fra vannsiden om kvelden, med mørkeblå himmel og opplyste glassfasader som speiler seg i vannet. Bildet passer til bruk om arkitektur, kultur og Oslo sentrum, og gir en rolig og elegant stemning. Datert august 2025.\",\"altText\":\"Operahuset i Oslo med opplyste glassfasader og skrånende tak mot vannet, under mørkeblå kveldshimmel. Lysrefleksjoner speiler seg i sjøen.\",\"keywords\":[\"Operahuset\",\"Oslo\",\"arkitektur\",\"kveld\",\"belysning\",\"sjø\",\"Fjordenes\",\"kultur\",\"glassfasade\",\"skråtak\",\"sommer 2025\",\"Bjørvika\",\"reflekser\",\"Oslo sentrum\",\"offentlig bygg\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2246,
+    "output_tokens": 564,
+    "output_tokens_details": {
+      "thinking_tokens": 254
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

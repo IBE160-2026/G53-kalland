@@ -1,0 +1,37 @@
+{
+  "image": "18.png",
+  "run": 3,
+  "metadata": {
+    "dateTaken": "2014:05:08 17:20:42"
+  },
+  "latency_s": 3.46,
+  "stop_reason": "end_turn",
+  "input_tokens": 3814,
+  "output_tokens": 303,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000533,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Abstrakt maleri med brune, blå, svarte og gule penselstrøk",
+    "description": "Et abstrakt maleri på hvit bakgrunn med en brun og blå ring, et svart penselstrøk og et gult, flammende strøk til høyre. Bildet har en energisk, ekspressiv stil og kan brukes som visuelt uttrykk i kunst- eller designsammenheng. Opprinnelsen til bildet er fra mai 2014.",
+    "altText": "Abstrakt maleri med en brun og blå ring, et svart penselstrøk og et gult strøk på hvit bakgrunn.",
+    "keywords": [
+      "abstrakt maleri",
+      "penselstrøk",
+      "ekspressiv kunst",
+      "brun",
+      "blå",
+      "svart",
+      "gul",
+      "hvit bakgrunn",
+      "ring",
+      "malerkunst",
+      "abstrakt form",
+      "kunst",
+      "2014",
+      "mai 2014",
+      "energisk"
+    ]
+  }
+}

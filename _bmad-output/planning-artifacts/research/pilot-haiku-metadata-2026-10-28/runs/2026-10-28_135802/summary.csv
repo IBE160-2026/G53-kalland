@@ -1,0 +1,21 @@
+image,run,valid_json,latency_s,input_tokens,output_tokens,thinking_tokens,cost_usd,stop_reason,checks
+01.jpg,1,True,3.73,2845,319,0,0.000444,end_turn,
+02.jpg,1,True,4.14,3023,311,0,0.000458,end_turn,16 keywords
+03.jpg,1,True,5.77,2818,313,0,0.000438,end_turn,
+04.jpg,1,True,6.66,3160,783,387,0.000708,end_turn,18 keywords
+05.jpg,1,True,4.36,3069,304,0,0.000459,end_turn,18 keywords
+06.jpg,1,True,5.2,2005,586,258,0.000494,end_turn,18 keywords
+07.jpg,1,True,3.05,2845,277,0,0.000423,end_turn,
+08.jpg,1,True,3.31,2845,301,0,0.000435,end_turn,20 keywords
+09.jpg,1,True,3.24,2845,276,0,0.000423,end_turn,
+10.jpg,1,True,5.15,3104,634,306,0.000627,end_turn,18 keywords; altText 158 chars
+11.jpg,1,True,3.79,2880,310,0,0.000443,end_turn,
+12.jpg,1,True,3.09,2880,298,0,0.000437,end_turn,18 keywords
+13.jpg,1,True,3.32,2343,294,0,0.000381,end_turn,
+14.jpg,1,True,4.95,2880,810,519,0.000693,end_turn,
+15.jpg,1,True,3.07,3104,310,0,0.000465,end_turn,16 keywords
+16.jpg,1,True,3.73,3019,234,0,0.000419,end_turn,16 keywords
+17.jpeg,1,True,3.58,2855,322,0,0.000447,end_turn,20 keywords
+18.png,1,True,3.74,3573,310,0,0.000512,end_turn,
+19.jpg,1,True,5.04,3104,526,217,0.000573,end_turn,17 keywords
+20.jpg,1,True,4.36,2544,320,0,0.000414,end_turn,17 keywords

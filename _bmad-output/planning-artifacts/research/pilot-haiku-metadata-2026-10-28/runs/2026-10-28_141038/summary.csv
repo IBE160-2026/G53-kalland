@@ -1,0 +1,6 @@
+image,run,valid_json,latency_s,input_tokens,output_tokens,thinking_tokens,cost_usd,stop_reason,checks
+02.jpg,1,True,7.93,3264,278,0,0.009308,end_turn,
+05.jpg,1,True,4.85,3310,303,0,0.00965,end_turn,
+10.jpg,1,True,7.17,3345,310,0,0.00979,end_turn,
+15.jpg,1,True,3.81,3345,293,0,0.00962,end_turn,
+16.jpg,1,True,4.26,3260,269,0,0.00921,end_turn,

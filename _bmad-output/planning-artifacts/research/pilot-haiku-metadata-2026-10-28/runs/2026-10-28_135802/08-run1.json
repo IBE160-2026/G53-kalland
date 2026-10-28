@@ -1,0 +1,42 @@
+{
+  "image": "08.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2023:06:26 13:57:10"
+  },
+  "latency_s": 3.31,
+  "stop_reason": "end_turn",
+  "input_tokens": 2845,
+  "output_tokens": 301,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000435,
+  "valid_json": true,
+  "checks": "20 keywords",
+  "output": {
+    "title": "Gruppe sitter i skyggen under trær utendørs",
+    "description": "Seks personer sitter på en lav steinmur i en grønn hage i sterk sommersol, og flere holder notatblokker og kladdebøker. Stemningen er rolig og konsentrert, som under en undervisning eller en gruppesamtale ute i naturen. Bildet er tatt 26. juni 2023 på formiddagen.",
+    "altText": "Seks personer sitter på en steinmur i skyggen under høye trær og tar del i en samtale. Flere har notatblokker og rosa flagg står i gresset.",
+    "keywords": [
+      "gruppe",
+      "samtale",
+      "utendørs",
+      "skygge",
+      "trær",
+      "steinmur",
+      "sommer",
+      "notatblokk",
+      "undervisning",
+      "workshop",
+      "fellesskap",
+      "hage",
+      "grønt",
+      "dagslys",
+      "2023",
+      "juni",
+      "rosa flagg",
+      "sitte",
+      "lytte",
+      "natur"
+    ]
+  }
+}

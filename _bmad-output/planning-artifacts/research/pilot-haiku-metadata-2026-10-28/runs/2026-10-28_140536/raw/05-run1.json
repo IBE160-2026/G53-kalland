@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUgeXPsbcssr4L1dtkCQ",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Lyst stue med spisebord og katteklatretre\",\"description\":\"En lys stue med rundt glassbord omgitt av flettede rattanstoler, et kattetre med sisalstamme og store skyvegardiner mot en byfasade med bygninger og overskyet himmel. Bildet er fra våren 2015 og gir en rolig, hjemlig stemning.\",\"altText\":\"Lys stue med rundt glassbord og fire rattanstoler, kattetre med sisalstamme, store hvite skyvegardiner mot byfasade og en hund i forgrunnen.\",\"keywords\":[\"stue\",\"spisebord\",\"glassbord\",\"rattanstol\",\"kattetre\",\"skyvegardin\",\"hvit interiør\",\"lys stue\",\"byutsikt\",\"leilighet\",\"hund\",\"trebenk\",\"hylle\",\"vår 2015\",\"innredning\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 3310,
+    "output_tokens": 283,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

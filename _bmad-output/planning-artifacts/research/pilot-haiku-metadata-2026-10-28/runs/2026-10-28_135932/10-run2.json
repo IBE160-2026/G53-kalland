@@ -1,0 +1,43 @@
+{
+  "image": "10.jpg",
+  "run": 2,
+  "metadata": {
+    "dateTaken": "2023:03:20 10:50:45",
+    "gps": {
+      "latitude": 60.39727,
+      "longitude": 5.32326
+    }
+  },
+  "latency_s": 5.14,
+  "stop_reason": "end_turn",
+  "input_tokens": 3104,
+  "output_tokens": 649,
+  "thinking_tokens": 280,
+  "cost_usd": 0.000635,
+  "valid_json": true,
+  "checks": "17 keywords; altText 162 chars",
+  "output": {
+    "title": "Bryggen i Bergen med røde trehus og Julehuset",
+    "description": "Røde og fargerike trehus i rekke langs Bryggen i Bergen, fotografert en klar vårdag i mars 2023 med delvis skyet himmel og kalde trær. Fasadene viser skilt for Julehuset, Audhild Viken, Knut Skorstveit og Bryggen Husflid. En person med gul jakke og ryggsekk går over brosteinsplassen.",
+    "altText": "Rekke med røde og fargerike trehus på Bryggen i Bergen under en blå himmel. Et rødt hus har skiltet Julehuset, og en person i gul jakke går på torget til venstre.",
+    "keywords": [
+      "Bryggen",
+      "Bergen",
+      "Vestlandet",
+      "Norge",
+      "trehus",
+      "gamle bygårder",
+      "Hanseatisk kontor",
+      "Julehuset",
+      "Audhild Viken",
+      "Knut Skorstveit",
+      "Bryggen Husflid",
+      "brosteinsgate",
+      "vinter",
+      "mars 2023",
+      "UNESCO-verdensarv",
+      "rødt trehus",
+      "reise"
+    ]
+  }
+}

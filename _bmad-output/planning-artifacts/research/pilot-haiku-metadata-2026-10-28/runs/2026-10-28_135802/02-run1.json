@@ -1,0 +1,39 @@
+{
+  "image": "02.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2011:12:09 17:39:56",
+    "caption": "                               "
+  },
+  "latency_s": 4.14,
+  "stop_reason": "end_turn",
+  "input_tokens": 3023,
+  "output_tokens": 311,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000458,
+  "valid_json": true,
+  "checks": "16 keywords",
+  "output": {
+    "title": "Pastasalat med krabbepinner på hvit tallerken",
+    "description": "Et oval hvit tallerken med pastasalat av spiralpasta, krabbepinner (surimi) i røde og hvite biter, revet gulrot og hakket grønnsak i en kremet dressing. Bildet er tatt innendørs mot rød duk i desember 2011, og gir en hjemmelaget, uformell stemning.",
+    "altText": "Oval hvit tallerken med kremet pastasalat med spiralpasta, røde krabbepinnebiter og gulrot, servert på rød duk.",
+    "keywords": [
+      "pastasalat",
+      "krabbepinner",
+      "surimi",
+      "spiralpasta",
+      "kremet dressing",
+      "salat",
+      "tilbehør",
+      "buffet",
+      "hjemmelaget mat",
+      "gulrot",
+      "hvit tallerken",
+      "rød duk",
+      "sjømat",
+      "kaldt tilbehør",
+      "desember 2011",
+      "innendørs"
+    ]
+  }
+}

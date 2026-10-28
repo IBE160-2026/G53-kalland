@@ -1,0 +1,37 @@
+{
+  "image": "05.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2015:04:19 16:36:02"
+  },
+  "latency_s": 3.63,
+  "stop_reason": "end_turn",
+  "input_tokens": 3310,
+  "output_tokens": 311,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000487,
+  "valid_json": true,
+  "checks": "altText 165 chars",
+  "output": {
+    "title": "Lys stue med glassbord og kattetre",
+    "description": "Et lyst interiør med spisebord i glass og rattanstoler, en kattetre med sisalstolpe og en hylle i hvitt. Store vindusskjermer slipper inn dagslys fra en bygård med balkong, og en hund sitter nederst i bildet. Bildet gir en rolig, luftig og hjemlig stemning, egnet til interiør- og boligtema.",
+    "altText": "Lyst stuerom med glassbord, fire rattanstoler, kattetre med sisalstolpe, hvit hylle og store vindusskjermer med utsikt til bygårder. En hund sitter nederst i bildet.",
+    "keywords": [
+      "stue",
+      "interiør",
+      "spisebord",
+      "glassbord",
+      "rattanstol",
+      "kattetre",
+      "hylle",
+      "vindusskjerm",
+      "lys",
+      "bolig",
+      "hund",
+      "balkong",
+      "innredning",
+      "hjem",
+      "parkett"
+    ]
+  }
+}

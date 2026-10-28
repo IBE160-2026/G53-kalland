@@ -1,0 +1,41 @@
+{
+  "image": "20.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2024:04:12 09:45:29",
+    "gps": {
+      "latitude": 55.05976,
+      "longitude": 14.78216
+    }
+  },
+  "latency_s": 5.92,
+  "stop_reason": "end_turn",
+  "input_tokens": 2785,
+  "output_tokens": 698,
+  "thinking_tokens": 452,
+  "cost_usd": 0.000628,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Tåkete vårhage med spirende trær",
+    "description": "En gressplen i en hage med bare og lett grønnspirende trær, og en gul busk til venstre for midten. Dis og grått lys gir en stille vårstemning i april 2024, med et jorde og en vei i bakgrunnen.",
+    "altText": "Tåkete vårhage med gressplen, bare trær til venstre og spirende trær med lysegrønne knopper til høyre. En gul busk står midt i bildet.",
+    "keywords": [
+      "vår",
+      "april 2024",
+      "tåke",
+      "dis",
+      "spirende trær",
+      "knopper",
+      "hage",
+      "gressplen",
+      "gul busk",
+      "bart tre",
+      "lysegrønt",
+      "vårstemning",
+      "overskyet",
+      "landskap",
+      "jorde"
+    ]
+  }
+}

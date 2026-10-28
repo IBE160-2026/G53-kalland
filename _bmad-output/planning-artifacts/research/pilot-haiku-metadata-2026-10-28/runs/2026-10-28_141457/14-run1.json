@@ -1,0 +1,40 @@
+{
+  "image": "14.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2026:01:10 20:40:06",
+    "gps": {
+      "latitude": 68.43875,
+      "longitude": 17.42672
+    }
+  },
+  "latency_s": 6.78,
+  "stop_reason": "end_turn",
+  "input_tokens": 3121,
+  "output_tokens": 889,
+  "thinking_tokens": 619,
+  "cost_usd": 0.000757,
+  "valid_json": true,
+  "checks": "",
+  "output": {
+    "title": "Avstandsskilt med Nordpolen-avstand i Narvik om vinteren",
+    "description": "Gult retningsskilt i Narvik med avstander til byer i Norge og Europa, og 2407 km til Nordpolen. Skiltet er opplyst mot en mørk bakgrunn og står i snø, og bildet gir en kald, vintersk stemning.",
+    "altText": "Gult avstandsskilt i Narvik med avstander til norske og europeiske byer, opplyst i mørket med snø rundt.",
+    "keywords": [
+      "Narvik",
+      "avstandsskilt",
+      "retningsskilt",
+      "Nordpolen",
+      "vinter",
+      "snø",
+      "gult skilt",
+      "nattfoto",
+      "Nordkapp",
+      "Kirkenes",
+      "Tromsø",
+      "Nordland",
+      "reise",
+      "skilt utendørs"
+    ]
+  }
+}

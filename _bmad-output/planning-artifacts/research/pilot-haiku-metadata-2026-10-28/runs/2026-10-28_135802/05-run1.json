@@ -1,0 +1,40 @@
+{
+  "image": "05.jpg",
+  "run": 1,
+  "metadata": {
+    "dateTaken": "2015:04:19 16:36:02"
+  },
+  "latency_s": 4.36,
+  "stop_reason": "end_turn",
+  "input_tokens": 3069,
+  "output_tokens": 304,
+  "thinking_tokens": 0,
+  "cost_usd": 0.000459,
+  "valid_json": true,
+  "checks": "18 keywords",
+  "output": {
+    "title": "Lys stue med glassbord, rattanstoler og kattetre",
+    "description": "Et lyst interiør med spisekrok ved store vinduer med gardiner, rattanstoler rundt et glassbord og et kattetre i tre og sisal. Ved vinduene ser man utsikt over bygninger og en balkong under en overskyet himmel. Rolig og hjemmekoselig stemning, tatt i april 2015.",
+    "altText": "Lys stue med spisebord i glass, fire rattanstoler, kattetre og store vinduer med utsikt mot bygårder under overskyet himmel.",
+    "keywords": [
+      "stue",
+      "interiør",
+      "spisekrok",
+      "glassbord",
+      "rattanstol",
+      "kattetre",
+      "store vinduer",
+      "lys stue",
+      "gardiner",
+      "hjem",
+      "bolig",
+      "leilighet",
+      "utsikt",
+      "balkong",
+      "oppbevaring",
+      "hvit hylle",
+      "innredning",
+      "april 2015"
+    ]
+  }
+}

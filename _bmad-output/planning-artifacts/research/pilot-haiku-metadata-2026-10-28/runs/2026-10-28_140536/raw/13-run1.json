@@ -1,0 +1,35 @@
+{
+  "id": "msg_011CgUggpRcp1DbUb3PQutuH",
+  "container": null,
+  "content": [
+    {
+      "citations": null,
+      "text": "{\"title\":\"Fjell og fjord i panoramautsikt\",\"description\":\"Et 360-graders panorama fra en fjord med skarpe, grønne fjell som speiler seg i stille, mørkt vann. Øyer med små bygninger og en turkis lagune i forgrunnen gir et rolig, storslagent inntrykk. Skyene er lagdelte og grå, og stemningen er kald og klar i slutten av sommeren.\",\"altText\":\"Panoramabilde av steile fjell med grønne skråninger som speiler seg i stille fjordvann. Små øyer med hus ligger spredt, og en turkis lagune skimtes i forgrunnen under grå skyer.\",\"keywords\":[\"fjell\",\"fjord\",\"panorama\",\"360 grader\",\"speiling\",\"øyer\",\"lofoten\",\"reine\",\"sommer\",\"turkis vann\",\"kystlandskap\",\"bebyggelse\",\"skyer\",\"norsk natur\",\"flyfoto\"]}",
+      "type": "text"
+    }
+  ],
+  "diagnostics": null,
+  "model": "claude-haiku-5-5",
+  "role": "assistant",
+  "stop_details": null,
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "type": "message",
+  "usage": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "inference_geo": "global",
+    "input_tokens": 2584,
+    "output_tokens": 312,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": null,
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}
