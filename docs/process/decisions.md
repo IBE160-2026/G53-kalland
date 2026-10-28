@@ -184,3 +184,33 @@ Template:
 - **Rationale:** The user's principle is that what a client has already received cannot be taken back, but rights problems or mistakes can force removal, so removal must be explicit and recorded. Organisation-level ownership matches how agency clients buy. Setup links work without sending email and upgrade to emailed links later without rework.
 - **Consequences:** The brief's success criteria for the access matrix and the licence log are rewritten. The PRD adopts the truth table (A1–A10) and edge tests (S1–S15) in `brainstorm-intent.md`. The invoicing view shows only licences above 0 kr. Further licence types and full texts, a client-admin role, emailed links and file deletion move to later stages.
 - **Trace:** PR #22 (`docs/pre-prd-research`), `_bmad-output/brainstorming/brainstorm-client-model-access-2026-10-28/brainstorm-intent.md`, session log 2026-10-28-pre-prd-research
+
+## D-019: v1 runs by 2026-12-05
+- **Date:** 2026-10-28
+- **Status:** Accepted
+- **Context:** The project plan assumed a mid-December deadline. The official IBE160 deadline is not set yet.
+- **Alternatives:** Plan against mid-December; plan against an own, earlier target.
+- **Decision:** v1 runs by Saturday 2026-12-05. Build in weeks 46–48, polish and freeze in week 49, and week 50 onwards as buffer, delivery and reflection report.
+- **Rationale:** A couple of weeks of buffer before the likely deadline for adjustments and the reflection report (30 % of the final grade).
+- **Consequences:** Planning must finish by about week 45. `project-plan.md` is updated; the official deadline stays an open item.
+- **Trace:** commit `f5f7bfa`, PR #25, [session log](sessions/2026-10-28-haiku-pilot.md)
+
+## D-020: Pilot images from Wikimedia Commons, CC0 or public domain, kept local
+- **Date:** 2026-10-28
+- **Status:** Accepted
+- **Context:** The Haiku 5.5 pilot (D-017) needs about 20 images that may be used freely, with EXIF, GPS and IPTC cases.
+- **Alternatives:** Own photos; Unsplash or Pexels (licences forbid resale and competing services); Wikimedia Commons CC0/PD. For storage: commit in the pilot folder, a new `sample-data/` folder, or local only.
+- **Decision:** 20 CC0/PD images from Wikimedia Commons, selected by structured-data licence, without files labelled "(Unsplash)" or with clear brands. The images stay local (gitignored); `sources.md` lists author, licence and link and how to rebuild them.
+- **Rationale:** Machine-checkable licences, Norwegian places with GPS, and no need to take photos now. Keeping them local leaves the repo light until the architecture decides where sample data lives.
+- **Consequences:** `finish.sh` deletes the images with the worktree, so they must be moved out or rebuilt from `sources.md`. The app's seed images are decided separately.
+- **Trace:** commit `09eee99`, PR #25, [session log](sessions/2026-10-28-haiku-pilot.md)
+
+## D-021: Haiku 5.5 at medium effort for v1, with the AI provider kept swappable
+- **Date:** 2026-10-28
+- **Status:** Accepted
+- **Context:** D-017 chose the Claude API with a Haiku-class model, pending a pilot of Norwegian quality and latency. The pilot ran 90 calls on 20 images with two prompt versions, two effort levels and a Sonnet 5.5 comparison.
+- **Alternatives:** Haiku 5.5 at `low` (median 3.4 s, too many language errors); Haiku 5.5 at `medium` (median 5.9 s, few errors); Sonnet 5.5 at `low` (similar language to Haiku `medium` on five images, about 15× the cost); Gemini Flash (not tested yet).
+- **Decision:** v1 uses Claude Haiku 5.5 at effort `medium` with prompt v2 from the pilot. The user accepts the median latency of 5.9 s, above the pilot's 5 s target. Gemini Flash is tested later if there is time. The provider stays a setting: one provider interface, a provider-neutral and versioned prompt and output schema owned by the app, shared post-processing (keyword cap, alt-text length), reverse geocoding in the app instead of place names from the model, settings per provider, and provider/model/prompt version stored with each metadata record. v1 still ships only the mock and Claude providers (D-010, D-017).
+- **Rationale:** At `medium`, Haiku's Norwegian is mostly "edit, not rewrite" at about $0.0007 per image; Sonnet did not write better for the extra cost. The user expects Gemini Flash may be better and faster, and the agency should be able to choose Claude, Google or a local model, so adding a provider must mean one adapter and not a rewrite.
+- **Consequences:** The architecture must include the provider interface and the requirements listed in `results.md`. Whether metadata is generated during upload or in the background is open for the architecture. The pilot's 1–3 scores are still to be filled in by the user.
+- **Trace:** PR #25 (`docs/haiku-pilot`, commit `2ac117c`), `_bmad-output/planning-artifacts/research/pilot-haiku-metadata-2026-10-28/results.md`, session log [2026-10-28-haiku-pilot-2](sessions/2026-10-28-haiku-pilot-2.md)
