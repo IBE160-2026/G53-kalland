@@ -11,19 +11,20 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 - The app's Norwegian UI strings and language packs are product content and stay Norwegian.
 
 ## Workflow
-- Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`. Process files go on `docs/process-<date>`, created only by `/commit-logs`.
+- Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`. Process files go on `docs/process-<date>`, created only by `/commit-logs`. Exception (D-016): `/commit-logs` commits the process files on local `main` and pushes them only as `docs/process-<date>`, so they still reach `main` through a PR.
+- Parallel sessions (D-016): each code session runs in its own git worktree, made with `.claude/scripts/start.sh <branch>` next to the main folder (`../g53-kalland-<slug>`). The main folder stays on `main` and only collects process files; the hooks and `/wrap-up` always write `docs/process/` there, never in a worktree.
 - Merge via pull request. The PR description covers: what and why, a link to the story, how it was tested, and what was changed or rejected in AI suggestions.
 - A PR that resolves an issue says `Closes #<n>` in its description, so the issue closes on merge. (D-012)
 - Keep the repo tidy: a workflow (`.github/workflows/delete-merged-branch.yml`) deletes the remote branch on merge, and `fetch.prune` drops stale remote refs. After pulling `main`, delete local branches whose remote is gone: `git branch -vv | awk '/: gone]/{print $1}' | xargs -n1 git branch -d`. (D-012)
 - Small, focused commits with descriptive messages in the form `type(scope): description [S-<epic>.<story>]`, e.g. `feat(upload): duplicate check with hash [S-2.3]`. Types: `feat`, `fix`, `test`, `refactor`, `docs`, `chore`.
-- Do not commit or push unless the user asks for it.
+- Do not commit or push unless the user asks for it. `/wrap-up` counts as asking, after the user has confirmed its proposal (D-016).
 - Exception (D-014): the teacher's `sesjonslogg` skill commits its own `.logs/` files as it is set up – on any branch, including local `main`, with the message `Logg: <title>`, without asking. It never pushes; log commits on local `main` reach GitHub with the next `/commit-logs` PR. The `process-separation` workflow ignores `.logs/`.
 
 ## Traceability and documentation
 - Features must be traceable to a story in `_bmad-output/`. If the plan changes, update the BMad document **and** add an entry to `docs/process/decisions.md`.
 - Choices of technology, architecture, scope or way of working → a new `D-xxx` in `docs/process/decisions.md`.
 - Prompts are logged automatically to `docs/process/prompts/` (hook).
-- The transcript of each session is saved as `docs/process/transcripts/<date>-<session-ID>.md` (user and Claude text only, redacted). `/wrap-up` creates it; a SessionEnd hook creates it only if `/wrap-up` was not run.
+- The transcript of each session is saved as `docs/process/transcripts/<date>-<session-ID>.md` (user and Claude text only, redacted) by a SessionEnd hook when the session ends, so it covers the whole session. (D-016)
 - Process files are committed separately from code (D-013). Code commits and code PRs never touch `docs/process/`; stage code by explicit path, never `git add -A` or `git add .`. The `process-separation` workflow fails a PR that mixes the two.
 - Code PR descriptions link to the relevant session log(s) in `docs/process/sessions/` and reference decisions by ID (D-xxx). Each session log lists the code branch, commits and PR it worked on.
 - Run `/grading-check` weekly and before the deadline.
@@ -31,22 +32,16 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 
 ## End-of-session routine
 In Claude:
-1. On a code branch, when the user asks: commit the code, push and open the PR.
-2. Run the teacher's `sesjonslogg` skill ("log the session"; see "Sesjonslogg" below). It writes `.logs/<user>/` and commits it as `Logg: <title>` on the current branch (D-014). Running it after the PR exists lets the log name the PR, and lets the session log from `/wrap-up` link to the `.logs/` file.
-3. On a code branch: push again, so the `Logg:` commit joins the same PR.
-4. Run `/wrap-up <topic>`. It writes the transcript, the session log (with a link to the transcript and the code branch, commits and PR) and updates `decisions.md`, all in `docs/process/`. It runs no git commands that change anything.
-5. End the session (`/exit`). Messages after `/wrap-up` are not included in the transcript. If you forget `/wrap-up`, the SessionEnd hook writes the transcript.
+1. `/wrap-up <topic>` (D-016). On a code branch it shows one proposal (files, commit message, PR title and description) and waits for the user's ok; then it commits, pushes and opens the PR. It runs the teacher's `sesjonslogg` skill (see "Sesjonslogg" below), which commits `.logs/<user>/` as `Logg: <title>` (D-014), and pushes that commit to the PR. Last, it writes the session log and any decisions in the main folder's `docs/process/` and an empty reflection note. It never merges.
+2. `/exit`. The SessionEnd hook writes the transcript.
 
 In the terminal:
-6. Merge the PR (on GitHub or `gh pr merge <n> --merge`).
-7. `git checkout main && git pull`, then delete local branches whose remote is gone (command under "Workflow").
+3. `.claude/scripts/finish.sh` (from the worktree, or with the PR number from anywhere): waits for the checks, merges the PR, removes the worktree, pulls `main` in the main folder and deletes local branches whose remote is gone.
+4. Whenever the user chooses: `.claude/scripts/commit-logs.sh` (or `/commit-logs` in Claude). It needs the main folder on `main` with no changes outside `docs/process/`, and can run while other sessions are working. It scans the process files for secrets (stops on a hit), commits them on local `main`, pushes them as `docs/process-<date>` and merges that PR. `Logg:` commits made on local `main` are carried along. Running `/commit-logs` is permission for exactly that.
 
-In a new Claude session:
-8. Whenever the user chooses, on `main` with no code changes in progress: run `/commit-logs`. It scans the process files for secrets (stops on a hit), commits everything uncommitted in `docs/process/` (possibly several sessions) on `docs/process-<date>`, pushes, and merges it through its own PR. Running `/commit-logs` is permission for exactly that. `Logg:` commits made on local `main` are carried along in the same PR.
+Sessions without code run in the main folder on `main`: `/wrap-up` skips the code step, and the `Logg:` commit stays on local `main` until the next `/commit-logs`.
 
-Sessions without code skip steps 1, 3, 6 and 7; their `Logg:` commit stays on local `main` until the next `/commit-logs`.
-
-- Running `/wrap-up` or `/commit-logs` is never permission to commit code.
+- Running `/commit-logs` is never permission to commit code; `/wrap-up` commits code only after the user's ok.
 - Do not create logs or transcripts for earlier sessions after the fact.
 - When the user rejects or corrects a suggestion from you, it goes into the session log. Do not hide or embellish it.
 
