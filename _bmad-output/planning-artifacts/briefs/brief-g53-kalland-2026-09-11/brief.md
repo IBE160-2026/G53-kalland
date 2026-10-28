@@ -2,7 +2,7 @@
 title: "Product Brief: CRM-DAM"
 status: final
 created: 2026-09-11
-updated: 2026-10-16
+updated: 2026-10-28
 ---
 
 # Product Brief: CRM-DAM
@@ -36,7 +36,9 @@ Every image carries two independent attributes that together model the agency's 
 
 A client's own commissioned work is simply "restricted to that client + free." A general stock photo available to everyone for a fee is "public + paid." One model, no overlapping categories.
 
-Clients log into their own dashboard, search (by keyword and metadata) the images visible to them, and download what's already theirs at no cost. Paid images appear as a small preview without a watermark; the original is downloadable after purchase. A purchase is a logged transaction, not a card payment — it is recorded with the price at the time of purchase and is visible to both the client and the agency, ready for later invoicing.
+A client is an organisation with one or more contact users; access, licences and history belong to the organisation. Agency admins create the accounts, and a contact sets their own password through a single-use setup link the admin passes on.
+
+Clients log into their own dashboard, search (by keyword and metadata) the images visible to them, and download what's already theirs at no cost. Paid images appear as a small preview without a watermark; the original is downloadable after purchase. What a client acquires is a licence — in v1 every image has one licence type, standard commercial use, with one standard licence text. A purchase is a logged transaction, not a card payment — it is recorded with the price at the time of purchase and is visible to both the client and the agency, ready for later invoicing. A first download of a free image is recorded as a licence at no cost. A licence is kept when staff later change the image's visibility or price; taking it away is a separate, deliberate action with a warning and a stated reason.
 
 Files that leave the system always carry the current, corrected metadata, written into the downloaded copy. GPS location is stripped from files clients download; the agency keeps it for its own use.
 
@@ -50,19 +52,20 @@ The actual differentiator is the combination: disciplined internal asset managem
 
 Metadata generation sits behind one provider interface, so the AI service can be swapped without touching the rest of the app.
 
-- **v1 ships two providers:** a **mock provider** that returns fixed, predictable metadata, and the **Claude Code CLI** as the real provider. The agency already has Claude Code and Codex at work, so the CLI is the cheapest way for the agency to use and test the app.
+- **v1 ships two providers:** a **mock provider** that returns fixed, predictable metadata, and the **Claude API** (a small vision model, called with an API key) as the real provider. Anthropic's terms reserve subscription login for ordinary use of Claude Code and ask products and services to use API keys, so the Claude Code CLI is not used as a backend provider. If the agency links a Claude Console organisation to its Team plan, the plan's monthly API credits cover the usage; otherwise a personal Console account is used. Either way the cost is a fraction of a cent per image (see the research in `planning-artifacts/research/technical-claude-cli-metadata-provider-2026-10-28/`).
+- **The key is configurable.** The provider and API key come from environment variables by default, and an admin settings page can override them (key stored encrypted and never shown again in full), so the agency, or an examiner with their own key, can switch keys without touching the code.
 - **The mock is the default.** The automated tests use it, and an examiner can run the whole flow from the README without an API key, subscription, or local model.
-- **Later providers** (stage 2) plug into the same interface: Codex and Gemini CLI, cloud APIs with the user's own key (starting with Gemini Flash), and a local model through Ollama (starting with Gemma 4 12B).
+- **Later providers** (stage 2) plug into the same interface: cloud APIs with the user's own key (starting with Gemini Flash on a paid tier) and a local model through Ollama (starting with Gemma 4 12B). CLI-based providers are only added if their terms allow backend use.
 
-The repo contains seeded test users (one admin, two clients) and a set of freely licensed sample images. The agency's real images and client data never enter the repository; uploaded files and API keys are kept out of git.
+The repo contains seeded test users (one admin, and three client contacts in two client organisations, plus one inactive organisation) and a set of freely licensed sample images. The agency's real images and client data never enter the repository; uploaded files and API keys are kept out of git.
 
 ## Success Criteria
 
-1. **Access matrix.** Automated tests cover every combination of visibility (public / restricted / internal-only) × price (free / paid) and check what a client can see, download, and buy. Client A never sees an image restricted to client B, and no client sees an internal-only image.
+1. **Access matrix.** Automated tests cover every combination of visibility (public / restricted / internal-only) × price (free / paid) × licence held (yes / no) and check what a client can see, download, and buy. Client A never sees an image restricted to client B, and no client sees an internal-only image unless it already holds a licence to it. A licence survives later changes of visibility and price, and is only removed through the revoke action, which requires a reason.
 2. **Duplicates.** Uploading a byte-identical file is rejected with a message pointing to the existing image. A different file with the same filename is accepted with a warning.
 3. **End-to-end flow, runnable by the examiner.** Following the README, the full flow — staff upload, AI metadata, staff set visibility and price, a client views and downloads or buys, the purchase is logged — runs in mock mode with the seeded users and sample images, without an API key.
 4. **Self-serve.** A client logs in, finds an image by keyword, downloads a free image licensed to them, and buys a paid one, with no action from staff.
-5. **Purchase log.** Each purchase records client, image, price at the time of purchase, and timestamp, and appears in the client's purchase history and in the admin view.
+5. **Licence log.** Each licence records the client organisation, the contact, the image, the licence type, the price at the time of purchase (0 for free images), and a timestamp, and appears in the client's licence history and in the admin view. Only licences above 0 kr appear in the invoicing view.
 6. **Correct files out.** A downloaded file carries the current, edited metadata and contains no GPS data.
 7. **AI failure doesn't block.** If the AI provider fails or is unavailable, the upload still succeeds and the metadata can be filled in by hand.
 
@@ -70,13 +73,14 @@ The repo contains seeded test users (one admin, two clients) and a set of freely
 
 **In, for v1 (December 2026, solo build, tested with sample data at ~500 images and ~10 clients):**
 
-- Client register (CRM backbone)
+- Client register (CRM backbone): organisations with contact users, created by agency admins; login with email and password, first password set through a single-use setup link
 - Image upload: embedded metadata + AI title, description, alt-text, keywords; all fields editable
-- AI providers: mock and Claude Code CLI
+- AI providers: mock and Claude API, with the provider and key configurable in an admin settings page
 - Duplicates: exact hash rejects, filename match warns
-- Access model: visibility × price
-- Client dashboard: search, paid previews, downloads, purchases, purchase history
-- Purchase log for client and agency (no payment processing)
+- Access model: visibility × price, with licences that survive later changes and a revoke action with warning and reason
+- Client dashboard: search, paid previews, downloads, purchases, licence history
+- Licences: one type in v1 (standard commercial use) with one standard licence text
+- Licence log for client and agency (no payment processing)
 - Downloads: current metadata, no GPS for clients
 - Single "admin" role
 - English UI with strings in a translation file
@@ -94,6 +98,10 @@ The repo contains seeded test users (one admin, two clients) and a set of freely
 - More AI providers (see AI and Running Without a Key)
 - Tripletex invoicing: a monthly job that sums each client's purchases and creates an invoice
 - Norwegian language pack on top of the English base
+- More licence types (editorial, private, free use) with full licence texts
+- Setup links and notifications sent by email; client-admin role
+- "View as client": an admin's read-only preview of an organisation's dashboard
+- Permanent file deletion (v1 only revokes access and archives)
 
 **Later:** video and other asset types, AI visual-similarity search, more internal roles, further modules (brand portals, proposal generator), multi-tenant SaaS.
 

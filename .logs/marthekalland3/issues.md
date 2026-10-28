@@ -4,3 +4,7 @@
 - [ ] 2026-10-28 [reflection-notes](997-2026-10-28-09-52-40-reflection-notes.md) — decide later whether `docs/reflections/notes.md` should be committed (currently local only)
 - [ ] 2026-10-28 [reflection-notes](997-2026-10-28-09-52-40-reflection-notes.md) — decide how report sections 3.2 (collaboration) and 7.4 (individual reflections) apply to a solo project
 - [ ] 2026-10-28 [simplify-logging](996-2026-10-28-10-34-00-simplify-logging.md) — check the first real runs of `finish.sh` (PR #20) and `commit-logs.sh` against GitHub
+- [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — ask the agency about linking a Claude Console organisation to the Team plan (otherwise personal Console account)
+- [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — pilot ~20 sample images on Claude Haiku 5.5 for Norwegian quality and latency before architecture
+- [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — research metadata libraries (EXIF/IPTC/XMP, GPS stripping, exiftool install burden) before the PRD
+- [ ] 2026-10-28 [pre-prd-research](995-2026-10-28-12-37-44-pre-prd-research.md) — update project-plan.md to target v1 by 2026-12-05

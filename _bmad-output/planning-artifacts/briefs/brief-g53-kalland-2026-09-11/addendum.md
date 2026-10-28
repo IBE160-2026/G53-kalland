@@ -23,13 +23,20 @@ Two independent fields per image, not a single enum:
 
 What a client gets per combination, as the basis for the access test matrix:
 
-| Visibility (for this client) | Free | Paid, not bought | Paid, bought |
+| Visibility (for this client) | Free | Paid, no licence | Licence held (bought, or free and downloaded) |
 |---|---|---|---|
-| Public, or restricted and client is on the list | See, download original | See small preview (no watermark), buy | See, download original |
-| Restricted and client is not on the list | Nothing | Nothing | See open question below |
-| Internal-only | Nothing | Nothing | See open question below |
+| Public, or restricted and client is on the list | See, download original (first download records a 0 kr licence) | See small preview (no watermark), buy | See, download original |
+| Restricted and client is not on the list | Nothing (404) | Nothing (404) | See, download original |
+| Internal-only | Nothing (404) | Nothing (404) | See, download original |
 
-Open question for the PRD: if staff change an image's visibility after a client has bought it, does the client keep access? "Buy-and-keep" suggests yes, but the rule has to be stated and tested.
+Resolved 2026-10-28 (was an open question): a licence survives later changes of visibility and price, archiving, and the contact leaving. Clients without a licence lose access when an image is unshared. Taking a licence away is a separate admin action — **revoke** — with a warning listing affected licences, a required reason, and a "remove anyway" confirmation; the licence is marked revoked (never deleted), revoked paid licences are flagged for a possible credit, and the client's history shows the image as "removed by the agency". Images with licences are archived, never hard-deleted; permanent file deletion is out of v1. The full truth table and edge tests are in `_bmad-output/brainstorming/brainstorm-client-model-access-2026-10-28/brainstorm-intent.md`.
+
+## Client model
+
+- A client is an **organisation** with one or more **contacts**; in v1 each contact belongs to one organisation. Access, licences and history belong to the organisation; the contact is recorded for login and audit, and all contacts see the organisation's licence history.
+- Agency admins create organisations and contacts. Contacts log in with email and password; the first password (and any reset) is set through a single-use, expiring setup link the admin copies into their own email, since v1 sends no email. In stage 2 the same link is sent by email.
+- Minimal organisation record: name, org number (optional, validated), status, billing email, account manager, staff notes, `tenant_id`.
+- **Licences:** what a client acquires is a licence. v1 has one licence type, standard commercial use, with one standard licence text; each licence stores its type and text version so later licence types (editorial, private, free use) do not change existing licences.
 
 ## Metadata handling
 
@@ -41,10 +48,11 @@ Open question for the PRD: if staff change an image's visibility after a client 
 ## AI providers
 
 - One provider interface: input is an image (and its embedded metadata); output is title, description, alt-text, keywords, or an error.
-- **v1:** a mock provider (fixed, predictable output; default in tests and for the examiner) and a Claude Code CLI provider (the app runs the `claude` command on the server machine, which must have the CLI installed and logged in).
-- **Why CLI first:** the agency already has Claude Code and Codex subscriptions, so it costs the agency nothing per image.
+- **v1:** a mock provider (fixed, predictable output; default in tests and for the examiner) and a Claude API provider (small vision model, API key). The app sends the extracted embedded metadata as text with the image, because the API does not read file metadata.
+- **Why not the Claude Code CLI (changed 2026-10-28):** Anthropic reserves subscription login for ordinary use of Claude Code and asks products and services to use API keys, and its recommended scripting mode needs an API key anyway. Max and Team plans now include monthly API credits, so the API route keeps the cost close to zero. See `planning-artifacts/research/technical-claude-cli-metadata-provider-2026-10-28/research.md`.
+- **Key configuration:** provider and key from environment variables by default; an admin settings page can override them, with the key stored encrypted, masked in the UI, and never logged.
 - **Stage 2:**
-  - CLI: Codex and Gemini CLI.
+  - CLI providers only if their terms allow backend use.
   - Cloud API with a user-supplied key: Gemini Flash first. Gemini's free tier may use submitted data, which matters once real agency images are used.
   - Local: Gemma 4 12B via Ollama (accepts image input). Heavy for an examiner's machine, so never a requirement to run the app.
 - **Fallback:** in v1, failure means empty fields that staff fill in by hand — not a chain of providers.
@@ -75,7 +83,7 @@ Rule: a deferred feature gets a v1 accommodation only if it is a field, a relati
 | Later feature | v1 accommodation |
 |---|---|
 | Versioning | Asset and file version modeled separately |
-| Tripletex invoicing | Purchase stores client, asset, price at time of purchase, timestamp |
+| Tripletex invoicing | Licence stores organisation, contact, asset, licence type, price at time of purchase, timestamp |
 | Norwegian language pack | All UI strings in a translation file; English is the base |
 | More AI providers, video | One AI provider interface; a media-type field on the asset; asset table not named "image" |
 | Map view | GPS stored as latitude/longitude fields |
@@ -101,3 +109,5 @@ v1 is single-tenant. Following the teacher's feedback, preparation stops at a `t
 
 - The access model went through one real correction during discovery: an initial three-category split (internal-only / owned-free / stock-pool) was collapsed into two independent attributes (visibility × price) once it was pointed out that "owned/free" is just a special case of "restricted + free," not a distinct category. Downstream documents should use the two-attribute model, not the three-category one.
 - Metadata edits are written on export, not into the stored file (see Metadata handling).
+- A "purchase" is really a licence (2026-10-28). Free downloads also create a licence at 0 kr, so what a client has received is never taken away by a later change of visibility or price; only the revoke action removes it.
+- The real AI provider changed from the Claude Code CLI to the Claude API (2026-10-28), after research into Anthropic's terms.
