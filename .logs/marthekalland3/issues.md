@@ -16,3 +16,4 @@
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — PRD: "location data (coordinates and place names) stripped" instead of "GPS stripped", with the report's checklist as acceptance criteria
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test `exiftool-vendored` install and round-trip on Windows
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test a round-trip with a real iPhone HEIC and a JPEG with an EXIF thumbnail
+- [ ] 2026-10-28 [resolve-issues-conflict](993-2026-10-28-17-24-36-resolve-issues-conflict.md) — ask the agency about file types and max file size, staff search words and typical price levels (before or during the PRD)
