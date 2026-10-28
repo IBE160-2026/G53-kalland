@@ -17,7 +17,8 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
-          changed=$(git diff --name-only "$BASE...$HEAD")
+          # .logs/ (the teacher's sesjonslogg commits) may ride along in any PR (D-014).
+          changed=$(git diff --name-only "$BASE...$HEAD" | grep -v '^\.logs/' || true)
           process=$(echo "$changed" | grep '^docs/process/' || true)
           other=$(echo "$changed" | grep -v '^docs/process/' | grep . || true)
           if [ -n "$process" ] && [ -n "$other" ]; then
