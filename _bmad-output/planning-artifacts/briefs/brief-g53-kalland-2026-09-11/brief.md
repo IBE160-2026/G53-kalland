@@ -7,7 +7,7 @@ updated: 2026-10-28
 
 # Product Brief: CRM-DAM
 
-> **Superseded by the PRD where they differ** (2026-10-28): see [`prds/prd-g53-kalland-2026-10-28/prd.md`](../../prds/prd-g53-kalland-2026-10-28/prd.md) and D-022 in `docs/process/decisions.md`. Among the changes: price set by licence type in USD, cart and checkout without invoices, side-by-side review of filename matches, and all location data removed from client copies. This brief is kept as written, to show how the plan evolved.
+> **Superseded by the PRD where they differ** (2026-10-28, current PRD since 2026-11-04): see [`prds/prd-g53-kalland-2026-11-04/prd.md`](../../prds/prd-g53-kalland-2026-11-04/prd.md) and D-022 in `docs/process/decisions.md`. Among the changes: price set by licence type in USD, cart and checkout without invoices, side-by-side review of filename matches, and all location data removed from client copies. This brief is kept as written, to show how the plan evolved.
 
 ## Executive Summary
 
