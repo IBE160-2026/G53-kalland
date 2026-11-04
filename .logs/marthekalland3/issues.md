@@ -22,7 +22,7 @@
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — architecture: design the edit lock for images and batches (FR-14)
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — re-estimate v1 hours and rank the [v1] FRs at sprint planning; available hours per week are unknown
 - [x] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — confirm the two details added to FR-16 and FR-19: no publishing while uploading, queued or generating, and retry on drafts only (løst 2026-11-04)
-- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — record D-023 at `/wrap-up`: new PRD run, rollout gate, place-name setting, publish rule, later map search, 7-day setup link, WCAG as own target
+- [x] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — record D-023 at `/wrap-up`: new PRD run, rollout gate, place-name setting, publish rule, later map search, 7-day setup link, WCAG as own target (løst 2026-11-04)
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — check the rollout gate's legal points against primary sources before rollout (RG-3, RG-4, RG-5, RG-9)
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — check prompt v2's English output when the Claude provider is built
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — ask the agency the rollout questions: library size, file types, images with people, hosting, Claude plan
