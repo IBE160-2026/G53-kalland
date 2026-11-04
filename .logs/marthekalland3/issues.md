@@ -20,3 +20,11 @@
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — confirm the current Norwegian accessibility requirement (WCAG level) with Uutilsynet before release
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — architecture: choose an offline reverse geocoder for place names from GPS (FR-10)
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — architecture: design the edit lock for images and batches (FR-14)
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — re-estimate v1 hours and rank the [v1] FRs at sprint planning; available hours per week are unknown
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — confirm the two details added to FR-16 and FR-19: no publishing while uploading, queued or generating, and retry on drafts only
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — record D-023 at `/wrap-up`: new PRD run, rollout gate, place-name setting, publish rule, later map search, 7-day setup link, WCAG as own target
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — check the rollout gate's legal points against primary sources before rollout (RG-3, RG-4, RG-5, RG-9)
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — check prompt v2's English output when the Claude provider is built
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — ask the agency the rollout questions: library size, file types, images with people, hosting, Claude plan
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — decide how client map search works when it is planned (which images, how exact, search by place name)
+- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — update `project-plan.md` at sprint planning: calendar about a week behind, tools item 6 still mentions the rejected CLI provider
