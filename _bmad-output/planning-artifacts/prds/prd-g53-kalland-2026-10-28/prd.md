@@ -7,6 +7,8 @@ updated: 2026-10-28
 
 # PRD: CRM-DAM
 
+> **Superseded** (2026-11-04) by [`prd-g53-kalland-2026-11-04/prd.md`](../prd-g53-kalland-2026-11-04/prd.md). Its addendum maps old requirement IDs to new ones. This PRD is kept as written, to show how the plan evolved.
+
 Builds on the [product brief](../../briefs/brief-g53-kalland-2026-09-11/brief.md) and its [addendum](../../briefs/brief-g53-kalland-2026-09-11/addendum.md). Where they differ, this PRD wins; the changes are recorded in D-022 in [`docs/process/decisions.md`](../../../../docs/process/decisions.md). Names in the journeys are fictional.
 
 ## Overview
