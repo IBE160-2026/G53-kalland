@@ -150,11 +150,13 @@ Staff tasks with no journey of their own: managing clients, contacts and staff w
   - Keywords cover place, weather/season, emotion, colour/adjective, activity, object and perspective/composition.
   - The provider receives a resized copy of the image with no embedded metadata. As text, it receives the embedded metadata and the place name from FR-13, and it is told never to turn coordinates into place names.
   - With the batch's place-name setting off (FR-9), the text contains no place name, no coordinates and no embedded location fields.
+  - The versioned prompt tells the model to describe what is visible, and not to state or infer ethnicity, religion, health, sexual orientation, political opinion or union membership. The model never works out who a person is from their appearance. It may use a person's name only if the name is written in the image or given in the metadata.
 - **FR-13 [v1] Place names.** When an image has GPS coordinates, the app derives a place name and stores it as searchable, editable staff metadata, whether or not AI is used.
   - The lookup works with no API key or network access, so the examiner's run and the tests include it.
   - A position with no match leaves the place name empty and is not an error. Editing coordinates does not change the place name.
 - **FR-14 [v1] Output checks.** The app checks generated metadata whatever the provider: at most 15 keywords, no duplicates, lower case except proper nouns, and alt text within NFR-6's limit. Each record stores the provider, model and prompt version that produced it.
   - The 15-keyword limit applies to generated keywords only; shared and hand-written keywords are kept.
+  - These checks cannot detect a sensitive attribute in generated text. The prompt rule in FR-12 and staff review cover that.
 - **FR-15 [v1] Background processing.** Upload and generation run in the background, and each image shows its state: uploading, queued, generating, ready, failed or rejected. Staff can browse the batch meanwhile, and finished images join the list as they complete.
   - An image is editable once it is uploaded and, if AI was chosen, has its metadata or has failed.
   - Generation continues if staff leave the page and resumes after a server restart.
@@ -303,9 +305,11 @@ An own image with an active licence is shown with a tick, and the client downloa
   - Embedded metadata and AI output are treated as untrusted text: escaped wherever they are shown, and never run or followed as instructions by the app.
   - After 10 failed logins for one account in 15 minutes, further attempts are delayed. [cut-first] *Fallback: no delay; listed for the Rollout Gate.*
   - Secrets come from environment variables, documented in `.env.example`, and never appear in code, logs or the repository.
-- **NFR-3 Privacy.** The agency's real images and client data never enter the repository, and uploaded files stay out of git. v1 runs on sample data only. Real images may be sent only to paid AI tiers that do not train on the data, and only after RG-3.
+- **NFR-3 Privacy.** The agency's real images and client data never enter the repository, and uploaded files stay out of git. v1 runs on sample data only. Real images may be sent only to paid AI tiers that do not train on the data, and only after RG-3 and RG-6, because a no-training tier settles neither data protection nor the photographers' rights.
 - **NFR-4 Scale.** With 500 images and 10 clients, in a generated data set kept out of git, a search answers in under 1 s on a developer laptop, measured by a repeatable script. With the Claude provider, AI metadata takes under about 10 s per image, and a batch of 100 finishes in about 10 minutes; this is checked once by hand with a key, since the tests do not use one. The pilot measured a median of 5.9 s and a maximum of 8.9 s.
-- **NFR-5 Accessibility.** Staff and client pages meet WCAG 2.1 level A and AA as the project's own target. An image's alt text is used as its alt attribute; without alt text the page uses its title, or "Untitled image" if it has none, so no image is presented as decorative. Pages work from 360 px wide. Checked with an automated axe scan showing no serious or critical violations on the main pages, plus a manual keyboard pass. [cut-first] Aim for WCAG 2.2 AA beyond that. What the law requires of this product is an open question (RG-9).
+- **NFR-5 Accessibility.** Staff and client pages meet WCAG 2.1 level A and AA as the project's own target, whether or not the law covers this product (RG-9). Where the universal-design rules apply to a private business, the legal minimum is WCAG 2.0 level A and AA, so the target goes beyond it. Pages work from 360 px wide. Checked with an automated axe scan showing no serious or critical violations on the main pages, plus a manual keyboard pass. [cut-first] Aim for WCAG 2.2 AA beyond that.
+  - An image's alt text is used as its alt attribute; without alt text the page uses its title, or "Untitled image" if it has none, so no image is presented as decorative.
+  - **Known exception.** FR-19 lets staff publish an image without alt text. The title and "Untitled image" fallbacks keep the page working, but they are not compliant alternative text, so such an image falls short of WCAG 1.1.1 and of this target. The axe scan does not catch this, because the attribute is present.
 - **NFR-6 Metadata standard.** Fields follow IPTC Photo Metadata 2025.1: alt text at most 250 characters (aim for under 150), and keywords written as UTF-8.
 - **NFR-7 Errors and repeated actions.** Every error a user can hit (invalid file, duplicate, AI failure, failed save, image locked by another user, expired setup link, no access, changed cart) has a clear message in plain English. Every list has an empty state. Repeated or double-submitted actions never crash the app or create duplicates.
 - **NFR-8 Language.** The UI and generated metadata are English. All UI strings are in a translation file, and the output language is a provider input, so a Norwegian pack can be added.
@@ -342,17 +346,30 @@ Each criterion is checked by automated tests or by following the README, in mock
 
 ## Rollout Gate
 
-Nothing here is built by 2026-12-05. Each item must be met, or explicitly accepted by the agency's management, before real images or client data enter the system. The legal items need checking by someone competent; this PRD is not legal advice, and the [addendum](addendum.md) records what was and wasn't verified.
+Nothing here is built by 2026-12-05. Each item must be met, or explicitly accepted by the agency's management, before real images or client data enter the system. The legal items need checking by someone competent; this PRD is not legal advice, and the [legal research](../../research/domain-ai-images-privacy-accessibility-legal-2026-11-04/research.md) records what was and wasn't verified.
 
 - **RG-1 Hosting.** The app runs on managed hosting over HTTPS, with no seeded users, a stated way to create the first staff user, and secrets outside the code. The agency chooses where it is hosted, with EU/EEA as the default. Staff login gets a decision on two-factor authentication, and the login delay from NFR-2 is in place.
 - **RG-2 Backups.** Database and files are backed up on a schedule agreed with the agency, and a restore has been tested.
-- **RG-3 Data protection basis.** The agency has recorded its legal basis and processing activities, given contacts a privacy notice, and signed data processing agreements with the hosting and AI providers. Anthropic's current terms are checked against the 30-day API retention stated in its privacy article.
-- **RG-4 Erasure.** Staff can permanently delete an image with its files, and remove a person's data on request, while licence and accounting records stay valid with the person's details anonymised. This resolves the conflict between v1's "never delete" rule and data protection rights.
-- **RG-5 People in images.** Staff can record whether an image shows identifiable people and whether consent covers commercial licensing. An image with identifiable people and no such consent cannot be licensed to clients who did not commission it. Images of children have their own consent check.
-- **RG-6 Rights and licence terms.** The licence text is reviewed and available in Norwegian. The agency confirms it may license each image set it loads, including commissioned work and photographers' rights.
+- **RG-3 Data protection basis.** The agency has recorded its legal basis, its role for each data set and its processing activities (an Art. 30 record), given contacts a privacy notice, and signed data processing agreements with the hosting and AI providers.
+  - A data protection impact assessment (DPIA) screening is documented. A full DPIA is expected if children's images stay in scope.
+  - Transfers to the US rest on the standard contractual clauses in the AI provider's data processing agreement, since Anthropic was not found on the Data Privacy Framework list. A transfer assessment covers *Trump v. Slaughter*, and there is a plan if transfers stop.
+  - Anthropic is asked how its agreement applies to a Norwegian exporter, and which of its retention statements is right.
+  - The privacy notice states Anthropic's retention: 30 days for API inputs and outputs until Anthropic confirms otherwise, and up to 2 years for flagged content.
+- **RG-4 Erasure.** Staff can permanently delete an image with its files, and remove a person's data on request. This resolves the conflict between v1's "never delete" rule and data protection rights.
+  - Records the law requires stay unchanged for their retention period, 5 years after the financial year ends: invoices in their original format, and licence agreements when invoices refer to them. The person's details are anonymised when the period ends. Other licence records stay valid with the details anonymised at once.
+  - Each recipient of the data is told about the erasure (GDPR Art. 19), unless that is impossible or disproportionate.
+- **RG-5 People in images.** For each image, staff record whether a person is the subject, a person is incidental, or no person appears, and they record the scope and duration of any consent. Identifiable means more than a visible face: clothing, hair and context can identify someone. An image whose subject is an identifiable person, with no consent covering commercial licensing, cannot be licensed to clients who did not commission it.
+  - A commissioned portrait also needs the commissioner's consent (åndsverkloven § 105).
+  - One legal basis is chosen in advance for each purpose, including how incidental people are treated.
+  - Images of children have their own consent check. A legally competent reviewer decides whether both guardians must sign, and whether children's images may be licensed commercially at all.
+- **RG-6 Rights and licence terms.** The licence text is reviewed and available in Norwegian. The agency confirms it may license each image set it loads, including commissioned work and photographers' rights. One rights record per image set can cover both this item and RG-5.
+  - Photographer agreements expressly permit sending images to AI providers. Anthropic's terms make the customer warrant it holds those rights, and its indemnity excludes claims caused by inputs.
+  - Licence terms state what happens if consent is withdrawn, and the agency decides how that fits FR-24 and FR-25.
+  - Nothing promises exclusive rights in AI metadata.
+  - A legally competent reviewer looks at withdrawal of consent after a licence sale, and at AI upload of photographers' images.
 - **RG-7 Billing.** A way to bill recorded licences exists (Tripletex or an export), with currency and VAT settled. v1's USD price is a placeholder until then.
 - **RG-8 Norwegian.** The Norwegian UI pack is in place, and Norwegian AI metadata is re-tested and accepted by the agency, including the unfilled scores in the pilot results.
-- **RG-9 Accessibility.** Uutilsynet's current requirement, and whether it covers a gated B2B portal, is confirmed, and the app meets what applies.
+- **RG-9 Accessibility.** The app meets NFR-5 whether or not the law covers the client portal, which is unresolved for an invitation-only B2B portal (D-024). The agency keeps a compliance record (§ 5 of the universal-design regulation). Its management explicitly accepts NFR-5's known exception, knowing that an image published without real alt text would fail WCAG 1.1.1 if the portal is covered.
 - **RG-10 Scale and migration.** The real library is expected to hold 5,000–50,000 images.
   - Search is re-tested at 50,000 images against a target agreed with the agency.
   - Storage is planned for up to about 2.5 TB at the 50 MB limit.
@@ -361,6 +378,8 @@ Nothing here is built by 2026-12-05. Each item must be met, or explicitly accept
 - **RG-12 Email and accounts.** Setup links and resets are sent by email.
 - **RG-13 Operations.** A named role owns updates, monitoring, support and the response to a data breach, including the 72-hour notification duty.
 - **RG-14 Baseline.** The time staff take to find an image, and the number of image requests clients send by email, are measured before rollout, so the benefit can be shown afterwards. Targets are agreed with the agency.
+- **RG-15 Market scope.** The agency decides whether the portal serves EU clients. If it does, the AI Act (including provider status and Art. 50(2)) and the European Accessibility Act are re-checked.
+- **RG-16 AI governance.** A named owner watches the Norwegian AI Act bill and Prop. 41 LS, and re-checks both before this gate is signed off. Staff get a short note on AI literacy and on what must not be described in metadata.
 
 ## Trade-offs
 
@@ -373,7 +392,7 @@ Nothing here is built by 2026-12-05. Each item must be met, or explicitly accept
 | Setup links by hand | Convenience | v1 sends no email, so nothing depends on a mail service |
 | No permanent deletion, except unpublished drafts | Data protection erasure in v1 | No real personal data enters v1; RG-4 closes this before rollout |
 | Place names allowed in AI text by default | Absolute location privacy | Improves search; staff turn it off for sensitive shoots |
-| Publishing with missing metadata, with a warning | A guarantee that every published image has alt text and can be found by search | Staff decide; the warning shows the cost, and pages fall back to a title or label |
+| Publishing with missing metadata, with a warning | A guarantee that every published image has alt text and can be found by search | Staff decide; the warning shows the cost, and pages fall back to a title or label. These images are NFR-5's known exception, which management accepts in RG-9 |
 | Text and keyword search only for clients in v1 | Finding images by place on a map | Keeps v1 small and its location rule simple; NFR-9 keeps the data for a later map |
 
 ## Out of Scope for v1
@@ -390,7 +409,7 @@ Versioning is a stretch goal (FR-43).
 
 1. **Hours.** The project plan's 45–65 h build estimate predates the features D-022 added to v1, and available hours per week are not known. The [v1] FRs have no order among themselves. Epics and stories should re-estimate v1 against the time left and rank them, so the checkpoint has a clear order to cut from. Owner: Marthe; revisit at sprint planning.
 2. **Official deadline.** Not set; v1 targets 2026-12-05 regardless. Owner: Marthe; revisit when the course publishes it.
-3. **English AI quality.** The pilot validated Norwegian output, while v1 generates English. Prompt v2 needs a short English check when the Claude provider is built. Owner: Marthe; revisit at that story.
+3. **AI quality with the final prompt.** The pilot validated Norwegian output with prompt v2, while v1 generates English and adds the people rule from FR-12, as prompt v3. Prompt v3 needs a short English check, including the pilot's images of people, when the Claude provider is built. Owner: Marthe; revisit at that story.
 4. **Rollout questions for the agency.** Exact library size, file types in use, which images show people, hosting preference and which Claude plan it has. Owner: Marthe; revisit before stage 2 planning.
 5. **Client map search.** Which images appear on the map, how exact a position clients see, and whether clients also search by place name. D-011's reason for hiding location still applies, for example where a portrait was taken. Owner: Marthe; revisit when the map is planned.
 
