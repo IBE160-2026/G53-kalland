@@ -1,0 +1,511 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Legal Research Briefing</title><style>
+:root{--bg:#fff;--fg:#1c1f23;--mut:#5b6470;--line:#d9dde3;--acc:#23527c;--card:#f5f7f9;--inf:#e8eefc;--inff:#23408e;--low:#fff3d6;--lowf:#7a5200;--med:#eaf4ea;--medf:#215c2a;--unv:#ffe0db;--unvf:#8f1d0e;--dis:#f7dcf0;--disf:#7d1466}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#14171b;--fg:#e6e8eb;--mut:#a0a8b2;--line:#333a42;--acc:#8fbce6;--card:#1d2126;--inf:#22305a;--inff:#c4d3ff;--low:#453513;--lowf:#ffd88a;--med:#1f3a24;--medf:#b5e6bd;--unv:#57221b;--unvf:#ffc4ba;--dis:#4d1f43;--disf:#f6bfe8}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;max-width:1180px;margin:0 auto;padding:32px 24px}
+nav{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}nav ul{list-style:none;margin:0;padding-left:12px}nav>ul{padding:0}nav li{margin:4px 0}nav a{color:var(--mut);text-decoration:none}nav a:hover{color:var(--acc)}
+header{border-bottom:1px solid var(--line);margin-bottom:24px;padding-bottom:16px}h1{font-size:28px;line-height:1.25;margin:0 0 8px}header dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 12px;margin:12px 0 0;font-size:14px;color:var(--mut)}header dd{margin:0}
+h2{font-size:22px;margin:40px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px}h3{font-size:17px;margin:28px 0 8px}
+a{color:var(--acc)}a.cite{font-size:.82em;text-decoration:none;white-space:nowrap}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--card)}
+.b{display:inline;padding:1px 6px;border-radius:4px;font-size:.84em;font-weight:600}.inf{background:var(--inf);color:var(--inff)}.low{background:var(--low);color:var(--lowf)}.med{background:var(--med);color:var(--medf)}.unv{background:var(--unv);color:var(--unvf);font-weight:700}.dis{background:var(--dis);color:var(--disf);font-weight:700}
+details{margin:16px 0}summary{cursor:pointer;font-weight:600}.key{background:var(--card);padding:10px 14px;border-radius:6px;font-size:14px}
+@media (max-width:820px){.w{display:block;padding:16px}nav{position:static;max-height:none;border-bottom:1px solid var(--line);margin-bottom:16px;padding-bottom:12px}}
+</style></head><body><div class="w"><nav aria-label="Contents">
+<ul>
+<li><a href="#executive-summary">Executive summary</a></li>
+<li><a href="#dimension-1-ai-on-images">Dimension 1: AI on images</a><ul>
+<li><a href="#copyright">Copyright</a></li>
+<li><a href="#who-owns-the-metadata">Who owns the metadata</a></li>
+<li><a href="#sensitive-inference">Sensitive inference</a></li>
+<li><a href="#ai-act">AI Act</a></li>
+</ul>
+</li>
+<li><a href="#dimension-2-privacy-and-gdpr">Dimension 2: Privacy and GDPR</a><ul>
+<li><a href="#portrait-right">Portrait right</a></li>
+<li><a href="#legal-basis-and-withdrawal">Legal basis and withdrawal</a></li>
+<li><a href="#children">Children</a></li>
+<li><a href="#roles">Roles</a></li>
+<li><a href="#anthropics-terms">Anthropic's terms</a></li>
+<li><a href="#transfers-to-the-us">Transfers to the US</a></li>
+<li><a href="#duties-and-data-handling">Duties and data handling</a></li>
+<li><a href="#erasure-and-bookkeeping">Erasure and bookkeeping</a></li>
+<li><a href="#privacy-enforcement">Privacy enforcement</a></li>
+</ul>
+</li>
+<li><a href="#dimension-3-accessibility">Dimension 3: Accessibility</a><ul>
+<li><a href="#scope">Scope</a></li>
+<li><a href="#standard">Standard</a></li>
+<li><a href="#staff-pages">Staff pages</a></li>
+<li><a href="#public-clients">Public clients</a></li>
+<li><a href="#alt-text">Alt text</a></li>
+<li><a href="#eaa">EAA</a></li>
+<li><a href="#accessibility-enforcement">Accessibility enforcement</a></li>
+</ul>
+</li>
+<li><a href="#cross-dimension-insights">Cross-dimension insights</a></li>
+<li><a href="#contrary-evidence">Contrary evidence</a></li>
+<li><a href="#recommendations">Recommendations</a><ul>
+<li><a href="#v1-by-2026-12-05-two-small-changes">v1 (by 2026-12-05): two small changes</a></li>
+<li><a href="#rollout-gate">Rollout gate</a></li>
+<li><a href="#prd-edits">PRD edits</a></li>
+</ul>
+</li>
+<li><a href="#open-questions">Open questions</a></li>
+</ul>
+</nav><main>
+<header><h1>Domain research: legal aspects of AI on images, privacy/GDPR and accessibility</h1><dl><dt>Type</dt><dd>domain</dd><dt>Date</dt><dd>2026-11-04</dd><dt>Effort</dt><dd>standard, validation high</dd><dt>Claims ledger</dt><dd>24 verified, 6 unverified, 3 disputed, 1 overturned</dd></dl></header><p class="key">Badges: <span class="b inf">inference</span> our reasoning, not a source statement · <span class="b low">excerpt / low</span> seen only in a search summary, or weak · <span class="b med">medium</span> · <span class="b unv">unverified</span> no independent check · <span class="b dis">disputed / unresolved</span> sources or arguments conflict. Rendered from <code>research.md</code>, which remains the source of truth.</p>
+
+<p><strong>Decision this research serves:</strong> Turn the <span class="b unv">unverified</span> legal items in the 2026-11-04 PRD into confirmed requirements, and decide what must change in v1 versus at rollout.</p>
+<p><strong>This is research, not legal advice.</strong> Items marked "for the reviewer" need someone legally competent, as the PRD's rollout gate already says.</p>
+<p><strong>How to read this.</strong> <em>Inference</em> marks our own reasoning from the cited text. <em>Opened</em> and <em>excerpt</em> show how a source was seen: fetched, or only in a search summary. The <em>red team</em> is an adversarial check of 13 conclusions. The <em>verifiers</em> were second checks of the claims. The PRD is <a href="../../prds/prd-g53-kalland-2026-11-04/prd.md"><code>prd.md</code></a>.</p>
+<h2 id="executive-summary">Executive summary</h2>
+<p><strong>What to do.</strong> v1 needs no legal rework, because it runs on sample data only. Make two small changes now: a prompt rule (V-1) and clearer wording in NFR-5 (V-2). Before rollout, tighten RG-3, RG-4, RG-5, RG-6 and RG-9, and add two new items on market scope and AI governance. Nothing found blocks the product; the work is paperwork, rights records and a few decisions that have to be made first.</p>
+<p><strong>The three findings that drive this:</strong></p>
+<ol>
+<li><strong>Rights in the image are the real AI risk today, more than the AI Act.</strong> The AI Act is not in force in Norway <a class="cite" href="#src-2">[2]</a><a class="cite" href="#src-4">[4]</a>, while copyright and GDPR already apply. Uploading a photographer's image makes a copy <span class="b inf">inference from åndsverkloven § 3</span>, and Norwegian law has no text-and-data-mining exception yet <a class="cite" href="#src-12">[12]</a><a class="cite" href="#src-13">[13]</a>. Anthropic's terms make the customer warrant that it holds the rights to its inputs, and the indemnity excludes claims caused by inputs <a class="cite" href="#src-16">[16]</a>. So photographer agreements should expressly permit AI processing.</li>
+<li><strong>Consent must be recorded per image.</strong> A photo of a person may not be reproduced or shown publicly without consent, subject to exceptions that mostly turn on the image's content <a class="cite" href="#src-12">[12]</a><a class="cite" href="#src-24">[24]</a>. A B2B licence cannot serve as the legal basis for the person pictured, who is not a party to it (inference from <a class="cite" href="#src-31">[31]</a>). If consent is withdrawn, the processing must stop, and Datatilsynet says switching to another basis afterwards breaches the fairness and transparency principles <a class="cite" href="#src-29">[29]</a><a class="cite" href="#src-30">[30]</a>.</li>
+<li><strong>The accessibility floor is lower than the PRD's target, but "warn and publish" has a legal cost if the portal is covered.</strong> Private businesses must meet WCAG 2.0 A and AA, 35 criteria <a class="cite" href="#src-51">[51]</a><a class="cite" href="#src-52">[52]</a>, so NFR-5's WCAG 2.1 target exceeds it. Whether an invitation-only portal is covered at all is <span class="b dis">unresolved</span> <a class="cite" href="#src-52">[52]</a><a class="cite" href="#src-53">[53]</a>. If it is, an image published with no alt text or with "Untitled image" fails on the published page, and a warning to staff does not change that (inference from <a class="cite" href="#src-57">[57]</a><a class="cite" href="#src-58">[58]</a>).</li>
+</ol>
+<p><strong>Biggest caveat.</strong> No authority we looked at answers three questions: whether an invitation-only B2B portal is in scope, what withdrawal does to a licence already sold, and whether analysing an image through an AI API is a permitted use. Treat these as unsettled, not as answered. Much of the evidence is also regulator guidance or law-firm commentary rather than court decisions, and some of it was seen only as search excerpts; the source table marks which.</p>
+<h2 id="dimension-1-ai-on-images">Dimension 1: AI on images</h2>
+<h3 id="copyright">Copyright</h3>
+<p><strong>Anthropic's Commercial Terms decide the practical answer, whatever the statute says.</strong></p>
+<ul>
+<li>The customer warrants it "has all rights and permissions required to submit Inputs" (L.1) <a class="cite" href="#src-16">[16]</a>.</li>
+<li>The IP indemnity excludes claims arising from "Inputs or other data provided by Customer" (K.3(c)), and the customer must defend Anthropic against claims related to its inputs (K.2(a)) <a class="cite" href="#src-16">[16]</a>. A photographer's claim over an upload is therefore the agency's own risk.</li>
+<li>"Anthropic may not train models on Customer Content" (B) <a class="cite" href="#src-16">[16]</a>, but nothing in åndsverkloven § 3 turns on training <a class="cite" href="#src-12">[12]</a>.</li>
+<li>§ 67(2) says an author is not taken to have transferred a wider right than the agreement clearly expresses, and § 68 limits onward transfer <a class="cite" href="#src-12">[12]</a>. Old photographer agreements are unlikely to cover AI processing <span class="b inf">inference</span>.</li>
+</ul>
+<p>Rightsholders are already treating AI use as licensable: Kopinor reportedly licenses AI input in limited cases <a class="cite" href="#src-18">[18]</a> <span class="b low">low confidence, excerpt</span>.</p>
+<p><strong>The statute.</strong> § 3 of åndsverkloven covers temporary and permanent copies, and § 23 gives a photographer the exclusive right to make copies <a class="cite" href="#src-12">[12]</a>. § 4 exempts temporary copies that are an integral part of a technical process, unless the copy has independent economic significance <a class="cite" href="#src-12">[12]</a>. No Norwegian authority addresses an API upload, so the position is <strong>unsettled rather than prohibited</strong>. The Hamburg LAION court rejected the German temporary-copy exception because the copy was not transient or incidental, was not deleted automatically and depended on LAION's own involvement <a class="cite" href="#src-19">[19]</a>. That suggests provider retention matters <span class="b inf">inference</span>. The case concerned web scraping for training, so it is only an analogy.</p>
+<p><strong>The text-and-data-mining exception is not available yet.</strong> The current act has no such exception <a class="cite" href="#src-12">[12]</a>, and Prop. 41 LS, which would add §§ 50 d to f, is still in committee <a class="cite" href="#src-13">[13]</a>. The rendered page did not show the dated timeline, so a very recent step could be missed. The proposed definition has no volume threshold ("enhver automatisert analytisk metode") <a class="cite" href="#src-14">[14]</a>, so one image could arguably fall within it, but rightsholders could reserve their works against the exception <a class="cite" href="#src-14">[14]</a>, and Norges Fotografforbund, among others, is asking the Storting to postpone it <a class="cite" href="#src-15">[15]</a>. <strong>If this bill passes, this section changes.</strong></p>
+<h3 id="who-owns-the-metadata">Who owns the metadata</h3>
+<p><strong>Do not promise clients exclusive rights in AI metadata.</strong> Anthropic assigns its rights in outputs "(if any)", conditional on compliance with the terms <a class="cite" href="#src-16">[16]</a>. Purely AI-generated text likely has no copyright, since there is no human author <a class="cite" href="#src-17">[17]</a> (one Norwegian law-firm source, excerpt). Staff edits may be protected, but only those contributions. § 24 can protect a collection where gathering, checking or presenting the content is a substantial investment <a class="cite" href="#src-12">[12]</a>; whether generated metadata qualifies is untested.</p>
+<h3 id="sensitive-inference">Sensitive inference</h3>
+<p><strong>Practical reading <span class="b med">medium confidence</span>:</strong> describing what is visible is defensible, and asserting a protected attribute is not. "A person using a wheelchair" sits on the EDPB's safe side (examples below). "Muslim woman", an ethnicity label or a diagnosis does not. Apparent age is not an Art. 9 category.</p>
+<p>Photographs are not automatically special-category data: Recital 51 treats them as biometric data only when processed by specific technical means allowing unique identification <a class="cite" href="#src-23">[23]</a>. The European Data Protection Board (EDPB) gives two examples that point in different directions, both about video and so an analogy for stills:</p>
+<ul>
+<li>"Video footage showing a data subject wearing glasses or using a wheel chair are not per se considered to be special categories of personal data" <a class="cite" href="#src-20">[20]</a>.</li>
+<li>"if the video footage is processed to deduce special categories of data Article 9 applies" <a class="cite" href="#src-20">[20]</a>.</li>
+</ul>
+<p>The Court of Justice of the EU has since read Art. 9 broadly. C-184/20 covers data that indirectly reveals a sensitive attribute <a class="cite" href="#src-21">[21]</a>, and commentary on C-21/23 says the controller's aim and the inference's accuracy are irrelevant <a class="cite" href="#src-22">[22]</a>. Those judgments were read only through law-firm summaries. <strong>Whether incidental inference triggers Art. 9 is <span class="b dis">disputed</span></strong> between the EDPB's purpose test and that commentary. No source applies any of this to AI image captions, and no enforcement in this area was found, though the search was thin.</p>
+<h3 id="ai-act">AI Act</h3>
+<p>The AI Act is not in force in Norway. EFTA lists it as "under scrutiny" with no Joint Committee decision <a class="cite" href="#src-2">[2]</a>, and a Norwegian law firm wrote in August 2026 that entry into force is "rather unlikely before mid 2027" <a class="cite" href="#src-4">[4]</a>. A press report says the minister plans a consultation in autumn 2026 and a bill in spring 2027 <a class="cite" href="#src-3">[3]</a>. That timing was seen only in a search excerpt, and no government page confirmed it <span class="b low">low confidence</span>.</p>
+<p>In the EU, the Omnibus, Regulation (EU) 2026/1744, entered into force on 27 July 2026 and moved Annex III high-risk duties to 2 December 2027 <a class="cite" href="#src-5">[5]</a><a class="cite" href="#src-6">[6]</a>.</p>
+<p><strong>Serving only Norway is the condition that matters.</strong> Art. 2(1)(c) covers third-country providers and deployers "where the output produced by the AI system is used in the Union" <a class="cite" href="#src-7">[7]</a>, and BAHR, writing for asset managers, reads this to mean a Norwegian firm can be in scope with no EU establishment <a class="cite" href="#src-4">[4]</a>. One EU client receiving AI-written metadata may be enough. This is a reading of the text; no authority applies it to image metadata.</p>
+<p><strong>Risk class.</strong> No source classifies metadata or alt-text generation. It matches no prohibited or high-risk example the Commission or Nkom gives, so minimal risk is the likely answer <span class="b inf">inference, medium</span>, and minimal-risk systems have no specific rules <a class="cite" href="#src-1">[1]</a><a class="cite" href="#src-5">[5]</a>. Two duties are not tied to risk class:</p>
+<ul>
+<li><strong>Art. 4, AI literacy,</strong> binds providers and deployers. As amended by the Omnibus, the duty to take measures remains, but it does not require providers or deployers "to guarantee any specific level of AI literacy of any individual" <a class="cite" href="#src-9">[9]</a>. A short staff note looks like enough readiness <span class="b inf">inference</span>.</li>
+<li><strong>Art. 50(2), machine-readable marking,</strong> binds providers of systems generating synthetic text, unless the system does not substantially alter the input or its semantics <a class="cite" href="#src-11">[11]</a>. An agency using an API under its own authority fits "deployer" <a class="cite" href="#src-8">[8]</a>. Whether a portal offered to clients makes it a "provider" is <span class="b dis">unresolved</span> <span class="b low">low confidence</span>.</li>
+</ul>
+<p>Art. 50(4) very likely does not apply. It covers text informing the public on matters of public interest, and it excepts human-reviewed text <a class="cite" href="#src-11">[11]</a>.</p>
+<p>Art. 5(1)(g) bans biometric categorisation of individuals to infer race, religion and similar attributes, and it carves out "labelling or filtering of lawfully acquired biometric datasets, such as images" <a class="cite" href="#src-10">[10]</a>. The carve-out's scope is ambiguous, so it should not be treated as a safe harbour.</p>
+<h2 id="dimension-2-privacy-and-gdpr">Dimension 2: Privacy and GDPR</h2>
+<h3 id="portrait-right">Portrait right</h3>
+<p>Åndsverkloven § 104: "Fotografi som avbilder en person, kan ikke gjengis eller vises offentlig uten samtykke av den avbildede, unntatt når":</p>
+<ul>
+<li>(a) the image has current and general public interest;</li>
+<li>(b) the person is less important than the main content;</li>
+<li>(c) it shows gatherings, outdoor processions or events of general interest;</li>
+<li>(d) it is shown as advertising for the photographer's business and the person does not object; or</li>
+<li>(e) §§ 33 or 37 apply.</li>
+</ul>
+<p>Protection lasts for life plus 15 years <a class="cite" href="#src-12">[12]</a><a class="cite" href="#src-24">[24]</a>. The statute requires neither written consent nor a fee clause, despite what template sites claim <a class="cite" href="#src-65">[65]</a>.</p>
+<p>Three qualifications from the red team:</p>
+<ul>
+<li><strong>The exceptions mostly turn on the image, not the business model</strong> (the red team's reading). Datatilsynet separates portrait images, where the people are the main subject, from situation images, where the activity is <a class="cite" href="#src-24">[24]</a>. An image where the person is incidental may need no consent for some uses, so a flag saying only "shows identifiable people" is too blunt.</li>
+<li><strong>Who carries the duty is open.</strong> The text targets public reproduction or display, so the licensee may be the one who breaches it. Whether "offentlig" also qualifies "gjengis" was not resolved. Neither point should be relied on: Datatilsynet expects consent for portrait images even when they are only passed on <a class="cite" href="#src-24">[24]</a>, and GDPR applies separately.</li>
+<li><strong>Identifiable does not mean a visible face.</strong> Datatilsynet fined Coop Finnmark NOK 400,000 over a clip in which "Ingen ansikt vises", where the children could be distinguished by clothing, hair and shoes <a class="cite" href="#src-46">[46]</a>. That was surveillance footage, so it is an analogy.</li>
+</ul>
+<p>§ 105 adds a separate rule: the author cannot exercise rights in a commissioned portrait without the commissioner's consent <a class="cite" href="#src-12">[12]</a>. Breaching §§ 99 to 107 can bring fines or up to one year in prison (§ 79) <a class="cite" href="#src-12">[12]</a>. A 2013 Oslo district court case applied the predecessor of § 104 to model photographs and reportedly required active, informed consent <a class="cite" href="#src-48">[48]</a> <span class="b low">excerpt, not read</span>. No Supreme Court ruling surfaced.</p>
+<p>Datatilsynet's guidance says that in a conflict "er det den som har delt bildene eller filmen som må bevise at et gyldig samtykke virkelig er gitt" <a class="cite" href="#src-24">[24]</a>. The red team found no statute behind this, but it makes consent records the obvious precaution.</p>
+<h3 id="legal-basis-and-withdrawal">Legal basis and withdrawal</h3>
+<p>Portrait images need consent, and for situation images Datatilsynet suggests a balancing of interests <a class="cite" href="#src-24">[24]</a>. Businesses must choose one basis per purpose <a class="cite" href="#src-30">[30]</a>, and legitimate interest needs a documented balance <a class="cite" href="#src-32">[32]</a>. Art. 6(1)(b) covers only a contract "som den det gjelder er part i" <a class="cite" href="#src-31">[31]</a>, so a B2B licence does not cover the person pictured, though a model release with that person might <span class="b inf">inference</span>.</p>
+<p><strong>Withdrawal.</strong> Art. 7(3) allows withdrawal at any time and protects processing before it <a class="cite" href="#src-23">[23]</a>. Normally the data must then be deleted <a class="cite" href="#src-29">[29]</a>. The business "kan ikke bytte behandlingsgrunnlag" afterwards <a class="cite" href="#src-30">[30]</a>, and trying to switch to legitimate interests breaches the fairness and transparency principles and can be a serious violation <a class="cite" href="#src-29">[29]</a>. Art. 19 requires telling each recipient about erasure unless that is impossible or disproportionate <a class="cite" href="#src-23">[23]</a>, which makes licensees' contact details and licence terms relevant.</p>
+<p><strong><span class="b dis">Unresolved</span>.</strong> No source addresses what happens to a licence already sold, whether a licensee may continue or newly publish, or whether a § 104 consent in a paid release can be withdrawn on GDPR terms. Art. 7(3) covers GDPR consent only, and past use only. This is the largest open question for the licensing portal. For the reviewer.</p>
+<h3 id="children">Children</h3>
+<p><strong>Whether both guardians must sign was not answered</strong> by any source we read.</p>
+<p>Personopplysningsloven § 5 sets 13 as the age for consent to information society services under Art. 8 <a class="cite" href="#src-35">[35]</a><a class="cite" href="#src-23">[23]</a>. On its wording it does not set an age for images of a child held by an agency <span class="b inf">inference, high on text</span>. Datatilsynet says guardians consent for children who cannot validly consent, and its 2025 page sets no age <a class="cite" href="#src-24">[24]</a>. Its 2020 guidance for schools draws a line at 13 for involving the child, and says commercial use "kan være uheldig" <a class="cite" href="#src-25">[25]</a>; that guidance is written for another sector and is older. Children count as vulnerable data subjects when assessing whether a data protection impact assessment is needed <a class="cite" href="#src-26">[26]</a>.</p>
+<h3 id="roles">Roles</h3>
+<p>Datatilsynet's test is who decides the purposes and means <a class="cite" href="#src-33">[33]</a>, and the EDPB says decisions on purpose are always the controller's <a class="cite" href="#src-34">[34]</a>. Neither mentions image agencies. Applied to the agency <span class="b inf">inference, medium</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Holding client-owned images on the client's instructions</td>
+<td>Agency is processor</td>
+</tr>
+<tr>
+<td>Licensing on its own account, deciding what is licensed and to whom</td>
+<td>Agency is controller, needing a basis for the disclosure</td>
+</tr>
+<tr>
+<td>A licensee deciding its own use</td>
+<td>Licensee is probably a separate controller</td>
+</tr>
+<tr>
+<td>Anthropic under the DPA</td>
+<td>Anthropic is processor to the agency <a class="cite" href="#src-36">[36]</a></td>
+</tr>
+</tbody>
+</table>
+<p>Copyright ownership is not the test, and one agency can hold both roles at once. Anthropic's safety retention may make it a controller for that data; no regulator statement on this point was found.</p>
+<h3 id="anthropics-terms">Anthropic's terms</h3>
+<p><strong>Retention.</strong> Anthropic's privacy article covering the API says inputs and outputs are deleted within 30 days, and flagged content is kept up to 2 years with safety scores up to 7 years <a class="cite" href="#src-37">[37]</a>. Exceptions cover customer-controlled storage, other agreements, Usage Policy enforcement and legal compliance <a class="cite" href="#src-37">[37]</a>. This answers most of the check named in RG-3. One discrepancy remains: Anthropic's platform docs say conversation content "is not retained by default; the exception is Covered Models, which require 30-day retention" <a class="cite" href="#src-38">[38]</a>. That may describe feature-level storage only, but the two pages read differently, so <strong>state 30 days, the longer figure, until Anthropic confirms</strong>. Zero data retention exists by arrangement but excludes flagged content, and whether a small agency can get it is unknown <a class="cite" href="#src-38">[38]</a>.</p>
+<p><strong>Data processing addendum (DPA).</strong> The customer is controller and Anthropic processor, with breach notice within 48 hours, standard contractual clauses (SCCs) incorporated by reference, and 15 days to object to a new sub-processor <a class="cite" href="#src-36">[36]</a>. <strong>The DPA text contains no mention of the EEA, Norway or the Data Privacy Framework</strong>; its SCC annex speaks of exporters "established in an EU Member State" <a class="cite" href="#src-36">[36]</a>. That may be harmless, but ask Anthropic how the DPA applies to a Norwegian exporter. For the reviewer.</p>
+<h3 id="transfers-to-the-us">Transfers to the US</h3>
+<p>The Data Privacy Framework (DPF) is available only if the importer is on the DPF list <a class="cite" href="#src-39">[39]</a>. A manual search for "Anthropic" in the official participant list on 2026-11-04 gave no results <a class="cite" href="#src-66">[66]</a>, although unsourced third-party sites say it is listed. <strong>Treat the DPF as unavailable and rely on the DPA's SCCs.</strong></p>
+<p>The framework itself is under pressure:</p>
+<ul>
+<li>The General Court upheld it on 3 September 2025, and an appeal, C-703/25 P, was lodged <a class="cite" href="#src-40">[40]</a>. A manual check of the case page on 2026-11-04 shows it still pending, with nothing new <a class="cite" href="#src-72">[72]</a>.</li>
+<li><em>Trump v. Slaughter</em> (mid-2026) reportedly removed protections for FTC commissioners, and law firms report that the EDPB asked the Commission to assess the effect <a class="cite" href="#src-41">[41]</a><a class="cite" href="#src-71">[71]</a> <span class="b low">excerpts</span>.</li>
+<li>Datatilsynet, writing about the removals from the US Privacy and Civil Liberties Oversight Board (PCLOB), says the decision still applies and advises businesses to "tenke beredskap og ha en plan" <a class="cite" href="#src-42">[42]</a>. No Datatilsynet statement clearly later than the <em>Slaughter</em> ruling was found, and that page's date is unclear.</li>
+</ul>
+<p>SCCs likely do not escape this, since a transfer assessment looks at the same US safeguards <span class="b inf">inference</span>. No authority was found holding such transfers unlawful, and the Italian fine against OpenAI was annulled on procedural grounds, so it says nothing on the merits <a class="cite" href="#src-67">[67]</a>.</p>
+<h3 id="duties-and-data-handling">Duties and data handling</h3>
+<ul>
+<li><strong>Data protection impact assessment (DPIA) screening.</strong> Datatilsynet lists nine criteria, including vulnerable data subjects and innovative technology. Meeting two criteria creates a presumption that a DPIA is needed, one can be enough, and a decision not to do a DPIA should be justified and documented <a class="cite" href="#src-26">[26]</a>. Children's images plus the AI pipeline plausibly meet two <span class="b inf">inference</span>. Whether a commercial API counts as "innovative" is undecided, and Datatilsynet's list example is health implants <a class="cite" href="#src-27">[27]</a>. So: <strong>document a screening, and expect a full DPIA if children's images stay in scope.</strong> Failing to do a required DPIA can bring fines up to EUR 10 million or 2% of turnover <a class="cite" href="#src-69">[69]</a>.</li>
+<li><strong>Record of processing.</strong> The under-250 exemption falls away if processing is "not occasional" <a class="cite" href="#src-23">[23]</a>, and Datatilsynet says "nesten uten unntak" every business keeps one <a class="cite" href="#src-28">[28]</a>. A spreadsheet is enough <a class="cite" href="#src-28">[28]</a>.</li>
+<li><strong>Breach.</strong> 72 hours to Datatilsynet where feasible <a class="cite" href="#src-23">[23]</a>. Anthropic's 48-hour notice to the customer fits inside that <a class="cite" href="#src-36">[36]</a>, since the clock runs from when the controller becomes aware <a class="cite" href="#src-23">[23]</a> <span class="b inf">inference</span>. The no-risk exception is read strictly <a class="cite" href="#src-49">[49]</a>.</li>
+<li><strong>EXIF and GPS.</strong> Art. 4(1) names location data as an identifier <a class="cite" href="#src-23">[23]</a>, so GPS tied to an identifiable person is personal data <span class="b inf">inference</span>. No regulator statement on EXIF was found. Stripping location from client copies (FR-35) is well aimed.</li>
+</ul>
+<h3 id="erasure-and-bookkeeping">Erasure and bookkeeping</h3>
+<p>Bookkeeping material is kept 5 years, and agreements and some correspondence 3.5 years, after the end of the financial year <a class="cite" href="#src-43">[43]</a>. <strong>The bookkeeping-law change coming on 1 January 2027 does not alter these periods</strong>; it adds that an electronic invoice must be kept in its original format <a class="cite" href="#src-44">[44]</a>. An agreement an invoice relies on ("Salg i henhold til avtale") can become 5-year material <a class="cite" href="#src-45">[45]</a>, so <strong>keep licence agreements for 5 years</strong> when invoices refer to them. No source addresses licence agreements as such. Art. 17(3)(b) lets a legal retention duty override erasure <a class="cite" href="#src-23">[23]</a>, so accounting records stay, while the image and consent details are a separate question <span class="b inf">inference</span>.</p>
+<h3 id="privacy-enforcement">Privacy enforcement</h3>
+<p>The evidence is thin. Coop Finnmark is the closest Norwegian case <a class="cite" href="#src-46">[46]</a>, and the Spanish regulator's small fines (around EUR 9,000 to 10,000) for photos used without a basis are the closest commercial examples <a class="cite" href="#src-47">[47]</a> (tracker summaries only). No action against a photo archive, an image-licensing business or any use of AI metadata was found.</p>
+<h2 id="dimension-3-accessibility">Dimension 3: Accessibility</h2>
+<h3 id="scope">Scope</h3>
+<p>Likestillings- og diskrimineringsloven (LDL) § 18 and the universal-design regulation (forskrift om universell utforming av IKT-løsninger) cover private businesses' main ICT solutions aimed at or made available to users, supporting the business's ordinary functions <a class="cite" href="#src-50">[50]</a><a class="cite" href="#src-51">[51]</a>. Company size does not matter, and Uutilsynet says login, membership, registration or a customer relationship does not remove coverage <a class="cite" href="#src-52">[52]</a>.</p>
+<p><strong>An invitation-only B2B portal is <span class="b dis">unresolved</span>, with real arguments both ways:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Toward coverage</th>
+<th>Away from coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B2B customers are covered "så lenge ho er stor og ubestemd" <a class="cite" href="#src-52">[52]</a></td>
+<td>The regulation defines main solutions by reference to services "til allmennheten" (§ 3 g) <a class="cite" href="#src-51">[51]</a></td>
+</tr>
+<tr>
+<td>What decides is "kven som i teorien kan ta i bruk løysinga" <a class="cite" href="#src-53">[53]</a></td>
+<td>Uutilsynet separates open websites from solutions for closed, defined groups, which it calls extranets <a class="cite" href="#src-53">[53]</a></td>
+</tr>
+<tr>
+<td>Internet banks count despite login <a class="cite" href="#src-52">[52]</a></td>
+<td>Extranet duties are stated for public bodies only (§ 4b) <a class="cite" href="#src-51">[51]</a><a class="cite" href="#src-52">[52]</a></td>
+</tr>
+<tr>
+<td></td>
+<td>Client staff use the portal at work, and § 2 excludes ICT used in work <a class="cite" href="#src-51">[51]</a> (weak, no authority, and the B2B passage in <a class="cite" href="#src-52">[52]</a> suggests it is not read this way)</td>
+</tr>
+</tbody>
+</table>
+<p>The red team reads the regulator's framing as pointing toward a private extranet being out of scope. The verifier found the extranet label fits imperfectly, because Uutilsynet describes extranets as one-way internal communication, and this portal is transactional. No tribunal or supervision case on an invitation-only portal was found. If any business can become a client, the "in theory" test is a real risk to relying on the invitation gate. <strong>Only Uutilsynet can settle this quickly, so ask it in writing.</strong></p>
+<h3 id="standard">Standard</h3>
+<p>The conflict the PRD addendum noted between WCAG 2.0 and WCAG 2.1 resolves into two tracks <a class="cite" href="#src-51">[51]</a><a class="cite" href="#src-52">[52]</a>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Private business (§ 4)</th>
+<th>Public body (§ 4b)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>WCAG 2.0 A and AA, without 1.2.3 to 1.2.5, or equivalent</td>
+<td>EN 301 549 V3.2.1, which brings in WCAG 2.1</td>
+</tr>
+<tr>
+<td>Accessibility statement</td>
+<td>Not required (§ 4e binds public bodies)</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Intranet and extranet</td>
+<td>Not stated</td>
+<td>Covered</td>
+</tr>
+</tbody>
+</table>
+<p>A March 2026 supervision report applied the private track to a private company <a class="cite" href="#src-55">[55]</a>. The regulation's last substantive change was in 2023 <a class="cite" href="#src-51">[51]</a>. No planned change to WCAG 2.2 or to private-sector rules was found, though that is weak evidence <a class="cite" href="#src-64">[64]</a>. All businesses must be able to document compliance (§ 5) <a class="cite" href="#src-51">[51]</a>, and § 19 a's active-effort duty also binds private businesses <a class="cite" href="#src-50">[50]</a>.</p>
+<h3 id="staff-pages">Staff pages</h3>
+<p>§ 2 excludes ICT "som brukes ved utøvelse av arbeid", "med mindre annet fremgår av forskriften", and the only such carve-back found is the public-body intranet duty in § 4b <a class="cite" href="#src-51">[51]</a>. Staff pages are therefore outside the regulation <span class="b inf">inference from the text</span>. Individual accommodation under LDL § 22 and the general active-effort duties remain <a class="cite" href="#src-50">[50]</a><a class="cite" href="#src-63">[63]</a>. Arbeidsmiljøloven was not checked. Pages clients can reach should not be treated as staff pages, even when staff write the content <span class="b inf">inference</span>.</p>
+<h3 id="public-clients">Public clients</h3>
+<p>The procurement duty sits on the buyer (anskaffelsesloven § 5n) <a class="cite" href="#src-61">[61]</a>. When a public body buys a solution from a private party, Uutilsynet treats it as the public body's own, with public-body requirements applying <a class="cite" href="#src-53">[53]</a>. So the stricter standard reaches the vendor through the contract. The vendor's own direct duty is § 4, which applies only if the portal is in scope.</p>
+<p>Licensing images from a multi-client portal looks different from buying a solution, but no source addresses it <span class="b inf">inference</span>. A public client republishing an image carries its own duty for the alt text, so it may ask for alt text as a contract term <span class="b inf">inference</span>.</p>
+<h3 id="alt-text">Alt text</h3>
+<p>WCAG success criterion 1.1.1 is in the private minimum. Uutilsynet's test rule says meaningful images need a short alternative "som gir samme informasjon som bildet" <a class="cite" href="#src-57">[57]</a>, and "Alle bilder i HTML skal ha alt-attributt" <a class="cite" href="#src-56">[56]</a>. Weak text is itself cited: the March 2026 report lists five doctor avatars with non-descriptive alt text <a class="cite" href="#src-55">[55]</a>.</p>
+<p>For the PRD's fallbacks <span class="b inf">inference, since no source names these strings</span>:</p>
+<ul>
+<li><strong>No alt text:</strong> fails (W3C F65) <a class="cite" href="#src-58">[58]</a>.</li>
+<li><strong>"Untitled image":</strong> fails. F30 covers text that is not an alternative, such as placeholder text <a class="cite" href="#src-58">[58]</a>.</li>
+<li><strong>Title as alt text:</strong> depends on the title. A filename-like title fails. A descriptive title may pass for art-like images, because W3C's sensory exception names "works of visual art" and needs only descriptive identification <a class="cite" href="#src-58">[58]</a>. That wording comes from the WCAG 2.1 Understanding page, and the 2.0 text was not checked separately. That exception requires that the image does not primarily convey important information, and a buyer choosing what to license usually needs to know what an image shows, so it should not be assumed for a whole library.</li>
+<li><strong>A warning to staff:</strong> changes nothing, since the test looks at the published page. Uutilsynet tells editors that a good tool does not help if the publisher does not use it <a class="cite" href="#src-60">[60]</a>.</li>
+</ul>
+<p><strong>AI alt text is not banned.</strong> The test is the result. The only AI remark found from Uutilsynet is that Facebook's automatic descriptions vary in quality and should be checked <a class="cite" href="#src-68">[68]</a>, and a 2026 W3C post reportedly warns that generated text should not entirely replace authored descriptions <a class="cite" href="#src-59">[59]</a> (both excerpts). Staff review, which the PRD already designs in, is the right control.</p>
+<h3 id="eaa">EAA</h3>
+<p>A pure B2B portal looks outside the European Accessibility Act, but the directive's own text was not read, so <strong>the B2B limb is unconfirmed</strong> (medium at best).</p>
+<p>The Act is not in the EEA Agreement or Norwegian law <a class="cite" href="#src-62">[62]</a>, and this was still true in April 2026 <a class="cite" href="#src-61">[61]</a>; later status is unconfirmed. Uutilsynet describes covered e-commerce as "retta mot forbrukarar" and says microenterprises with fewer than ten employees are exempt from service requirements <a class="cite" href="#src-62">[62]</a>. It also says Norwegian businesses selling into the EU must follow the Act there <a class="cite" href="#src-62">[62]</a>. Recheck if the portal sells to consumers or into the EU.</p>
+<h3 id="accessibility-enforcement">Accessibility enforcement</h3>
+<p>Digitaliseringsdirektoratet, through Uutilsynet, can issue orders and daily fines <a class="cite" href="#src-50">[50]</a><a class="cite" href="#src-51">[51]</a>. An individual can also complain to Diskrimineringsnemnda, which treats a breach of § 18 as discrimination <a class="cite" href="#src-70">[70]</a> <span class="b low">excerpt</span>. Cases seen are broad public-facing services <a class="cite" href="#src-54">[54]</a><a class="cite" href="#src-55">[55]</a>, and correction after an order appears to be the usual end point <span class="b inf">inference from a small sample</span>. The one daily-fine case found was closed quickly once the errors were fixed <a class="cite" href="#src-54">[54]</a> <span class="b low">excerpt, no amount seen</span>. No case on an invitation-only portal was found.</p>
+<h2 id="cross-dimension-insights">Cross-dimension insights</h2>
+<ol>
+<li><strong>One EU client changes three answers at once.</strong> It brings AI Act Art. 2(1)(c) into play <a class="cite" href="#src-7">[7]</a>, requires rechecking the EAA <a class="cite" href="#src-62">[62]</a>, and raises the AI Act Art. 50(2) question of whether generated text must be marked <a class="cite" href="#src-11">[11]</a>. Serving only Norway is the assumption several conclusions rest on, so it should be a deliberate decision with a check attached.</li>
+<li><strong>Better alt text and sensitive inference pull in opposite directions.</strong> WCAG 1.1.1 wants text that gives the same information as the image <a class="cite" href="#src-57">[57]</a>, while GDPR Art. 9 penalises revealing protected attributes <a class="cite" href="#src-21">[21]</a>. A prompt that bans all description of people would fail the first, and one that describes everything could fail the second. The EDPB's wheelchair example marks a workable line: describe what is visible, and do not assert what it implies <a class="cite" href="#src-20">[20]</a>. That line is an analogy from video, so it needs review.</li>
+<li><strong>Consent, photographer permission and AI permission fit one record.</strong> Åndsverkloven §§ 67(2), 104 and 105, GDPR Art. 7 and Anthropic's L.1 warranty all ask the same question per image or image set: who agreed to what, for which use, and is it still valid. One rights record can serve all of them, which is cheaper than three features.</li>
+<li><strong>Withdrawal only works if licensees can be reached.</strong> GDPR Art. 19 <a class="cite" href="#src-23">[23]</a> and the <span class="b dis">unresolved</span> licensee question both depend on knowing who licensed what, and on licence terms that address it. FR-41's transaction log gives the first part, FR-25's revoke for all holders of an image gives a mechanism, and RG-6's licence text must supply the terms. FR-24's rule that licences survive later changes has no exception for withdrawn consent, so the rollout has to decide how the two fit.</li>
+</ol>
+<h2 id="contrary-evidence">Contrary evidence</h2>
+<p>The red-team pass covered 13 conclusions. <strong>None was overturned; one survived intact and 12 were weakened</strong>, mostly by being too absolute. The one overturned item in the claims ledger is a separate template-site claim about § 104 <a class="cite" href="#src-65">[65]</a>. The corrections are already in the text above. The strongest arguments that remain:</p>
+<ul>
+<li><strong>Against requiring photographers' permission (see Copyright):</strong> an API call with automatic deletion looks closer to the temporary-copy exception than the LAION download was (red team's inference from <a class="cite" href="#src-19">[19]</a>), and analysing an image may not be "use" of the work at all. Implied licence and the purpose of a commission were not tested. The recommendation survives because L.1 applies whichever way the statute falls <a class="cite" href="#src-16">[16]</a>.</li>
+<li><strong>Against building the portal as if covered (see Scope):</strong> the page behind the red team's reading does not itself say private extranets are out of scope <a class="cite" href="#src-53">[53]</a>. Building as if covered is a business choice, not a legal conclusion, and the PRD already makes it.</li>
+<li><strong>Against saying a DPIA is probably required (see Duties and data handling):</strong> the red team found no support for "probably". The Norwegian list's examples also do not obviously resemble metadata generation (inference from <a class="cite" href="#src-27">[27]</a>). The report therefore says "document a screening", with a full DPIA expected if children's images stay in scope. That expectation is a judgement call.</li>
+<li><strong>Against treating the DPA and SCCs as enough (see Transfers to the US):</strong> this omits the transfer assessment, and the US basis moved in 2026 <a class="cite" href="#src-41">[41]</a>. No authority found these transfers unlawful, but none blessed them.</li>
+</ul>
+<h2 id="recommendations">Recommendations</h2>
+<h3 id="v1-by-2026-12-05-two-small-changes">v1 (by 2026-12-05): two small changes</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Change</th>
+<th>Binds to</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V-1</td>
+<td>The versioned prompt tells the model to describe what is visible and not to state or infer ethnicity, religion, health, sexual orientation, political opinion or union membership, and not to identify anyone.</td>
+<td>FR-12, FR-14</td>
+<td>Medium. Art. 9 applies today <a class="cite" href="#src-20">[20]</a><a class="cite" href="#src-21">[21]</a>; prompts are cheap to change now. The line drawn is an analogy from video.</td>
+</tr>
+<tr>
+<td>V-2</td>
+<td>NFR-5 states the facts: the legal minimum is WCAG 2.0 for a private business and WCAG 2.1 is the project's own higher target. It also says the title and "Untitled image" fallbacks keep the page working but are not compliant text.</td>
+<td>NFR-5</td>
+<td>High on the standard <a class="cite" href="#src-51">[51]</a><a class="cite" href="#src-52">[52]</a><a class="cite" href="#src-55">[55]</a>. Medium on the fallbacks, which is inference <a class="cite" href="#src-57">[57]</a><a class="cite" href="#src-58">[58]</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>FR-19 stays as decided in the PRD.</strong> Publishing with a warning is fine for v1, which runs on sample data and is not a real service. The legal cost arises only at rollout, so it belongs in RG-9.</p>
+<h3 id="rollout-gate">Rollout gate</h3>
+<p>RG-14 already exists in the PRD (Baseline), so the new items start at RG-15.</p>
+<p><strong>RG-3 Data protection basis</strong></p>
+<ul>
+<li>Record roles per data set, and keep an Art. 30 record.</li>
+<li>Document a DPIA screening.</li>
+<li>Do a transfer assessment on the DPA's SCCs that covers <em>Trump v. Slaughter</em>, and have a plan if transfers stop.</li>
+<li>Ask Anthropic how the DPA applies to a Norwegian exporter, and which retention statement is right.</li>
+<li>State the 2-year flagged-content retention in the privacy notice.</li>
+<li><em>Confidence:</em> high on the record and the 30-day text, medium on screening.</li>
+</ul>
+<p><strong>RG-4 Erasure</strong></p>
+<ul>
+<li>Keep invoices 5 years in original format, and licence agreements 5 years when invoices refer to them.</li>
+<li>Notify recipients on erasure (GDPR Art. 19).</li>
+<li><em>Confidence:</em> high on the periods; medium on licence agreements, which rest on a secondary source with no licence-specific authority.</li>
+</ul>
+<p><strong>RG-5 People in images</strong></p>
+<ul>
+<li>Replace the yes/no flag with: person is the subject, person is incidental, or no person.</li>
+<li>Base "identifiable" on more than faces.</li>
+<li>Add § 105 consent for commissioned portraits.</li>
+<li>Choose one legal basis per purpose in advance, and record the consent's scope and duration.</li>
+<li>Have the reviewer decide on guardians and on children in commercial licensing.</li>
+<li><em>Confidence:</em> high on the § 104 text, medium on the rest. Whether both guardians must sign is <span class="b dis">unresolved</span>.</li>
+</ul>
+<p><strong>RG-6 Rights and licence terms</strong></p>
+<ul>
+<li>Make photographer agreements expressly permit sending images to AI providers.</li>
+<li>Make licence terms state what happens if consent is withdrawn, and decide at rollout how that fits FR-24 and FR-25.</li>
+<li>Do not promise exclusive rights in AI metadata.</li>
+<li>Consider one rights record per image set covering RG-5 and RG-6.</li>
+<li><em>Confidence:</em> high on Anthropic's terms and § 67(2). The withdrawal terms rest on an <span class="b dis">unresolved</span> question.</li>
+</ul>
+<p><strong>RG-9 Accessibility</strong></p>
+<ul>
+<li>Ask Uutilsynet in writing whether the portal is covered.</li>
+<li>Decide then whether FR-19 must block publishing without alt text, and whether to drop "Untitled image".</li>
+<li>Keep a § 5 compliance record.</li>
+<li><em>Confidence:</em> high on the standard. Scope is <span class="b dis">disputed</span>.</li>
+</ul>
+<p><strong>New: RG-15 Market scope</strong></p>
+<ul>
+<li>Decide whether the portal serves EU clients. If it does, recheck the AI Act, including provider status and Art. 50(2), and the EAA.</li>
+<li><em>Confidence:</em> medium. The Art. 2(1)(c) text is high, and its application to this use is inference.</li>
+</ul>
+<p><strong>New: RG-16 AI governance</strong></p>
+<ul>
+<li>Name an owner to watch the Norwegian AI Act bill and Prop. 41 LS.</li>
+<li>Add a short staff note on AI literacy and on what must not be described in metadata.</li>
+<li><em>Confidence:</em> medium. This is not a current legal duty in Norway.</li>
+</ul>
+<h3 id="prd-edits">PRD edits</h3>
+<p>Applying any of this changes the PRD, so it needs a <code>D-xxx</code> entry in <code>docs/process/decisions.md</code>, per CLAUDE.md. Besides V-1, V-2 and the gate items above, make these two edits at the same time:</p>
+<ul>
+<li><strong>NFR-3</strong> names paid tiers that do not train as the condition for real images. Training is not the only condition, so it should point to RG-3 and RG-6 together.</li>
+<li><strong>The addendum's "Rollout research" table</strong> should be replaced with a link to this report.</li>
+</ul>
+<h2 id="open-questions">Open questions</h2>
+<p>Decided after this report: none of these will be pursued for v1, and the app follows the accessibility target whether or not the portal is covered (D-024 in <code>docs/process/decisions.md</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>What would answer it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Is an invitation-only B2B portal covered by § 18 and forskrift § 2?</td>
+<td>A written question to Uutilsynet; Prop. 81 L (2016-2017)</td>
+</tr>
+<tr>
+<td>What happens to a sold licence when consent is withdrawn? Can a § 104 consent in a paid release be withdrawn?</td>
+<td>A lawyer; the unread model-photo judgments on nored.no</td>
+</tr>
+<tr>
+<td>Does an API upload for analysis need the photographer's permission as a matter of law?</td>
+<td>Ørstavik's article in NIR; the result in C-250/25 Like Company (not found this run); Prop. 41 LS preparatory works</td>
+</tr>
+<tr>
+<td>Do the Anthropic DPA and its SCCs work for a Norwegian exporter?</td>
+<td>Anthropic; the reviewer</td>
+</tr>
+<tr>
+<td>Must both guardians sign? May a child's image be licensed commercially at all?</td>
+<td>Datatilsynet's full children's guide (6 of 7 pages unread); barneloven § 30; Barneombudet</td>
+</tr>
+<tr>
+<td>Does Art. 9 reach incidental inference?</td>
+<td>C-21/23 and C-184/20 read directly; a statement from Datatilsynet, which gave none in searches</td>
+</tr>
+<tr>
+<td>Is the agency a "provider" under Art. 50(2)?</td>
+<td>Commission Art. 50 guidelines; only relevant if EU clients are chosen</td>
+</tr>
+<tr>
+<td>Does the EAA cover B2B?</td>
+<td>Directive 2019/882 Arts. 2 and 3 (EUR-Lex fetches came back empty)</td>
+</tr>
+<tr>
+<td>Is there enforcement on inferring sensitive attributes from images?</td>
+<td>A targeted search, not run this time</td>
+</tr>
+</tbody>
+</table>
+<h2 id="source-appendix">Source appendix</h2><p>Evidence: <strong>opened</strong> means the page was fetched, usually through a summarising tool, so check quotes before formal use. <strong>excerpt</strong> means seen only in a search summary. <strong>text read by lead</strong> means the research lead read the extracted text directly. <strong>failed read</strong> means the page could not be read.</p><details><summary>Show all sources</summary><div class="tbl"><table class="sources"><tbody><tr id="src-1"><td>[1]</td><td>Minimal risk has no specific requirements; regime being introduced via EEA (opened)</td><td><a href="https://nkom.no/ki/i-et-notteskall" target="_blank" rel="noopener">Nkom</a></td><td>2026-06-10</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-2"><td>[2]</td><td>AI Act &quot;under scrutiny&quot;; no Joint Committee decision (opened; page undated)</td><td><a href="https://www.efta.int/eea-lex/32024R1689" target="_blank" rel="noopener">EFTA EEA-Lex</a></td><td>undated, 2026</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-3"><td>[3]</td><td>Autumn 2026 consultation, spring 2027 bill (excerpt; direct fetch 404)</td><td><a href="https://www.tu.no/nyhetsstudio/nye-eu-regler-for-ki-norge-og-eoes-henger-ennaa-langt-etter/127027" target="_blank" rel="noopener">Teknisk Ukeblad/NTB</a></td><td>not seen</td><td>2026-11-04</td><td>Low</td></tr><tr id="src-4"><td>[4]</td><td>&quot;Rather unlikely&quot; in force in Norway before mid 2027; Norwegian firm in scope if output is used in EU; written for asset managers (opened)</td><td><a href="https://bahr.no/newsletter/asset-management-the-eu-ai-act-a-call-and-guide-to-implementation-for-norwegian-asset-managers" target="_blank" rel="noopener">BAHR</a></td><td>2026-08-03</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-5"><td>[5]</td><td>Omnibus in force 27 July 2026; minimal risk rules (opened)</td><td><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noopener">European Commission</a></td><td>2026-10-19</td><td>2026-11-04</td><td>High</td></tr><tr id="src-6"><td>[6]</td><td>Omnibus dates: OJ 24 July, Annex III to 2 Dec 2027 (opened)</td><td><a href="https://natlawreview.com/article/eu-digital-omnibus-ai-enters-force" target="_blank" rel="noopener">K&amp;L Gates via National Law Review</a></td><td>2026-07-31</td><td>2026-11-04</td><td>High</td></tr><tr id="src-7"><td>[7]</td><td>Art. 2(1)(c) output used in the Union (opened)</td><td><a href="https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-2" target="_blank" rel="noopener">AI Act Service Desk, Art. 2</a></td><td>2026-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-8"><td>[8]</td><td>Provider and deployer definitions (opened)</td><td><a href="https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-3" target="_blank" rel="noopener">AI Act Service Desk, Art. 3</a></td><td>2026-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-9"><td>[9]</td><td>Art. 4 as amended (opened)</td><td><a href="https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-4" target="_blank" rel="noopener">AI Act Service Desk, Art. 4</a></td><td>2026-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-10"><td>[10]</td><td>Art. 5(1)(g) and its carve-out (opened)</td><td><a href="https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-5" target="_blank" rel="noopener">AI Act Service Desk, Art. 5</a></td><td>2026-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-11"><td>[11]</td><td>Art. 50(2) and 50(4) (opened)</td><td><a href="https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50" target="_blank" rel="noopener">AI Act Service Desk, Art. 50</a></td><td>2026-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-12"><td>[12]</td><td>Åndsverkloven §§ 3, 4, 23, 24, 67, 68, 79, 104, 105; no §§ 50 d to f (opened)</td><td><a href="https://lovdata.no/dokument/NL/lov/2018-06-15-40" target="_blank" rel="noopener">Lovdata</a></td><td>edited 2025-11-28</td><td>2026-11-04</td><td>High</td></tr><tr id="src-13"><td>[13]</td><td>Prop. 41 LS in committee; timeline did not load (opened)</td><td><a href="https://www.stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/?p=200243" target="_blank" rel="noopener">Stortinget</a></td><td>live page</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-14"><td>[14]</td><td>Proposed § 50 d definition and § 50 e reservation (excerpt)</td><td><a href="https://www.regjeringen.no/no/dokumenter/prop.-41-ls-20252026/id3154279/?ch=4" target="_blank" rel="noopener">Kultur- og likestillingsdepartementet</a></td><td>2025-2026</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-15"><td>[15]</td><td>Photographers ask the Storting to postpone Arts. 3 and 4 (opened; advocacy)</td><td><a href="https://fotografforbundet.no/wp-content/uploads/Horingsinnspill-Prop.-41-LS-NFF.pdf" target="_blank" rel="noopener">Norges Fotografforbund</a></td><td>2026-06</td><td>2026-11-04</td><td>High for the position</td></tr><tr id="src-16"><td>[16]</td><td>L.1 warranty, K.3(c) exclusion, B no training, output assignment (opened twice; primary contract)</td><td><a href="https://www.anthropic.com/legal/commercial-terms" target="_blank" rel="noopener">Anthropic Commercial Terms</a></td><td>2025-06-17</td><td>2026-11-04</td><td>High</td></tr><tr id="src-17"><td>[17]</td><td>AI output likely unprotected under Norwegian law (excerpt)</td><td><a href="https://schjodt.com/news/who-owns-the-code-copyright-and-ai-generated-output-in-the-workplace" target="_blank" rel="noopener">Schjødt</a></td><td>not seen</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-18"><td>[18]</td><td>Kopinor licenses AI input in limited cases (excerpt; attribution uncertain)</td><td><a href="https://www.iktogskole.no/2026/02/27/kopinor-og-ki/" target="_blank" rel="noopener">IKT og skole</a></td><td>2026-02-27 (URL)</td><td>2026-11-04</td><td>Low</td></tr><tr id="src-19"><td>[19]</td><td>Hamburg court rejected the temporary-copy exception for LAION (excerpt; attribution inferred)</td><td><a href="https://www.mofo.com/resources/insights/241004-to-scrape-or-not-to-scrape-first-court-decision" target="_blank" rel="noopener">Morrison Foerster</a></td><td>2024-10-04</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-20"><td>[20]</td><td>Wheelchair example; &quot;processed to deduce&quot; (PDF text read by lead; video devices, so analogy)</td><td><a href="https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines_201903_video_devices_en_0.pdf" target="_blank" rel="noopener">EDPB Guidelines 3/2019</a></td><td>2020-01-29</td><td>2026-11-04</td><td>High for the words</td></tr><tr id="src-21"><td>[21]</td><td>C-184/20: indirect disclosure falls under Art. 9 (excerpt; judgment not opened)</td><td><a href="https://www.insideprivacy.com/eu-data-protection/special-category-data-by-inference-cjeu-significantly-expands-the-scope-of-article-9-gdpr/" target="_blank" rel="noopener">Covington</a></td><td>2022</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-22"><td>[22]</td><td>C-21/23: controller&#x27;s aim said to be irrelevant (excerpt; commentary)</td><td><a href="https://connectontech.bakermckenzie.com/sensitive-data-under-the-cjeus-spotlight-practical-implications/" target="_blank" rel="noopener">Baker McKenzie</a></td><td>not confirmed</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-23"><td>[23]</td><td>GDPR Arts. 4(1), 6, 7(3), 8(1), 17(3)(b), 19, 30(5), 33, Recital 51 (opened)</td><td><a href="https://publications.europa.eu/resource/celex/32016R0679" target="_blank" rel="noopener">EU Publications Office</a></td><td>2016-05-04</td><td>2026-11-04</td><td>High</td></tr><tr id="src-24"><td>[24]</td><td>Datatilsynet on images: § 104 quote, portrait and situation images, burden of proof, guardians (opened; text re-read by lead)</td><td><a href="https://www.datatilsynet.no/personvern-pa-ulike-omrader/internett-og-apper/bilder-pa-nett/" target="_blank" rel="noopener">Datatilsynet</a></td><td>2025-09-16</td><td>2026-11-04</td><td>High</td></tr><tr id="src-25"><td>[25]</td><td>Children&#x27;s images: 13-year line, commercial use &quot;uheldig&quot;; school guidance, so analogy (opened)</td><td><a href="https://www.datatilsynet.no/personvern-pa-ulike-omrader/skole-barn-unge/bilder-av-barn-pa-nett/?print=true" target="_blank" rel="noopener">Datatilsynet</a></td><td>2020-03</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-26"><td>[26]</td><td>Nine DPIA criteria, presumption, children as vulnerable (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/vurdering-av-personvernkonsekvenser/nar-er-risiko-hoy/" target="_blank" rel="noopener">Datatilsynet</a></td><td>2023-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-27"><td>[27]</td><td>DPIA list, health-implant example (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/vurdere-personvernkonsekvenser/vurdering-av-personvernkonsekvenser/nar-ma-man-gjennomfore-en-vurdering-av-personvernkonsekvenser/" target="_blank" rel="noopener">Datatilsynet</a></td><td>2023-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-28"><td>[28]</td><td>Record of processing &quot;nesten uten unntak&quot;; no form requirement (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/protokoll-over-behandlingsaktiviteter/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-29"><td>[29]</td><td>On withdrawal, data normally deleted; switching basis breaches fairness and transparency (text read by lead)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/om-behandlingsgrunnlag/samtykke/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-30"><td>[30]</td><td>One basis per purpose; no switching after withdrawal (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/om-behandlingsgrunnlag/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-31"><td>[31]</td><td>Contract basis requires the data subject to be a party (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/om-behandlingsgrunnlag/nodvendig-for-a-oppfylle-en-avtale/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-32"><td>[32]</td><td>Legitimate interest conditions (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/om-behandlingsgrunnlag/nodvendig-for-a-ivareta-legitime-interesser---interesseavveiing/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-33"><td>[33]</td><td>Controller test; both roles possible (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/behandlingsansvarlig-og-databehandler/hva-er-en-databehandler/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-34"><td>[34]</td><td>Purposes are the controller&#x27;s decision; no image-agency example (opened by keyword search)</td><td><a href="https://www.edpb.europa.eu/system/files/documents/2023-10/EDPB_guidelines_202007_controllerprocessor_final_en.pdf" target="_blank" rel="noopener">EDPB Guidelines 07/2020</a></td><td>2021-07-07</td><td>2026-11-04</td><td>High</td></tr><tr id="src-35"><td>[35]</td><td>Personopplysningsloven § 5 (opened)</td><td><a href="https://lovdata.no/dokument/NL/lov/2018-06-15-38/%C2%A75" target="_blank" rel="noopener">Lovdata</a></td><td>2018</td><td>2026-11-04</td><td>High</td></tr><tr id="src-36"><td>[36]</td><td>DPA: roles, SCCs, 48 hours, 15 days; no EEA, Norway or DPF wording (text searched by lead)</td><td><a href="https://www.anthropic.com/legal/data-processing-addendum" target="_blank" rel="noopener">Anthropic DPA</a></td><td>2025-02-24</td><td>2026-11-04</td><td>High</td></tr><tr id="src-37"><td>[37]</td><td>30-day deletion; flagged content 2 and 7 years (opened)</td><td><a href="https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data" target="_blank" rel="noopener">Anthropic privacy article</a></td><td>2026-07-01</td><td>2026-11-04</td><td>High</td></tr><tr id="src-38"><td>[38]</td><td>&quot;Not retained by default&quot;; zero data retention terms (opened, first part)</td><td><a href="https://platform.claude.com/docs/en/manage-claude/api-and-data-retention" target="_blank" rel="noopener">Anthropic platform docs</a></td><td>not shown</td><td>2026-11-04</td><td>High for the words; reads differently from [37]</td></tr><tr id="src-39"><td>[39]</td><td>DPF available only for listed importers; covers EEA to US (excerpt)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/overforing-av-personopplysninger-ut-av-eos/omrader-med-tilstrekkelig-beskyttelsesniva/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not shown</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-40"><td>[40]</td><td>Latombe appeal C-703/25 P lodged (excerpt)</td><td><a href="https://eur-lex.europa.eu/eli/C/2025/6610/oj" target="_blank" rel="noopener">Official Journal C/2025/6610</a></td><td>2025-12-22</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-41"><td>[41]</td><td>*Trump v. Slaughter* and the reported EDPB request (excerpt)</td><td><a href="https://www.faegredrinker.com/en/insights/publications/2026/9/trump-v-slaughter-implications-of-the-us-supreme-court-ruling-for-eu-us-data-transfers-and-the-data-privacy-framework" target="_blank" rel="noopener">Faegre Drinker</a></td><td>2026-09-17</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-42"><td>[42]</td><td>Decision still applies after the PCLOB removals; &quot;tenke beredskap&quot; (excerpt; date conflict between URL and summary)</td><td><a href="https://www.datatilsynet.no/aktuelt/aktuelle-nyheter-2025/informasjon-om-overforinger-til-usa/" target="_blank" rel="noopener">Datatilsynet</a></td><td>2025 (URL)</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-43"><td>[43]</td><td>§ 13 periods: 5 years and 3.5 years (opened)</td><td><a href="https://lovdata.no/dokument/NL/lov/2004-11-19-73/%C2%A713" target="_blank" rel="noopener">Lovdata</a></td><td>in force</td><td>2026-11-04</td><td>High</td></tr><tr id="src-44"><td>[44]</td><td>Change from 2027 keeps the periods; e-invoice in original format (opened)</td><td><a href="https://lovdata.no/dokument/LTI/lov/2026-06-19-39" target="_blank" rel="noopener">Lovdata</a></td><td>2026-06-19</td><td>2026-11-04</td><td>High</td></tr><tr id="src-45"><td>[45]</td><td>Agreement an invoice refers to follows the invoice&#x27;s period (excerpt; attribution inferred)</td><td><a href="https://www.sticos.no/fagstoff/regnskapsmateriale-som-ma-oppbevares-lengre-enn-5-ar" target="_blank" rel="noopener">Sticos</a></td><td>not shown</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-46"><td>[46]</td><td>Coop Finnmark: NOK 400,000, no faces shown, Art. 6(1)(f) balance failed (opened; surveillance footage, so analogy)</td><td><a href="https://www.datatilsynet.no/contentassets/5cd2e76bd5d2481f9578ffe721b7e24d/vedtak-om-overtredelsesgebyr-til-coop-finnmark-sa.pdf" target="_blank" rel="noopener">Datatilsynet</a></td><td>2020-12-22</td><td>2026-11-04</td><td>High</td></tr><tr id="src-47"><td>[47]</td><td>Spanish fines for photos used without a basis (excerpt; tracker)</td><td><a href="https://www.enforcementtracker.com/ETid-983" target="_blank" rel="noopener">CMS GDPR Enforcement Tracker</a></td><td>not captured</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-48"><td>[48]</td><td>Model photo case: active, informed consent (excerpt; judgment not read)</td><td><a href="https://www.nored.no/content/download/7720/51546/version/1/file/IJ-nr%202013-12%20-%20Fotomodell-saken%20-%20Oslo%20tingrett%202013-05-10.pdf" target="_blank" rel="noopener">Norsk Redaktørforening</a></td><td>2013-05-10</td><td>2026-11-04</td><td>Low</td></tr><tr id="src-49"><td>[49]</td><td>No-risk exception read strictly; processor reports to the controller (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/avvik/hvilke-brudd-skal-meldes-til-datatilsynet/" target="_blank" rel="noopener">Datatilsynet</a></td><td>not captured</td><td>2026-11-04</td><td>High</td></tr><tr id="src-50"><td>[50]</td><td>LDL §§ 18, 19 a, 22, 36 (opened)</td><td><a href="https://lovdata.no/dokument/NL/lov/2017-06-16-51/KAPITTEL_3" target="_blank" rel="noopener">Lovdata</a></td><td>in force</td><td>2026-11-04</td><td>High</td></tr><tr id="src-51"><td>[51]</td><td>Forskrift §§ 2, 3 g, 4, 4b, 4e, 5, 6 (opened)</td><td><a href="https://lovdata.no/dokument/SF/forskrift/2013-06-21-732" target="_blank" rel="noopener">Lovdata</a></td><td>amended 2023-02-01</td><td>2026-11-04</td><td>High</td></tr><tr id="src-52"><td>[52]</td><td>Login and B2B not excluded &quot;så lenge ho er stor og ubestemd&quot;; 35 criteria (opened)</td><td><a href="https://www.uutilsynet.no/regelverk/kva-seier-forskrifta/153" target="_blank" rel="noopener">Uutilsynet</a></td><td>2026-06-10</td><td>2026-11-04</td><td>High</td></tr><tr id="src-53"><td>[53]</td><td>&quot;I teorien&quot; test; closed group is an extranet; bought solutions count as the public body&#x27;s (opened; blog)</td><td><a href="https://www.uutilsynet.no/uubloggen/nettstad-intranett-ekstranett-app-eller-fagsystem/1557" target="_blank" rel="noopener">Uutilsynet</a></td><td>2023-09-21</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-54"><td>[54]</td><td>Helseplattformen daily-fine case closed after fixes (excerpt)</td><td><a href="https://www.uutilsynet.no/tilsyn/tilsyn-med-helseplattformen-vert-avslutta/3123" target="_blank" rel="noopener">Uutilsynet</a></td><td>not shown</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-55"><td>[55]</td><td>Supervision report on a private company: private track, non-descriptive alt text (opened)</td><td><a href="https://www.uutilsynet.no/tilsynsrapportar/tilsynsrapport-drdropin-drdropinno/3167" target="_blank" rel="noopener">Uutilsynet</a></td><td>2026-03-12</td><td>2026-11-04</td><td>High</td></tr><tr id="src-56"><td>[56]</td><td>&quot;Alle bilder i HTML skal ha alt-attributt&quot; (opened)</td><td><a href="https://www.uutilsynet.no/veiledning/111-ikke-tekstlig-innhold/1231" target="_blank" rel="noopener">Uutilsynet</a></td><td>2025-03-18</td><td>2026-11-04</td><td>High</td></tr><tr id="src-57"><td>[57]</td><td>Test rule 1.1.1a: same information as the image (opened)</td><td><a href="https://www.uutilsynet.no/regelverk/oversikt-over-testregler-nettsteder/709" target="_blank" rel="noopener">Uutilsynet</a></td><td>2025-04-15</td><td>2026-11-04</td><td>High</td></tr><tr id="src-58"><td>[58]</td><td>F30, F65, sensory exception (opened; WCAG 2.1 Understanding page, 2.0 wording not checked)</td><td><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html" target="_blank" rel="noopener">W3C WAI</a></td><td>not stated</td><td>2026-11-04</td><td>High</td></tr><tr id="src-59"><td>[59]</td><td>Generated alt text should not entirely replace authored text (excerpt)</td><td><a href="https://www.w3.org/2026/10/w3c-and-state-of-web-in-ai-era.html" target="_blank" rel="noopener">W3C</a></td><td>2026-10 (URL)</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-60"><td>[60]</td><td>Editor&#x27;s responsibility (opened)</td><td><a href="https://www.uutilsynet.no/regelverk/redaktorens-ansvar-universell-utforming/200" target="_blank" rel="noopener">Uutilsynet</a></td><td>2024-07-03</td><td>2026-11-04</td><td>High</td></tr><tr id="src-61"><td>[61]</td><td>Procurement duty on the buyer; EAA not adopted as of April 2026 (opened)</td><td><a href="https://www.anskaffelser.no/veileder-til-anskaffelsesloven/16-universell-utforming" target="_blank" rel="noopener">DFØ</a></td><td>refers to 2026</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-62"><td>[62]</td><td>EAA not in EEA; consumer scope; microenterprises; EU sales (opened; regulator summary, not directive text)</td><td><a href="https://www.uutilsynet.no/tilgjengelighetsdirektivet-eaa/eus-tilgjengelegheitsdirektiv-eaa/268" target="_blank" rel="noopener">Uutilsynet</a></td><td>2025-10-01</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-63"><td>[63]</td><td>Active-effort duties and § 26 (opened; strategy annex, not statute)</td><td><a href="https://www.regjeringen.no/no/dokumenter/strategi-for-likestilling-av-personer-med-funksjonsnedsettelse-2026-2032/id3173804/?ch=8" target="_blank" rel="noopener">Kultur- og likestillingsdepartementet</a></td><td>2026</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-64"><td>[64]</td><td>WCAG 2.2 not joining the rules soon (excerpt; dated 2023)</td><td><a href="https://www.uutilsynet.no/fremtidig-regelverk/status-nyere-versjoner-av-wcag/1868" target="_blank" rel="noopener">Uutilsynet</a></td><td>2023-11</td><td>2026-11-04</td><td>Low to medium</td></tr><tr id="src-65"><td>[65]</td><td>Template claim of written consent and fee clause: overturned against [12] (excerpt)</td><td><a href="https://forms-legal.com/nb/norge/business/contracts/modellkontrakt" target="_blank" rel="noopener">Forms Legal</a></td><td>not shown</td><td>2026-11-04</td><td>Low</td></tr><tr id="src-66"><td>[66]</td><td>No results for &quot;Anthropic&quot; in the participant search (manual look-up by the project owner; the tools here could not read the list)</td><td><a href="https://www.dataprivacyframework.gov/list" target="_blank" rel="noopener">US Department of Commerce</a></td><td>live page</td><td>2026-11-04</td><td>Medium-high</td></tr><tr id="src-67"><td>[67]</td><td>Rome court annulled the Garante&#x27;s OpenAI fine on procedural grounds (excerpt)</td><td><a href="https://www.diritto.it/?p=249907" target="_blank" rel="noopener">Diritto.it</a></td><td>not shown</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-68"><td>[68]</td><td>Facebook&#x27;s AI descriptions vary and should be checked (excerpt)</td><td><a href="https://www.uutilsynet.no/veiledning/sosiale-medier-og-universell-utforming/202" target="_blank" rel="noopener">Uutilsynet</a></td><td>undated</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-69"><td>[69]</td><td>DPIA fine level (opened)</td><td><a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/vurdere-personvernkonsekvenser/vurdering-av-personvernkonsekvenser/" target="_blank" rel="noopener">Datatilsynet</a></td><td>2023-07-27</td><td>2026-11-04</td><td>High</td></tr><tr id="src-70"><td>[70]</td><td>Breach of § 18 counts as discrimination (excerpt; attribution across a result set)</td><td><a href="https://www.diskrimineringsnemnda.no/media/msrnsbeo/22-528-offentlig-versjon-av-uttalelse-og-vedtak.pdf" target="_blank" rel="noopener">Diskrimineringsnemnda</a></td><td>not shown</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-71"><td>[71]</td><td>Slaughter raises the risk to pending EU challenges (excerpt)</td><td><a href="https://www.skadden.com/insights/publications/2026/07/supreme-court-decision-raises-new-questions" target="_blank" rel="noopener">Skadden</a></td><td>2026-07</td><td>2026-11-04</td><td>Medium</td></tr><tr id="src-72"><td>[72]</td><td>C-703/25 P still pending, nothing new (manual check by the project owner; the tools here could not read the page)</td><td><a href="https://curia.europa.eu/juris/liste.jsf?num=C-703/25" target="_blank" rel="noopener">Court of Justice of the EU</a></td><td>live page</td><td>2026-11-04</td><td>Medium-high</td></tr></tbody></table></div></details>
+<h2 id="staleness-map">Staleness map</h2><p>Computed with <code>recon_kit.py staleness</code>. Windows: regulatory status 3 months, provider terms 6 months, stable law and regulator guidance 12 months. "Overdue" means the source's own date is older than its window. Each was read live on 2026-11-04 and still served as current, but check it first at the next refresh.</p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Class</th>
+<th>Source date</th>
+<th>Re-check by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Datatilsynet DPIA criteria</td>
+<td>regulator guidance</td>
+<td>2023-07-27</td>
+<td>Overdue (2024-07-27)</td>
+</tr>
+<tr>
+<td>Anthropic DPA: SCCs, no EEA or Norway wording</td>
+<td>provider terms</td>
+<td>2025-02-24</td>
+<td>Overdue (2025-08-24)</td>
+</tr>
+<tr>
+<td>Anthropic commercial terms: L.1, K.3(c), no training</td>
+<td>provider terms</td>
+<td>2025-06-17</td>
+<td>Overdue (2025-12-17)</td>
+</tr>
+<tr>
+<td>EAA not in the EEA Agreement</td>
+<td>regulatory status</td>
+<td>2026-04-01</td>
+<td>Overdue (2026-07-01)</td>
+</tr>
+<tr>
+<td>Datatilsynet guidance on images of people</td>
+<td>regulator guidance</td>
+<td>2025-09-16</td>
+<td>Overdue (2026-09-16)</td>
+</tr>
+<tr>
+<td>AI Act not in force in Norway or the EEA</td>
+<td>regulatory status</td>
+<td>2026-08-03</td>
+<td>Overdue (2026-11-03)</td>
+</tr>
+<tr>
+<td>Portrait right, § 104 text</td>
+<td>stable law</td>
+<td>2025-11-28</td>
+<td>2026-11-28</td>
+</tr>
+<tr>
+<td><em>Trump v. Slaughter</em> effect on the DPF</td>
+<td>regulatory status</td>
+<td>2026-09-17</td>
+<td>2026-12-17</td>
+</tr>
+<tr>
+<td>Norwegian AI Act timing</td>
+<td>regulatory status</td>
+<td>2026-10-01</td>
+<td>2027-01-01</td>
+</tr>
+<tr>
+<td>Anthropic retention</td>
+<td>provider terms</td>
+<td>2026-07-01</td>
+<td>2027-01-01</td>
+</tr>
+<tr>
+<td>Prop. 41 LS in committee; no text-and-data-mining exception</td>
+<td>regulatory status</td>
+<td>2026-11-04</td>
+<td>2027-02-04</td>
+</tr>
+<tr>
+<td>DPF in force; appeal C-703/25 P pending</td>
+<td>regulatory status</td>
+<td>2026-11-04</td>
+<td>2027-02-04</td>
+</tr>
+<tr>
+<td>Private accessibility standard</td>
+<td>stable law</td>
+<td>2026-06-10</td>
+<td>2027-06-10</td>
+</tr>
+<tr>
+<td>Bookkeeping periods</td>
+<td>stable law</td>
+<td>2026-06-19</td>
+<td>2027-06-19</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What to re-check first:</strong> Prop. 41 LS and the Norwegian AI Act bill, because either could change Dimension 1. Re-check both before the rollout gate is signed off.</p>
+<p><strong>Earliest re-check by source date:</strong> 2024-07-27, already passed.</p>
+<p>The date for the Norwegian AI Act timing is an assumption: <a class="cite" href="#src-3">[3]</a> shows no date, so the map uses October 2026, the date of vendor material (Opsio) reporting the same timing.</p>
+</main></div><script>function o(){var h=location.hash;if(h&&h.indexOf("#src-")==0){var d=document.querySelector("details");if(d)d.open=true;var e=document.querySelector(h);if(e)e.scrollIntoView();}}addEventListener("hashchange",o);o();</script></body></html>
