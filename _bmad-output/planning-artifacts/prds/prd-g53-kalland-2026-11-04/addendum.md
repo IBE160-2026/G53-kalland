@@ -88,16 +88,28 @@ These were inferred while drafting and confirmed by the user on 2026-11-04. The 
 - **AS-21** (FR-42): the action log also covers downloads, client and user changes, setup links, and settings.
 - **AS-22** (NFR-5): 360 px as the narrowest supported width.
 
-## Rollout research (2026-11-04)
+## Legal research (2026-11-04)
 
-**This is not legal advice, and most of it needs a primary-source check.**
+The [legal research report](../../research/domain-ai-images-privacy-accessibility-legal-2026-11-04/research.md) replaces the rollout research table that stood here. It holds the findings, sources, confidence levels and unresolved questions behind NFR-3, NFR-5 and the Rollout Gate. It is not legal advice.
 
-| Topic | Found | Confidence |
+### What it changed in the PRD
+
+| Source | Change | Where |
 |---|---|---|
-| Accessibility | [Uutilsynet's regulations page](https://www.uutilsynet.no/english/regulations/278) (updated 2026-02-03) applies the rules to private businesses, among others, and names WCAG 2.0 AA for websites, with exceptions for three time-based media criteria. It does not say whether a gated B2B portal is covered. Other sources cite WCAG 2.1 for the public sector. | Medium; applicability is open (RG-9) |
-| AI data retention | [Anthropic's privacy article](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data) (dated 2026-07-01) gives automatic deletion of API inputs and outputs within 30 days, with exceptions for agreements, Usage Policy enforcement and the law. Flagged content can be kept for up to 2 years. This narrows the dispute in the provider research; the DPA itself was not read. | Medium (RG-3) |
-| Consent from people in images | [SNL on photographs' legal protection](https://snl.no/fotografiers_rettsbeskyttelse) says a photograph of a person cannot be shown publicly without that person's consent, with exceptions such as when the person is less important than the main content. SNL cites no section number; other secondary sources place the rule in åndsverkloven § 104, and commercial templates treat commercial use as needing written consent. Lovdata was not checked. | Low to medium; check the law text (RG-5) |
-| Images as personal data | [Helsedirektoratet](https://www.helsedirektoratet.no/rundskriv/bilder-film-og-lydopptak-i-helse-og-omsorgstjenesten/rettslige-rammer/samtykke-og-innhenting-av-samtykke), writing for the health sector, states consent is the general rule for publishing identifiable people and that minors need a guardian's consent. No Datatilsynet page on archives or deletion was found. | Low; check with Datatilsynet (RG-3, RG-4, RG-5) |
+| V-1 | Prompt rule against stating or inferring sensitive attributes or identity; prompt version becomes v3 | FR-12, FR-14, Open Question 3 |
+| V-2, D-024 | WCAG 2.0 stated as the legal minimum and WCAG 2.1 as the own target; fallbacks stated as a known exception | NFR-5, Trade-offs |
+| Report, PRD edits | Real images also wait for the photographers' rights | NFR-3 |
+| Report, rollout gate | Tightened items | RG-3, RG-4, RG-5, RG-6, RG-9 |
+| Report, rollout gate | New items | RG-15, RG-16 |
+
+### Where the update departs from the report
+
+Each was the user's decision on 2026-11-04.
+
+- **V-1, names.** The report says the model must not identify anyone. The PRD limits this to working out who someone is from their appearance. Names written in the image or given in the metadata stay usable, as in prompt v2, so staff can search on them.
+- **RG-4, retention against anonymising.** The earlier text anonymised licence and accounting records at once, which can't be squared with keeping invoices in their original format. Required records now stay unchanged for their period and are anonymised afterwards.
+- **RG-9, D-024.** The report's written question to Uutilsynet, and its follow-up decisions on FR-19 and "Untitled image", are dropped. FR-19 stays warn and publish. Management accepts the exception instead, so the legal cost is a stated choice at rollout.
+- **Checks D-024 defers.** Anthropic's agreement and retention (RG-3), the legal reviewer's questions (RG-5, RG-6) and the re-check of pending law (RG-16) are out of scope for v1 and stay in the gate, where management can still accept skipping them.
 
 ## Rollout sizing (behind RG-10)
 
@@ -124,7 +136,8 @@ The last row is why RG-10 asks for a bulk import. Concurrent calls or the Batch 
 
 ## AI provider (from the Haiku pilot)
 
-- v1 real provider: Claude Haiku 5.5 at effort `medium` with prompt v2, structured JSON output. Median 5.9 s, about $0.0007 per image. See [pilot results](../../research/pilot-haiku-metadata-2026-10-28/results.md).
+- v1 real provider: Claude Haiku 5.5 at effort `medium`, structured JSON output. Piloted with prompt v2: median 5.9 s, about $0.0007 per image. See [pilot results](../../research/pilot-haiku-metadata-2026-10-28/results.md).
+- v1 uses prompt v3: prompt v2 plus the people rule from FR-12. Prompt v3 has not been piloted (Open Question 3).
 - The pilot validated Norwegian output; v1 generates English. Norwegian must be re-tested when the Norwegian pack arrives, since it matters most to the agency. The user's 1–3 scores in the pilot results are still blank (RG-8).
 - The app owns the prompt and schema, post-processes every provider's output and passes a place name it derived itself. Stage 2: Gemini Flash and a local model through the same interface.
 - When the batch setting is off, the provider receives no place name. It may still name a place it can see in the image, such as a sign or a landmark; the pilot shows it does this. Staff review covers that case.
