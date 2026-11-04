@@ -30,7 +30,7 @@
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — update `project-plan.md` at sprint planning: calendar about a week behind, tools item 6 still mentions the rejected CLI provider
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — apply the legal research recommendations to the PRD (V-1, V-2, RG-3, 4, 5, 6, 9, new RG-15 and RG-16, NFR-3, addendum table) and record a `D-xxx`
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — ask Uutilsynet in writing whether an invitation-only B2B portal is covered, then decide whether FR-19 must block publishing without alt text
-- [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — look up Anthropic on the DPF participant list and check C-703/25 P on Curia (both need a browser)
+- [x] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — look up Anthropic on the DPF participant list and check C-703/25 P on Curia (both need a browser) (løst 2026-11-04)
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — ask Anthropic how the DPA and SCCs apply to a Norwegian exporter, and which retention statement is right
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — have a legally competent reviewer look at withdrawal of consent after a licence sale, guardians and children in commercial licensing, and AI upload of photographers' images
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — re-check Prop. 41 LS and the Norwegian AI Act bill before the rollout gate is signed off
