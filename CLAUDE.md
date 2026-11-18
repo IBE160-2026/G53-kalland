@@ -8,7 +8,7 @@ The repo is graded against `docs/process/vurderingskriterier.en.md` (English tra
 - All docs, code, comments and commit messages are written in English. This includes `README.md`, `CLAUDE.md`, `docs/process/`, `.claude/commands/` and the BMad artifacts in `_bmad-output/` (`_bmad/config.toml`). (D-008)
 - Originals of external Norwegian sources (the teacher's feedback, the grading guide summary) are kept unchanged. The English translation lives next to the original as `<name>.en.md`; refer to the English version.
 - Historical prompt logs, session logs and transcripts are process evidence and are never translated or edited afterwards.
-- The app's Norwegian UI strings and language packs are product content and stay Norwegian.
+- The app's UI is English in v1 (PRD NFR-8). All UI strings live in a translation file; the Norwegian language pack comes later and is product content written in Norwegian.
 
 ## Workflow
 - Never commit directly to `main`. One branch per story/task: `story/<epic>.<story>-<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`. Process files go on `docs/process-<date>`, created only by `/commit-logs`. Exception (D-016): `/commit-logs` commits the process files on local `main` and pushes them only as `docs/process-<date>`, so they still reach `main` through a PR.

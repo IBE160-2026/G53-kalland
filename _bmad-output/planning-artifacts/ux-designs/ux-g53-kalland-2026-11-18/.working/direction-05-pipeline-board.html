@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pipeline Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="vendor/ds-index.css">
+<link rel="stylesheet" href="vendor/ds-theme.css">
+<style>
+/* ==========================================================================
+   Direction 05: Pipeline board
+   Theme overrides on top of Designsystemet 1.23.0 (light only).
+
+   Hex values
+     accent  (process teal)   #00707F  primary actions, "Reviewed" lane
+     brand1  (review amber)   #A85B0A  "Needs review" lane
+     brand2  (queue indigo)   #4B5BA6  "Generating" state
+     neutral (slate)          #222830  text #1E2329, board #F3F5F7
+     lane colours reuse DS severity: info = Processing, success = Published
+   Border radius: 3px (crisp board cards)
+   Font: Barlow (UI), Barlow Semi Condensed (lane titles, counts)
+
+   Equivalent designsystemet.config.json
+   {
+     "outDir": "./design-tokens-build",
+     "themes": {
+       "pipeline": {
+         "colors": {
+           "accent":  "#00707F",
+           "brand1":  "#A85B0A",
+           "brand2":  "#4B5BA6",
+           "neutral": "#222830"
+         },
+         "borderRadius": 3,
+         "typography": { "fontFamily": "Barlow" }
+       }
+     }
+   }
+   ========================================================================== */
+:root {
+  --ds-font-family: "Barlow", system-ui, sans-serif;
+  --ds-border-radius-base: 0.1875rem;
+  --ds-border-radius-scale: 0.1875rem;
+
+  /* accent: process teal */
+  --ds-color-accent-background-default: #ffffff;
+  --ds-color-accent-background-tinted: #eef6f7;
+  --ds-color-accent-surface-default: #ffffff;
+  --ds-color-accent-surface-tinted: #dcedef;
+  --ds-color-accent-surface-hover: #c6e2e5;
+  --ds-color-accent-surface-active: #acd5d9;
+  --ds-color-accent-border-subtle: #8fc5cb;
+  --ds-color-accent-border-default: #2a8794;
+  --ds-color-accent-border-strong: #005f6b;
+  --ds-color-accent-text-subtle: #005f6b;
+  --ds-color-accent-text-default: #00303a;
+  --ds-color-accent-base-default: #00707f;
+  --ds-color-accent-base-hover: #005b67;
+  --ds-color-accent-base-active: #004750;
+  --ds-color-accent-base-contrast-subtle: #ddf0f2;
+  --ds-color-accent-base-contrast-default: #ffffff;
+
+  /* brand1: review amber */
+  --ds-color-brand1-background-tinted: #fbf3ea;
+  --ds-color-brand1-surface-tinted: #f7e6d3;
+  --ds-color-brand1-surface-hover: #f1d6b8;
+  --ds-color-brand1-surface-active: #eac59b;
+  --ds-color-brand1-border-subtle: #ddb184;
+  --ds-color-brand1-border-default: #b8700f;
+  --ds-color-brand1-border-strong: #8a4806;
+  --ds-color-brand1-text-subtle: #8a4806;
+  --ds-color-brand1-text-default: #3f2103;
+  --ds-color-brand1-base-default: #a85b0a;
+  --ds-color-brand1-base-hover: #8d4b07;
+  --ds-color-brand1-base-active: #723c05;
+  --ds-color-brand1-base-contrast-default: #ffffff;
+
+  /* brand2: queue indigo */
+  --ds-color-brand2-background-tinted: #f1f2f9;
+  --ds-color-brand2-surface-tinted: #e3e6f4;
+  --ds-color-brand2-surface-hover: #d2d7ee;
+  --ds-color-brand2-surface-active: #bfc6e6;
+  --ds-color-brand2-border-subtle: #aab3dc;
+  --ds-color-brand2-border-default: #6371b4;
+  --ds-color-brand2-border-strong: #3f4e97;
+  --ds-color-brand2-text-subtle: #3f4e97;
+  --ds-color-brand2-text-default: #1c2450;
+  --ds-color-brand2-base-default: #4b5ba6;
+  --ds-color-brand2-base-hover: #3d4b8c;
+  --ds-color-brand2-base-active: #303b70;
+  --ds-color-brand2-base-contrast-default: #ffffff;
+
+  /* neutral: cool slate */
+  --ds-color-neutral-background-default: #ffffff;
+  --ds-color-neutral-background-tinted: #f3f5f7;
+  --ds-color-neutral-surface-default: #ffffff;
+  --ds-color-neutral-surface-tinted: #e8ecef;
+  --ds-color-neutral-surface-hover: #d9dfe4;
+  --ds-color-neutral-surface-active: #c9d1d8;
+  --ds-color-neutral-border-subtle: #c3cbd2;
+  --ds-color-neutral-border-default: #74818c;
+  --ds-color-neutral-border-strong: #56626d;
+  --ds-color-neutral-text-subtle: #56626d;
+  --ds-color-neutral-text-default: #1e2329;
+  --ds-color-neutral-base-default: #222830;
+  --ds-color-neutral-base-hover: #343b44;
+  --ds-color-neutral-base-active: #464e58;
+
+  --lane-processing: var(--ds-color-info-border-default);
+  --lane-review: var(--ds-color-brand1-base-default);
+  --lane-reviewed: var(--ds-color-accent-base-default);
+  --lane-published: var(--ds-color-success-base-default);
+  --side-w: 17.5rem;
+  --gutter: clamp(1rem, 2.6vw, 2.5rem);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--ds-font-family);
+  background: var(--ds-color-neutral-background-default);
+}
+img, svg { max-width: 100%; }
+a { color: inherit; }
+.cond { font-family: "Barlow Semi Condensed", var(--ds-font-family); }
+.sr-hint { color: var(--ds-color-neutral-text-subtle); }
+.icon { width: 1.15em; height: 1.15em; flex: none; vertical-align: -0.2em; }
+
+/* ---------- Mock switcher (not part of the design) ---------- */
+.mock {
+  border-bottom: 2px dashed var(--ds-color-neutral-border-subtle);
+  background: #fafbfc;
+  padding: var(--ds-size-4) var(--gutter);
+  display: flex; flex-wrap: wrap; gap: var(--ds-size-3) var(--ds-size-8);
+  align-items: center; justify-content: space-between;
+}
+.mock h1 { margin: 0; font-size: var(--ds-font-size-4); }
+.mock p { margin: var(--ds-size-1) 0 0; max-width: 72ch; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.mock-buttons { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.mock-buttons .ds-button[aria-pressed="true"] {
+  --dsc-button-background: var(--ds-color-neutral-base-default);
+  --dsc-button-color: #fff; --dsc-button-color--hover: #fff;
+  --dsc-button-background--hover: var(--ds-color-neutral-base-hover);
+}
+
+/* ---------- App shell ---------- */
+.screen[hidden] { display: none; }
+.app {
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "top top" "side main";
+  min-height: 100vh;
+  position: relative;
+}
+.app[data-sidebar="closed"] { grid-template-columns: 0 minmax(0, 1fr); }
+
+.top {
+  grid-area: top;
+  display: flex; align-items: center; gap: var(--ds-size-4);
+  padding: var(--ds-size-3) var(--gutter);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  background: #fff;
+  position: sticky; top: 0; z-index: 20;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: var(--ds-size-2); font-weight: 600; text-decoration: none; letter-spacing: .01em; }
+.brand svg { width: 1.6rem; height: 1.6rem; }
+.brand small { font-weight: 500; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-2); }
+.topnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--ds-size-1); }
+.topnav a {
+  display: block; text-decoration: none; padding: var(--ds-size-2) var(--ds-size-3);
+  border-radius: var(--ds-border-radius-md); color: var(--ds-color-neutral-text-subtle); font-weight: 500;
+}
+.topnav a:hover { color: var(--ds-color-neutral-text-default); background: var(--ds-color-neutral-background-tinted); }
+.topnav a[aria-current="page"] { color: var(--ds-color-neutral-text-default); box-shadow: inset 0 -2px 0 var(--ds-color-accent-base-default); border-radius: 0; }
+.topnav a:focus-visible, .stage a:focus-visible, .job-title a:focus-visible, .batch a:focus-visible {
+  outline: 3px solid var(--ds-color-focus-outer); outline-offset: 2px; box-shadow: 0 0 0 2px var(--ds-color-focus-inner);
+}
+.top-search { flex: 1 1 18rem; max-width: 34rem; margin-inline-start: auto; }
+.top-actions { display: flex; align-items: center; gap: var(--ds-size-3); }
+
+.side {
+  grid-area: side;
+  border-right: 1px solid var(--ds-color-neutral-border-subtle);
+  background: #fff;
+  padding: var(--ds-size-6) var(--ds-size-5);
+  overflow-y: auto;
+  position: sticky; top: 4.25rem; align-self: start; max-height: calc(100vh - 4.25rem);
+}
+.side[hidden] { display: none; }
+.side h2 { font-size: var(--ds-font-size-3); margin: 0 0 var(--ds-size-3); }
+.side section + section { margin-top: var(--ds-size-8); }
+.side-nav { display: none; }
+.main { grid-area: main; padding: var(--ds-size-8) var(--gutter) var(--ds-size-18); min-width: 0; background: var(--ds-color-neutral-background-default); }
+
+/* Batches in sidebar */
+.batches { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ds-size-2); }
+.batch a {
+  display: block; text-decoration: none; padding: var(--ds-size-3);
+  border-radius: var(--ds-border-radius-md); border: 1px solid transparent;
+}
+.batch a:hover { background: var(--ds-color-neutral-background-tinted); }
+.batch a[aria-current="true"] { border-color: var(--ds-color-accent-border-subtle); background: var(--ds-color-accent-background-tinted); }
+.batch-name { display: block; font-weight: 500; }
+.batch-meta { display: block; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); margin-top: 2px; }
+.flowbar { display: flex; height: 6px; margin-top: var(--ds-size-2); border-radius: 3px; overflow: hidden; background: var(--ds-color-neutral-surface-tinted); }
+.flowbar span { display: block; height: 100%; }
+.f-proc { background: var(--lane-processing); }
+.f-rev { background: var(--lane-review); }
+.f-ok { background: var(--lane-reviewed); }
+.f-pub { background: var(--lane-published); }
+.f-fail { background: var(--ds-color-danger-base-default); }
+.f-queue { background: var(--ds-color-neutral-border-default); }
+.f-gen { background: var(--ds-color-brand2-base-default); }
+
+.filters { display: grid; gap: var(--ds-size-5); }
+.filters fieldset { border: 0; margin: 0; padding: 0; }
+.filters legend { font-weight: 500; margin-bottom: var(--ds-size-2); padding: 0; }
+.chiprow { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.daterow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-size-2); }
+
+/* ---------- Page heading ---------- */
+.pagehead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--ds-size-4) var(--ds-size-6); }
+.pagehead h1 { margin: 0; }
+.pagehead p { margin: var(--ds-size-1) 0 0; color: var(--ds-color-neutral-text-subtle); }
+.pagehead-tools { display: flex; flex-wrap: wrap; gap: var(--ds-size-3); align-items: center; }
+.active-filters { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); margin-top: var(--ds-size-5); align-items: center; }
+
+/* ---------- Stage rail: the memorable element ---------- */
+.stages {
+  list-style: none; margin: var(--ds-size-8) 0 var(--ds-size-6); padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.stage { position: relative; }
+.stage a {
+  display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: var(--ds-size-3);
+  text-decoration: none; padding: var(--ds-size-3) var(--ds-size-8) var(--ds-size-3) var(--ds-size-5);
+  border-top: 4px solid var(--rule); background: var(--ds-color-neutral-background-tinted);
+  clip-path: polygon(0 0, calc(100% - 1.1rem) 0, 100% 50%, calc(100% - 1.1rem) 100%, 0 100%, 1.1rem 50%);
+  margin-inline-start: -0.9rem;
+  height: 100%;
+}
+.stage:first-child a { clip-path: polygon(0 0, calc(100% - 1.1rem) 0, 100% 50%, calc(100% - 1.1rem) 100%, 0 100%); margin-inline-start: 0; }
+.stage a:hover { background: var(--ds-color-neutral-surface-tinted); }
+.stage .count { font-family: "Barlow Semi Condensed", var(--ds-font-family); font-weight: 600; font-size: var(--ds-font-size-8); line-height: 1; color: var(--rule-text, var(--ds-color-neutral-text-default)); }
+.stage .label { font-weight: 600; }
+.stage .note { grid-column: 2; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.s-proc { --rule: var(--lane-processing); }
+.s-rev { --rule: var(--lane-review); --rule-text: var(--ds-color-brand1-text-subtle); }
+.s-ok { --rule: var(--lane-reviewed); }
+.s-pub { --rule: var(--lane-published); }
+
+/* ---------- Board ---------- */
+.board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--ds-size-5); align-items: start; }
+.lane {
+  background: var(--ds-color-neutral-background-tinted);
+  border-top: 3px solid var(--rule);
+  padding: var(--ds-size-4);
+  border-radius: 0 0 var(--ds-border-radius-md) var(--ds-border-radius-md);
+  min-width: 0;
+}
+.lane-head { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-size-2); margin-bottom: var(--ds-size-4); min-height: 2.75rem; }
+.lane-head h2 { margin: 0; font-family: "Barlow Semi Condensed", var(--ds-font-family); font-size: var(--ds-font-size-5); font-weight: 600; }
+.lane-head h2 span { color: var(--ds-color-neutral-text-subtle); font-weight: 500; margin-inline-start: var(--ds-size-1); }
+.lane-note { margin: calc(-1 * var(--ds-size-2)) 0 var(--ds-size-4); font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.lane-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ds-size-3); }
+
+.job {
+  position: relative; background: #fff;
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-md);
+  overflow: hidden;
+}
+.job:hover { border-color: var(--ds-color-neutral-border-default); }
+.job:focus-within { border-color: var(--ds-color-neutral-border-strong); }
+.job .ph { border-radius: 0; }
+.job-body { padding: var(--ds-size-3) var(--ds-size-4) var(--ds-size-4); display: grid; gap: var(--ds-size-2); }
+.job-title { margin: 0; font-size: var(--ds-font-size-3); font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.job-title a { text-decoration: none; }
+.job-title a::after { content: ""; position: absolute; inset: 0; }
+.job-title a:hover { text-decoration: underline; }
+.job-file { margin: 0; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); overflow-wrap: anywhere; }
+.job-tags { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); align-items: center; }
+.job-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); position: relative; z-index: 1; }
+.job-msg { margin: 0; font-size: var(--ds-font-size-2); line-height: 1.45; }
+.job-msg.danger { color: var(--ds-color-danger-text-default); }
+.job--failed { border-color: var(--ds-color-danger-border-subtle); }
+.job--rejected { border-style: dashed; }
+.job--compact .job-body { padding-top: var(--ds-size-4); }
+.lockline { display: flex; gap: var(--ds-size-2); align-items: center; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+
+.access { display: flex; flex-wrap: wrap; gap: var(--ds-size-1) var(--ds-size-4); margin: 0; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.access span { display: inline-flex; gap: var(--ds-size-1); align-items: center; }
+.access .paid { color: var(--ds-color-neutral-text-default); font-weight: 600; }
+
+.progress { height: 4px; background: var(--ds-color-info-surface-tinted); border-radius: 2px; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--ds-color-info-base-default); }
+.lane-more { margin-top: var(--ds-size-3); }
+
+/* ---------- Placeholder photographs ---------- */
+.ph { position: relative; display: block; width: 100%; background-color: #9aa5ad; background-repeat: no-repeat; border-radius: var(--ds-border-radius-md); }
+.ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.22)); border-radius: inherit; pointer-events: none; }
+.r32 { aspect-ratio: 3 / 2; } .r43 { aspect-ratio: 4 / 3; } .r11 { aspect-ratio: 1; } .r45 { aspect-ratio: 4 / 5; } .r169 { aspect-ratio: 16 / 9; } .r23 { aspect-ratio: 2 / 3; }
+.ph-snowcity { background:
+  linear-gradient(180deg, #edf1f4, #cfd8de) 0 0 / 100% 30% no-repeat,
+  repeating-linear-gradient(100deg, #f6f8f9 0 10px, #7b8792 10px 12px, #dfe5e9 12px 22px, #56616b 22px 24px, #eef2f4 24px 33px) 0 30% / 100% 38% no-repeat,
+  linear-gradient(180deg, #415668, #22313d) 0 100% / 100% 33% no-repeat;
+  background-color: #cfd8de; }
+.ph-wharf { background:
+  linear-gradient(180deg, #e9edf0 0 22%, transparent 22%),
+  repeating-linear-gradient(90deg, #b8432f 0 14px, #e7d9b8 14px 16px, #f0c04a 16px 29px, #f6f6f3 29px 31px, #8c2f24 31px 44px, #f6f6f3 44px 46px) 0 22% / 100% 40% no-repeat,
+  linear-gradient(180deg, #f4f6f7 0 8%, #2f4352 8% 100%) 0 100% / 100% 38% no-repeat;
+  background-color: #dfe4e8; }
+.ph-fog { background:
+  linear-gradient(180deg, rgba(240,243,245,.95), rgba(240,243,245,.2) 70%),
+  linear-gradient(118deg, transparent 0 48%, #4a5a52 48% 51%, transparent 51%),
+  linear-gradient(160deg, #6f8077, #2f3d36);
+  background-color: #8a9993; }
+.ph-fjord { background:
+  linear-gradient(140deg, transparent 0 46%, #4a6656 46%) 0 34% / 58% 42% no-repeat,
+  linear-gradient(220deg, transparent 0 44%, #364e40 44%) 100% 30% / 62% 46% no-repeat,
+  linear-gradient(180deg, #e4ecef, #c8d6dc) 0 0 / 100% 60% no-repeat,
+  linear-gradient(180deg, #8fb3bd, #3b5f68);
+  background-color: #6d8f97; }
+.ph-dusk { background:
+  repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,214,140,.85) 18px 20px, transparent 20px 34px) 0 52% / 100% 10% no-repeat,
+  linear-gradient(180deg, #33415e 0%, #8c6f8f 38%, #e2a77c 50%, #2a3346 52%, #141c2b 100%);
+  background-color: #33415e; }
+.ph-bridge { background:
+  linear-gradient(28deg, transparent 0 46%, #dfe3e6 46% 49%, #737e87 49% 50.5%, transparent 50.5%),
+  radial-gradient(ellipse 40% 30% at 10% 10%, #f3f5f6 0 60%, transparent 62%),
+  radial-gradient(ellipse 45% 30% at 95% 95%, #eef1f3 0 60%, transparent 62%),
+  linear-gradient(180deg, #3b5566, #243845);
+  background-color: #2f4655; }
+.ph-cyclist { background:
+  radial-gradient(circle at 62% 64%, #1b1f24 0 1.4%, transparent 1.6%),
+  linear-gradient(162deg, transparent 0 62%, #f2f4f5 62% 66%, #6b7077 66% 76%, #f2f4f5 76% 80%, transparent 80%),
+  linear-gradient(180deg, #f2f5f7, #dfe6ea);
+  background-color: #e6ecef; }
+.ph-latte { background:
+  radial-gradient(circle at 50% 50%, #f4e6d2 0 11%, #c9996a 12% 20%, #f2e3cf 21% 23%, #7a4a2a 24% 30%, #f6f0e8 31% 35%, transparent 36%),
+  repeating-linear-gradient(92deg, #5d3c28 0 18px, #4b2f1f 18px 25px, #674430 25px 40px);
+  background-color: #573825; }
+.ph-cafe { background:
+  linear-gradient(90deg, transparent 0 8%, #fbe6bf 8% 30%, transparent 30% 38%, #fae0b0 38% 60%, transparent 60% 68%, #f7d9a4 68% 90%, transparent 90%) 0 12% / 100% 42% no-repeat,
+  linear-gradient(180deg, transparent 0 70%, #3a2619 70% 73%, transparent 73%),
+  linear-gradient(180deg, #7a553b, #2f2018);
+  background-color: #5a3e2b; }
+.ph-barista { background:
+  radial-gradient(circle at 18% 26%, rgba(255,214,150,.75) 0 5%, transparent 6%),
+  radial-gradient(circle at 82% 18%, rgba(255,226,170,.6) 0 7%, transparent 8%),
+  radial-gradient(circle at 74% 44%, rgba(255,200,130,.5) 0 4%, transparent 5%),
+  radial-gradient(ellipse 22% 40% at 50% 82%, #2b1d16 0 97%, transparent 100%),
+  radial-gradient(circle at 50% 36%, #3a2a20 0 11%, transparent 12%),
+  linear-gradient(180deg, #8a5d3e, #3a261b);
+  background-color: #6b4730; }
+.ph-beans { background:
+  repeating-radial-gradient(circle at 30% 40%, #3b2416 0 6px, #5a3820 6px 9px, #2a190f 9px 14px);
+  background-color: #3b2416; }
+.ph-forest { background:
+  repeating-linear-gradient(90deg, transparent 0 15px, #2f3a33 15px 18px, transparent 18px 31px, #4b584f 31px 33px) 0 18% / 100% 70% no-repeat,
+  linear-gradient(180deg, #e7ecef, #fbfcfc);
+  background-color: #eef1f3; }
+.ph-aurora { background:
+  radial-gradient(ellipse 70% 18% at 40% 32%, rgba(120,230,170,.6), transparent),
+  radial-gradient(ellipse 50% 14% at 70% 22%, rgba(110,200,220,.45), transparent),
+  linear-gradient(180deg, transparent 0 78%, #0b1820 78%),
+  linear-gradient(170deg, #0f2b40, #134159 45%, #1d5f61 65%, #0e2232);
+  background-color: #12324a; }
+.ph-kraft { background:
+  linear-gradient(#f6f0e5, #f6f0e5) 50% 56% / 42% 30% no-repeat,
+  linear-gradient(115deg, #caa77a 0 48%, #b58f62 48% 52%, #d5b58b 52%);
+  background-color: #c9a679; }
+
+/* ---------- Upload screen ---------- */
+.conveyor { margin: var(--ds-size-8) 0 var(--ds-size-2); }
+.conveyor-bar { display: flex; height: 14px; border-radius: 3px; overflow: hidden; background: var(--ds-color-neutral-surface-tinted); }
+.conveyor-bar span { display: block; height: 100%; }
+.conveyor-legend { list-style: none; margin: var(--ds-size-3) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--ds-size-2) var(--ds-size-6); }
+.conveyor-legend li { display: flex; align-items: baseline; gap: var(--ds-size-2); }
+.conveyor-legend b { font-family: "Barlow Semi Condensed", var(--ds-font-family); font-size: var(--ds-font-size-6); font-weight: 600; line-height: 1; }
+.sw { width: .7rem; height: .7rem; border-radius: 2px; display: inline-block; align-self: center; }
+
+.upload-grid { display: grid; grid-template-columns: minmax(18rem, 25rem) minmax(0, 1fr); gap: var(--ds-size-10); margin-top: var(--ds-size-8); align-items: start; }
+.settings { display: grid; gap: var(--ds-size-6); }
+.settings .ds-fieldset { border: 0; padding: 0; margin: 0; }
+.settings-note { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); margin: 0; }
+
+.files-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--ds-size-3); margin-bottom: var(--ds-size-4); }
+.files-head h2 { margin: 0; }
+.files { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ds-color-neutral-border-subtle); }
+.file {
+  display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; gap: var(--ds-size-2) var(--ds-size-4);
+  align-items: center; padding: var(--ds-size-4) 0; border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.file .ph { width: 3.5rem; height: 3.5rem; aspect-ratio: auto; }
+.file-name { font-weight: 500; overflow-wrap: anywhere; }
+.file-meta { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.file-state { display: flex; gap: var(--ds-size-2); align-items: center; justify-self: end; }
+.file-extra { grid-column: 2 / -1; display: grid; gap: var(--ds-size-3); }
+.file[aria-current="true"] { background: var(--ds-color-accent-background-tinted); box-shadow: inset 3px 0 0 var(--ds-color-accent-base-default); padding-inline: var(--ds-size-3); }
+.file .progress { grid-column: 2 / -1; }
+.empty-file { width: 3.5rem; height: 3.5rem; border: 1px dashed var(--ds-color-neutral-border-default); border-radius: var(--ds-border-radius-md); display: grid; place-items: center; color: var(--ds-color-neutral-text-subtle); }
+
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-size-4); }
+.compare figure { margin: 0; }
+.compare figcaption { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); margin-top: var(--ds-size-2); }
+.compare figcaption b { color: var(--ds-color-neutral-text-default); font-weight: 600; display: block; }
+.compare-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-3); align-items: center; }
+
+.review { margin-top: var(--ds-size-12); padding-top: var(--ds-size-8); border-top: 3px solid var(--lane-review); }
+.review-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--ds-size-3); align-items: center; }
+.review-head h2 { margin: 0; }
+.saved { display: inline-flex; align-items: center; gap: var(--ds-size-2); color: var(--ds-color-success-text-subtle); font-size: var(--ds-font-size-2); }
+.review-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--ds-size-10); margin-top: var(--ds-size-6); align-items: start; }
+.review-fields { display: grid; gap: var(--ds-size-5); }
+.kw { border: 0; padding: 0; margin: 0; }
+.kw dl { margin: var(--ds-size-2) 0 0; display: grid; grid-template-columns: minmax(7rem, auto) 1fr; gap: var(--ds-size-2) var(--ds-size-4); align-items: center; }
+.kw dt { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.kw dd { margin: 0; display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.facts { margin: var(--ds-size-5) 0 0; display: grid; grid-template-columns: auto 1fr; gap: var(--ds-size-2) var(--ds-size-5); font-size: var(--ds-font-size-2); }
+.facts dt { color: var(--ds-color-neutral-text-subtle); }
+.facts dd { margin: 0; }
+.staff-only { font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); margin-inline-start: var(--ds-size-1); font-weight: 400; }
+.review-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-3); margin-top: var(--ds-size-2); }
+
+/* ---------- Client screen ---------- */
+.client-layout { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: var(--ds-size-8); align-items: start; margin-top: var(--ds-size-6); }
+.client-search { display: flex; flex-wrap: wrap; gap: var(--ds-size-3); align-items: end; margin: var(--ds-size-6) 0; }
+.client-search .ds-field { flex: 1 1 16rem; }
+.shop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr)); gap: var(--ds-size-6) var(--ds-size-5); }
+.item { position: relative; display: grid; gap: var(--ds-size-2); align-content: start; }
+.item .ph-wrap { position: relative; }
+.item-title { margin: var(--ds-size-1) 0 0; font-size: var(--ds-font-size-3); font-weight: 600; line-height: 1.3; }
+.item-title a { text-decoration: none; }
+.item-title a:hover { text-decoration: underline; }
+.item-row { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-size-3); flex-wrap: wrap; }
+.price { font-weight: 600; }
+.terms-note { margin: 0; font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); }
+.own {
+  position: absolute; top: var(--ds-size-2); left: var(--ds-size-2);
+  display: inline-flex; align-items: center; gap: var(--ds-size-1);
+  background: #fff; color: var(--ds-color-success-text-subtle);
+  padding: 2px var(--ds-size-2) 2px 2px; border-radius: 999px; font-size: var(--ds-font-size-2); font-weight: 600;
+  box-shadow: 0 0 0 1px var(--ds-color-success-border-subtle);
+}
+.own svg { width: 1.35rem; height: 1.35rem; color: #fff; background: var(--ds-color-success-base-default); border-radius: 50%; padding: 3px; }
+.cartlane { background: var(--ds-color-neutral-background-tinted); border-top: 3px solid var(--lane-reviewed); padding: var(--ds-size-5); position: sticky; top: 5.5rem; }
+.cartlane h2 { margin: 0 0 var(--ds-size-4); font-family: "Barlow Semi Condensed", var(--ds-font-family); font-size: var(--ds-font-size-5); }
+.cartlines { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ds-size-3); }
+.cartline { display: grid; grid-template-columns: 3.5rem 1fr auto; gap: var(--ds-size-3); align-items: start; background: #fff; border: 1px solid var(--ds-color-neutral-border-subtle); border-radius: var(--ds-border-radius-md); padding: var(--ds-size-3); }
+.cartline .ph { width: 3.5rem; height: 3.5rem; aspect-ratio: auto; }
+.cartline p { margin: 0; font-size: var(--ds-font-size-2); }
+.cartline .t { font-weight: 600; font-size: var(--ds-font-size-3); line-height: 1.3; }
+.carttotal { display: flex; justify-content: space-between; margin: var(--ds-size-5) 0 var(--ds-size-4); font-weight: 600; }
+.cartlane .ds-button { width: 100%; justify-content: center; }
+.cartlane .fine { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); margin: var(--ds-size-3) 0 0; }
+.new-strip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--ds-size-3); align-items: center; padding: var(--ds-size-4) var(--ds-size-5); background: var(--ds-color-accent-background-tinted); border-radius: var(--ds-border-radius-md); }
+.new-strip p { margin: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1280px) {
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .client-layout { grid-template-columns: minmax(0, 1fr); }
+  .cartlane { position: static; }
+}
+@media (max-width: 1100px) {
+  .upload-grid, .review-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .app, .app[data-sidebar="closed"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "main"; }
+  .side {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 40; width: min(20rem, 88vw); max-height: none;
+    box-shadow: var(--ds-shadow-xl); grid-area: auto;
+  }
+  .side-nav { display: block; }
+  .topnav { display: none; }
+  .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--ds-size-2); }
+  .stage a, .stage:first-child a { clip-path: none; margin-inline-start: 0; padding-inline: var(--ds-size-4); }
+  .stage { margin-inline-end: var(--ds-size-2); }
+}
+@media (max-width: 640px) {
+  .board { grid-template-columns: minmax(0, 1fr); }
+  .stage .count { font-size: var(--ds-font-size-6); }
+  .top-search { order: 10; flex-basis: 100%; max-width: none; }
+  .top-actions .label-wide { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .compare { grid-template-columns: 1fr; }
+  .file { grid-template-columns: 3rem minmax(0, 1fr); }
+  .file .ph, .empty-file { width: 3rem; height: 3rem; }
+  .file-state { grid-column: 2; justify-self: start; }
+  .kw dl { grid-template-columns: 1fr; }
+  .facts { grid-template-columns: 1fr; }
+  .facts dd { margin-bottom: var(--ds-size-2); }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-side" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-price" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 7H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.4" fill="currentColor"/><circle cx="17" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-logo" viewBox="0 0 32 32"><rect x="2" y="6" width="6" height="20" rx="1" fill="#2a8794"/><rect x="10" y="10" width="6" height="16" rx="1" fill="#a85b0a"/><rect x="18" y="4" width="6" height="22" rx="1" fill="#00707f"/><rect x="26" y="14" width="4" height="12" rx="1" fill="#068718"/></symbol>
+</svg>
+
+<!-- ===================== MOCK SWITCHER (not part of the design) ===================== -->
+<header class="mock" aria-label="Design direction switcher">
+  <div>
+    <h1>Direction 05: Pipeline board</h1>
+    <p>Work is organised by where each image is in its life: processing, needs review, reviewed, published. Staff see at a glance what is waiting for them, and every lane has one obvious next action. The stage rail repeats on Upload (per-file states) and on the client side (find, cart, licensed), so the whole product reads as one flow.</p>
+  </div>
+  <div class="mock-buttons" role="group" aria-label="Screens">
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-library" aria-pressed="true">Staff: Library</button>
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-upload" aria-pressed="false">Staff: Upload</button>
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-client" aria-pressed="false">Client: Find images</button>
+  </div>
+</header>
+
+<!-- ===================== SCREEN 1: STAFF LIBRARY ===================== -->
+<section class="screen" id="screen-library" aria-label="Staff library">
+<div class="app" data-size="sm">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-lib" aria-expanded="true" aria-label="Batches and filters">
+      <svg class="icon" aria-hidden="true"><use href="#i-side"/></svg>
+    </button>
+    <a class="brand" href="#"><svg aria-hidden="true"><use href="#i-logo"/></svg>CRM-DAM</a>
+    <nav class="topnav" aria-label="Main">
+      <ul>
+        <li><a href="#" aria-current="page" data-goto="screen-library">Library</a></li>
+        <li><a href="#" data-goto="screen-upload">Upload</a></li>
+        <li><a href="#">Clients</a></li>
+        <li><a href="#">Licence log</a></li>
+      </ul>
+    </nav>
+    <form class="top-search" role="search" onsubmit="return false">
+      <div class="ds-search">
+        <input class="ds-input" type="search" aria-label="Search the library" value="drone winter" placeholder="Search titles, keywords, places">
+        <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="top-actions">
+      <button class="ds-button" data-variant="primary" type="button" data-goto="screen-upload"><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg><span class="label-wide">Upload images</span></button>
+      <span class="ds-avatar" data-size="sm" role="img" aria-label="Ida, staff">I</span>
+    </div>
+  </header>
+
+  <aside class="side" id="side-lib" aria-label="Batches and filters">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#" data-goto="screen-library" aria-current="page">Library</a></li>
+        <li><a class="ds-link" href="#" data-goto="screen-upload">Upload</a></li>
+        <li><a class="ds-link" href="#">Clients</a></li>
+        <li><a class="ds-link" href="#">Licence log</a></li>
+      </ul>
+    </nav>
+    <section aria-labelledby="h-batches">
+      <h2 id="h-batches">Batches in progress</h2>
+      <ul class="batches">
+        <li class="batch"><a href="#" data-goto="screen-upload">
+          <span class="batch-name">Fjordkaffe autumn shoot</span>
+          <span class="batch-meta">80 images, uploading. Yours.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-proc" style="width:24%"></span><span class="f-rev" style="width:20%"></span><span class="f-ok" style="width:56%"></span></span>
+        </a></li>
+        <li class="batch"><a href="#">
+          <span class="batch-name">Nordlys Sykkel spring catalogue</span>
+          <span class="batch-meta">36 images, 5 need review. Mats Lund.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-rev" style="width:14%"></span><span class="f-ok" style="width:30%"></span><span class="f-pub" style="width:56%"></span></span>
+        </a></li>
+        <li class="batch"><a href="#">
+          <span class="batch-name">Bergen winter aerials</span>
+          <span class="batch-meta">22 images, 2 reviewed. Yours.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-rev" style="width:10%"></span><span class="f-ok" style="width:10%"></span><span class="f-pub" style="width:80%"></span></span>
+        </a></li>
+      </ul>
+    </section>
+    <section aria-labelledby="h-filters">
+      <h2 id="h-filters">Filters</h2>
+      <form class="filters" onsubmit="return false">
+        <div class="ds-field">
+          <label class="ds-label" for="f-client">Client</label>
+          <select class="ds-input" id="f-client">
+            <option>All clients</option><option>Fjordkaffe AS</option><option>Nordlys Sykkel AS</option><option>Gammel Kunde AS (inactive)</option>
+          </select>
+        </div>
+        <fieldset>
+          <legend>Visibility</legend>
+          <div class="chiprow">
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Public</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Restricted</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Internal only</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Price</legend>
+          <div class="chiprow">
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Free</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Paid</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Status</legend>
+          <div class="chiprow">
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Draft</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Published</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox">Archived</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Date taken</legend>
+          <div class="daterow">
+            <div class="ds-field"><label class="ds-label" data-weight="regular" for="f-from">From</label><input class="ds-input" id="f-from" type="date" value="2025-12-01"></div>
+            <div class="ds-field"><label class="ds-label" data-weight="regular" for="f-to">To</label><input class="ds-input" id="f-to" type="date" value="2026-02-28"></div>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </aside>
+
+  <main class="main" id="main-lib">
+    <div class="pagehead">
+      <div>
+        <h1 class="ds-heading" data-size="lg">Library</h1>
+        <p>23 images match “drone winter”, newest first.</p>
+      </div>
+      <div class="pagehead-tools">
+        <fieldset class="ds-toggle-group" data-variant="secondary" aria-label="View">
+          <label class="ds-button"><input type="radio" name="view-lib" value="board" checked>Board</label>
+          <label class="ds-button"><input type="radio" name="view-lib" value="list">List</label>
+        </fieldset>
+      </div>
+    </div>
+    <div class="active-filters" aria-label="Active filters">
+      <button class="ds-chip" type="button" data-removable="true">Taken Dec 2025 to Feb 2026</button>
+      <button class="ds-chip" type="button" data-removable="true">Hide archived</button>
+      <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Clear filters</button>
+    </div>
+
+    <ol class="stages" aria-label="Stages">
+      <li class="stage s-proc"><a href="#lane-proc"><span class="count">4</span><span class="label">Processing</span><span class="note">Updates live</span></a></li>
+      <li class="stage s-rev"><a href="#lane-rev"><span class="count">3</span><span class="label">Needs review</span><span class="note">1 failed</span></a></li>
+      <li class="stage s-ok"><a href="#lane-ok"><span class="count">2</span><span class="label">Reviewed</span><span class="note">Ready to publish</span></a></li>
+      <li class="stage s-pub"><a href="#lane-pub"><span class="count">14</span><span class="label">Published</span><span class="note">Visible to clients</span></a></li>
+    </ol>
+
+    <div class="board">
+      <!-- Lane 1: Processing -->
+      <section class="lane s-proc" id="lane-proc" aria-labelledby="lh-proc">
+        <div class="lane-head"><h2 id="lh-proc">Processing <span>4</span></h2></div>
+        <p class="lane-note">States change here without reloading.</p>
+        <ul class="lane-list">
+          <li class="job job--compact">
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">DJI_0421.jpg</a></h3>
+              <p class="job-file">Bergen winter aerials, 31.2 MB</p>
+              <div class="job-tags"><span class="ds-tag" data-color="info" data-size="sm">Uploading</span><span class="job-file">64 %</span></div>
+              <div class="progress" role="progressbar" aria-label="Upload progress for DJI_0421.jpg" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><span style="width:64%"></span></div>
+            </div>
+          </li>
+          <li class="job job--compact">
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">DJI_0422.jpg</a></h3>
+              <p class="job-file">Bergen winter aerials, 29.8 MB</p>
+              <div class="job-tags"><span class="ds-tag" data-color="neutral" data-size="sm">Queued</span><span class="job-file">3rd in line</span></div>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-forest r32" role="img" aria-label="Snow-covered spruce forest seen from above, generating description"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">DJI_0419.jpg</a></h3>
+              <div class="job-tags">
+                <span class="ds-tag" data-color="brand2" data-size="sm"><svg class="ds-spinner" role="img" aria-label="Working" viewBox="0 0 50 50"><circle class="ds-spinner__background" cx="25" cy="25" r="20" fill="none" stroke-width="5"/><circle class="ds-spinner__circle" cx="25" cy="25" r="20" fill="none" stroke-width="5"/></svg>Generating</span>
+              </div>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Internal only</span><span>Free</span></p>
+            </div>
+          </li>
+          <li class="job job--rejected job--compact">
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">DJI_0388.jpg</a></h3>
+              <div class="job-tags"><span class="ds-tag" data-color="danger" data-variant="outline" data-size="sm">Rejected</span></div>
+              <p class="job-msg">DJI_0388.jpg is already in the library. <a class="ds-link" href="#">Open the existing image</a></p>
+              <div class="job-actions"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Dismiss</button></div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Lane 2: Needs review -->
+      <section class="lane s-rev" id="lane-rev" aria-labelledby="lh-rev">
+        <div class="lane-head">
+          <h2 id="lh-rev">Needs review <span>3</span></h2>
+          <button class="ds-button" data-variant="secondary" data-size="sm" type="button">Review next</button>
+        </div>
+        <p class="lane-note">AI metadata to check before publishing.</p>
+        <ul class="lane-list">
+          <li class="job job--failed">
+            <div class="ph ph-fog r43" role="img" aria-label="Funicular track disappearing into winter fog on a mountainside"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Untitled image</a></h3>
+              <p class="job-file">DJI_0415.jpg</p>
+              <div class="job-tags"><span class="ds-tag" data-color="danger" data-size="sm">Failed</span></div>
+              <p class="job-msg danger">Metadata could not be generated: the AI service did not answer within 30 seconds. Fill in the fields yourself or try again.</p>
+              <div class="job-actions">
+                <button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-retry"/></svg>Try again</button>
+                <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Fill in by hand</button>
+              </div>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-snowcity r32" role="img" aria-label="Snowy rooftops in the Nordnes district of Bergen seen from a drone"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Snowy rooftops at Nordnes from above</a></h3>
+              <p class="job-file">DJI_0409.jpg</p>
+              <div class="job-tags"><span class="ds-tag" data-color="success" data-size="sm">Ready</span><span class="job-file">AI draft, 11 keywords</span></div>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Restricted: Fjordkaffe AS</span><span>Free</span></p>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-wharf r169" role="img" aria-label="Bryggen wharf houses under fresh snow, seen from a drone over the harbour"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Bryggen wharf under fresh snow</a></h3>
+              <p class="job-file">DJI_0411.jpg</p>
+              <div class="job-tags"><span class="ds-tag" data-color="success" data-size="sm">Ready</span></div>
+              <p class="lockline"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Mats Lund is editing</p>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Public</span><span class="paid"><svg class="icon" aria-hidden="true"><use href="#i-price"/></svg>180 USD</span></p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Lane 3: Reviewed -->
+      <section class="lane s-ok" id="lane-ok" aria-labelledby="lh-ok">
+        <div class="lane-head">
+          <h2 id="lh-ok">Reviewed <span>2</span></h2>
+          <button class="ds-button" data-variant="primary" data-size="sm" type="button">Publish 2</button>
+        </div>
+        <p class="lane-note">Drafts, visible to all staff. Not yet to clients.</p>
+        <ul class="lane-list">
+          <li class="job">
+            <div class="ph ph-fjord r43" role="img" aria-label="Frozen inner end of Lysefjorden between steep dark mountains, seen from the air"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Frozen inlet of Lysefjorden, aerial</a></h3>
+              <p class="job-file">DJI_0377.jpg</p>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Public</span><span class="paid"><svg class="icon" aria-hidden="true"><use href="#i-price"/></svg>240 USD</span></p>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-bridge r11" role="img" aria-label="Puddefjord bridge from directly above, snow along both shores"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Puddefjord bridge in snow, top-down</a></h3>
+              <p class="job-file">DJI_0380.jpg</p>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Restricted: Fjordkaffe AS, Nordlys Sykkel AS</span><span>Free</span></p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Lane 4: Published -->
+      <section class="lane s-pub" id="lane-pub" aria-labelledby="lh-pub">
+        <div class="lane-head">
+          <h2 id="lh-pub">Published <span>14</span></h2>
+          <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Show as list</button>
+        </div>
+        <p class="lane-note">Newest first.</p>
+        <ul class="lane-list">
+          <li class="job">
+            <div class="ph ph-dusk r169" role="img" aria-label="Bergen harbour at dusk with snow on the quays and lit windows, drone view"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Bergen harbour at dusk with snow</a></h3>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Public</span><span>Free</span></p>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-cyclist r45" role="img" aria-label="A lone cyclist on a snowy coastal road, seen from straight above"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Cyclist on a snowy coastal road, top-down</a></h3>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Restricted: Nordlys Sykkel AS</span><span class="paid"><svg class="icon" aria-hidden="true"><use href="#i-price"/></svg>95 USD</span></p>
+            </div>
+          </li>
+          <li class="job">
+            <div class="ph ph-aurora r32" role="img" aria-label="Green northern lights over a frozen lake with dark forest on the shore"></div>
+            <div class="job-body">
+              <h3 class="job-title"><a href="#">Northern lights over a frozen lake</a></h3>
+              <p class="access"><span><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>Internal only</span><span>Free</span></p>
+            </div>
+          </li>
+        </ul>
+        <div class="lane-more"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Show 11 more</button></div>
+      </section>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- ===================== SCREEN 2: STAFF UPLOAD ===================== -->
+<section class="screen" id="screen-upload" aria-label="Staff upload" hidden>
+<div class="app" data-size="sm">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-up" aria-expanded="true" aria-label="Batches">
+      <svg class="icon" aria-hidden="true"><use href="#i-side"/></svg>
+    </button>
+    <a class="brand" href="#"><svg aria-hidden="true"><use href="#i-logo"/></svg>CRM-DAM</a>
+    <nav class="topnav" aria-label="Main">
+      <ul>
+        <li><a href="#" data-goto="screen-library">Library</a></li>
+        <li><a href="#" aria-current="page" data-goto="screen-upload">Upload</a></li>
+        <li><a href="#">Clients</a></li>
+        <li><a href="#">Licence log</a></li>
+      </ul>
+    </nav>
+    <form class="top-search" role="search" onsubmit="return false">
+      <div class="ds-search">
+        <input class="ds-input" type="search" aria-label="Search the library" placeholder="Search titles, keywords, places">
+        <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="top-actions">
+      <span class="ds-avatar" data-size="sm" role="img" aria-label="Ida, staff">I</span>
+    </div>
+  </header>
+
+  <aside class="side" id="side-up" aria-label="Batches">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#" data-goto="screen-library">Library</a></li>
+        <li><a class="ds-link" href="#" data-goto="screen-upload" aria-current="page">Upload</a></li>
+        <li><a class="ds-link" href="#">Clients</a></li>
+        <li><a class="ds-link" href="#">Licence log</a></li>
+      </ul>
+    </nav>
+    <section aria-labelledby="h-batches2">
+      <h2 id="h-batches2">Batches in progress</h2>
+      <ul class="batches">
+        <li class="batch"><a href="#" aria-current="true">
+          <span class="batch-name">Fjordkaffe autumn shoot</span>
+          <span class="batch-meta">80 images, uploading. Yours.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-proc" style="width:24%"></span><span class="f-rev" style="width:20%"></span><span class="f-ok" style="width:56%"></span></span>
+        </a></li>
+        <li class="batch"><a href="#">
+          <span class="batch-name">Nordlys Sykkel spring catalogue</span>
+          <span class="batch-meta">36 images, 5 need review. Mats Lund.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-rev" style="width:14%"></span><span class="f-ok" style="width:30%"></span><span class="f-pub" style="width:56%"></span></span>
+        </a></li>
+        <li class="batch"><a href="#">
+          <span class="batch-name">Bergen winter aerials</span>
+          <span class="batch-meta">22 images, 2 reviewed. Yours.</span>
+          <span class="flowbar" aria-hidden="true"><span class="f-rev" style="width:10%"></span><span class="f-ok" style="width:10%"></span><span class="f-pub" style="width:80%"></span></span>
+        </a></li>
+      </ul>
+      <p style="margin-top:var(--ds-size-5)"><button class="ds-button" data-variant="secondary" data-size="sm" type="button">Start a new batch</button></p>
+    </section>
+  </aside>
+
+  <main class="main">
+    <div class="pagehead">
+      <div>
+        <h1 class="ds-heading" data-size="lg">Fjordkaffe autumn shoot</h1>
+        <p>80 files from Sara Haugen’s shoot at the Bryggen café, 14 October 2026. Keep this page open until uploading finishes.</p>
+      </div>
+      <div class="pagehead-tools">
+        <button class="ds-button" data-variant="secondary" type="button">Discard batch</button>
+        <button class="ds-button" data-variant="primary" type="button">Publish 41 reviewed</button>
+      </div>
+    </div>
+
+    <section class="conveyor" aria-labelledby="h-conv">
+      <h2 id="h-conv" class="ds-sr-only">Processing states for this batch</h2>
+      <div class="conveyor-bar" aria-hidden="true">
+        <span class="f-proc" style="width:3.75%"></span>
+        <span class="f-queue" style="width:15%"></span>
+        <span class="f-gen" style="width:5%"></span>
+        <span class="f-ok" style="width:71.25%"></span>
+        <span class="f-fail" style="width:3.75%"></span>
+        <span style="width:1.25%;background:repeating-linear-gradient(45deg,var(--ds-color-danger-base-default) 0 2px,#fff 2px 4px)"></span>
+      </div>
+      <ul class="conveyor-legend">
+        <li><span class="sw f-proc"></span><b>3</b> uploading</li>
+        <li><span class="sw f-queue"></span><b>12</b> queued</li>
+        <li><span class="sw f-gen"></span><b>4</b> generating</li>
+        <li><span class="sw f-ok"></span><b>57</b> ready</li>
+        <li><span class="sw f-fail"></span><b>3</b> failed</li>
+        <li><span class="sw" style="border:2px solid var(--ds-color-danger-base-default)"></span><b>1</b> rejected</li>
+      </ul>
+    </section>
+
+    <div class="upload-grid">
+      <!-- Left: intake + batch settings -->
+      <form class="settings" onsubmit="return false" aria-labelledby="h-settings">
+        <div class="ds-field">
+          <label class="ds-label" for="drop">Add images to this batch</label>
+          <div class="ds-file-upload">
+            <p class="ds-paragraph" data-field="description">Drop images here</p>
+            <p class="ds-paragraph" data-field="description">JPEG or PNG, up to 50 MB each</p>
+            <span class="ds-button" data-variant="secondary">Choose files</span>
+            <input id="drop" type="file" accept="image/jpeg,image/png" multiple title="">
+          </div>
+        </div>
+
+        <h2 id="h-settings" class="ds-heading" data-size="xs" style="margin:var(--ds-size-2) 0 0">Batch settings</h2>
+        <fieldset class="ds-fieldset">
+          <legend class="ds-label">Who can see these images</legend>
+          <div class="ds-field"><input class="ds-input" type="radio" name="vis" id="vis-int"><label class="ds-label" data-weight="regular" for="vis-int">Internal only</label></div>
+          <div class="ds-field"><input class="ds-input" type="radio" name="vis" id="vis-res" checked><label class="ds-label" data-weight="regular" for="vis-res">Selected clients</label></div>
+          <div class="chiprow" style="padding-inline-start:var(--ds-size-8)">
+            <button class="ds-chip" type="button" data-removable="true">Fjordkaffe AS</button>
+            <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Add client</button>
+          </div>
+          <div class="ds-field"><input class="ds-input" type="radio" name="vis" id="vis-pub"><label class="ds-label" data-weight="regular" for="vis-pub">All clients</label></div>
+        </fieldset>
+
+        <fieldset class="ds-fieldset">
+          <legend class="ds-label">Price</legend>
+          <fieldset class="ds-toggle-group" data-variant="secondary" aria-label="Price">
+            <label class="ds-button"><input type="radio" name="price" value="free" checked>Free</label>
+            <label class="ds-button"><input type="radio" name="price" value="paid">Paid</label>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="ds-fieldset">
+          <legend class="ds-label">Metadata</legend>
+          <fieldset class="ds-toggle-group" data-variant="secondary" aria-label="Metadata source">
+            <label class="ds-button"><input type="radio" name="meta" value="ai" checked>Generate with AI</label>
+            <label class="ds-button"><input type="radio" name="meta" value="manual">Write by hand</label>
+          </fieldset>
+          <div class="ds-field"><input class="ds-input" type="checkbox" role="switch" id="places" checked><label class="ds-label" data-weight="regular" for="places">Let AI use place names from GPS</label></div>
+        </fieldset>
+
+        <div class="ds-field">
+          <label class="ds-label" for="kw-all">Keywords for every image</label>
+          <div data-field="description">Added on top of what the AI suggests.</div>
+          <input class="ds-input" id="kw-all" type="text" value="fjordkaffe, autumn campaign 2026, bryggen">
+        </div>
+
+        <div>
+          <button class="ds-button" data-variant="secondary" type="button">Apply to whole batch</button>
+          <p class="settings-note" style="margin-top:var(--ds-size-2)">This overwrites the settings on 77 draft images. You confirm first.</p>
+        </div>
+      </form>
+
+      <!-- Right: per-file list -->
+      <section aria-labelledby="h-files">
+        <div class="files-head">
+          <h2 id="h-files" class="ds-heading" data-size="xs">Files</h2>
+          <fieldset class="ds-toggle-group" data-variant="secondary" aria-label="Show files" data-size="sm">
+            <label class="ds-button"><input type="radio" name="fshow" checked>Needs attention (7)</label>
+            <label class="ds-button"><input type="radio" name="fshow">All (80)</label>
+          </fieldset>
+        </div>
+        <ul class="files">
+          <li class="file">
+            <span class="empty-file" aria-hidden="true"><svg class="icon"><use href="#i-up"/></svg></span>
+            <div><div class="file-name">C0930_1502.jpg</div><div class="file-meta">18.4 MB</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="info" data-size="sm">Uploading</span></div>
+            <div class="progress" role="progressbar" aria-label="Upload progress for C0930_1502.jpg" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><span style="width:72%"></span></div>
+          </li>
+          <li class="file">
+            <div class="ph ph-beans" role="img" aria-label="Close-up of dark roasted coffee beans"></div>
+            <div><div class="file-name">C0930_1488.jpg</div><div class="file-meta">22.1 MB</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="brand2" data-size="sm">Generating</span></div>
+          </li>
+          <li class="file">
+            <span class="empty-file" aria-hidden="true">…</span>
+            <div><div class="file-name">C0930_1490.jpg</div><div class="file-meta">19.7 MB, 5th in line</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="neutral" data-size="sm">Queued</span></div>
+          </li>
+          <li class="file">
+            <span class="empty-file" aria-hidden="true">×</span>
+            <div><div class="file-name">C0930_1467.jpg</div><div class="file-meta">20.3 MB</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="danger" data-variant="outline" data-size="sm">Rejected</span></div>
+            <div class="file-extra"><p class="job-msg">C0930_1467.jpg is already in the library. <a class="ds-link" href="#">Open the existing image</a></p></div>
+          </li>
+          <li class="file">
+            <div class="ph ph-cafe" role="img" aria-label="Warm café interior with tall bright windows"></div>
+            <div><div class="file-name">C0930_1470.jpg</div><div class="file-meta">21.0 MB</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="warning" data-size="sm">Same filename</span></div>
+            <div class="file-extra">
+              <p class="job-msg">An image called C0930_1470.jpg is already in the library. Compare them and choose.</p>
+              <div class="compare">
+                <figure><div class="ph ph-cafe r32" role="img" aria-label="New upload: café interior with three tall windows and a long wooden counter"></div><figcaption><b>New file</b>21.0 MB, taken 14 Oct 2026</figcaption></figure>
+                <figure><div class="ph ph-latte r32" role="img" aria-label="Existing image: latte art in a white cup on a dark wooden table"></div><figcaption><b>Already in library</b>Fjordkaffe spring 2025, uploaded by Mats Lund</figcaption></figure>
+              </div>
+              <div class="compare-actions">
+                <button class="ds-button" data-variant="secondary" data-size="sm" type="button">Keep both</button>
+                <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Discard new file</button>
+                <div class="ds-field"><input class="ds-input" type="checkbox" id="apply-all"><label class="ds-label" data-weight="regular" for="apply-all">Use this answer for all 4 filename matches</label></div>
+              </div>
+            </div>
+          </li>
+          <li class="file">
+            <div class="ph ph-barista" role="img" aria-label="Barista behind the counter, warm lights blurred in the background"></div>
+            <div><div class="file-name">C0930_1477.jpg</div><div class="file-meta">23.4 MB</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="danger" data-size="sm">Failed</span></div>
+            <div class="file-extra">
+              <p class="job-msg danger">Metadata could not be generated: the AI service returned an empty answer. Fill in the fields yourself or try again.</p>
+              <div class="compare-actions">
+                <button class="ds-button" data-variant="secondary" data-size="sm" type="button">Try again</button>
+                <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Try all 3 failed again</button>
+              </div>
+            </div>
+          </li>
+          <li class="file" aria-current="true">
+            <div class="ph ph-latte" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+            <div><div class="file-name">C0930_1461.jpg</div><div class="file-meta">Reviewing below</div></div>
+            <div class="file-state"><span class="ds-tag" data-color="success" data-size="sm">Ready</span></div>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Review: AI metadata to correct -->
+    <section class="review" aria-labelledby="h-review">
+      <div class="review-head">
+        <div>
+          <h2 id="h-review" class="ds-heading" data-size="sm">Review AI metadata</h2>
+          <p class="file-meta" style="margin:var(--ds-size-1) 0 0">C0930_1461.jpg, 1 of 16 waiting for review in this batch</p>
+        </div>
+        <span class="saved" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Saved 10:42</span>
+      </div>
+      <div class="review-grid">
+        <div>
+          <div class="ph ph-latte r43" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+          <dl class="facts">
+            <dt>Date taken</dt><dd>14 Oct 2026, 09:12</dd>
+            <dt>Camera</dt><dd>Sony A7 IV, FE 35mm F1.4 GM, 1/125 s, f/2.0, ISO 800</dd>
+            <dt>Place <span class="staff-only">(staff only)</span></dt><dd>Bryggen, Bergen, Vestland, Norway</dd>
+            <dt>Generated by <span class="staff-only">(staff only)</span></dt><dd>Mock provider, prompt v3</dd>
+          </dl>
+        </div>
+        <form class="review-fields" onsubmit="return false">
+          <div class="ds-field">
+            <label class="ds-label" for="m-title">Title</label>
+            <input class="ds-input" id="m-title" type="text" value="Latte art in a white cup on a dark wooden table">
+          </div>
+          <div class="ds-field">
+            <label class="ds-label" for="m-desc">Description</label>
+            <textarea class="ds-input" id="m-desc" rows="3">A flat white with a rosetta pattern, served in a white ceramic cup on a dark oak table in a café. Soft daylight from the left.</textarea>
+          </div>
+          <div class="ds-field">
+            <label class="ds-label" for="m-alt">Alt text</label>
+            <div data-field="description">Up to 250 characters. Aim for under 150.</div>
+            <textarea class="ds-input" id="m-alt" rows="2">Latte with a leaf pattern in a white cup on a dark wooden café table.</textarea>
+            <div data-field="description">71 of 250 characters</div>
+          </div>
+          <fieldset class="kw">
+            <legend class="ds-label">Keywords <span class="staff-only">11 of 15</span></legend>
+            <dl>
+              <dt>Place</dt><dd><button class="ds-chip" type="button" data-removable="true">bryggen</button><button class="ds-chip" type="button" data-removable="true">Bergen</button></dd>
+              <dt>Weather, season</dt><dd><button class="ds-chip" type="button" data-removable="true">autumn</button></dd>
+              <dt>Emotion</dt><dd><button class="ds-chip" type="button" data-removable="true">cosy</button></dd>
+              <dt>Colour</dt><dd><button class="ds-chip" type="button" data-removable="true">warm</button><button class="ds-chip" type="button" data-removable="true">brown</button></dd>
+              <dt>Activity</dt><dd><button class="ds-chip" type="button" data-removable="true">coffee break</button></dd>
+              <dt>Object</dt><dd><button class="ds-chip" type="button" data-removable="true">latte</button><button class="ds-chip" type="button" data-removable="true">cup</button><button class="ds-chip" type="button" data-removable="true">table</button></dd>
+              <dt>Perspective</dt><dd><button class="ds-chip" type="button" data-removable="true">top-down</button></dd>
+            </dl>
+            <div class="ds-field" style="margin-top:var(--ds-size-3)"><label class="ds-label ds-sr-only" for="kw-add">Add keyword</label><input class="ds-input" id="kw-add" type="text" placeholder="Add a keyword"></div>
+          </fieldset>
+          <div class="review-actions">
+            <button class="ds-button" data-variant="primary" type="button">Mark as reviewed</button>
+            <button class="ds-button" data-variant="secondary" type="button">Next image</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+</section>
+
+<!-- ===================== SCREEN 3: CLIENT FIND IMAGES ===================== -->
+<section class="screen" id="screen-client" aria-label="Client find images" hidden>
+<div class="app" data-size="sm">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-cl" aria-expanded="true" aria-label="Filters">
+      <svg class="icon" aria-hidden="true"><use href="#i-side"/></svg>
+    </button>
+    <a class="brand" href="#"><svg aria-hidden="true"><use href="#i-logo"/></svg>CRM-DAM <small>for Fjordkaffe AS</small></a>
+    <nav class="topnav" aria-label="Main">
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">My images</a></li>
+        <li><a href="#" aria-current="page">Find images</a></li>
+        <li><a href="#">Licence history</a></li>
+      </ul>
+    </nav>
+    <div class="top-actions" style="margin-inline-start:auto">
+      <a class="ds-button" data-variant="secondary" href="#cart">
+        <span class="ds-badge--position" data-placement="top-right" data-overlap="circle"><span class="ds-badge" data-count="2" data-color="accent" data-variant="base"></span><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg></span>
+        Cart<span class="ds-sr-only">, 2 images</span>
+      </a>
+      <span class="ds-avatar" data-size="sm" role="img" aria-label="Jonas, Fjordkaffe AS">J</span>
+    </div>
+  </header>
+
+  <aside class="side" id="side-cl" aria-label="Filters">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#">Dashboard</a></li>
+        <li><a class="ds-link" href="#">My images</a></li>
+        <li><a class="ds-link" href="#" aria-current="page">Find images</a></li>
+        <li><a class="ds-link" href="#">Licence history</a></li>
+      </ul>
+    </nav>
+    <section aria-labelledby="h-cfilters">
+      <h2 id="h-cfilters">Filters</h2>
+      <form class="filters" onsubmit="return false">
+        <div class="ds-field"><input class="ds-input" type="checkbox" role="switch" id="only-mine"><label class="ds-label" data-weight="regular" for="only-mine">Only my images</label></div>
+        <fieldset>
+          <legend>Price</legend>
+          <div class="chiprow">
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Free</label>
+            <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Paid</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Date taken</legend>
+          <div class="daterow">
+            <div class="ds-field"><label class="ds-label" data-weight="regular" for="c-from">From</label><input class="ds-input" id="c-from" type="date"></div>
+            <div class="ds-field"><label class="ds-label" data-weight="regular" for="c-to">To</label><input class="ds-input" id="c-to" type="date"></div>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </aside>
+
+  <main class="main">
+    <div class="pagehead">
+      <div>
+        <h1 class="ds-heading" data-size="lg">Find images</h1>
+        <p>Everything the agency has made available to Fjordkaffe AS. Your own images carry a green tick.</p>
+      </div>
+    </div>
+
+    <ol class="stages" aria-label="Your licensing flow">
+      <li class="stage s-proc"><a href="#"><span class="count">212</span><span class="label">Available</span><span class="note">To browse</span></a></li>
+      <li class="stage s-rev"><a href="#cart"><span class="count">2</span><span class="label">In your cart</span><span class="note">260 USD</span></a></li>
+      <li class="stage s-ok"><a href="#cart"><span class="count">0</span><span class="label">At checkout</span><span class="note">Accept terms</span></a></li>
+      <li class="stage s-pub"><a href="#"><span class="count">64</span><span class="label">My images</span><span class="note">Licensed to Fjordkaffe</span></a></li>
+    </ol>
+
+    <div class="new-strip">
+      <p><strong>6 new images</strong> made available since your last visit on 3 November.</p>
+      <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Show new images</button>
+    </div>
+
+    <div class="client-layout">
+      <div>
+        <form class="client-search" role="search" onsubmit="return false">
+          <div class="ds-field">
+            <label class="ds-label" for="c-q">Search</label>
+            <div class="ds-search">
+              <input class="ds-input" id="c-q" type="search" value="harbour">
+              <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+            </div>
+          </div>
+          <div class="ds-field">
+            <label class="ds-label" for="c-sort">Sort</label>
+            <select class="ds-input" id="c-sort" data-width="auto"><option>Newest first</option></select>
+          </div>
+        </form>
+
+        <ul class="shop" aria-label="18 images match harbour">
+          <li class="item">
+            <div class="ph-wrap">
+              <div class="ph ph-dusk r32" role="img" aria-label="Bergen harbour at dusk with snow on the quays and lit windows, drone view"></div>
+              <span class="own"><svg aria-hidden="true"><use href="#i-check"/></svg>Your image</span>
+            </div>
+            <h2 class="item-title"><a href="#">Bergen harbour at dusk with snow</a></h2>
+            <div class="item-row"><span class="file-meta">Licensed 12 Sep 2026</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+          </li>
+          <li class="item">
+            <div class="ph-wrap"><div class="ph ph-wharf r43" role="img" aria-label="Bryggen wharf houses under fresh snow, seen from a drone over the harbour"></div></div>
+            <h2 class="item-title"><a href="#">Bryggen wharf under fresh snow</a></h2>
+            <div class="item-row"><span class="price">180 USD</span><button class="ds-button" data-variant="primary" data-size="sm" type="button" disabled aria-disabled="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>In cart</button></div>
+          </li>
+          <li class="item">
+            <div class="ph-wrap"><div class="ph ph-snowcity r45" role="img" aria-label="Snowy rooftops in the Nordnes district of Bergen seen from a drone"></div></div>
+            <h2 class="item-title"><a href="#">Snowy rooftops at Nordnes from above</a></h2>
+            <div class="item-row"><span class="price">Free</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+            <p class="terms-note">Downloading accepts the <a class="ds-link" href="#">licence terms</a>.</p>
+          </li>
+          <li class="item">
+            <div class="ph-wrap"><div class="ph ph-fjord r169" role="img" aria-label="Frozen inner end of Lysefjorden between steep dark mountains, seen from the air"></div></div>
+            <h2 class="item-title"><a href="#">Frozen inlet of Lysefjorden, aerial</a></h2>
+            <div class="item-row"><span class="price">240 USD</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg>Add to cart</button></div>
+          </li>
+          <li class="item">
+            <div class="ph-wrap">
+              <div class="ph ph-latte r11" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+              <span class="own"><svg aria-hidden="true"><use href="#i-check"/></svg>Your image</span>
+            </div>
+            <h2 class="item-title"><a href="#">Latte by the harbour window</a></h2>
+            <div class="item-row"><span class="file-meta">Shared with Fjordkaffe</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+          </li>
+          <li class="item">
+            <div class="ph-wrap"><div class="ph ph-bridge r32" role="img" aria-label="Puddefjord bridge from directly above, snow along both shores"></div></div>
+            <h2 class="item-title"><a href="#">Puddefjord bridge in snow, top-down</a></h2>
+            <div class="item-row"><span class="price">80 USD</span><button class="ds-button" data-variant="primary" data-size="sm" type="button" disabled aria-disabled="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>In cart</button></div>
+          </li>
+        </ul>
+        <ds-pagination class="ds-pagination" aria-label="Pages" style="margin-top:var(--ds-size-10)">
+          <ul>
+            <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Previous page" disabled>Previous</button></li>
+            <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Page 1" aria-current="true">1</button></li>
+            <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Page 2">2</button></li>
+            <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Page 3">3</button></li>
+            <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Next page">Next</button></li>
+          </ul>
+        </ds-pagination>
+      </div>
+
+      <aside class="cartlane" id="cart" aria-labelledby="h-cart">
+        <h2 id="h-cart">Cart <span class="file-meta">2 images</span></h2>
+        <ul class="cartlines">
+          <li class="cartline">
+            <div class="ph ph-wharf" role="img" aria-label="Bryggen wharf houses under fresh snow"></div>
+            <div><p class="t">Bryggen wharf under fresh snow</p><p class="file-meta">Standard commercial use</p><p class="price">180 USD</p></div>
+            <button class="ds-button" data-variant="tertiary" data-size="sm" type="button" aria-label="Remove Bryggen wharf under fresh snow from cart">Remove</button>
+          </li>
+          <li class="cartline">
+            <div class="ph ph-bridge" role="img" aria-label="Puddefjord bridge from directly above"></div>
+            <div><p class="t">Puddefjord bridge in snow, top-down</p><p class="file-meta">Standard commercial use</p><p class="price">80 USD</p></div>
+            <button class="ds-button" data-variant="tertiary" data-size="sm" type="button" aria-label="Remove Puddefjord bridge in snow from cart">Remove</button>
+          </li>
+        </ul>
+        <div class="carttotal"><span>Total, excl. VAT</span><span>260 USD</span></div>
+        <a class="ds-button" data-variant="primary" href="#">Go to checkout</a>
+        <p class="fine">You accept the licence terms at checkout. Nothing is charged in this app.</p>
+      </aside>
+    </div>
+  </main>
+</div>
+</section>
+
+<script>
+(function () {
+  var screens = document.querySelectorAll('.screen');
+  var switchers = document.querySelectorAll('[data-show]');
+  function show(id) {
+    screens.forEach(function (s) { s.hidden = s.id !== id; });
+    switchers.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === id)); });
+    window.scrollTo(0, 0);
+  }
+  switchers.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-show')); }); });
+  document.querySelectorAll('[data-goto]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); show(a.getAttribute('data-goto')); });
+  });
+
+  var narrow = window.matchMedia('(max-width: 900px)');
+  function setSidebar(app, open) {
+    var btn = app.querySelector('[data-sidebar-toggle]');
+    var side = document.getElementById(btn.getAttribute('aria-controls'));
+    app.setAttribute('data-sidebar', open ? 'open' : 'closed');
+    btn.setAttribute('aria-expanded', String(open));
+    side.hidden = !open;
+  }
+  document.querySelectorAll('.app').forEach(function (app) {
+    setSidebar(app, !narrow.matches);
+    app.querySelector('[data-sidebar-toggle]').addEventListener('click', function () {
+      setSidebar(app, app.getAttribute('data-sidebar') !== 'open');
+    });
+  });
+  narrow.addEventListener('change', function (e) {
+    document.querySelectorAll('.app').forEach(function (app) { setSidebar(app, !e.matches); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !narrow.matches) return;
+    document.querySelectorAll('.app[data-sidebar="open"]').forEach(function (app) {
+      setSidebar(app, false);
+      app.querySelector('[data-sidebar-toggle]').focus();
+    });
+  });
+  show('screen-library');
+})();
+</script>
+</body>
+</html>

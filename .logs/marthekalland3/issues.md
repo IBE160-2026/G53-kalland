@@ -37,3 +37,7 @@
 - [x] 2026-11-18 [prd-feedback-translation](988-2026-11-18-08-27-18-prd-feedback-translation.md) — revise the PRD based on the teacher's feedback (`tilbakemelding-prd.en.md` sections 4.1–4.5 and the "must be settled" list in section 6) before UX, architecture and epics (løst 2026-11-18: [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md))
 - [ ] 2026-11-18 [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md) — at the 2026-11-30 checkpoint: draw the cut line from the ranked table and set the freeze date
 - [ ] 2026-11-18 [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md) — epics and stories: make the first stories a thin end-to-end slice through the spine (PRD Release Stages)
+- [ ] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — UX round 3 on variant 2A: no big Upload button in the library, inspector with Edit and Save changes (no autosave), fix the sidebar toggle hidden under the drawer on tablet and phone
+- [ ] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — UX colour-theme pass and a real Designsystemet theme (theme builder); review the orange warning colour
+- [ ] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — architecture: settle Designsystemet vs shadcn/ui in `technology.md` (D-031)
+- [ ] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — finalize bmad-ux: write DESIGN.md and EXPERIENCE.md

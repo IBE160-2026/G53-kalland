@@ -1,0 +1,137 @@
+<title>CRM-DAM Design Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: a quiet viewer — direction list on the left, the live mock in a resizable frame on the right. The mocks carry the design; this chrome stays out of the way. */
+:root{
+  --bg:#F4F5F7; --panel:#FFFFFF; --fg:#1D2127; --muted:#5B636E; --line:#DDE1E6;
+  --accent:#234E8C; --accent-fg:#FFFFFF; --sel:#E8EEF7; --stage:#E6E9ED;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15181C; --panel:#1C2026; --fg:#E7EAEE; --muted:#9AA3AE; --line:#2E343C;
+  --accent:#8FB3EA; --accent-fg:#0F1A2B; --sel:#243246; --stage:#0F1215; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15181C; --panel:#1C2026; --fg:#E7EAEE; --muted:#9AA3AE; --line:#2E343C;
+  --accent:#8FB3EA; --accent-fg:#0F1A2B; --sel:#243246; --stage:#0F1215; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45}
+.app{display:grid;grid-template-columns:300px minmax(0,1fr);height:100%}
+aside{background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px;display:flex;flex-direction:column;gap:16px}
+aside h1{font-size:17px;font-weight:600;margin:0;text-wrap:balance}
+aside p.lede{margin:0;color:var(--muted);font-size:13px}
+ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+ol button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:28px 1fr;gap:2px 8px;width:100%;padding:10px;border-radius:6px;cursor:pointer}
+ol button:hover{background:var(--sel)}
+ol button[aria-current="true"]{background:var(--sel);box-shadow:inset 3px 0 0 var(--accent)}
+ol button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+li.grp{font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--muted);padding:14px 10px 4px}
+li.grp:first-child{padding-top:0}
+.num{grid-row:span 2;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:500;padding-top:1px}
+.name{font-weight:600}
+.line{color:var(--muted);font-size:12.5px}
+.foot{margin-top:auto;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:12px}
+main{display:flex;flex-direction:column;min-width:0;height:100%}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:12px;padding-left:20px;padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--panel);border-bottom:1px solid var(--line)}
+.bar .title{font-weight:600;font-size:15px;min-width:0}
+.bar .title small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;max-width:70ch}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{all:unset;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--fg)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+.seg button:focus-visible,.nav button:focus-visible,a.open:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav{display:inline-flex;gap:6px}
+.nav button{all:unset;border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px}
+a.open{color:var(--accent);font-size:13px}
+.stage{flex:1;min-height:0;overflow:auto;background:var(--stage);display:flex;justify-content:center;padding:16px}
+.frame{background:#fff;border:1px solid var(--line);box-shadow:0 2px 12px rgba(0,0,0,.08);width:100%;height:100%;min-height:600px;transition:width .2s}
+.frame[data-w="768"]{width:768px;max-width:100%}
+.frame[data-w="360"]{width:360px;max-width:100%}
+iframe{display:block;border:0;width:100%;height:100%}
+select{display:none}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  aside{border-right:0;border-bottom:1px solid var(--line);padding-right:max(16px,env(safe-area-inset-right,0px));gap:10px}
+  aside ol,.foot{display:none}
+  select{display:block;width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit}
+  .bar{padding-left:max(16px,env(safe-area-inset-left,0px))}
+  .stage{padding:8px}
+}
+@media (prefers-reduced-motion:reduce){.frame{transition:none}}
+</style>
+
+<div class="app">
+  <aside>
+    <h1>CRM-DAM design directions</h1>
+    <p class="lede">Built on Designsystemet 1.23, light only, lots of air. Each mock has three screens: Staff library, Staff upload and the client view for Jonas at Fjordkaffe AS. Round 2 mocks also switch Shape (crisp or medium soft) and Price treatment in their top bar.</p>
+    <label for="pick" class="line" style="display:none">Direction</label>
+    <select id="pick" aria-label="Direction"></select>
+    <ol id="list"></ol>
+    <p class="foot">Use the switcher at the top of each mock to change screens, and the panel icon to toggle the sidebar. Images are drawn placeholders, prices in USD.</p>
+  </aside>
+  <main>
+    <div class="bar">
+      <div class="title" id="cur" aria-live="polite"></div>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Frame width">
+        <button type="button" data-w="full" aria-pressed="true">Desktop</button>
+        <button type="button" data-w="768" aria-pressed="false">Tablet</button>
+        <button type="button" data-w="360" aria-pressed="false">Phone</button>
+      </div>
+      <div class="nav">
+        <button type="button" id="prev" aria-label="Previous direction">‹ Prev</button>
+        <button type="button" id="next" aria-label="Next direction">Next ›</button>
+      </div>
+      <a class="open" id="open" href="#" target="_blank" rel="noopener">Open on its own</a>
+    </div>
+    <div class="stage"><div class="frame" id="frame" data-w="full"><iframe id="view" title="Design direction mock"></iframe></div></div>
+  </main>
+</div>
+
+<script>
+const D=[
+ ["2A","round2-a-header-nav.html","Header-led nav","Round 2. Main sections in the header; the sidebar only holds what belongs to the page (filters, collections, batches, to-do).",2],
+ ["2B","round2-b-sidebar-nav.html","Sidebar-led nav","Round 2. Main sections at the top of the sidebar; slim header. Folded, the sidebar becomes an icon rail.",2],
+ ["2C","round2-c-split-nav.html","Split by frequency","Round 2. Library and Upload in the header; saved views, collections and a Manage group in the sidebar; filters in a bar above the images.",2],
+ ["01","gallery-wall","Gallery wall","Photos are the interface: huge justified rows on a grey wall, details on a museum-style label on hover."],
+ ["02","split-inspector","Split inspector","A light-table grid with a fixed right-hand inspector for access, price and metadata. Cyanotype blue."],
+ ["03","table-first","Table-first","An airy spreadsheet: one row per image, sortable, edit in place, bulk bar on selection."],
+ ["04","search-first","Search-first","The query is the interface: big central search, facet chips, highlighted matches, Ctrl K to jump."],
+ ["05","pipeline-board","Pipeline board","Work organised by status lanes: processing, needs review, reviewed, published."],
+ ["06","client-centric","Client-centric","Every image lives under a client: the sidebar is a client and project tree."],
+ ["07","editorial-calm","Editorial calm","A typography-led catalogue with wide margins, captioned prints and one ink-blue accent."],
+ ["08","bold-accent","Bold accent","Process magenta in three places only: header band, selection, floating action bar."],
+ ["09","soft-rounded","Soft & rounded","Friendly, low-pressure: rounded white panels on a lilac page, every status a pill."],
+ ["10","collections-lightbox","Collections / lightbox","Pick frames off a light table into an always-visible tray; for clients the tray is the cart."]
+];
+const $=s=>document.querySelector(s);
+const list=$("#list"),pick=$("#pick"),view=$("#view"),frame=$("#frame"),cur=$("#cur"),open=$("#open");
+const fileOf=d=>d[4]===2?d[1]:`direction-${d[0]}-${d[1]}.html`;
+D.forEach(([n,slug,name,line,round],i)=>{
+  if(i===0||D[i-1][4]!==round){const h=document.createElement("li");h.className="grp";h.textContent=round===2?"Round 2: merged design, three navigation variants":"Round 1: ten directions";list.append(h)}
+  const li=document.createElement("li");
+  li.innerHTML=`<button type="button" data-i="${i}"><span class="num">${n}</span><span class="name">${name}</span><span class="line">${line}</span></button>`;
+  list.append(li);
+  const o=document.createElement("option");o.value=i;o.textContent=`${n} ${name}`;pick.append(o);
+});
+let idx=0;
+function show(i,fromHash){
+  idx=(i+D.length)%D.length;const [n,slug,name,line]=D[idx];const src=fileOf(D[idx]);
+  view.src=src;open.href=src;view.title=`Direction ${n}: ${name}`;
+  cur.innerHTML=`${n} · ${name}<small>${line}</small>`;
+  list.querySelectorAll("button").forEach(b=>b.setAttribute("aria-current",String(+b.dataset.i===idx)));
+  pick.value=idx;
+  if(!fromHash&&location.hash!==`#d${n}`)history.replaceState(null,"",`#d${n}`);
+}
+list.addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(b)show(+b.dataset.i)});
+pick.addEventListener("change",()=>show(+pick.value));
+$("#prev").onclick=()=>show(idx-1);$("#next").onclick=()=>show(idx+1);
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+  frame.dataset.w=b.dataset.w;
+});
+const fromHash=()=>{const m=location.hash.match(/^#d(\w\w)$/);const i=m?D.findIndex(d=>d[0]===m[1]):-1;show(i>=0?i:0,true)};
+addEventListener("hashchange",fromHash);fromHash();
+</script>
