@@ -187,7 +187,7 @@ Template:
 
 ## D-019: v1 runs by 2026-12-05
 - **Date:** 2026-10-28
-- **Status:** Accepted
+- **Status:** Superseded by D-026
 - **Context:** The project plan assumed a mid-December deadline. The official IBE160 deadline is not set yet.
 - **Alternatives:** Plan against mid-December; plan against an own, earlier target.
 - **Decision:** v1 runs by Saturday 2026-12-05. Build in weeks 46–48, polish and freeze in week 49, and week 50 onwards as buffer, delivery and reflection report.
@@ -254,3 +254,73 @@ Template:
 - **Rationale:** The user chose Claude's recommendation on all four. Names keep staff search working as in prompt v2. Immediate anonymising can't be squared with keeping invoices in their original format. Nothing in the gate is built for v1, and management can still accept skipping an item. Management's acceptance makes the legal cost of FR-19 a stated choice at rollout.
 - **Consequences:** v1's prompt becomes v3, which has not been piloted, so Open Question 3 now asks for an English check that includes the pilot's images of people. RG-5's licensing block covers images whose subject is an identifiable person, and how incidental people are treated is left to the legal basis chosen in advance. Those two points, and the conditional wording of the WCAG 2.0 minimum in NFR-5, were Claude's calls, flagged to the user, who changed none of them.
 - **Trace:** PR #34, commit `4184767`, [session log](sessions/2026-11-04-prd-legal-update.md), [legal research](../../_bmad-output/planning-artifacts/research/domain-ai-images-privacy-accessibility-legal-2026-11-04/research.md)
+
+## D-026: Final deadline 2026-12-15, with about 130 hours for everything
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** D-019 set an own target of 2026-12-05. On 2026-11-18 planning was still running, with no code yet, and the teacher's PRD feedback asked for the hours actually available.
+- **Alternatives:** Keep 2026-12-05 and cut scope hard; plan against the final deadline.
+- **Decision:** v1 is planned against the final deadline, 2026-12-15. About 130 hours remain from 2026-11-18, covering the rest of planning, building, delivery and the reflection report. About 87 hours of that are for building. Coding starts 2026-11-22. The 2026-12-05 target no longer applies.
+- **Rationale:** The user's own estimate of time left. The budget split (about 13 h planning, 7 h delivery, 10 h reflection report, 13 h buffer) was Claude's estimate, accepted by the user.
+- **Consequences:** The PRD's Release Stages and priority table are built on this budget. `project-plan.md` still has the old calendar and should be updated at sprint planning.
+- **Trace:** PR #37, commit `7654134`, [session log](sessions/2026-11-18-prd-feedback-revision.md), [PRD 2026-11-18](../../_bmad-output/planning-artifacts/prds/prd-g53-kalland-2026-11-18/prd.md)
+
+## D-027: The app and its tests run in Docker
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** The teacher's PRD feedback asked which operating systems are supported, since NFR-1 promised a run from "a clean machine" and the metadata research had not tested Windows.
+- **Alternatives:** Run on the host and list the supported systems; run everything in containers.
+- **Decision:** The app, its tests and every tool they need (such as ExifTool) run in Docker with Compose v2. It is developed on macOS, and CI builds and tests it on x86 Linux. NFR-1 now starts from "a machine with Docker installed".
+- **Rationale:** The user's choice. With containers the host system does not matter, and the README's commands are the same everywhere.
+- **Consequences:** The reason the metadata research preferred `exiftool-vendored` (no hand install) no longer applies, so the architecture can choose the metadata library on its merits. The architecture must handle Windows line endings in scripts (`.gitattributes`) and differences between Apple Silicon and x86. Building the images needs network access; running does not.
+- **Trace:** PR #37, commit `7654134`, [session log](sessions/2026-11-18-prd-feedback-revision.md), NFR-1 and the addendum's metadata contract
+
+## D-028: IIM values are shortened safely, and XMP keeps the full value
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** IPTC-IIM limits fields in bytes (title 64, description 2000, keyword 64), and æøå take two bytes each in UTF-8. The 11-04 addendum left the shortening to the architecture, and the teacher asked for it to be settled before then.
+- **Alternatives:** (A) XMP and EXIF only, no IIM. (B) Write IIM, shortened by the app. (C) Cap the agency fields at the IIM byte limits.
+- **Decision:** B. The app shortens IIM values at the last whole word that fits, or at the last whole character if the first word alone is too long, so IIM always holds valid UTF-8 and is declared as UTF-8. A keyword over 64 bytes is left out of IIM only. XMP and EXIF always hold the full value. A is the fallback if time runs short.
+- **Rationale:** Claude's recommendation, accepted by the user. B keeps FR-34's promise for about an hour of work. C was rejected because byte limits confuse staff.
+- **Consequences:** FR-34 and SC-16 (a test with 40 "æ"). The rubric review caught that the first wording ("at a whole word") contradicted SC-16; it was fixed before the commit.
+- **Trace:** PR #37, commit `7654134`, [session log](sessions/2026-11-18-prd-feedback-revision.md), FR-34, SC-16
+
+## D-029: The spine is the MVP, the rest is ranked, and a checkpoint draws the cut line
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** The teacher's feedback (4.1, 4.5) said the [v1] FRs had no order and that compound tags such as "[spine; side-by-side is cut-first]" made stories unclear. The old 2026-11-22 checkpoint could not be met.
+- **Alternatives:** The teacher's example MVP list, or the existing spine. For the tags: split FRs into a/b IDs, keep the IDs and split only in a table, or give the split parts new numbers.
+- **Decision:** The spine is the minimum usable v1 (about 75 h). Five FRs are planned after it (FR-9, FR-14, FR-16b, FR-38a, FR-31; about 10.5 h). Ranks 6–22 are bonus, built in rank order only if hours remain, each with a fallback. FRs with two tags are split into a/b IDs. The tags are [spine], [planned], [bonus] and [stretch]. The checkpoint is 2026-11-30: if the spine runs, the cut line is drawn and the freeze date set; if not, a reduced spine applies. The first stories build a thin slice through the whole spine.
+- **Rationale:** The user chose the spine as the MVP and the 30 November checkpoint. Claude proposed the ranking, and the user moved the cut line from after rank 6 to after rank 5, so FR-25 Revoke became a bonus. The freeze date is set at the checkpoint, at the user's wish, rather than Claude's suggested 2026-12-08. The thin slice and the reduced spine came from the rubric review.
+- **Consequences:** Epics and stories follow the ranks. SCs for bonus FRs apply only if those FRs are built. Each cut at the checkpoint gets its own D-entry.
+- **Trace:** PR #37, commit `7654134`, [session log](sessions/2026-11-18-prd-feedback-revision.md), the PRD's Release Stages
+
+## D-030: The Rollout Gate moves to its own file
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** The teacher's feedback (4.2) said the Rollout Gate made up about a quarter of the PRD and hid what v1 must finish.
+- **Alternatives:** Move it to the addendum; move it to its own `rollout-gate.md`.
+- **Decision:** `rollout-gate.md` in the PRD run folder holds RG-1 to RG-16 in full and the questions for the agency. The PRD keeps one line per item with its owner.
+- **Rationale:** Claude's recommendation, accepted by the user. The gate is a sign-off checklist for agency management and a legal reviewer, while the addendum holds background for UX and architecture.
+- **Consequences:** The RG owners were drafted by Claude and accepted by the user. The parts that shape v1 stay in NFR-3 and NFR-9.
+- **Trace:** PR #37, commit `7654134`, [session log](sessions/2026-11-18-prd-feedback-revision.md), [rollout-gate.md](../../_bmad-output/planning-artifacts/prds/prd-g53-kalland-2026-11-18/rollout-gate.md)
+
+## D-031: Designsystemet as the UI component system
+- **Date:** 2026-11-18
+- **Status:** Open
+- **Context:** The UX work (`bmad-ux`) needed a component library to design against. The user wanted Designsystemet (Digdir, designsystemet.no) and a custom theme on top of it. `architecture/technology.md` names shadcn/ui with Tailwind.
+- **Alternatives:** Designsystemet with a custom theme; shadcn/ui as `technology.md` names it; no system.
+- **Decision:** All UX mocks are built on Designsystemet (CSS 1.23.0, since 1.24.0 was less than two weeks old). The theme will be generated with its theme builder or `designsystemet.config.json`. The stack choice in `technology.md` is settled in the architecture step.
+- **Rationale:** This was the user's choice. Its accessibility focus fits the PRD's WCAG 2.1 AA requirement, it ships CSS and React packages, and it is themeable.
+- **Consequences:** `DESIGN.md` tokens will map to Designsystemet's theme tokens. Some components (tabs, dropdown placement, the character counter) need `@digdir/designsystemet-web` or `-react` at build time. If architecture keeps shadcn/ui, the UX spec must be reconciled.
+- **Trace:** PR #38, commit `6f47061`, [session log](sessions/2026-11-18-ux-design-round-1-2.md), `_bmad-output/planning-artifacts/ux-designs/ux-g53-kalland-2026-11-18/.memlog.md`
+
+## D-032: Anthropic's frontend-design skill as a project skill
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** The user asked about adding more design skills for the UX stage and asked Claude to install `frontend-design` from Anthropic's skills repo. That repo's `example-skills` plugin bundles 12 skills.
+- **Alternatives:** Install the whole `example-skills` plugin at user level; copy only `frontend-design` into `.claude/skills/`; use no extra skill.
+- **Decision:** Only `frontend-design` (Apache-2.0, from `anthropics/skills` commit `e4bb5d9`, 2026-11-16) is copied into `.claude/skills/frontend-design/` with its licence. The Anthropic marketplace was also added to the user's Claude Code settings.
+- **Rationale:** Claude's call, explained to the user afterwards. The bundle has a shadcn-based builder that clashes with D-031 and a second `skill-creator`. Keeping the skill in the repo makes it versioned and traceable.
+- **Consequences:** The renderer subagents read the skill. Updates are manual: copy a newer version from the marketplace clone when needed.
+- **Trace:** PR #38, commit `b3bfdbd`, [session log](sessions/2026-11-18-ux-design-round-1-2.md)
