@@ -65,7 +65,7 @@ select{display:none}
 <div class="app">
   <aside>
     <h1>CRM-DAM design directions</h1>
-    <p class="lede">Built on Designsystemet 1.23, light only, lots of air. Each mock has three screens: Staff library, Staff upload and the client view for Jonas at Fjordkaffe AS. Round 2 mocks also switch Shape (crisp or medium soft) and Price treatment in their top bar.</p>
+    <p class="lede">Built on Designsystemet 1.23, light only, lots of air. Each mock has three screens: Staff library, Staff upload and the client view for Jonas at Fjordkaffe AS. Round 2 mocks also switch Shape (crisp or medium soft) and Price treatment in their top bar. Round 3 (R3) is the chosen direction; its switcher also shows the Library inspector in view and editing states.</p>
     <label for="pick" class="line" style="display:none">Direction</label>
     <select id="pick" aria-label="Direction"></select>
     <ol id="list"></ol>
@@ -92,6 +92,11 @@ select{display:none}
 
 <script>
 const D=[
+ ["MS","../mockups/more-screens.html","More screens","Staff Clients, client Overview, Cart (and empty), Checkout (and price changed) and the receipt, in the same Graphite app.",5],
+ ["R4","../mockups/key-screens.html","Graphite, final","Round 4. Round 3 in the Graphite theme with the cool slate grey price, a Show captions switch in the image grids (remembered per user), and underlined text actions.",5],
+ ["GP","color-themes-2-graphite-price.html","Graphite: price shade","Theme B Graphite fixed, with a Price row: Ink (current), Aubergine, Heather, Mulberry, Petrol, and three greys (muted, mid, cool slate). Free uses the same shade.",4],
+ ["CT","color-themes-1.html","Colour themes","Round 3 layout with a Theme switcher: A0 current cyanotype, A1 Prussian, A2 Steel, B Graphite, C Fjord teal, D Ultramarine. Open the theme legend in the grey bar for roles and hex values.",4],
+ ["R3","round3-header-nav.html","Header-led, refined","Round 3. 2A with crisp shapes and plain prices locked in; no big Upload button; Library inspector opens in view mode with Edit and Save changes; sidebar toggle fixed on tablet and phone.",3],
  ["2A","round2-a-header-nav.html","Header-led nav","Round 2. Main sections in the header; the sidebar only holds what belongs to the page (filters, collections, batches, to-do).",2],
  ["2B","round2-b-sidebar-nav.html","Sidebar-led nav","Round 2. Main sections at the top of the sidebar; slim header. Folded, the sidebar becomes an icon rail.",2],
  ["2C","round2-c-split-nav.html","Split by frequency","Round 2. Library and Upload in the header; saved views, collections and a Manage group in the sidebar; filters in a bar above the images.",2],
@@ -108,9 +113,9 @@ const D=[
 ];
 const $=s=>document.querySelector(s);
 const list=$("#list"),pick=$("#pick"),view=$("#view"),frame=$("#frame"),cur=$("#cur"),open=$("#open");
-const fileOf=d=>d[4]===2?d[1]:`direction-${d[0]}-${d[1]}.html`;
+const fileOf=d=>d[4]>=2?d[1]:`direction-${d[0]}-${d[1]}.html`;
 D.forEach(([n,slug,name,line,round],i)=>{
-  if(i===0||D[i-1][4]!==round){const h=document.createElement("li");h.className="grp";h.textContent=round===2?"Round 2: merged design, three navigation variants":"Round 1: ten directions";list.append(h)}
+  if(i===0||D[i-1][4]!==round){const h=document.createElement("li");h.className="grp";h.textContent=round===5?"Round 4: Graphite, current":round===4?"Colour-theme pass":round===3?"Round 3: the chosen direction":round===2?"Round 2: merged design, three navigation variants":"Round 1: ten directions";list.append(h)}
   const li=document.createElement("li");
   li.innerHTML=`<button type="button" data-i="${i}"><span class="num">${n}</span><span class="name">${name}</span><span class="line">${line}</span></button>`;
   list.append(li);
