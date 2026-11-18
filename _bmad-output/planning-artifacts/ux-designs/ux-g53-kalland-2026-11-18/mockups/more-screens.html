@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>More key screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&display=swap">
+<link rel="stylesheet" href="../.working/vendor/ds-index.css">
+<link rel="stylesheet" href="../.working/vendor/ds-theme.css">
+<style>
+/*
+  Round 4: Graphite. Header-led navigation, crisp shape, price in cool slate grey, caption toggle.
+  Base: round 3 (direction 02 split inspector, 01 masonry, 03 batch overview, 07 to-do list,
+  10 collections). Colour: theme B "Graphite gallery" from colour themes 1, price from colour themes 2.
+
+  Theme builder (Designsystemet 1.23) base colours
+    accent  (graphite)    #25282D   main colour
+    neutral (true grey)   #2B2D30
+    brand1  (price slate) #5D6672   support colour, used for price text and its tag icon only
+    brand2                not used
+    status (override the DS defaults): success #16803C, danger #CC1631, warning #EE6A0E, info #1E5FC2
+  Key derived values
+    canvas #F5F6F6, surface #FFFFFF, text #202124, muted text #595C5F, border #7F8185, hairline #CCCED0
+    accent base #25282D (hover #1D1F24, active #14171C), on-accent #FFFFFF, selected tint #E3E4E6
+    status text on white: success #186B34, danger #BD0529, warning #A84802, info #255BB1
+    price #5D6672 semibold + tag icon, "Free" the same: 5.82 on white, 5.37 on canvas, 4.57 on selected tint
+    focus: #25282D outer ring, #FFFFFF inner
+  Font: Instrument Sans. Shape: crisp, radius base 3px (controls 3px, tags 1.5px, panels square, images 2px).
+
+  designsystemet.config.json equivalent (status colours as overrides where the builder version allows):
+  {
+    "themes": {
+      "graphite": {
+        "colors": {
+          "main":    { "accent": "#25282D" },
+          "support": { "brand1": "#5D6672" },
+          "neutral": "#2B2D30"
+        },
+        "borderRadius": 3,
+        "typography": { "fontFamily": "Instrument Sans" }
+      }
+    }
+  }
+*/
+:root {
+  --ds-font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ds-border-radius-base: 0.1875rem;
+
+  --canvas: #f5f6f8;
+  --panel: #ffffff;
+  --line: var(--ds-color-neutral-border-subtle);
+  --muted: var(--ds-color-neutral-text-subtle);
+  --ink: var(--ds-color-neutral-text-default);
+  --inspector-w: 25rem;
+  --sidebar-w: 16.5rem;
+  --rail-w: 4.25rem;
+
+  /* shape tokens: crisp */
+  --r-ctl: 3px;
+  --r-card: 3px;
+  --r-panel: 0px;
+  --r-img: 2px;
+  --r-thumb: 2px;
+  --inset: 0px;
+  --elev-1: none;
+  --elev-2: none;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--ds-font-family);
+  background: var(--canvas);
+  color: var(--ink);
+  font-feature-settings: "tnum" 1;
+}
+[hidden] { display: none !important; }
+img, svg { display: block; }
+.ic { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; display: inline-block; vertical-align: -0.2em; }
+
+/* ---------- Mock switcher (not part of the design) ---------- */
+.mock {
+  font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #e4e4e4; color: #1a1a1a;
+  border-bottom: 2px dashed #9a9a9a;
+  padding: 10px 16px;
+  display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: center;
+}
+.mock-text { flex: 1 1 420px; max-width: 80ch; }
+.mock-text strong { font-size: 15px; }
+.mock-text p { margin: 2px 0 0; color: #333; }
+.mock-groups { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.mock-group { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.mock-group > span { font-weight: 600; margin-right: 4px; }
+.mock button {
+  font: inherit; padding: 4px 10px; border: 1px solid #8a8a8a; background: #f7f7f7; color: #1a1a1a; border-radius: 2px; cursor: pointer;
+}
+.mock button[aria-pressed="true"] { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.mock button:focus-visible { outline: 3px solid #1a1a1a; outline-offset: 2px; }
+
+/* ---------- Price: plain ---------- */
+.price { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--ink); white-space: nowrap; line-height: 1.35; }
+.price .ic { width: 1.05em; height: 1.05em; }
+.price-lg { font-size: 1.25rem; letter-spacing: -0.01em; }
+
+/* ---------- App shell ---------- */
+.app { min-height: 100vh; display: flex; flex-direction: column; --sb: var(--sidebar-w); }
+.app[data-sidebar="closed"] { --sb: 0px; }
+.v-rail .app[data-sidebar="closed"] { --sb: var(--rail-w); }
+
+.topbar {
+  display: flex; align-items: center; gap: 12px 24px;
+  min-height: 64px; padding: 0 20px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+  box-shadow: var(--elev-1);
+  position: relative; z-index: 3;
+}
+.wordmark { font-weight: 650; font-size: 1.0625rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.wordmark-mark { width: 22px; height: 22px; border: 2px solid var(--ds-color-accent-base-default); border-radius: min(var(--r-ctl), 6px); position: relative; overflow: hidden; }
+.wordmark-mark::after { content: ""; position: absolute; top: 2px; bottom: 2px; right: 2px; width: 6px; background: var(--ds-color-accent-base-default); border-radius: 1px; }
+.client-name { display: grid; line-height: 1.2; gap: 0; }
+.client-name small { color: var(--muted); font-size: 0.8125rem; font-weight: 400; }
+.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+.mainnav a {
+  color: var(--muted); text-decoration: none; padding: 20px 10px 18px; font-weight: 500;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.mainnav a:hover { color: var(--ink); }
+.mainnav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ds-color-accent-base-default); }
+.hsearch { flex: 1 1 260px; max-width: 520px; margin: 0; }
+.topbar-end { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.who { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.9375rem; }
+.cart-btn .ds-badge { margin-left: 2px; }
+.ic-close { display: none; }
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--sb) minmax(0, 1fr) var(--inspector-w);
+  align-items: start;
+}
+.sidebar { grid-column: 1; grid-row: 1; }
+.main { grid-column: 2; grid-row: 1; padding: 28px 36px 56px; min-width: 0; }
+.inspector { grid-column: 3; grid-row: 1; }
+.app[data-sidebar="closed"] .sidebar { display: none; }
+.v-rail .app[data-sidebar="closed"] .sidebar { display: block; }
+
+.sidebar, .inspector {
+  position: sticky; top: var(--inset);
+  max-height: calc(100vh - 2 * var(--inset)); overflow: auto;
+  background: var(--panel);
+  align-self: stretch;
+  border-radius: var(--r-panel);
+  box-shadow: var(--elev-2);
+}
+.sidebar { padding: 28px 24px 40px; border-right: 1px solid var(--line); margin: var(--inset) 0 var(--inset) var(--inset); }
+.inspector { border-left: 1px solid var(--line); margin: var(--inset) var(--inset) var(--inset) 0; display: flex; flex-direction: column; }
+
+.sidebar h2 { font-size: 1rem; font-weight: 600; margin: 0 0 16px; }
+.side-sec + .side-sec { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line); }
+.sidebar .group + .group { margin-top: 24px; }
+.sidebar .group h3, .sidebar legend.grp { font-size: 0.875rem; font-weight: 600; margin: 0 0 10px; color: var(--ink); padding: 0; }
+.side-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.side-head h2 { margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.facet, .blist, .clist, .vlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.facet a, .blist a, .clist a, .vlist a {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 7px 10px; margin: 0 -10px; border-radius: var(--r-ctl);
+  color: var(--ink); text-decoration: none; font-size: 0.9375rem;
+}
+.facet a:hover, .blist a:hover, .clist a:hover, .vlist a:hover { background: var(--ds-color-neutral-surface-tinted); }
+.facet a[aria-current="true"], .blist a[aria-current="true"], .clist a[aria-current="true"], .vlist a[aria-current="true"] { background: var(--ds-color-accent-surface-tinted); color: var(--ds-color-accent-text-default); }
+.lbl { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.n { color: var(--muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.two-line { display: grid; min-width: 0; }
+.two-line small { color: var(--muted); font-size: 0.8125rem; }
+a[aria-current="true"] .two-line small { color: var(--ds-color-accent-text-subtle); }
+.swatch { width: 22px; height: 22px; flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border-radius: min(var(--r-ctl), 6px); overflow: hidden; background: var(--line); }
+.swatch i { display: block; background: var(--ds-color-neutral-surface-tinted); }
+.side-hint { margin: 12px 0 0; font-size: 0.8125rem; color: var(--muted); }
+
+/* date range: label beside each input so the inputs get the full width (fixes 02) */
+.daterange { border: 0; margin: 0; padding: 0; min-width: 0; }
+.dr-row { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); align-items: center; gap: 8px; }
+.dr-row + .dr-row { margin-top: 8px; }
+.dr-row .ds-input { width: 100%; min-width: 0; }
+
+/* sidebar navigation (B, C) */
+.sidenav { display: grid; gap: 2px; }
+.sidenav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 10px; margin: 0 -10px; border-radius: var(--r-ctl);
+  color: var(--muted); text-decoration: none; font-weight: 500;
+}
+.sidenav a:hover { background: var(--ds-color-neutral-surface-tinted); color: var(--ink); }
+.sidenav a[aria-current="page"] { background: var(--ds-color-accent-surface-tinted); color: var(--ds-color-accent-text-default); }
+.sidenav .ic { width: 1.25em; height: 1.25em; }
+.sidenav .ds-badge { margin-left: auto; }
+.navhead { font-size: 0.8125rem; font-weight: 600; color: var(--muted); margin: 0 0 6px; }
+
+/* collapsed rail (B, C) */
+.v-rail .app[data-sidebar="closed"] .sidebar { padding: 20px 10px; }
+.v-rail .app[data-sidebar="closed"] .side-context { display: none; }
+.v-rail .app[data-sidebar="closed"] .side-sec { margin: 0; padding: 0; border: 0; }
+.v-rail .app[data-sidebar="closed"] .sidenav a { justify-content: center; margin: 0; padding: 11px 0; }
+.v-rail .app[data-sidebar="closed"] .sidenav .t,
+.v-rail .app[data-sidebar="closed"] .navhead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.v-rail .app[data-sidebar="closed"] .sidenav .ds-badge { position: absolute; margin: -18px 0 0 22px; }
+
+/* ---------- Main ---------- */
+.toolbar-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 0 0 24px; color: var(--muted); font-size: 0.9375rem; }
+.toolbar-meta .count { color: var(--ink); font-weight: 600; }
+.spacer { flex: 1; }
+.page-title { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.015em; margin: 0 0 4px; }
+.page-sub { margin: 0; color: var(--muted); }
+.sort { display: flex; align-items: center; gap: 8px; }
+.sort .ds-input { width: auto; }
+
+/* filter bar (C) */
+.filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 0 0 20px; margin: 0 0 20px; border-bottom: 1px solid var(--line); }
+.filterbar > select.ds-input { width: auto; }
+.fb-sep { width: 1px; height: 24px; background: var(--line); }
+.more-pop { width: min(22rem, calc(100vw - 32px)); padding: 20px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-card); box-shadow: var(--ds-shadow-md); }
+.more-pop h3 { font-size: 0.875rem; font-weight: 600; margin: 0 0 10px; }
+.more-pop .group + .group { margin-top: 20px; }
+@supports (position-area: bottom) {
+  .ds-dropdown[popover].more-pop { margin: 6px 0 0; inset: auto; position-area: bottom span-left; }
+}
+
+/* ---------- Masonry (justified rows, as in 01) ---------- */
+.wall {
+  --row-h: 168px;
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: 28px 16px;
+}
+.wall::after { content: ""; flex-grow: 999999; }
+.wall > li { flex: var(--r) 1 calc(var(--r) * var(--row-h)); min-width: 0; }
+.tile { display: block; width: 100%; padding: 0; margin: 0; border: 0; background: none; text-align: left; cursor: pointer; color: inherit; font: inherit; border-radius: var(--r-img); }
+.shot {
+  position: relative; display: block; width: 100%; aspect-ratio: var(--r);
+  border-radius: var(--r-img); overflow: hidden; background: var(--ds-color-neutral-surface-tinted);
+}
+.shot > .ph { position: absolute; inset: 0; border-radius: 0; }
+.tile:hover .shot { box-shadow: 0 0 0 1px var(--ds-color-neutral-border-default); }
+.tile[aria-pressed="true"] .shot { box-shadow: 0 0 0 2px var(--canvas), 0 0 0 4px var(--ds-color-accent-base-default); }
+.tile[aria-pressed="true"] .t-title { color: var(--ds-color-accent-text-subtle); }
+.shot .state { position: absolute; top: 8px; left: 8px; right: 8px; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+.shot .state .ds-tag { box-shadow: 0 1px 2px rgba(20, 26, 34, .22); }
+.shot .own { position: absolute; top: 8px; right: 8px; z-index: 2; }
+.ds-tag .ds-spinner { width: 0.95em; height: 0.95em; }
+.tag-row { display: inline-flex; align-items: center; gap: 6px; }
+.cap { display: block; padding: 9px 2px 0; }
+.t-title { display: block; font-weight: 600; font-size: 0.9375rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 4px; font-size: 0.8125rem; color: var(--muted); }
+.meta > span { display: inline-flex; align-items: center; gap: 4px; }
+.t-error { display: block; color: var(--ds-color-danger-text-subtle); font-size: 0.8125rem; margin-top: 4px; line-height: 1.35; }
+.skel { position: absolute; inset: 0; display: grid; place-items: center; }
+.skel .ds-skeleton { position: absolute; inset: 0; width: auto; height: auto; border-radius: 0; }
+.progress { position: relative; z-index: 1; font-size: 0.8125rem; color: var(--ink); background: var(--panel); padding: 2px 8px; border-radius: var(--r-ctl); }
+.pager { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; color: var(--muted); font-size: 0.9375rem; }
+.pager .ds-pagination ul { flex-wrap: wrap; }
+
+/* ---------- Inspector ---------- */
+.panel-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.insp-head { padding: 20px 24px 0; display: flex; align-items: start; gap: 8px; }
+.insp-head h2 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.insp-head .file { color: var(--muted); font-size: 0.8125rem; margin-top: 2px; }
+.insp-head .actions { margin-left: auto; display: flex; gap: 2px; }
+.loupe { margin: 16px 24px 0; background: var(--canvas); border: 1px solid var(--line); border-radius: var(--r-card); height: 236px; position: relative; overflow: hidden; }
+.loupe .ph { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 86%; border-radius: max(1px, calc(var(--r-img) - 6px)); }
+.loupe .ph.r32 { aspect-ratio: 3 / 2; height: auto; width: 88%; }
+.loupe .ph.r23 { aspect-ratio: 2 / 3; width: auto; }
+.loupe .ph.r45 { aspect-ratio: 4 / 5; width: auto; }
+.loupe .ph.r43 { aspect-ratio: 4 / 3; width: auto; }
+.loupe .ph.r169 { aspect-ratio: 16 / 9; height: auto; width: 90%; }
+.loupe .own { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.statusline { padding: 14px 24px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-size: 0.875rem; color: var(--muted); }
+.saved { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; color: var(--ds-color-success-text-subtle); }
+.insp-sec { padding: 22px 24px 0; }
+.insp-sec > h3 { font-size: 0.9375rem; font-weight: 600; margin: 0 0 14px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.insp-sec > h3 small { font-weight: 400; color: var(--muted); font-size: 0.8125rem; }
+.stack { display: grid; gap: 18px; }
+.access-key { display: grid; gap: 14px; }
+.access-key .row { display: grid; gap: 6px; }
+.access-key .row > span { font-size: 0.875rem; font-weight: 500; }
+.ds-toggle-group { width: 100%; }
+.hint { margin: 0; font-size: 0.8125rem; color: var(--muted); }
+.price-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 0.875rem; color: var(--muted); }
+.kw-group { display: grid; grid-template-columns: 6.5rem 1fr; gap: 6px 10px; align-items: start; font-size: 0.8125rem; }
+.kw-group + .kw-group { margin-top: 8px; }
+.kw-group > span { color: var(--muted); padding-top: 6px; }
+dl.facts { margin: 0; display: grid; grid-template-columns: 7rem 1fr; gap: 8px 10px; font-size: 0.875rem; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; }
+.insp-foot {
+  margin-top: auto; position: sticky; bottom: 0;
+  padding: 16px 24px; background: var(--panel); border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.insp-foot .note { flex-basis: 100%; font-size: 0.8125rem; color: var(--muted); margin: 0; }
+.insp-pad { height: 22px; }
+.ctx-alert { margin: 16px 24px 0; }
+.ctx-alert p { margin: 0 0 10px; }
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 4px 0 12px; }
+.compare figure { margin: 0; }
+.cmp-img { position: relative; height: 104px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-thumb); overflow: hidden; }
+.cmp-img .ph { position: absolute; inset: 6px; border-radius: max(1px, calc(var(--r-thumb) - 4px)); }
+.compare figcaption { font-size: 0.8125rem; color: var(--ds-color-neutral-text-subtle); margin-top: 6px; line-height: 1.35; }
+.compare figcaption b { color: var(--ink); font-weight: 600; display: block; }
+.cmp-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.cmp-actions .ds-field { flex-basis: 100%; margin-top: 4px; }
+.existing { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; margin: 16px 24px 0; padding: 12px; border: 1px solid var(--line); border-radius: var(--r-card); }
+.existing .cmp-img { height: 72px; }
+.existing p { margin: 0; font-size: 0.875rem; }
+.existing p b { display: block; font-weight: 600; }
+
+/* Library inspector: view mode first, then Edit, then Save changes (no autosave) */
+.panel-body[data-mode="view"] .edit-only,
+.panel-body[data-mode="edit"] .view-only { display: none; }
+.insp-head.has-edit { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; }
+.insp-head.has-edit > div:first-child { display: contents; }
+.insp-head.has-edit h2 { grid-column: 1; grid-row: 1; align-self: center; }
+.insp-head.has-edit .file { grid-column: 1 / -1; grid-row: 2; }
+.insp-head.has-edit .actions { grid-column: 2; grid-row: 1; gap: 4px; align-items: start; }
+dl.ro { margin: 0; display: grid; gap: 16px; }
+dl.ro dt { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
+dl.ro dd { margin: 3px 0 0; font-size: 0.9375rem; line-height: 1.5; display: grid; gap: 2px; justify-items: start; }
+dl.ro-cols { gap: 12px; }
+dl.ro-cols > div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 10px; align-items: baseline; }
+dl.ro-cols dd { margin: 0; }
+.kw-ro { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.vh, .cl-pick, .price-amt { display: none; }
+.access-key:has(input[value="internal"]:checked) .vh-internal,
+.access-key:has(input[value="restricted"]:checked) .vh-restricted,
+.access-key:has(input[value="public"]:checked) .vh-public { display: block; }
+.access-key:has(input[value="restricted"]:checked) .cl-pick { display: flex; }
+.access-key:has(input[value="restricted"]:checked) .cl-none { display: none; }
+.access-key:has(input[value="paid"]:checked) .price-amt { display: grid; }
+.price-amt { gap: 6px; margin-top: 4px; }
+.price-amt .ds-label { font-size: 0.875rem; }
+.price-amt .ds-field-affixes { max-width: 11rem; }
+.clients-row > span { font-size: 0.875rem; font-weight: 500; }
+[data-track] { position: relative; }
+[data-track][data-changed]::before {
+  content: ""; position: absolute; left: -12px; top: 2px; bottom: 2px; width: 3px;
+  border-radius: 2px; background: var(--ds-color-warning-base-default);
+}
+.chg { margin-left: 6px; font-size: 0.75rem; font-weight: 500; color: var(--ds-color-warning-text-subtle); }
+.dirty { flex-basis: 100%; order: -1; margin: 0; font-size: 0.8125rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+.dirty[data-state="dirty"] { color: var(--ds-color-warning-text-subtle); font-weight: 500; }
+.dirty[data-state="dirty"]::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ds-color-warning-base-default); }
+
+/* ---------- Upload ---------- */
+.batch-head { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; margin-bottom: 14px; }
+.batch-head > div:first-child { flex: 1 1 320px; }
+.batch-head .page-sub { font-size: 0.9375rem; }
+.batch-set { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 0 0 22px; font-size: 0.875rem; color: var(--muted); }
+.batch-set b { color: var(--ink); font-weight: 600; margin-right: 6px; }
+.summary { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 12px; padding: 0; list-style: none; font-size: 0.875rem; color: var(--muted); }
+.summary li { display: inline-flex; align-items: center; gap: 6px; }
+.summary b { color: var(--ink); font-weight: 600; }
+.meter { height: 6px; background: var(--ds-color-neutral-surface-tinted); border-radius: 3px; display: flex; overflow: hidden; margin-bottom: 24px; }
+.meter i { display: block; height: 100%; }
+.drop { margin-bottom: 24px; }
+.drop .ds-file-upload { padding-block: 14px; background: var(--panel); }
+.keep-open { margin: 0 0 22px; font-size: 0.875rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.files-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-card); box-shadow: var(--elev-1); overflow: hidden; }
+.files-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 0.875rem; color: var(--muted); }
+.files-head h2 { font-size: 0.9375rem; font-weight: 600; color: var(--ink); margin: 0; }
+.files { list-style: none; margin: 0; padding: 0; }
+.file-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.file-row:last-child { border-bottom: 0; }
+.file-row:has(.row-open[aria-pressed="true"]) { background: var(--ds-color-accent-background-tinted); box-shadow: inset 3px 0 0 var(--ds-color-accent-base-default); }
+.row-open { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: center; padding: 0; margin: 0; border: 0; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: var(--r-thumb); }
+.row-open:disabled { cursor: default; }
+.th { width: 52px; height: 52px; position: relative; background: var(--canvas); border-radius: var(--r-thumb); overflow: hidden; }
+.th .ph { position: absolute; inset: 0; }
+.th .ds-skeleton { position: absolute; inset: 4px; }
+.fname { display: block; font-weight: 600; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.fsub { display: block; color: var(--muted); font-size: 0.8125rem; margin-top: 2px; }
+.fmsg { display: block; font-size: 0.875rem; margin-top: 4px; line-height: 1.4; }
+.fmsg.danger { color: var(--ds-color-danger-text-subtle); }
+.fmsg.warn { color: var(--ds-color-warning-text-subtle); }
+.row-end { display: flex; align-items: center; gap: 8px; justify-content: end; flex-wrap: wrap; }
+.files-foot { padding: 12px 16px; font-size: 0.875rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+/* to-do list (from 07) */
+.todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.todo a { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0 12px; align-items: baseline; padding: 8px 10px; margin: 0 -10px; border-radius: var(--r-ctl); color: var(--ink); text-decoration: none; }
+.todo a:hover { background: var(--ds-color-neutral-surface-tinted); }
+.todo a[aria-current="true"] { background: var(--ds-color-accent-surface-tinted); }
+.todo .num { font-size: 1.375rem; font-weight: 600; line-height: 1.1; text-align: right; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.todo .what { font-weight: 500; font-size: 0.9375rem; }
+.todo .what small { display: block; color: var(--muted); font-size: 0.8125rem; font-weight: 400; margin-top: 1px; }
+.todo .is-danger .num { color: var(--ds-color-danger-text-subtle); }
+.todo .is-warn .num { color: var(--ds-color-warning-text-subtle); }
+.todo .is-ok .num { color: var(--ds-color-success-text-subtle); }
+.todo .is-quiet .num, .todo .is-quiet .what { color: var(--muted); font-weight: 400; }
+.todo-actions { margin-top: 16px; display: grid; gap: 8px; }
+
+/* ---------- Client ---------- */
+.own {
+  width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ds-color-success-base-default); color: #fff; box-shadow: 0 0 0 2px #fff;
+}
+.own .ic { width: 15px; height: 15px; stroke-width: 2.4; }
+.own-inline { display: inline-flex; align-items: center; gap: 6px; color: var(--ds-color-success-text-subtle); font-weight: 600; font-size: 0.8125rem; }
+.own-inline .own { width: 18px; height: 18px; box-shadow: none; }
+.own-inline .own .ic { width: 11px; height: 11px; }
+.licence-opt { border: 1px solid var(--line); border-radius: var(--r-card); padding: 14px 16px; display: grid; gap: 6px; background: var(--ds-color-neutral-background-tinted); }
+.licence-opt .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; font-weight: 600; }
+.licence-opt p { margin: 0; font-size: 0.875rem; color: var(--muted); }
+.cart-mini { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 0.875rem; }
+.desc { margin: 0 0 14px; font-size: 0.9375rem; line-height: 1.5; }
+
+/* ---------- Photographic placeholders ---------- */
+.ph { display: block; position: relative; border-radius: 1px; background-color: #8a96a3; overflow: hidden; }
+.ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(10, 14, 20, 0.22)); pointer-events: none; }
+.p-bryggen {
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 214, 140, .9) 0 1.5%, transparent 2.5%),
+    radial-gradient(circle at 62% 58%, rgba(255, 214, 140, .8) 0 1.2%, transparent 2.2%),
+    repeating-linear-gradient(90deg, transparent 0 9%, rgba(56, 66, 78, .45) 9% 10%),
+    repeating-linear-gradient(0deg, transparent 0 12%, rgba(56, 66, 78, .38) 12% 13.5%),
+    linear-gradient(118deg, #e7edf2 0 38%, #9a6b55 38% 40%, #dfe6ec 40% 62%, #6f8394 62% 100%);
+}
+.p-latte {
+  background:
+    radial-gradient(ellipse 15% 11% at 50% 50%, #f7ead7 0 55%, transparent 60%),
+    radial-gradient(circle at 50% 52%, #f3e1c6 0 9%, #b07b4f 10% 13%, #efd8b8 14% 17%, #6a3d22 18% 27%, #e9e2d8 28% 31%, transparent 32%),
+    radial-gradient(ellipse 30% 22% at 78% 18%, rgba(255, 220, 170, .45), transparent 70%),
+    linear-gradient(160deg, #6e4a33 0%, #3b2417 55%, #24160e 100%);
+}
+.p-beans {
+  background:
+    radial-gradient(ellipse 7px 5px, #3f2414 55%, transparent 62%) 0 0 / 24px 18px,
+    radial-gradient(ellipse 7px 5px, #5a3520 55%, transparent 62%) 12px 9px / 24px 18px,
+    linear-gradient(180deg, transparent 58%, #d8ccb6 58%),
+    linear-gradient(170deg, #cbbb9f, #b8a684);
+}
+.p-cyclist {
+  background:
+    radial-gradient(ellipse 3% 7% at 52% 56%, #d14b2c 0 60%, transparent 66%),
+    linear-gradient(97deg, transparent 44%, #b9a682 45% 55%, transparent 56%) 0 55% / 100% 45% no-repeat,
+    linear-gradient(180deg, #dbe7e1 0 22%, #6d8f6a 22% 30%, #3e6544 30% 55%, #8d7b5b 55% 100%);
+}
+.p-harbour {
+  background:
+    radial-gradient(circle at 22% 56%, #ffd88a 0 .8%, transparent 1.6%),
+    radial-gradient(circle at 41% 57%, #ffd88a 0 .7%, transparent 1.5%),
+    radial-gradient(circle at 68% 55%, #ffe1a3 0 .9%, transparent 1.8%),
+    linear-gradient(180deg, transparent 50%, rgba(255, 196, 140, .25) 50% 52%, transparent 60%),
+    linear-gradient(180deg, #f3b98e 0%, #e48f7c 28%, #77648c 50%, #2f3652 52%, #1b2136 100%);
+}
+.p-tram {
+  background:
+    radial-gradient(ellipse 6% 4% at 30% 52%, #ffd27a 0 50%, transparent 70%),
+    radial-gradient(ellipse 5% 3% at 72% 49%, #ffe2a8 0 50%, transparent 70%),
+    linear-gradient(90deg, transparent 0 20%, #3a4656 20% 23%, transparent 23% 77%, #3a4656 77% 80%, transparent 80%) 0 0 / 100% 60% no-repeat,
+    linear-gradient(180deg, #6c7d92 0%, #3a4658 58%, #eef2f5 60%, #cdd6de 100%);
+}
+.p-filter {
+  background:
+    radial-gradient(circle at 46% 50%, #2f190e 0 19%, #ece6de 20% 26%, #cfc6ba 27% 28%, transparent 29%),
+    radial-gradient(ellipse 12% 6% at 72% 50%, #ece6de 0 60%, transparent 66%),
+    linear-gradient(135deg, #8b9a8c, #66766a);
+}
+.p-ridge {
+  background:
+    linear-gradient(162deg, transparent 52%, #3e5266 52.5%) 0 0 / 100% 78% no-repeat,
+    linear-gradient(200deg, transparent 46%, #566d82 46.5%) 0 0 / 100% 78% no-repeat,
+    linear-gradient(180deg, #c6d9e8 0 50%, #7f97a8 50% 78%, #2a4152 78% 100%);
+}
+.p-aurora {
+  background:
+    radial-gradient(ellipse 60% 14% at 40% 40%, rgba(96, 222, 160, .75), transparent 70%),
+    radial-gradient(ellipse 40% 10% at 70% 30%, rgba(120, 200, 190, .55), transparent 70%),
+    linear-gradient(180deg, #0f2635 0%, #17394a 60%, #0d1b24 61%, #1d2c36 100%);
+}
+.p-pack {
+  background:
+    linear-gradient(#7a4a2c, #5d3720) 50% 58% / 30% 56% no-repeat,
+    linear-gradient(#e9e3db, #e9e3db) 50% 46% / 18% 12% no-repeat,
+    linear-gradient(180deg, #efece7 0 70%, #d8d2ca 70% 100%);
+}
+.p-barista {
+  background:
+    radial-gradient(ellipse 13% 17% at 48% 34%, #c4906e 0 62%, transparent 66%),
+    radial-gradient(ellipse 13% 7% at 48% 22%, #3b2a20 0 62%, transparent 66%),
+    radial-gradient(ellipse 36% 46% at 48% 100%, #2d3c44 0 62%, transparent 64%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(255, 200, 140, .35), transparent 70%),
+    linear-gradient(170deg, #5b3e2c, #241811);
+}
+.p-fjord {
+  background:
+    linear-gradient(175deg, transparent 55%, #4c6a5a 55.5% 64%, transparent 64.5%),
+    linear-gradient(180deg, #dde6ea 0 44%, #9db2bd 44% 56%, #31505f 56% 100%);
+}
+.p-market {
+  background:
+    radial-gradient(ellipse 10% 6% at 30% 70%, #d9604a 0 60%, transparent 66%),
+    radial-gradient(ellipse 9% 5% at 55% 72%, #e9b04f 0 60%, transparent 66%),
+    radial-gradient(ellipse 8% 5% at 75% 69%, #b8c7cf 0 60%, transparent 66%),
+    linear-gradient(180deg, transparent 0 55%, #5b6672 55% 58%, transparent 58%),
+    linear-gradient(180deg, #aebfcc 0%, #d7dee4 50%, #6d7580 58%, #3e4650 100%);
+}
+.p-roaster {
+  background:
+    radial-gradient(circle at 42% 48%, #a9b0b5 0 16%, #5d656b 17% 20%, transparent 21%),
+    linear-gradient(90deg, transparent 0 58%, #7d858b 58% 64%, transparent 64%) 0 30% / 100% 40% no-repeat,
+    radial-gradient(ellipse 40% 30% at 80% 20%, rgba(255, 196, 120, .35), transparent 70%),
+    linear-gradient(170deg, #4a3b31, #1f1915);
+}
+
+/* unsaved-changes dialog */
+.unsaved-dlg { max-width: min(30rem, calc(100vw - 32px)); }
+.unsaved-dlg h2 { margin: 0 0 10px; }
+.unsaved-dlg p { margin: 0 0 22px; }
+.dlg-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- Inline inspector (1240 px and below) ----------
+   JS moves the inspector <aside> out of the right-hand column and into the list:
+   on Library and Client it becomes a full-width <li> right after the selected
+   image, which itself takes a full row (flex-basis 100%) so the masonry breaks
+   there and carries on below; on Upload it goes inside the selected file row as
+   an accordion panel. Remove data-inline-inspector from an .app to opt it out. */
+.insp-inline-bar { display: none; }
+.wall > li.is-open { flex: 0 0 100%; container-type: inline-size; --open-h: min(60vh, 520px); }
+.wall > li.is-open .shot { aspect-ratio: auto; height: min(var(--open-h), 100cqw / var(--r)); }
+.wall > li.is-open .shot > .ph { inset: 0 auto 0 50%; transform: translateX(-50%); width: min(100cqw, var(--open-h) * var(--r)); }
+.wall > li.wall-insp { flex: 0 0 100%; margin-top: -10px; }
+.inspector.is-inline {
+  position: static; max-height: none; overflow: visible; margin: 0;
+  border: 1px solid var(--line); border-top: 3px solid var(--ds-color-accent-base-default);
+  border-radius: var(--r-card); box-shadow: none;
+}
+.inspector.is-inline .insp-foot { position: static; }
+.inspector.is-inline .insp-inline-bar { display: flex; justify-content: flex-end; padding: 8px 12px 0; }
+.inspector.is-inline .insp-inline-bar + .panel-body .insp-head,
+.inspector.is-inline .insp-inline-bar ~ .panel-body .insp-head { padding-top: 4px; }
+.wall .inspector.is-inline .loupe { display: none; }
+.file-row > .inspector.is-inline {
+  grid-column: 1 / -1; grid-row: auto; margin: 4px -16px -12px;
+  border-width: 1px 0 0; border-top-color: var(--line); border-radius: 0;
+}
+.file-row:has(.row-open[aria-expanded]) .row-end::after {
+  content: ""; width: 8px; height: 8px; margin: 0 6px 4px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg);
+}
+.file-row:has(.row-open[aria-expanded="true"]) .row-end::after { transform: rotate(-135deg); margin-bottom: -4px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1240px) {
+  /* a row cut short by the full-width selected image must not blow one image up */
+  .wall > li { max-width: calc(var(--r) * var(--row-h) * 2); }
+  .wall > li.is-open, .wall > li.wall-insp { max-width: none; }
+  .inspector.is-inline dl.ro dd, .inspector.is-inline .stack, .inspector.is-inline .access-key { max-width: 42rem; }
+  .workspace { grid-template-columns: var(--sb) minmax(0, 1fr); }
+  .inspector { grid-column: 2; grid-row: 2; position: static; max-height: none; border-left: 0; border-top: 1px solid var(--line); margin: 0 var(--inset) var(--inset); }
+  .insp-foot { position: static; }
+}
+@media (max-width: 900px) {
+  .workspace, .v-rail .app[data-sidebar="closed"] .workspace { grid-template-columns: minmax(0, 1fr); }
+  .main, .inspector { grid-column: 1; }
+  .v-rail .app[data-sidebar="closed"] .sidebar { display: none; }
+  /* Overlay drawer. The toggle stays above it: the topbar drops its stacking
+     context while the drawer is open, so the toggle (z 32) paints over the
+     scrim (z 29) and the drawer (z 30). JS sets --drawer-top (top of the app)
+     and --drawer-pad (room under the toggle) and locks page scroll. */
+  .app[data-sidebar="open"] .sidebar {
+    position: fixed; top: var(--drawer-top, 0px); bottom: 0; left: 0; z-index: 30;
+    width: min(320px, 86vw); max-height: none; height: auto; margin: 0; border-radius: 0;
+    padding-top: var(--drawer-pad, 28px);
+    box-shadow: 6px 0 24px rgba(28, 34, 43, .18);
+  }
+  .app[data-sidebar="open"] .sidebar:focus { outline: none; }
+  .app[data-sidebar="open"] .workspace::before {
+    content: ""; position: fixed; inset: var(--drawer-top, 0px) 0 0 0; z-index: 29;
+    background: rgba(28, 34, 43, .35);
+  }
+  .app[data-sidebar="open"] .topbar { z-index: auto; }
+  .app[data-sidebar="open"] [data-sidebar-toggle] {
+    position: relative; z-index: 32;
+    background: var(--panel); box-shadow: 0 0 0 1px var(--line);
+  }
+  .app[data-sidebar="open"] [data-sidebar-toggle] .ic-panel { display: none; }
+  .app[data-sidebar="open"] [data-sidebar-toggle] .ic-close { display: inline-block; }
+  .main { padding: 24px 16px 40px; }
+  .topbar { padding: 8px 16px; gap: 8px 12px; }
+  .mainnav { order: 3; width: 100%; }
+  .mainnav a { padding: 10px 8px 8px; }
+  .hsearch { order: 4; flex-basis: 100%; max-width: none; }
+  .insp-head, .insp-sec, .statusline, .insp-foot { padding-left: 16px; padding-right: 16px; }
+  [data-track][data-changed]::before { left: -10px; }
+  .loupe, .ctx-alert, .existing { margin-left: 16px; margin-right: 16px; }
+  .inspector { margin: 0; }
+}
+@media (max-width: 560px) {
+  .wall { --row-h: 120px; gap: 22px 10px; }
+  .who > span:not(.ds-avatar) { display: none; }
+  .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .file-row { grid-template-columns: minmax(0, 1fr); }
+  .row-end { justify-content: start; padding-left: 66px; }
+  .kw-group, dl.facts, dl.ro-cols > div { grid-template-columns: 1fr; }
+  .kw-group > span { padding-top: 0; }
+  .existing { grid-template-columns: 1fr; }
+  .shot .state .ds-tag { font-size: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-spinner, .ds-skeleton { animation: none !important; }
+}
+/* ---------- Colour: Graphite ---------- */
+:root {
+  /* Graphite: full Designsystemet colour scales */
+  --ds-color-accent-background-default: #ffffff; --ds-color-accent-background-tinted: #f3f3f4; --ds-color-accent-surface-default: #ffffff; --ds-color-accent-surface-tinted: #e3e4e6; --ds-color-accent-surface-hover: #d7d9dc; --ds-color-accent-surface-active: #cacdd1; --ds-color-accent-border-subtle: #b4b7bc; --ds-color-accent-border-default: #72757a;
+  --ds-color-accent-border-strong: #25282d; --ds-color-accent-text-subtle: #25282d; --ds-color-accent-text-default: #27292b; --ds-color-accent-base-default: #25282D; --ds-color-accent-base-hover: #1d1f24; --ds-color-accent-base-active: #14171c; --ds-color-accent-base-contrast-subtle: #e8e8ea; --ds-color-accent-base-contrast-default: #ffffff;
+  --ds-color-neutral-background-default: #ffffff; --ds-color-neutral-background-tinted: #f5f6f6; --ds-color-neutral-surface-default: #ffffff; --ds-color-neutral-surface-tinted: #edeeef; --ds-color-neutral-surface-hover: #e2e3e4; --ds-color-neutral-surface-active: #d4d5d8; --ds-color-neutral-border-subtle: #ccced0; --ds-color-neutral-border-default: #7f8185;
+  --ds-color-neutral-border-strong: #5f6265; --ds-color-neutral-text-subtle: #595c5f; --ds-color-neutral-text-default: #202124; --ds-color-neutral-base-default: #2B2D30; --ds-color-neutral-base-hover: #3b3d40; --ds-color-neutral-base-active: #4a4c50; --ds-color-neutral-base-contrast-subtle: #dfe1e3; --ds-color-neutral-base-contrast-default: #ffffff;
+  --ds-color-success-background-default: #ffffff; --ds-color-success-background-tinted: #eef5ef; --ds-color-success-surface-default: #ffffff; --ds-color-success-surface-tinted: #ddece0; --ds-color-success-surface-hover: #c8e0cc; --ds-color-success-surface-active: #afd3b4; --ds-color-success-border-subtle: #98c6a0; --ds-color-success-border-default: #268a45;
+  --ds-color-success-border-strong: #186b34; --ds-color-success-text-subtle: #186b34; --ds-color-success-text-default: #0a3316; --ds-color-success-base-default: #16803C; --ds-color-success-base-hover: #046a2e; --ds-color-success-base-active: #035624; --ds-color-success-base-contrast-subtle: #eceeec; --ds-color-success-base-contrast-default: #ffffff;
+  --ds-color-danger-background-default: #ffffff; --ds-color-danger-background-tinted: #fbf1f0; --ds-color-danger-surface-default: #ffffff; --ds-color-danger-surface-tinted: #f9e4e2; --ds-color-danger-surface-hover: #f4d2cf; --ds-color-danger-surface-active: #efbfbc; --ds-color-danger-border-subtle: #eaada9; --ds-color-danger-border-default: #d2494d;
+  --ds-color-danger-border-strong: #bd0529; --ds-color-danger-text-subtle: #bd0529; --ds-color-danger-text-default: #5b0712; --ds-color-danger-base-default: #CC1631; --ds-color-danger-base-hover: #a90223; --ds-color-danger-base-active: #85021a; --ds-color-danger-base-contrast-subtle: #f8e0df; --ds-color-danger-base-contrast-default: #ffffff;
+  --ds-color-warning-background-default: #ffffff; --ds-color-warning-background-tinted: #fff4f0; --ds-color-warning-surface-default: #ffffff; --ds-color-warning-surface-tinted: #feeee6; --ds-color-warning-surface-hover: #ffdbc9; --ds-color-warning-surface-active: #feceb7; --ds-color-warning-border-subtle: #feaf89; --ds-color-warning-border-default: #df6101;
+  --ds-color-warning-border-strong: #a84802; --ds-color-warning-text-subtle: #a84802; --ds-color-warning-text-default: #4d1d00; --ds-color-warning-base-default: #EE6A0E; --ds-color-warning-base-hover: #d05a04; --ds-color-warning-base-active: #b54d00; --ds-color-warning-base-contrast-subtle: #46291b; --ds-color-warning-base-contrast-default: #000000;
+  --ds-color-info-background-default: #ffffff; --ds-color-info-background-tinted: #eff5fd; --ds-color-info-surface-default: #ffffff; --ds-color-info-surface-tinted: #dfeafa; --ds-color-info-surface-hover: #cadcf6; --ds-color-info-surface-active: #b3ccf2; --ds-color-info-border-subtle: #9ebdee; --ds-color-info-border-default: #3c77d6;
+  --ds-color-info-border-strong: #255bb1; --ds-color-info-text-subtle: #255bb1; --ds-color-info-text-default: #102b54; --ds-color-info-base-default: #1E5FC2; --ds-color-info-base-hover: #044cad; --ds-color-info-base-active: #003c8e; --ds-color-info-base-contrast-subtle: #e9eef5; --ds-color-info-base-contrast-default: #ffffff;
+  --ds-color-focus-outer: #25282d; --ds-color-focus-inner: #ffffff;
+  --canvas: #f5f6f6;
+}
+
+/* theme switcher and legend (mock bar, not part of the design) */
+.mock .legend { flex-basis: 100%; min-width: 0; }
+.mock .legend > summary { cursor: pointer; font-weight: 600; width: fit-content; max-width: 100%; padding: 2px 0; }
+.mock .legend > summary:focus-visible { outline: 3px solid #1a1a1a; outline-offset: 2px; }
+.lg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; margin: 10px 0 4px; }
+.lg-card { background: #fafafa; border: 1px solid #b5b5b5; border-radius: 2px; padding: 12px 14px; min-width: 0; }
+.lg-card h3 { margin: 0; font-size: 14px; }
+.lg-card .reg { margin: 2px 0 10px; color: #3a3a3a; font-size: 13px; }
+.lg-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.lg-card li { display: grid; grid-template-columns: 22px 6.25rem minmax(0, 1fr); gap: 8px; align-items: center; font-size: 12.5px; }
+.lg-card .sw { width: 22px; height: 18px; border: 1px solid rgba(0,0,0,.25); border-radius: 2px; display: grid; place-items: center; font-size: 10px; font-weight: 700; }
+.lg-card code { font: 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.lg-card small { color: #4a4a4a; display: block; font-size: 11.5px; }
+.lg-card .note { margin: 10px 0 0; font-size: 12px; color: #3a3a3a; }
+/* price: cool slate grey, semibold, tag icon in the same colour; "Free" the same */
+:root { --price: #5D6672; }
+.price, .price .ic { color: var(--price); }
+
+/* ---------- Caption toggle (Library and client grid) ----------
+   Off: the caption lines under each image are hidden visually but stay in the tile
+   button, so each image keeps its accessible name (title, client, price). Status
+   tags and the own-image tick sit on the image and stay. Rows close up. */
+.cap-toggle { display: flex; align-items: center; gap: 8px; }
+.cap-toggle .ds-label { white-space: nowrap; }
+.app[data-captions="off"] .wall { row-gap: 16px; }
+.app[data-captions="off"] .wall .tile { position: relative; }
+.app[data-captions="off"] .wall .cap {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.app[data-captions="off"] .wall > li.wall-insp { margin-top: 0; }
+@media (max-width: 560px) {
+  .app[data-captions="off"] .wall { row-gap: 10px; }
+}
+
+/* ---------- Text-style actions are underlined ----------
+   Graphite gives tertiary buttons no accent hue, so they get an underline to read as
+   actions. Not for icon-only buttons, toggle-group options, pagination or the search
+   clear button. Links (.ds-link) are already underlined by Designsystemet. */
+.ds-button[data-variant="tertiary"]:not([data-icon], .ds-toggle-group > *, .ds-pagination *, .ds-search *) {
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em;
+}
+.ds-button[data-variant="tertiary"]:not([data-icon], .ds-toggle-group > *, .ds-pagination *, .ds-search *):hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ==========================================================================
+   More screens: Staff Clients, Client Overview, Cart and Checkout.
+   Everything above this line is copied verbatim from key-screens.html.
+   The rules below only add layouts for the new screens; they use the same
+   tokens (no new colours apart from photo placeholders).
+   ========================================================================== */
+
+/* shells without a contextual sidebar or without a right-hand panel */
+.app.no-sb { --sb: 0px; }
+.workspace.no-insp { grid-template-columns: var(--sb) minmax(0, 1fr); }
+a.tile { text-decoration: none; }
+
+/* page head */
+.page-head { display: flex; flex-wrap: wrap; align-items: end; gap: 14px 16px; margin: 0 0 28px; }
+.page-head > div:first-child { flex: 1 1 320px; min-width: 0; }
+.page-head .head-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.title-row .page-title { margin: 0; }
+.page-sub + .page-sub { margin-top: 2px; }
+
+/* white section cards */
+.card-sec { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-card); margin: 0 0 24px; min-width: 0; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.sec-head h2 { font-size: 1rem; font-weight: 600; margin: 0; }
+.sec-head .sec-meta { color: var(--muted); font-size: 0.875rem; }
+.sec-head .sec-end { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.sec-body { padding: 18px 20px 20px; }
+.sec-foot { padding: 12px 20px; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--muted); }
+
+/* ---------- Staff: Clients ---------- */
+.client-search { margin: 0 0 16px; }
+.client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 20px 48px; }
+dl.kv { margin: 0; display: grid; gap: 12px; font-size: 0.9375rem; }
+dl.kv > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 10px; align-items: baseline; }
+dl.kv dt { color: var(--muted); font-size: 0.875rem; }
+dl.kv dd { margin: 0; overflow-wrap: anywhere; }
+.notes h3 { font-size: 0.875rem; font-weight: 600; margin: 0 0 2px; }
+.notes .hint { margin-bottom: 8px; }
+.notes p.body { margin: 0; font-size: 0.9375rem; line-height: 1.5; }
+
+.people { list-style: none; margin: 0; padding: 0; }
+.person { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 16px; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.person:last-child { border-bottom: 0; }
+.person .who-line { display: grid; gap: 2px; min-width: 0; }
+.person .who-line b { font-weight: 600; }
+.person .who-line span { color: var(--muted); font-size: 0.875rem; overflow-wrap: anywhere; }
+.person .p-end { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: 8px 12px; }
+.person .p-end .seen { color: var(--muted); font-size: 0.8125rem; }
+.setup-link { grid-column: 2 / -1; padding: 14px 16px; background: var(--ds-color-neutral-background-tinted); border: 1px solid var(--line); border-radius: var(--r-card); display: grid; gap: 10px; }
+.setup-link h3 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+.link-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.link-row .ds-input { flex: 1 1 16rem; min-width: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875rem; }
+.copied { display: inline-flex; align-items: center; gap: 4px; color: var(--ds-color-success-text-subtle); font-size: 0.875rem; font-weight: 500; }
+.copied:empty { display: none; }
+
+.strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.strip li { position: relative; aspect-ratio: 1; border-radius: var(--r-img); overflow: hidden; background: var(--ds-color-neutral-surface-tinted); }
+.strip .ph { position: absolute; inset: 0; }
+.strip .own { position: absolute; top: 6px; right: 6px; z-index: 2; width: 22px; height: 22px; }
+.strip .own .ic { width: 13px; height: 13px; }
+.strip-note { margin: 12px 0 0; font-size: 0.8125rem; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.counts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 14px; padding: 0; list-style: none; font-size: 0.875rem; color: var(--muted); }
+.counts b { color: var(--ink); font-weight: 600; }
+
+.lic-wrap { container-type: inline-size; }
+.lic-table { width: 100%; margin: 0; }
+.lic-table th:first-child, .lic-table td:first-child { padding-left: 20px; }
+.lic-table th:last-child, .lic-table td:last-child { padding-right: 20px; }
+.lic-table td { vertical-align: middle; }
+.img-cell { display: flex; align-items: center; gap: 12px; min-width: 0; font-weight: 500; }
+.mini { width: 44px; height: 44px; flex: none; position: relative; border-radius: var(--r-thumb); overflow: hidden; background: var(--canvas); }
+.mini .ph { position: absolute; inset: 0; }
+.rv-note { display: block; font-size: 0.8125rem; color: var(--muted); margin-top: 4px; max-width: 24rem; }
+.nowrap { white-space: nowrap; }
+@container (max-width: 46rem) {
+  .lic-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .lic-table, .lic-table tbody, .lic-table tr, .lic-table td { display: block; }
+  .lic-table tr { padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .lic-table tr:last-child { border-bottom: 0; }
+  .lic-table > tbody > tr > td { border: 0; padding: 3px 0; display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 10px; align-items: baseline; }
+  .lic-table > tbody > tr > td::before { content: attr(data-label); color: var(--muted); font-size: 0.8125rem; }
+  .lic-table > tbody > tr > td.td-img { grid-template-columns: minmax(0, 1fr); padding-bottom: 8px; }
+  .lic-table > tbody > tr > td.td-img::before { content: none; }
+  .lic-table > tbody > tr > td.td-act:empty { display: none; }
+}
+
+/* ---------- Client: Overview ---------- */
+.ov-sec { margin: 0 0 40px; }
+.ov-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin: 0 0 16px; }
+.ov-head h2 { font-size: 1.125rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.ov-head p { margin: 0; color: var(--muted); font-size: 0.875rem; flex: 1 1 18rem; }
+.ov-head .ds-link { font-size: 0.9375rem; }
+@media (min-width: 561px) { .ov-sec .wall { --row-h: 196px; } }
+.ov-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 24px; align-items: start; }
+.ov-cols .card-sec { margin: 0; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+.rows li:last-child { border-bottom: 0; }
+.rows .r-main { display: grid; gap: 2px; min-width: 0; }
+.rows .r-main b { font-weight: 600; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.rows .r-main span { color: var(--muted); font-size: 0.8125rem; }
+.rows .r-end { text-align: right; display: grid; justify-items: end; gap: 2px; font-size: 0.875rem; }
+.sec-head .ds-link { font-size: 0.9375rem; }
+.act { list-style: none; margin: 0; padding: 4px 20px 8px; }
+.act li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.9375rem; line-height: 1.45; }
+.act li:last-child { border-bottom: 0; }
+.act time { color: var(--muted); font-size: 0.8125rem; padding-top: 2px; }
+.act b { font-weight: 600; }
+
+/* ---------- Client: Cart and checkout ---------- */
+.lines { list-style: none; margin: 0; padding: 0; }
+.cline { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 8px 20px; align-items: start; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.cline:last-child { border-bottom: 0; }
+.cthumb { position: relative; height: 84px; border-radius: var(--r-thumb); overflow: hidden; background: var(--canvas); }
+.cthumb .ph { position: absolute; inset: 0; }
+.cl-info { display: grid; gap: 4px; min-width: 0; align-content: start; }
+.cl-info b { font-weight: 600; font-size: 1rem; line-height: 1.3; }
+.cl-info .lic { font-size: 0.875rem; color: var(--muted); }
+.cl-info .ds-link { font-size: 0.875rem; width: fit-content; }
+.cl-end { display: grid; justify-items: end; gap: 8px; align-content: start; }
+.cl-end s { color: var(--muted); font-size: 0.875rem; }
+.cl-end .ds-tag { white-space: nowrap; }
+.sum { margin: 0; display: grid; gap: 10px; font-size: 0.9375rem; }
+.sum > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sum dt { color: var(--muted); }
+.sum dd { margin: 0; text-align: right; }
+.sum .total { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 2px; }
+.sum .total dt { color: var(--ink); font-weight: 600; }
+.insp-foot.sum-foot { margin-top: 20px; position: static; }
+.insp-foot .ds-button.wide { flex: 1 1 100%; justify-content: center; }
+.insp-foot .ds-validation-message { flex-basis: 100%; margin: 0; }
+.empty { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-card); padding: 48px 24px; display: grid; justify-items: center; text-align: center; gap: 10px; }
+.empty > .ic { width: 40px; height: 40px; color: var(--muted); stroke-width: 1.3; }
+.empty h2 { margin: 6px 0 0; font-size: 1.125rem; font-weight: 600; }
+.empty p { margin: 0 0 10px; color: var(--muted); max-width: 32rem; }
+.terms { max-height: 13rem; overflow: auto; padding: 14px 16px; margin: 0 0 18px; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--ds-color-neutral-background-tinted); font-size: 0.875rem; line-height: 1.55; }
+.terms h3 { font-size: 0.875rem; font-weight: 600; margin: 0 0 6px; }
+.terms p { margin: 0 0 10px; }
+.terms p:last-child { margin: 0; }
+.ctx-top { margin: 0 0 24px; }
+.ctx-top .dlg-actions { margin-top: 12px; }
+.done-meta { margin: 0 0 24px; color: var(--muted); font-size: 0.9375rem; }
+.done-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.main-cap { max-width: 64rem; }
+
+/* revoke dialog */
+.revoke-dlg { max-width: min(34rem, calc(100vw - 32px)); }
+.revoke-dlg h2 { margin: 0 0 10px; }
+.revoke-dlg p { margin: 0 0 12px; }
+.revoke-dlg .ds-field { margin: 4px 0 22px; }
+
+@media (max-width: 900px) {
+  .workspace.no-insp { grid-template-columns: minmax(0, 1fr); }
+  .sec-head, .sec-body { padding-left: 16px; padding-right: 16px; }
+  .person { padding: 14px 16px; }
+  .rows li { padding-left: 16px; padding-right: 16px; }
+  .act { padding-left: 16px; padding-right: 16px; }
+  .cline { padding: 16px; }
+  .lic-table th:first-child, .lic-table td:first-child { padding-left: 16px; }
+}
+@media (max-width: 700px) {
+  .person { grid-template-columns: auto minmax(0, 1fr); }
+  .person .p-end { grid-column: 2; justify-content: start; }
+  .setup-link { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  dl.kv > div { grid-template-columns: 1fr; gap: 2px; }
+  .strip { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+  .cline { grid-template-columns: 84px minmax(0, 1fr); }
+  .cthumb { height: 64px; }
+  .cl-end { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+  .rows li { grid-template-columns: 44px minmax(0, 1fr); }
+  .rows .r-end { grid-column: 2; justify-items: start; text-align: left; }
+  .act li { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* extra photo placeholder for the client card */
+.p-cafe {
+  background:
+    repeating-linear-gradient(100deg, transparent 0 7%, rgba(220, 230, 240, .18) 7% 7.4%),
+    radial-gradient(ellipse 12% 8% at 34% 62%, #f1c27d 0 55%, transparent 65%),
+    radial-gradient(ellipse 10% 7% at 70% 58%, #f6d39a 0 55%, transparent 65%),
+    linear-gradient(90deg, #2c2a2c 0 6%, transparent 6% 94%, #2c2a2c 94%),
+    linear-gradient(180deg, #4d5b6b 0%, #36414e 55%, #6b4b34 56%, #3a2a1f 100%);
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 3.5 3 3-2.5L20 17"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="3.6" ry="8.5"/><path d="M3.5 12h17"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M15.6 14.6c2.3-.3 4.3 1 5 3.9"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 10.5h10.6L20.5 7H6.6"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 9.5l5-5 5 5M5 20h14"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4.5H15"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8 8M10 5H5v14h14v-5"/></symbol>
+  <symbol id="i-price" viewBox="0 0 24 24"><path d="M3.5 12.5V4.5h8l9 9-8 8z"/><circle cx="8" cy="9" r="1.3"/></symbol>
+  <symbol id="i-licence" viewBox="0 0 24 24"><path d="M6 3.5h9l3.5 3.5v13.5H6z"/><path d="M14.5 3.5V7h4M9 11h6.5M9 14.5h6.5M9 18h3.5"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4L18 18M6 18l1.6-1.6M16.4 7.6L18 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5M6.5 9.5V19.5h11V9.5"/></symbol>
+  <symbol id="i-mine" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-find" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></symbol>
+  <symbol id="i-view" viewBox="0 0 24 24"><path d="M6.5 4h11v16l-5.5-4-5.5 4z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M15.5 5.5l3 3L9 18H6v-3z"/><path d="M13.5 7.5l3 3"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11" height="11" rx="1.5"/><path d="M15.5 8.5v-3a1 1 0 0 0-1-1h-9a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+</svg>
+
+<header class="mock" aria-label="Screen switcher (not part of the design)">
+  <div class="mock-text"><strong>More screens: Clients, Overview, Cart and checkout</strong><p>The same Graphite app as the key screens, with no new patterns. Staff Clients puts the client list in the contextual sidebar (a drawer at 900 px and below) and the client card in the main area. The client Overview is a plain dashboard with no sidebar. Cart and Checkout show the summary in the right-hand panel, which moves under the content at 1240 px and below, so the Confirm button comes after the licence terms.</p></div>
+  <div class="mock-groups">
+    <div class="mock-group" role="group" aria-label="Screen"><span>Screen</span>
+      <button type="button" data-show="clients" aria-pressed="true">Staff: Clients</button>
+      <button type="button" data-show="overview" aria-pressed="false">Client: Overview</button>
+      <button type="button" data-show="cart" aria-pressed="false">Client: Cart</button>
+      <button type="button" data-show="cart" data-mode="empty" aria-pressed="false">Client: Cart, empty</button>
+      <button type="button" data-show="checkout" aria-pressed="false">Client: Checkout</button>
+      <button type="button" data-show="checkout" data-mode="changed" aria-pressed="false">Client: Checkout, price changed</button>
+      <button type="button" data-show="done" aria-pressed="false">Client: Checkout done</button>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= STAFF CLIENTS ======================= -->
+<section data-screen="clients" aria-label="Staff clients">
+<div class="app" data-sidebar="open">
+  <header class="topbar">
+    <button class="ds-button" data-variant="tertiary" data-icon type="button" data-sidebar-toggle aria-expanded="true" aria-controls="sb-clients">
+      <svg class="ic ic-panel" aria-hidden="true"><use href="#i-panel"/></svg><svg class="ic ic-close" aria-hidden="true"><use href="#i-close"/></svg><span class="ds-sr-only">Show or hide the client list</span>
+    </button>
+    <a class="wordmark" href="#"><span class="wordmark-mark" aria-hidden="true"></span>CRM-DAM</a>
+    <nav class="mainnav" aria-label="Main"><a href="#">Library</a><a href="#">Upload</a><a href="#" aria-current="page">Clients</a><a href="#">Licences</a></nav>
+    <form class="hsearch" role="search" onsubmit="return false">
+      <div class="ds-search" data-size="sm">
+        <input class="ds-input" type="search" id="q-clients" aria-label="Search title, description, keywords and places" placeholder="Search title, description, keywords and places">
+        <button class="ds-button" type="reset" data-variant="tertiary" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="topbar-end"><div class="who"><span class="ds-avatar" role="img" aria-label="Ida" data-size="sm">I</span><span>Ida</span></div></div>
+  </header>
+  <div class="workspace no-insp">
+    <aside class="sidebar" id="sb-clients" tabindex="-1" aria-label="Client list">
+    <section class="side-sec side-context" aria-labelledby="cl-list-h">
+      <div class="side-head"><h2 id="cl-list-h">Clients</h2><button class="ds-button" type="button" data-variant="tertiary" data-size="sm">New client</button></div>
+      <ds-field class="ds-field client-search" data-size="sm">
+        <label class="ds-label ds-sr-only" for="cl-find">Find a client</label>
+        <input class="ds-input" type="search" id="cl-find" placeholder="Find a client">
+      </ds-field>
+      <div class="group">
+        <h3>Status</h3>
+        <div class="chips"><label class="ds-chip"><input class="ds-input" type="checkbox" checked> Active</label><label class="ds-chip"><input class="ds-input" type="checkbox"> Inactive</label></div>
+      </div>
+      <div class="group">
+        <ul class="vlist">
+          <li><a href="#" aria-current="true"><span class="two-line"><span>Fjordkaffe AS</span><small>2 contacts, 34 own images</small></span><span class="n">12</span></a></li>
+          <li><a href="#"><span class="two-line"><span>Nordlys Sykkel AS</span><small>3 contacts, 52 own images</small></span><span class="n">27</span></a></li>
+          <li><a href="#"><span class="two-line"><span>Bergen Bryggeri AS</span><small>1 contact, 9 own images</small></span><span class="n">4</span></a></li>
+          <li><a href="#"><span class="two-line"><span>Lindås Bakeri</span><small>1 contact, setup link not used</small></span><span class="n">0</span></a></li>
+        </ul>
+        <p class="side-hint">The number is each client's licences. Inactive clients, such as Gammel Kunde AS, show when you tick Inactive.</p>
+      </div>
+    </section>
+    </aside>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <div class="title-row"><h1 class="page-title">Fjordkaffe AS</h1><span class="ds-tag" data-color="success" data-size="sm">Active</span></div>
+          <p class="page-sub">Client since 4 Mar 2025. Account manager Ida.</p>
+        </div>
+        <div class="head-actions">
+          <button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg>Edit client</button>
+          <button class="ds-button" data-variant="tertiary" data-icon data-size="sm" type="button" aria-label="More actions: set the client inactive"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+        </div>
+      </div>
+
+      <section class="card-sec" aria-labelledby="cl-det-h">
+        <div class="sec-head"><h2 id="cl-det-h">Details</h2></div>
+        <div class="sec-body client-grid">
+          <dl class="kv">
+            <div><dt>Org number</dt><dd>921 456 786</dd></div>
+            <div><dt>Billing email</dt><dd>faktura@fjordkaffe.no</dd></div>
+            <div><dt>Account manager</dt><dd>Ida</dd></div>
+            <div><dt>Status</dt><dd>Active. Its contacts can log in.</dd></div>
+          </dl>
+          <div class="notes">
+            <h3>Staff notes</h3>
+            <p class="hint">Staff only. Contacts never see notes or the account manager.</p>
+            <p class="body">Autumn campaign launches 1 Dec. Jonas handles marketing; Kari orders images for the cafés. Prefers photos with people in them.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card-sec" aria-labelledby="cl-con-h">
+        <div class="sec-head">
+          <h2 id="cl-con-h">Contacts</h2><span class="sec-meta">2 active</span>
+          <div class="sec-end"><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Add contact</button></div>
+        </div>
+        <ul class="people">
+          <li class="person">
+            <span class="ds-avatar" role="img" aria-label="Jonas Hauge" data-size="sm">JH</span>
+            <span class="who-line"><b>Jonas Hauge</b><span>jonas.hauge@fjordkaffe.no, +47 912 34 567</span></span>
+            <span class="p-end">
+              <span class="seen">Last login 16 Nov 2026</span>
+              <span class="ds-tag" data-color="success" data-size="sm">Active</span>
+              <button class="ds-button" data-variant="tertiary" data-size="sm" type="button" aria-label="Edit Jonas Hauge">Edit</button>
+              <button class="ds-button" data-variant="tertiary" data-icon data-size="sm" type="button" aria-label="More actions for Jonas Hauge: new setup link, deactivate"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+            </span>
+          </li>
+          <li class="person">
+            <span class="ds-avatar" role="img" aria-label="Kari Lie" data-size="sm">KL</span>
+            <span class="who-line"><b>Kari Lie</b><span>kari.lie@fjordkaffe.no</span></span>
+            <span class="p-end">
+              <span class="seen">Last login 17 Nov 2026</span>
+              <span class="ds-tag" data-color="success" data-size="sm">Active</span>
+              <button class="ds-button" data-variant="tertiary" data-size="sm" type="button" aria-label="Edit Kari Lie">Edit</button>
+              <button class="ds-button" data-variant="tertiary" data-icon data-size="sm" type="button" aria-label="More actions for Kari Lie: new setup link, deactivate"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+            </span>
+            <div class="setup-link" role="group" aria-labelledby="sl-h">
+              <h3 id="sl-h">New setup link for Kari Lie</h3>
+              <div class="link-row">
+                <label class="ds-sr-only" for="sl-url">Setup link</label>
+                <input class="ds-input" id="sl-url" type="text" readonly value="https://crm-dam.example/setup/k7Q2-9fXb-Lm4T" data-size="sm" aria-describedby="sl-hint">
+                <button class="ds-button" data-variant="primary" data-size="sm" type="button" data-copy="sl-url"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy link</button>
+                <span class="copied" role="status" data-copied></span>
+              </div>
+              <p class="hint" id="sl-hint">Paste it into your own email to Kari: the app sends no email. The link works once and expires on 25 Nov 2026 at 14:02. Kari sets a new password of at least 12 characters. Making another link cancels this one.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card-sec" aria-labelledby="cl-img-h">
+        <div class="sec-head">
+          <h2 id="cl-img-h">Images Fjordkaffe can see</h2>
+          <div class="sec-end"><a class="ds-link" href="#">Open in Library</a></div>
+        </div>
+        <div class="sec-body">
+          <ul class="counts" aria-label="Image counts">
+            <li><b>112</b> visible in total</li>
+            <li><b>34</b> own images</li>
+            <li><b>78</b> public</li>
+            <li><b>34</b> restricted to lists that include Fjordkaffe</li>
+          </ul>
+          <ul class="strip" aria-label="Newest images visible to Fjordkaffe AS">
+            <li><span class="own" role="img" aria-label="Own image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-latte" role="img" aria-label="Barista pouring a heart in latte art into a white cup, close-up in warm light"></span></li>
+            <li><span class="own" role="img" aria-label="Own image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-roaster" role="img" aria-label="Coffee roaster drum in a dark roastery with warm light from a window"></span></li>
+            <li><span class="own" role="img" aria-label="Own image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-filter" role="img" aria-label="Cup of filter coffee seen from above on a green table"></span></li>
+            <li><span class="ph p-harbour" role="img" aria-label="Harbour at dusk in Ålesund with pink sky and lights reflected in the water"></span></li>
+            <li><span class="own" role="img" aria-label="Own image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-barista" role="img" aria-label="Barista behind the counter, smiling, in a dark café"></span></li>
+            <li><span class="ph p-fjord" role="img" aria-label="Calm fjord with a green headland under a pale sky"></span></li>
+            <li><span class="own" role="img" aria-label="Own image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-pack" role="img" aria-label="Fjordkaffe coffee bag on a pale table"></span></li>
+            <li><span class="ph p-ridge" role="img" aria-label="Mountain ridge above a fjord on a clear day"></span></li>
+          </ul>
+          <p class="strip-note"><span class="own-inline"><span class="own" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>Own image</span> Fjordkaffe holds a licence, or the image is free and restricted to a list that includes it.</p>
+        </div>
+      </section>
+
+      <section class="card-sec" aria-labelledby="cl-lic-h">
+        <div class="sec-head">
+          <h2 id="cl-lic-h">Licence history</h2><span class="sec-meta">5 of 12, newest first</span>
+          <div class="sec-end"><a class="ds-link" href="#">Open in Licences</a></div>
+        </div>
+        <div class="lic-wrap">
+          <table class="ds-table lic-table" data-size="sm">
+            <thead><tr><th scope="col">Image</th><th scope="col">Price</th><th scope="col">Date</th><th scope="col">Contact</th><th scope="col">Status</th><th scope="col"><span class="ds-sr-only">Actions</span></th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="td-img"><span class="img-cell"><span class="mini"><span class="ph p-latte" role="img" aria-label="Barista pouring a heart in latte art into a white cup"></span></span>Barista pouring latte art</span></td>
+                <td data-label="Price"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></td>
+                <td data-label="Date" class="nowrap">14 Nov 2026</td>
+                <td data-label="Contact" class="nowrap">Jonas Hauge</td>
+                <td data-label="Status" data-status><span class="ds-tag" data-color="success" data-size="sm">Active</span></td>
+                <td data-label="" class="td-act"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-revoke data-title="Barista pouring latte art" data-price="Free (0 USD)" data-date="14 Nov 2026" data-paid="no" aria-label="Revoke licence for Barista pouring latte art">Revoke</button></td>
+              </tr>
+              <tr>
+                <td class="td-img"><span class="img-cell"><span class="mini"><span class="ph p-pack" role="img" aria-label="Fjordkaffe coffee bag on a pale table"></span></span>Fjordkaffe bag, summer label</span></td>
+                <td data-label="Price"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></td>
+                <td data-label="Date" class="nowrap">12 Nov 2026</td>
+                <td data-label="Contact" class="nowrap">Kari Lie</td>
+                <td data-label="Status" data-status><span class="ds-tag" data-color="success" data-size="sm">Active</span></td>
+                <td data-label="" class="td-act"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-revoke data-title="Fjordkaffe bag, summer label" data-price="Free (0 USD)" data-date="12 Nov 2026" data-paid="no" aria-label="Revoke licence for Fjordkaffe bag, summer label">Revoke</button></td>
+              </tr>
+              <tr>
+                <td class="td-img"><span class="img-cell"><span class="mini"><span class="ph p-roaster" role="img" aria-label="Coffee roaster drum in a dark roastery"></span></span>Roaster drum at Fjordkaffe</span></td>
+                <td data-label="Price"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></td>
+                <td data-label="Date" class="nowrap">5 Nov 2026</td>
+                <td data-label="Contact" class="nowrap">Jonas Hauge</td>
+                <td data-label="Status" data-status><span class="ds-tag" data-color="success" data-size="sm">Active</span></td>
+                <td data-label="" class="td-act"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-revoke data-title="Roaster drum at Fjordkaffe" data-price="Free (0 USD)" data-date="5 Nov 2026" data-paid="no" aria-label="Revoke licence for Roaster drum at Fjordkaffe">Revoke</button></td>
+              </tr>
+              <tr>
+                <td class="td-img"><span class="img-cell"><span class="mini"><span class="ph p-market" role="img" aria-label="Bergen fish market at dawn with stalls and red awnings"></span></span>Bergen fish market at dawn</span></td>
+                <td data-label="Price"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>60 USD</span></td>
+                <td data-label="Date" class="nowrap">20 Sep 2026</td>
+                <td data-label="Contact" class="nowrap">Kari Lie</td>
+                <td data-label="Status"><span><span class="ds-tag" data-color="neutral" data-size="sm">Revoked</span><span class="rv-note">By Ida on 3 Oct 2026: bought by mistake, the same motif is in Fjordkaffe's own images. Flagged for a possible credit.</span></span></td>
+                <td data-label="" class="td-act"></td>
+              </tr>
+              <tr>
+                <td class="td-img"><span class="img-cell"><span class="mini"><span class="ph p-cafe" role="img" aria-label="Café window on a rainy evening with warm lamps inside"></span></span>Café window on a rainy evening</span></td>
+                <td data-label="Price"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>90 USD</span></td>
+                <td data-label="Date" class="nowrap">12 Mar 2026</td>
+                <td data-label="Contact" class="nowrap">Jonas Hauge</td>
+                <td data-label="Status" data-status><span class="ds-tag" data-color="success" data-size="sm">Active</span></td>
+                <td data-label="" class="td-act"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-revoke data-title="Café window on a rainy evening" data-price="90 USD" data-date="12 Mar 2026" data-paid="yes" aria-label="Revoke licence for Café window on a rainy evening">Revoke</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sec-foot">All licences are Standard commercial use. Prices exclude VAT.</div>
+      </section>
+    </main>
+  </div>
+</div>
+</section>
+
+<!-- ======================= CLIENT OVERVIEW ======================= -->
+<section data-screen="overview" aria-label="Client overview" hidden>
+<div class="app no-sb">
+  <header class="topbar">
+    <a class="wordmark client-name" href="#" data-go="overview"><span>Fjordkaffe AS</span><small>Image portal</small></a>
+    <nav class="mainnav" aria-label="Main"><a href="#" data-go="overview" aria-current="page">Overview</a><a href="#">My images</a><a href="#">Find images</a><a href="#">Licences</a></nav>
+    <form class="hsearch" role="search" onsubmit="return false">
+      <div class="ds-search" data-size="sm">
+        <input class="ds-input" type="search" id="q-ov" aria-label="Search images" placeholder="Search images">
+        <button class="ds-button" type="reset" data-variant="tertiary" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="topbar-end"><a class="ds-button cart-btn" data-variant="secondary" href="#" data-go="cart"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg><span class="btn-label">Cart</span> <span class="ds-badge" data-cart-badge data-count="2" aria-label="2 images"></span></a><div class="who"><span class="ds-avatar" role="img" aria-label="Jonas" data-size="sm">J</span><span>Jonas</span></div></div>
+  </header>
+  <div class="workspace no-insp">
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Welcome back, Jonas</h1>
+          <p class="page-sub">Fjordkaffe AS. Your last login was 16 Nov 2026.</p>
+        </div>
+        <div class="head-actions">
+          <a class="ds-button" data-variant="secondary" href="#"><svg class="ic" aria-hidden="true"><use href="#i-mine"/></svg>My images</a>
+          <a class="ds-button" data-variant="primary" href="#"><svg class="ic" aria-hidden="true"><use href="#i-find"/></svg>Find images</a>
+        </div>
+      </div>
+
+      <section class="ov-sec" aria-labelledby="ov-new-h">
+        <div class="ov-head"><h2 id="ov-new-h">New for Fjordkaffe</h2><p>6 images the agency made available to you in the last 30 days</p><a class="ds-link" href="#">See them in Find images</a></div>
+        <ul class="wall" aria-label="New images">
+          <li style="--r:0.8"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-latte" role="img" aria-label="Barista pouring a heart in latte art into a white cup, close-up in warm light"></span></span>
+            <span class="cap"><span class="t-title">Barista pouring latte art</span><span class="meta"><span class="own-inline">Yours to download</span></span></span>
+          </a></li>
+          <li style="--r:1.78"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="ph p-harbour" role="img" aria-label="Harbour at dusk in Ålesund with pink sky and lights reflected in the water"></span></span>
+            <span class="cap"><span class="t-title">Harbour at dusk, Ålesund</span><span class="meta"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>90 USD</span></span></span>
+          </a></li>
+          <li style="--r:0.667"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-barista" role="img" aria-label="Barista behind the counter, smiling, in a dark café"></span></span>
+            <span class="cap"><span class="t-title">Barista behind the counter</span><span class="meta"><span class="own-inline">Yours to download</span></span></span>
+          </a></li>
+          <li style="--r:1.0"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-filter" role="img" aria-label="Cup of filter coffee seen from above on a green table"></span></span>
+            <span class="cap"><span class="t-title">Filter coffee from above</span><span class="meta"><span class="own-inline">Yours to download</span></span></span>
+          </a></li>
+          <li style="--r:1.333"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="ph p-fjord" role="img" aria-label="Calm fjord with a green headland under a pale sky"></span></span>
+            <span class="cap"><span class="t-title">Still morning on Sognefjorden</span><span class="meta"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></span></span>
+          </a></li>
+          <li style="--r:0.8"><a class="tile ds-focus" href="#">
+            <span class="shot"><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-roaster" role="img" aria-label="Coffee roaster drum in a dark roastery with warm light from a window"></span></span>
+            <span class="cap"><span class="t-title">Roaster drum at Fjordkaffe</span><span class="meta"><span class="own-inline">Yours to download</span></span></span>
+          </a></li>
+        </ul>
+      </section>
+
+      <section class="ov-sec" aria-labelledby="ov-own-h">
+        <div class="ov-head"><h2 id="ov-own-h">Your images</h2><p>34 images Fjordkaffe can download as often as it needs</p><a class="ds-link" href="#">See all in My images</a></div>
+        <ul class="strip" aria-label="Your newest images">
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-latte" role="img" aria-label="Barista pouring a heart in latte art into a white cup, close-up in warm light"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-barista" role="img" aria-label="Barista behind the counter, smiling, in a dark café"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-filter" role="img" aria-label="Cup of filter coffee seen from above on a green table"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-roaster" role="img" aria-label="Coffee roaster drum in a dark roastery with warm light from a window"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-pack" role="img" aria-label="Fjordkaffe coffee bag on a pale table"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-cafe" role="img" aria-label="Café window on a rainy evening with warm lamps inside"></span></li>
+          <li><span class="own" role="img" aria-label="Your image"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span class="ph p-beans" role="img" aria-label="Roasted coffee beans spread on a pale linen cloth"></span></li>
+        </ul>
+      </section>
+
+      <div class="ov-cols">
+        <section class="card-sec" aria-labelledby="ov-lic-h">
+          <div class="sec-head"><h2 id="ov-lic-h">Licences</h2><span class="sec-meta">12 for Fjordkaffe</span><div class="sec-end"><a class="ds-link" href="#">See all licences</a></div></div>
+          <ul class="rows">
+            <li><span class="mini"><span class="ph p-latte" role="img" aria-label="Barista pouring a heart in latte art"></span></span><span class="r-main"><b>Barista pouring latte art</b><span>14 Nov 2026, Jonas Hauge</span></span><span class="r-end"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></span></li>
+            <li><span class="mini"><span class="ph p-pack" role="img" aria-label="Fjordkaffe coffee bag on a pale table"></span></span><span class="r-main"><b>Fjordkaffe bag, summer label</b><span>12 Nov 2026, Kari Lie</span></span><span class="r-end"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></span></li>
+            <li><span class="mini"><span class="ph p-roaster" role="img" aria-label="Coffee roaster drum in a dark roastery"></span></span><span class="r-main"><b>Roaster drum at Fjordkaffe</b><span>5 Nov 2026, Jonas Hauge</span></span><span class="r-end"><span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>Free</span></span></li>
+            <li><span class="mini"><span class="ph p-market" role="img" aria-label="Bergen fish market at dawn"></span></span><span class="r-main"><b>Bergen fish market at dawn</b><span>20 Sep 2026, Kari Lie</span></span><span class="r-end"><span class="ds-tag" data-color="neutral" data-size="sm">Removed by the agency</span></span></li>
+          </ul>
+        </section>
+        <section class="card-sec" aria-labelledby="ov-act-h">
+          <div class="sec-head"><h2 id="ov-act-h">Recent activity</h2><span class="sec-meta">Licences and downloads by Fjordkaffe's contacts</span></div>
+          <ol class="act">
+            <li><time datetime="2026-11-17">17 Nov</time><span><b>Kari Lie</b> downloaded Fjordkaffe bag, summer label</span></li>
+            <li><time datetime="2026-11-16">16 Nov</time><span><b>Jonas Hauge</b> downloaded Roaster drum at Fjordkaffe</span></li>
+            <li><time datetime="2026-11-14">14 Nov</time><span><b>Jonas Hauge</b> got a free licence for Barista pouring latte art</span></li>
+            <li><time datetime="2026-11-12">12 Nov</time><span><b>Kari Lie</b> got a free licence for Fjordkaffe bag, summer label</span></li>
+            <li><time datetime="2026-11-05">5 Nov</time><span><b>Jonas Hauge</b> got a free licence for Roaster drum at Fjordkaffe</span></li>
+          </ol>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+</section>
+
+<!-- ======================= CLIENT CART ======================= -->
+<section data-screen="cart" aria-label="Client cart" hidden>
+<div class="app no-sb">
+  <header class="topbar">
+    <a class="wordmark client-name" href="#" data-go="overview"><span>Fjordkaffe AS</span><small>Image portal</small></a>
+    <nav class="mainnav" aria-label="Main"><a href="#" data-go="overview">Overview</a><a href="#">My images</a><a href="#">Find images</a><a href="#">Licences</a></nav>
+    <form class="hsearch" role="search" onsubmit="return false">
+      <div class="ds-search" data-size="sm">
+        <input class="ds-input" type="search" id="q-cart" aria-label="Search images" placeholder="Search images">
+        <button class="ds-button" type="reset" data-variant="tertiary" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="topbar-end"><a class="ds-button cart-btn" data-variant="secondary" href="#" data-go="cart" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg><span class="btn-label">Cart</span> <span class="ds-badge" data-cart-badge data-count="2" aria-label="2 images"></span></a><div class="who"><span class="ds-avatar" role="img" aria-label="Jonas" data-size="sm">J</span><span>Jonas</span></div></div>
+  </header>
+  <div class="workspace" id="cart-ws">
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Cart</h1>
+          <p class="page-sub">Your cart is kept when you log out. Only you see it; Kari has her own.</p>
+        </div>
+      </div>
+      <p class="ds-sr-only" role="status" data-cart-status></p>
+      <section class="card-sec" aria-labelledby="cart-h" data-cart-card>
+        <div class="sec-head"><h2 id="cart-h">Images to license</h2><span class="sec-meta" data-cart-count>2 images</span></div>
+        <ul class="lines" data-cart-lines>
+          <li class="cline" data-price="120">
+            <span class="cthumb"><span class="ph p-bryggen" role="img" aria-label="Drone view of snow-covered rooftops at Bryggen in Bergen, with a few lit windows"></span></span>
+            <span class="cl-info"><b>Drone view of Bryggen in winter</b><span class="lic">Standard commercial use, added 16 Nov 2026</span><a class="ds-link" href="#">Read the licence terms</a></span>
+            <span class="cl-end"><span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>120 USD</span><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-remove aria-label="Remove Drone view of Bryggen in winter from the cart">Remove</button></span>
+          </li>
+          <li class="cline" data-price="150">
+            <span class="cthumb"><span class="ph p-ridge" role="img" aria-label="Mountain ridge above a fjord on a clear day"></span></span>
+            <span class="cl-info"><b>Mountain ridge above the fjord</b><span class="lic">Standard commercial use, added 17 Nov 2026</span><a class="ds-link" href="#">Read the licence terms</a></span>
+            <span class="cl-end"><span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>150 USD</span><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-remove aria-label="Remove Mountain ridge above the fjord from the cart">Remove</button></span>
+          </li>
+        </ul>
+      </section>
+      <div class="empty" data-cart-empty hidden>
+        <svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg>
+        <h2>Your cart is empty</h2>
+        <p>Add paid images from Find images. Your own images and free images are downloaded straight from the image, so they never go in the cart.</p>
+        <a class="ds-button" data-variant="primary" href="#"><svg class="ic" aria-hidden="true"><use href="#i-find"/></svg>Find images</a>
+      </div>
+    </main>
+    <aside class="inspector" aria-label="Cart summary" data-cart-summary>
+      <div class="panel-body">
+        <div class="insp-head"><div><h2>Summary</h2></div></div>
+        <section class="insp-sec" aria-label="Totals">
+          <dl class="sum">
+            <div><dt>Images</dt><dd data-cart-n>2</dd></div>
+            <div><dt>Licence</dt><dd>Standard commercial use</dd></div>
+            <div class="total"><dt>Total, ex VAT</dt><dd><span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg><span data-cart-total>270</span> USD</span></dd></div>
+          </dl>
+        </section>
+        <section class="insp-sec">
+          <p class="hint">There is no payment in the portal. At checkout you accept the licence terms, and Fjordkaffe gets one licence per image.</p>
+        </section>
+        <div class="insp-foot sum-foot">
+          <a class="ds-button wide" data-variant="primary" href="#" data-go="checkout">Go to checkout</a>
+          <a class="ds-link" href="#">Keep looking in Find images</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+
+<!-- ======================= CLIENT CHECKOUT ======================= -->
+<section data-screen="checkout" aria-label="Client checkout" hidden>
+<div class="app no-sb">
+  <header class="topbar">
+    <a class="wordmark client-name" href="#" data-go="overview"><span>Fjordkaffe AS</span><small>Image portal</small></a>
+    <nav class="mainnav" aria-label="Main"><a href="#" data-go="overview">Overview</a><a href="#">My images</a><a href="#">Find images</a><a href="#">Licences</a></nav>
+    <form class="hsearch" role="search" onsubmit="return false">
+      <div class="ds-search" data-size="sm">
+        <input class="ds-input" type="search" id="q-co" aria-label="Search images" placeholder="Search images">
+        <button class="ds-button" type="reset" data-variant="tertiary" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="topbar-end"><a class="ds-button cart-btn" data-variant="secondary" href="#" data-go="cart"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg><span class="btn-label">Cart</span> <span class="ds-badge" data-cart-badge data-count="2" aria-label="2 images"></span></a><div class="who"><span class="ds-avatar" role="img" aria-label="Jonas" data-size="sm">J</span><span>Jonas</span></div></div>
+  </header>
+  <div class="workspace">
+    <main class="main">
+      <nav class="ds-breadcrumbs" aria-label="You are here" style="margin-bottom:14px"><ol><li><a class="ds-link" href="#" data-go="cart">Cart</a></li><li><a class="ds-link" href="#" aria-current="page">Check out</a></li></ol></nav>
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Check out</h1>
+          <p class="page-sub">Each image is checked again when you confirm. Nothing is recorded until then.</p>
+        </div>
+      </div>
+
+      <div class="ds-alert ctx-top" data-color="warning" data-co-when="changed" id="co-change" tabindex="-1">
+        <h2 class="ds-heading" data-size="xs">One price has changed</h2>
+        <p class="ds-paragraph">The price of Mountain ridge above the fjord has changed from 150 to 180 USD. Confirm to continue.</p>
+        <div class="dlg-actions" data-color="accent">
+          <button class="ds-button" data-variant="primary" data-size="sm" type="button" data-accept-price>Confirm new price</button>
+          <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-drop-ridge>Remove it from the cart</button>
+        </div>
+      </div>
+
+      <section class="card-sec" aria-labelledby="co-img-h">
+        <div class="sec-head"><h2 id="co-img-h">Images</h2><span class="sec-meta" data-co-count>2 images</span><div class="sec-end"><a class="ds-link" href="#" data-go="cart">Edit cart</a></div></div>
+        <ul class="lines">
+          <li class="cline">
+            <span class="cthumb"><span class="ph p-bryggen" role="img" aria-label="Drone view of snow-covered rooftops at Bryggen in Bergen, with a few lit windows"></span></span>
+            <span class="cl-info"><b>Drone view of Bryggen in winter</b><span class="lic">Standard commercial use</span></span>
+            <span class="cl-end"><span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>120 USD</span></span>
+          </li>
+          <li class="cline" data-ridge>
+            <span class="cthumb"><span class="ph p-ridge" role="img" aria-label="Mountain ridge above a fjord on a clear day"></span></span>
+            <span class="cl-info"><b>Mountain ridge above the fjord</b><span class="lic">Standard commercial use</span></span>
+            <span class="cl-end">
+              <span class="ds-tag" data-color="warning" data-size="sm" data-co-when="changed">Price changed</span>
+              <s data-co-when="changed changed-ok" aria-label="Old price 150 USD">150 USD</s>
+              <span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg><span data-ridge-price>150</span> USD</span>
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card-sec" aria-labelledby="co-terms-h">
+        <div class="sec-head"><h2 id="co-terms-h">Licence terms</h2><span class="sec-meta">Standard commercial use, text version 2</span></div>
+        <div class="sec-body">
+          <div class="terms" tabindex="0" role="region" aria-label="Licence text">
+            <h3>Standard commercial use</h3>
+            <p>The agency grants the client a non-exclusive, non-transferable right to use the image in its own marketing and communication: print, web, social media, packaging and presentations. The licence does not expire.</p>
+            <p>The client may crop, resize and adjust colour. The client may not resell the image, offer it as a stock image, or use it in a logo or trademark.</p>
+            <p>The photographer is credited where it is practical. The licence belongs to the client organisation, not to the contact who accepted it, and lasts if that contact leaves.</p>
+            <p>Prices exclude VAT.</p>
+          </div>
+          <ds-field class="ds-field" data-size="md">
+            <input class="ds-input" type="checkbox" id="co-accept" aria-describedby="co-accept-err">
+            <label class="ds-label" data-weight="regular" for="co-accept">I accept the licence terms for these images on behalf of Fjordkaffe AS</label>
+            <p class="ds-validation-message" data-field="validation" id="co-accept-err" hidden>Accept the licence terms to continue.</p>
+          </ds-field>
+        </div>
+      </section>
+    </main>
+    <aside class="inspector" aria-label="Checkout summary">
+      <div class="panel-body">
+        <div class="insp-head"><div><h2>Summary</h2></div></div>
+        <section class="insp-sec" aria-label="Totals">
+          <dl class="sum">
+            <div><dt>Images</dt><dd data-co-n>2</dd></div>
+            <div><dt>Licence</dt><dd>Standard commercial use</dd></div>
+            <div><dt>For</dt><dd>Fjordkaffe AS</dd></div>
+            <div class="total"><dt>Total, ex VAT</dt><dd><span class="price price-lg"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg><span data-co-total>270</span> USD</span></dd></div>
+          </dl>
+        </section>
+        <section class="insp-sec">
+          <p class="hint">No payment is taken in the portal. Confirming records one licence per image for Fjordkaffe AS, and all of Fjordkaffe's contacts can then see and download them.</p>
+        </section>
+        <div class="insp-foot sum-foot">
+          <button class="ds-button wide" data-variant="primary" type="button" data-confirm>Confirm and get licences</button>
+          <p class="ds-validation-message" data-field="validation" data-confirm-err role="alert" hidden></p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+
+<!-- ======================= CLIENT CHECKOUT DONE ======================= -->
+<section data-screen="done" aria-label="Client checkout done" hidden>
+<div class="app no-sb">
+  <header class="topbar">
+    <a class="wordmark client-name" href="#" data-go="overview"><span>Fjordkaffe AS</span><small>Image portal</small></a>
+    <nav class="mainnav" aria-label="Main"><a href="#" data-go="overview">Overview</a><a href="#">My images</a><a href="#">Find images</a><a href="#">Licences</a></nav>
+    <form class="hsearch" role="search" onsubmit="return false">
+      <div class="ds-search" data-size="sm">
+        <input class="ds-input" type="search" id="q-done" aria-label="Search images" placeholder="Search images">
+        <button class="ds-button" type="reset" data-variant="tertiary" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="topbar-end"><a class="ds-button cart-btn" data-variant="secondary" href="#" data-go="cart" aria-label="Cart, empty"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg><span class="btn-label">Cart</span></a><div class="who"><span class="ds-avatar" role="img" aria-label="Jonas" data-size="sm">J</span><span>Jonas</span></div></div>
+  </header>
+  <div class="workspace no-insp">
+    <main class="main">
+      <div class="main-cap">
+      <div class="ds-alert ctx-top" data-color="success" tabindex="-1" id="done-alert">
+        <h1 class="ds-heading" data-size="xs">Done: 2 licences recorded for Fjordkaffe AS</h1>
+        <p class="ds-paragraph">The images are now Fjordkaffe's own. Download them here, or later from My images.</p>
+      </div>
+      <p class="done-meta">Recorded 18 Nov 2026 at 14:20 by Jonas Hauge. Standard commercial use, licence text version 2. Total <span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>270 USD</span> ex VAT.</p>
+
+      <section class="card-sec" aria-labelledby="done-img-h">
+        <div class="sec-head"><h2 id="done-img-h">Your new images</h2><div class="sec-end"><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download both as ZIP</button></div></div>
+        <ul class="lines">
+          <li class="cline">
+            <span class="cthumb"><span class="own" role="img" aria-label="Your image" style="position:absolute;top:6px;right:6px;z-index:2;width:22px;height:22px"><svg class="ic" aria-hidden="true" style="width:13px;height:13px"><use href="#i-check"/></svg></span><span class="ph p-bryggen" role="img" aria-label="Drone view of snow-covered rooftops at Bryggen in Bergen, with a few lit windows"></span></span>
+            <span class="cl-info"><b>Drone view of Bryggen in winter</b><span class="lic">Standard commercial use, <span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>120 USD</span></span><span class="lic">JPEG, 5280 × 3956 px, 21.4 MB</span></span>
+            <span class="cl-end"><button class="ds-button" data-variant="primary" data-size="sm" type="button" aria-label="Download Drone view of Bryggen in winter"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download</button></span>
+          </li>
+          <li class="cline">
+            <span class="cthumb"><span class="own" role="img" aria-label="Your image" style="position:absolute;top:6px;right:6px;z-index:2;width:22px;height:22px"><svg class="ic" aria-hidden="true" style="width:13px;height:13px"><use href="#i-check"/></svg></span><span class="ph p-ridge" role="img" aria-label="Mountain ridge above a fjord on a clear day"></span></span>
+            <span class="cl-info"><b>Mountain ridge above the fjord</b><span class="lic">Standard commercial use, <span class="price"><svg class="ic" aria-hidden="true"><use href="#i-price"/></svg>150 USD</span></span><span class="lic">JPEG, 8256 × 5504 px, 24.9 MB</span></span>
+            <span class="cl-end"><button class="ds-button" data-variant="primary" data-size="sm" type="button" aria-label="Download Mountain ridge above the fjord"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download</button></span>
+          </li>
+        </ul>
+        <div class="sec-foot">Downloads are client copies with the current title, description, alt text and keywords, and no location data.</div>
+      </section>
+      <div class="done-links">
+        <a class="ds-button" data-variant="secondary" href="#"><svg class="ic" aria-hidden="true"><use href="#i-mine"/></svg>Go to My images</a>
+        <a class="ds-button" data-variant="tertiary" href="#">See all licences</a>
+      </div>
+      </div>
+    </main>
+  </div>
+</div>
+</section>
+
+<dialog class="ds-dialog revoke-dlg" id="revoke-dlg" aria-labelledby="revoke-h">
+  <form id="revoke-form" novalidate>
+    <h2 class="ds-heading" data-size="xs" id="revoke-h">Revoke this licence?</h2>
+    <p class="ds-paragraph">Fjordkaffe AS loses its licence for <b data-rv-title>Café window on a rainy evening</b> (<span data-rv-price>90 USD</span>, <span data-rv-date>12 Mar 2026</span>). The licence is marked as revoked with your name, the time and the reason, and is never deleted. Fjordkaffe's history shows the image as removed by the agency.</p>
+    <p class="ds-paragraph" data-rv-paid>A paid licence is flagged for a possible credit.</p>
+    <p class="ds-paragraph">Fjordkaffe AS is also removed from the image's client list. If the image is public, Fjordkaffe can still find it and buy it again.</p>
+    <ds-field class="ds-field">
+      <label class="ds-label" for="rv-reason">Reason</label>
+      <textarea class="ds-input" id="rv-reason" rows="3" aria-describedby="rv-err"></textarea>
+      <p class="ds-validation-message" data-field="validation" id="rv-err" hidden>Write a reason to revoke the licence.</p>
+    </ds-field>
+    <div class="dlg-actions">
+      <button class="ds-button" data-variant="primary" data-color="danger" type="submit">Revoke licence</button>
+      <button class="ds-button" data-variant="secondary" type="button" data-rv-cancel>Cancel</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var screens = document.querySelectorAll('[data-screen]');
+  var overlay = window.matchMedia('(max-width: 900px)');
+
+  /* ---------- Sidebar: inline column on desktop, overlay drawer up to 900 px (as key-screens) ---------- */
+  function placeDrawer(app) {
+    var t = app.querySelector('[data-sidebar-toggle]');
+    var top = Math.max(0, app.getBoundingClientRect().top);
+    app.style.setProperty('--drawer-top', top + 'px');
+    app.style.setProperty('--drawer-pad', Math.round(t.getBoundingClientRect().bottom - top + 20) + 'px');
+  }
+  function setSidebar(app, open, opts) {
+    var t = app && app.querySelector('[data-sidebar-toggle]');
+    if (!t) return;
+    opts = opts || {};
+    app.setAttribute('data-sidebar', open ? 'open' : 'closed');
+    t.setAttribute('aria-expanded', String(open));
+    var asDrawer = open && overlay.matches;
+    root.style.overflow = asDrawer ? 'hidden' : '';
+    if (asDrawer) {
+      placeDrawer(app);
+      if (opts.focus) app.querySelector('.sidebar').focus();
+    }
+    if (!open && opts.returnFocus) t.focus();
+  }
+  function openDrawerApp() {
+    if (!overlay.matches) return null;
+    return document.querySelector('section[data-screen]:not([hidden]) .app[data-sidebar="open"]');
+  }
+  document.querySelectorAll('[data-sidebar-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var app = btn.closest('.app');
+      var open = app.getAttribute('data-sidebar') !== 'open';
+      setSidebar(app, open, { focus: open, returnFocus: !open });
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+    var app = openDrawerApp();
+    if (app) { e.preventDefault(); setSidebar(app, false, { returnFocus: true }); }
+  });
+  document.addEventListener('click', function (e) {
+    var app = openDrawerApp();
+    if (!app || e.target.closest('dialog')) return;
+    if (e.target.closest('.sidebar') || e.target.closest('[data-sidebar-toggle]')) return;
+    setSidebar(app, false, { returnFocus: true });
+  });
+  overlay.addEventListener('change', function () {
+    document.querySelectorAll('.app[data-sidebar]').forEach(function (app) { setSidebar(app, !overlay.matches); });
+  });
+  window.addEventListener('resize', function () { var app = openDrawerApp(); if (app) placeDrawer(app); });
+
+  /* ---------- Clients: copy the setup link (v1 sends no email) ---------- */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = document.getElementById(btn.getAttribute('data-copy'));
+      var status = btn.parentNode.querySelector('[data-copied]');
+      function done() { status.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Copied. Paste it into your email to Kari.'; }
+      input.select();
+      try {
+        if (navigator.clipboard) navigator.clipboard.writeText(input.value).then(done, done); else { document.execCommand('copy'); done(); }
+      } catch (e) { done(); }
+    });
+  });
+
+  /* ---------- Clients: revoke a licence (reason required) ---------- */
+  var rvDlg = document.getElementById('revoke-dlg');
+  var rvForm = document.getElementById('revoke-form');
+  var rvReason = document.getElementById('rv-reason');
+  var rvErr = document.getElementById('rv-err');
+  var rvBtn = null;
+  document.querySelectorAll('[data-revoke]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      rvBtn = b;
+      rvDlg.querySelector('[data-rv-title]').textContent = b.getAttribute('data-title');
+      rvDlg.querySelector('[data-rv-price]').textContent = b.getAttribute('data-price');
+      rvDlg.querySelector('[data-rv-date]').textContent = b.getAttribute('data-date');
+      rvDlg.querySelector('[data-rv-paid]').hidden = b.getAttribute('data-paid') !== 'yes';
+      rvReason.value = ''; rvErr.hidden = true; rvReason.removeAttribute('aria-invalid');
+      rvDlg.showModal();
+    });
+  });
+  rvDlg.querySelector('[data-rv-cancel]').addEventListener('click', function () { rvDlg.close(); });
+  rvDlg.addEventListener('close', function () { if (rvBtn && rvBtn.isConnected) rvBtn.focus(); });
+  rvForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var why = rvReason.value.trim();
+    if (!why) { rvErr.hidden = false; rvReason.setAttribute('aria-invalid', 'true'); rvReason.focus(); return; }
+    var row = rvBtn.closest('tr');
+    var paid = rvBtn.getAttribute('data-paid') === 'yes';
+    row.querySelector('[data-status]').innerHTML = '<span tabindex="-1"><span class="ds-tag" data-color="neutral" data-size="sm">Revoked</span><span class="rv-note"></span></span>';
+    row.querySelector('.rv-note').textContent = 'By Ida on 18 Nov 2026: ' + why + (paid ? ' Flagged for a possible credit.' : '');
+    rvBtn.parentNode.innerHTML = '';
+    rvBtn = row.querySelector('[data-status] > span');
+    rvDlg.close();
+  });
+
+  /* ---------- Cart: remove lines, totals, empty state ---------- */
+  var cartLines = document.querySelector('[data-cart-lines]');
+  var cartHTML = cartLines.innerHTML;
+  var cartWs = document.getElementById('cart-ws');
+  function plural(n) { return n + (n === 1 ? ' image' : ' images'); }
+  function setBadges(n) {
+    document.querySelectorAll('[data-cart-badge]').forEach(function (b) {
+      b.setAttribute('data-count', String(n)); b.setAttribute('aria-label', plural(n)); b.hidden = n === 0;
+    });
+  }
+  function refreshCart() {
+    var lines = cartLines.querySelectorAll('.cline');
+    var n = lines.length, total = 0;
+    lines.forEach(function (l) { total += Number(l.getAttribute('data-price')); });
+    document.querySelector('[data-cart-count]').textContent = plural(n);
+    document.querySelector('[data-cart-n]').textContent = n;
+    document.querySelector('[data-cart-total]').textContent = total;
+    document.querySelector('[data-cart-card]').hidden = n === 0;
+    document.querySelector('[data-cart-empty]').hidden = n !== 0;
+    document.querySelector('[data-cart-summary]').hidden = n === 0;
+    cartWs.classList.toggle('no-insp', n === 0);
+    setBadges(n);
+  }
+  function resetCart() { cartLines.innerHTML = cartHTML; refreshCart(); }
+  cartLines.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-remove]');
+    if (!b) return;
+    var line = b.closest('.cline');
+    var title = line.querySelector('b').textContent;
+    var next = line.nextElementSibling || line.previousElementSibling;
+    line.remove();
+    refreshCart();
+    document.querySelector('[data-cart-status]').textContent = title + ' was removed from your cart.';
+    var f = next ? next.querySelector('[data-remove]') : document.querySelector('[data-cart-empty] .ds-button');
+    if (f) f.focus();
+  });
+
+  /* ---------- Checkout: review, changed price, accept terms, confirm ---------- */
+  var co = document.querySelector('[data-screen="checkout"]');
+  var accept = document.getElementById('co-accept');
+  var acceptErr = document.getElementById('co-accept-err');
+  var confirmErr = co.querySelector('[data-confirm-err]');
+  var coState = 'normal';
+  function setCo(state) {
+    coState = state;
+    co.querySelectorAll('[data-co-when]').forEach(function (el) {
+      el.hidden = el.getAttribute('data-co-when').split(' ').indexOf(state) < 0;
+    });
+    var ridge = co.querySelector('[data-ridge]');
+    ridge.hidden = state === 'dropped';
+    var ridgePrice = state === 'normal' ? 150 : 180;
+    co.querySelector('[data-ridge-price]').textContent = ridgePrice;
+    var n = state === 'dropped' ? 1 : 2;
+    var total = 120 + (state === 'dropped' ? 0 : ridgePrice);
+    co.querySelector('[data-co-n]').textContent = n;
+    co.querySelector('[data-co-count]').textContent = plural(n);
+    co.querySelector('[data-co-total]').textContent = total;
+    confirmErr.hidden = true;
+  }
+  function resetCo(state) {
+    accept.checked = false; acceptErr.hidden = true; accept.removeAttribute('aria-invalid');
+    setCo(state);
+  }
+  co.querySelector('[data-accept-price]').addEventListener('click', function () { setCo('changed-ok'); accept.focus(); });
+  co.querySelector('[data-drop-ridge]').addEventListener('click', function () { setCo('dropped'); setBadges(1); accept.focus(); });
+  accept.addEventListener('change', function () { if (accept.checked) { acceptErr.hidden = true; accept.removeAttribute('aria-invalid'); } });
+  co.querySelector('[data-confirm]').addEventListener('click', function () {
+    if (coState === 'changed') {
+      confirmErr.textContent = 'Confirm the new price of Mountain ridge above the fjord, or remove it, to continue.';
+      confirmErr.hidden = false;
+      document.getElementById('co-change').focus();
+      return;
+    }
+    if (!accept.checked) {
+      acceptErr.hidden = false; accept.setAttribute('aria-invalid', 'true');
+      confirmErr.textContent = 'Accept the licence terms to continue.';
+      confirmErr.hidden = false;
+      accept.focus();
+      return;
+    }
+    show('done');
+    document.getElementById('done-alert').focus();
+  });
+
+  /* ---------- Links between the mock screens ---------- */
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-go]');
+    if (!g) return;
+    e.preventDefault();
+    show(g.getAttribute('data-go'));
+  });
+
+  /* ---------- Mock switcher ---------- */
+  function show(id, mode) {
+    if (rvDlg.open) rvDlg.close();
+    document.querySelectorAll('.app[data-sidebar]').forEach(function (app) { if (overlay.matches) setSidebar(app, false); });
+    screens.forEach(function (s) { s.hidden = s.getAttribute('data-screen') !== id; });
+    if (id === 'cart') { resetCart(); if (mode === 'empty') { cartLines.innerHTML = ''; refreshCart(); } }
+    if (id === 'checkout') { setBadges(2); resetCo(mode === 'changed' ? 'changed' : 'normal'); }
+    if (id === 'overview') setBadges(2);
+    document.querySelectorAll('[data-show]').forEach(function (b) {
+      var m = b.getAttribute('data-mode');
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === id && (m || '') === (mode || '')));
+    });
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('[data-show]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.stopPropagation(); show(b.getAttribute('data-show'), b.getAttribute('data-mode')); });
+  });
+
+  /* ?screen=clients|overview|cart|cart-empty|checkout|checkout-changed|done and ?sidebar=open|closed for direct links */
+  var q = new URLSearchParams(location.search);
+  var sc = (q.get('screen') || 'clients').split('-');
+  show(sc[0], sc[1]);
+  if (overlay.matches || q.get('sidebar') === 'closed') {
+    document.querySelectorAll('.app[data-sidebar]').forEach(function (app) { setSidebar(app, false); });
+  }
+  if (q.get('sidebar') === 'open') {
+    setSidebar(document.querySelector('section[data-screen]:not([hidden]) .app[data-sidebar]'), true);
+  }
+})();
+</script>
+</body>
+</html>

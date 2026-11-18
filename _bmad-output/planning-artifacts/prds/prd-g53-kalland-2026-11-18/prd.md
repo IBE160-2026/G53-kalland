@@ -235,11 +235,11 @@ Ida, a designer at the agency, is making a leaflet for a local client who has no
 - **FR-16b [planned] Retry.** *Realizes UJ-2.* Staff can retry one failed draft image or all failed draft images in a batch, so AI text never changes an image staff have already published.
   - A retry never overwrites a field staff have edited.
 - **FR-17 [spine] Editing.** *Realizes UJ-2.* Staff edit the agency fields, place name, date taken and GPS position, and see camera data read-only.
-  - Edits are saved automatically. A failed save shows an error and keeps the unsaved value.
+  - Drafts in the upload review are saved automatically. A published or library image is edited explicitly: staff choose Edit, then Save changes or Cancel, and leaving with unsaved changes asks to save, discard or keep editing. A failed save shows an error and keeps the unsaved value.
   - Invalid values are refused with a message: alt text over the limit, an impossible date, or a latitude or longitude out of range.
   - Edits to a published image take effect at once and appear in the next file served.
 - **FR-18 [bonus] Edit locks.** *Realizes UJ-2.* Only one staff user at a time edits an image or its batch, and others see who it is.
-  - A lock ends when the user leaves the editor or logs out, or after 15 minutes without activity; then another user can take over. A save from an expired lock is refused and keeps the unsaved value.
+  - In the library a lock starts when the user chooses Edit. A lock ends when the user saves, cancels or discards, leaves the editor or logs out, or after 15 minutes without activity; then another user can take over. A save from an expired lock is refused and keeps the unsaved value.
   - Background generation is not blocked by a lock.
 - **FR-19a [spine] Draft and publish.** *Realizes UJ-2.* An image stays a draft until published. All staff can see drafts, and clients never can. Staff publish single images.
   - An image can be published once its upload is complete and it is no longer queued or generating.
