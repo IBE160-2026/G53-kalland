@@ -14,13 +14,13 @@
 - [x] 2026-10-28 [haiku-pilot](994-2026-10-28-13-24-47-haiku-pilot.md) — architecture: decide whether AI metadata is generated during upload or in the background (løst 2026-10-28)
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — record the metadata library choice as a decision when the stack is chosen in architecture
 - [x] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — PRD: "location data (coordinates and place names) stripped" instead of "GPS stripped", with the report's checklist as acceptance criteria (løst 2026-10-28)
-- [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test `exiftool-vendored` install and round-trip on Windows
+- [x] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test `exiftool-vendored` install and round-trip on Windows (løst 2026-11-18: no longer needed, the app and its tools run in Docker, D-027)
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test a round-trip with a real iPhone HEIC and a JPEG with an EXIF thumbnail
 - [x] 2026-10-28 [resolve-issues-conflict](993-2026-10-28-17-24-36-resolve-issues-conflict.md) — ask the agency about file types and max file size, staff search words and typical price levels (before or during the PRD) (løst 2026-10-28)
 - [x] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — confirm the current Norwegian accessibility requirement (WCAG level) with Uutilsynet before release (løst 2026-11-04: not asking, NFR-5 states the levels, D-024)
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — architecture: choose an offline reverse geocoder for place names from GPS (FR-10)
 - [ ] 2026-10-28 [prd](992-2026-10-28-19-52-59-prd.md) — architecture: design the edit lock for images and batches (FR-14)
-- [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — re-estimate v1 hours and rank the [v1] FRs at sprint planning; available hours per week are unknown
+- [x] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — re-estimate v1 hours and rank the [v1] FRs at sprint planning; available hours per week are unknown (løst 2026-11-18: ranked table in the 2026-11-18 PRD, D-029)
 - [x] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — confirm the two details added to FR-16 and FR-19: no publishing while uploading, queued or generating, and retry on drafts only (løst 2026-11-04)
 - [x] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — record D-023 at `/wrap-up`: new PRD run, rollout gate, place-name setting, publish rule, later map search, 7-day setup link, WCAG as own target (løst 2026-11-04)
 - [ ] 2026-11-04 [prd-high-effort](991-2026-11-04-07-40-23-prd-high-effort.md) — check the rollout gate's legal points against primary sources before rollout (RG-3, RG-4, RG-5, RG-9) — not for v1, may be picked up later (D-024)
@@ -34,4 +34,6 @@
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — ask Anthropic how the DPA and SCCs apply to a Norwegian exporter, and which retention statement is right — not for v1, may be picked up later (D-024)
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — have a legally competent reviewer look at withdrawal of consent after a licence sale, guardians and children in commercial licensing, and AI upload of photographers' images — not for v1, may be picked up later (D-024)
 - [ ] 2026-11-04 [legal-research](990-2026-11-04-08-40-59-legal-research.md) — re-check Prop. 41 LS and the Norwegian AI Act bill before the rollout gate is signed off — not for v1, may be picked up later (D-024)
-- [ ] 2026-11-18 [prd-feedback-translation](988-2026-11-18-08-27-18-prd-feedback-translation.md) — revise the PRD based on the teacher's feedback (`tilbakemelding-prd.en.md` sections 4.1–4.5 and the "must be settled" list in section 6) before UX, architecture and epics
+- [x] 2026-11-18 [prd-feedback-translation](988-2026-11-18-08-27-18-prd-feedback-translation.md) — revise the PRD based on the teacher's feedback (`tilbakemelding-prd.en.md` sections 4.1–4.5 and the "must be settled" list in section 6) before UX, architecture and epics (løst 2026-11-18: [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md))
+- [ ] 2026-11-18 [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md) — at the 2026-11-30 checkpoint: draw the cut line from the ranked table and set the freeze date
+- [ ] 2026-11-18 [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md) — epics and stories: make the first stories a thin end-to-end slice through the spine (PRD Release Stages)
