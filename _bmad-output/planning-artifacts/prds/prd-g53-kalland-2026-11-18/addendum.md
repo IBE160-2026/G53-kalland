@@ -22,6 +22,12 @@ This run answers the [teacher's feedback](../prd-g53-kalland-2026-11-04/tilbakem
 
 **Split IDs.** FR-10 → FR-10a (identical files) and FR-10b (matching filenames). FR-16 → FR-16a (AI failure) and FR-16b (retry). FR-19 → FR-19a (draft and publish) and FR-19b (publishing a batch). FR-38 → FR-38a (dashboard) and FR-38b (activity list). FR-42 → FR-42a (action log) and FR-42b (its per-user view). NFR-2 → NFR-2a (security) and NFR-2b (login delay). NFR-5 → NFR-5a (accessibility) and NFR-5b (WCAG 2.2). All other IDs are unchanged.
 
+## Changes from the UX design (2026-11-18)
+
+| Change | Why | Where |
+|---|---|---|
+| Library images are edited with Edit → Save changes, with a prompt on unsaved changes; upload drafts keep autosave | The user wants an extra step before changing an image that may be published, and no silent saves | FR-17, FR-18, [UX spines](../../ux-designs/ux-g53-kalland-2026-11-18/EXPERIENCE.md) |
+
 ## Hours budget
 
 Set on 2026-11-18. The user has about 130 hours left until the final deadline, 2026-12-15, for everything. The split below is the agent's estimate, accepted by the user. The per-FR estimates are in the PRD's priority table.
@@ -117,6 +123,7 @@ The last row is why RG-10 asks for a bulk import. Concurrent calls or the Batch 
 | Licence types included for free for a given client | Room for a client–licence-type relation; not built in v1 |
 | Display currencies chosen by the agency and each client | Every price and licence stores a currency code (USD in v1); licences store the price in the base currency |
 | Private batches | Batches are records with an owner, even though all drafts are shared in v1 |
+| Staff marking a client as owner of a public image (from the UX design) | A licence records how it came about (purchase, free download, or granted by staff) and may have no contact, so a staff-granted 0 USD licence can be added later without a migration; the access table already treats licence holders as owners |
 | Everything else in the brief addendum's accommodation table, such as the asset table not being named "image" | Still holds |
 | Client map search | Coordinates and place names stay on every image, and the client location rule sits in one place (NFR-9). A later version adds its own control for which images show on the map, so nothing becomes visible just because the map shipped. Client copies stay free of location data even then, as the user confirmed on 2026-11-04 (D-011). |
 
