@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Folders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="vendor/ds-index.css">
+<link rel="stylesheet" href="vendor/ds-theme.css">
+<style>
+/* ==========================================================================
+   Direction 06: Client-centric
+   Theme overrides on top of Designsystemet 1.23.0 (light only).
+
+   Hex values
+     accent  (plum)          #6D2B5E  primary actions, selection, links
+     brand1  (folder ochre)  #8A5F0E  draft projects
+     brand2  (ink slate)     #2E4A6B  internal-only images
+     neutral (warm graphite) #2A2623  text; sidebar #F6F4F2
+   Client swatches are data, not theme: Fjordkaffe #7B4B2A, Nordlys Sykkel #136F6B,
+     Gammel Kunde #8A8580 (inactive), Agency internal #4A4F6B.
+   Border radius: 8px base (folder-like, medium)
+   Font: Instrument Sans
+
+   Equivalent designsystemet.config.json
+   {
+     "outDir": "./design-tokens-build",
+     "themes": {
+       "client-folders": {
+         "colors": {
+           "accent":  "#6D2B5E",
+           "brand1":  "#8A5F0E",
+           "brand2":  "#2E4A6B",
+           "neutral": "#2A2623"
+         },
+         "borderRadius": 8,
+         "typography": { "fontFamily": "Instrument Sans" }
+       }
+     }
+   }
+   ========================================================================== */
+:root {
+  --ds-font-family: "Instrument Sans", system-ui, sans-serif;
+  --ds-border-radius-base: 0.5rem;
+  --ds-border-radius-scale: 0.25rem;
+
+  /* accent: plum */
+  --ds-color-accent-background-default: #ffffff;
+  --ds-color-accent-background-tinted: #f8f1f6;
+  --ds-color-accent-surface-default: #ffffff;
+  --ds-color-accent-surface-tinted: #f1e3ed;
+  --ds-color-accent-surface-hover: #e7d0e0;
+  --ds-color-accent-surface-active: #dbbbd2;
+  --ds-color-accent-border-subtle: #cda2c1;
+  --ds-color-accent-border-default: #9a538a;
+  --ds-color-accent-border-strong: #7a3a6b;
+  --ds-color-accent-text-subtle: #7a3a6b;
+  --ds-color-accent-text-default: #3a1231;
+  --ds-color-accent-base-default: #6d2b5e;
+  --ds-color-accent-base-hover: #58224c;
+  --ds-color-accent-base-active: #441a3b;
+  --ds-color-accent-base-contrast-subtle: #f3e6ef;
+  --ds-color-accent-base-contrast-default: #ffffff;
+
+  /* brand1: folder ochre (drafts) */
+  --ds-color-brand1-background-tinted: #faf5ea;
+  --ds-color-brand1-surface-tinted: #f4e9d0;
+  --ds-color-brand1-surface-hover: #ecdbb5;
+  --ds-color-brand1-surface-active: #e2cc98;
+  --ds-color-brand1-border-subtle: #d4b77a;
+  --ds-color-brand1-border-default: #a67a1e;
+  --ds-color-brand1-border-strong: #7a540b;
+  --ds-color-brand1-text-subtle: #7a540b;
+  --ds-color-brand1-text-default: #3a2805;
+  --ds-color-brand1-base-default: #8a5f0e;
+  --ds-color-brand1-base-hover: #734f0b;
+  --ds-color-brand1-base-active: #5d4009;
+  --ds-color-brand1-base-contrast-default: #ffffff;
+
+  /* brand2: ink slate (internal) */
+  --ds-color-brand2-background-tinted: #f0f3f7;
+  --ds-color-brand2-surface-tinted: #e1e7ef;
+  --ds-color-brand2-surface-hover: #cfd9e5;
+  --ds-color-brand2-surface-active: #bccada;
+  --ds-color-brand2-border-subtle: #a7b8cc;
+  --ds-color-brand2-border-default: #5a7392;
+  --ds-color-brand2-border-strong: #3a5577;
+  --ds-color-brand2-text-subtle: #3a5577;
+  --ds-color-brand2-text-default: #15243a;
+  --ds-color-brand2-base-default: #2e4a6b;
+  --ds-color-brand2-base-hover: #253d59;
+  --ds-color-brand2-base-active: #1c3047;
+  --ds-color-brand2-base-contrast-default: #ffffff;
+
+  /* neutral: warm graphite */
+  --ds-color-neutral-background-default: #ffffff;
+  --ds-color-neutral-background-tinted: #f6f4f2;
+  --ds-color-neutral-surface-default: #ffffff;
+  --ds-color-neutral-surface-tinted: #ece9e6;
+  --ds-color-neutral-surface-hover: #dfdbd7;
+  --ds-color-neutral-surface-active: #d1ccc7;
+  --ds-color-neutral-border-subtle: #d3cdc7;
+  --ds-color-neutral-border-default: #7b746e;
+  --ds-color-neutral-border-strong: #5e5852;
+  --ds-color-neutral-text-subtle: #5e5852;
+  --ds-color-neutral-text-default: #2a2623;
+  --ds-color-neutral-base-default: #2a2623;
+  --ds-color-neutral-base-hover: #3c3733;
+  --ds-color-neutral-base-active: #4f4944;
+
+  --c-fjordkaffe: #7b4b2a;
+  --c-nordlys: #136f6b;
+  --c-gammel: #8a8580;
+  --c-agency: #4a4f6b;
+  --side-w: 18.5rem;
+  --gutter: clamp(1rem, 3vw, 3rem);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--ds-font-family); background: #fff; }
+a { color: inherit; }
+.icon { width: 1.15em; height: 1.15em; flex: none; vertical-align: -0.2em; }
+.muted { color: var(--ds-color-neutral-text-subtle); }
+.small { font-size: var(--ds-font-size-2); }
+
+/* ---------- Mock switcher (not part of the design) ---------- */
+.mock {
+  border-bottom: 2px dashed var(--ds-color-neutral-border-subtle);
+  background: #fbfbfa;
+  padding: var(--ds-size-4) var(--gutter);
+  display: flex; flex-wrap: wrap; gap: var(--ds-size-3) var(--ds-size-8);
+  align-items: center; justify-content: space-between;
+}
+.mock h1 { margin: 0; font-size: var(--ds-font-size-4); }
+.mock p { margin: var(--ds-size-1) 0 0; max-width: 72ch; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.mock-buttons { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.mock-buttons .ds-button[aria-pressed="true"] {
+  --dsc-button-background: var(--ds-color-neutral-base-default);
+  --dsc-button-color: #fff; --dsc-button-color--hover: #fff;
+  --dsc-button-background--hover: var(--ds-color-neutral-base-hover);
+}
+
+/* ---------- Shell ---------- */
+.screen[hidden] { display: none; }
+.app {
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "top top" "side main";
+  min-height: 100vh;
+}
+.app[data-sidebar="closed"] { grid-template-columns: 0 minmax(0, 1fr); }
+.top {
+  grid-area: top; position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-size-3) var(--ds-size-5);
+  padding: var(--ds-size-3) var(--gutter) var(--ds-size-3) var(--ds-size-4);
+  background: #fff; border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.brand { display: flex; align-items: center; gap: var(--ds-size-2); font-weight: 700; text-decoration: none; letter-spacing: -0.01em; }
+.brand-mark { width: 1.5rem; height: 1.5rem; }
+.topnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--ds-size-1); }
+.topnav a { display: block; padding: var(--ds-size-2) var(--ds-size-3); border-radius: var(--ds-border-radius-md); text-decoration: none; color: var(--ds-color-neutral-text-subtle); font-weight: 500; }
+.topnav a:hover { background: var(--ds-color-neutral-background-tinted); color: var(--ds-color-neutral-text-default); }
+.topnav a[aria-current="page"] { background: var(--ds-color-accent-surface-tinted); color: var(--ds-color-accent-text-default); }
+:is(.topnav a, .tree a, .tree summary, .tile-title a, .portal-id a):focus-visible { outline: 3px solid var(--ds-color-focus-outer); outline-offset: 2px; box-shadow: 0 0 0 2px var(--ds-color-focus-inner); }
+.top-search { flex: 1 1 16rem; max-width: 30rem; margin-inline-start: auto; }
+.top-actions { display: flex; align-items: center; gap: var(--ds-size-3); }
+
+.side {
+  grid-area: side; background: var(--ds-color-neutral-background-tinted);
+  border-right: 1px solid var(--ds-color-neutral-border-subtle);
+  padding: var(--ds-size-5) var(--ds-size-4) var(--ds-size-10);
+  position: sticky; top: 4.25rem; align-self: start; max-height: calc(100vh - 4.25rem); overflow-y: auto;
+}
+.side[hidden] { display: none; }
+.side-head { display: flex; justify-content: space-between; align-items: center; margin: 0 var(--ds-size-2) var(--ds-size-3); }
+.side-head h2 { margin: 0; font-size: var(--ds-font-size-3); }
+.side-nav { display: none; margin-bottom: var(--ds-size-6); }
+.main { grid-area: main; min-width: 0; padding: var(--ds-size-6) var(--gutter) var(--ds-size-18); }
+
+/* ---------- Client tree ---------- */
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree > li + li { margin-top: var(--ds-size-1); }
+.tree summary, .tree a {
+  display: flex; align-items: center; gap: var(--ds-size-2); text-decoration: none;
+  padding: var(--ds-size-2) var(--ds-size-2); border-radius: var(--ds-border-radius-md); cursor: pointer;
+  min-height: 2.5rem;
+}
+.tree summary { list-style: none; font-weight: 600; }
+.tree summary::-webkit-details-marker { display: none; }
+.tree summary::before {
+  content: ""; width: .45rem; height: .45rem; flex: none; margin: 0 .2rem 0 .15rem;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s;
+  color: var(--ds-color-neutral-text-subtle);
+}
+.tree details[open] > summary::before { transform: rotate(45deg); }
+.tree summary:hover, .tree a:hover { background: var(--ds-color-neutral-surface-tinted); }
+.tree ul { margin: var(--ds-size-1) 0 var(--ds-size-2) 1.15rem; padding-inline-start: var(--ds-size-3); border-inline-start: 2px solid var(--swatch, var(--ds-color-neutral-border-subtle)); }
+.tree ul a { font-weight: 400; min-height: 2.25rem; }
+.tree a[aria-current] { background: #fff; box-shadow: inset 0 0 0 1px var(--ds-color-accent-border-subtle); color: var(--ds-color-accent-text-default); font-weight: 600; }
+.tree .count { margin-inline-start: auto; font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); font-weight: 400; font-variant-numeric: tabular-nums; }
+.swatch { width: .8rem; height: .8rem; border-radius: 3px; background: var(--swatch); flex: none; }
+.inactive > details > summary { color: var(--ds-color-neutral-text-subtle); font-weight: 500; }
+.tree-sep { margin: var(--ds-size-5) var(--ds-size-2) var(--ds-size-2); font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.live-dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--ds-color-info-base-default); flex: none; box-shadow: 0 0 0 3px var(--ds-color-info-surface-tinted); }
+
+/* ---------- Client header: the folder tab ---------- */
+.folder {
+  --swatch: var(--c-fjordkaffe);
+  margin-top: var(--ds-size-5);
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--ds-size-2) var(--ds-size-6); align-items: center;
+  padding: var(--ds-size-6) var(--ds-size-6) var(--ds-size-6) var(--ds-size-8);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: 0 var(--ds-border-radius-lg) var(--ds-border-radius-lg) var(--ds-border-radius-lg);
+  position: relative; background: #fff;
+}
+.folder::before { content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 8px; background: var(--swatch); border-radius: 0 0 0 var(--ds-border-radius-lg); }
+.folder::after { content: ""; position: absolute; left: -1px; top: -0.9rem; width: 9rem; height: 0.9rem; background: var(--swatch); border-radius: var(--ds-border-radius-md) var(--ds-border-radius-md) 0 0; }
+.folder h1 { margin: 0; font-size: var(--ds-font-size-8); letter-spacing: -0.02em; line-height: 1.1; }
+.folder-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-size-2) var(--ds-size-4); }
+.folder-facts { display: flex; flex-wrap: wrap; gap: var(--ds-size-1) var(--ds-size-6); margin: var(--ds-size-2) 0 0; padding: 0; font-size: var(--ds-font-size-2); }
+.folder-facts div { display: flex; gap: var(--ds-size-2); }
+.folder-facts dt { color: var(--ds-color-neutral-text-subtle); }
+.folder-facts dd { margin: 0; }
+.folder-side { display: grid; gap: var(--ds-size-3); justify-items: end; }
+.folder-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); justify-content: end; }
+.contacts { display: flex; align-items: center; gap: var(--ds-size-2); font-size: var(--ds-font-size-2); }
+.contacts .ds-avatar-stack { --dsc-avatar-stack-size: var(--ds-size-8); }
+
+/* ---------- Toolbar ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: var(--ds-size-4); align-items: end; margin: var(--ds-size-6) 0 var(--ds-size-3); }
+.toolbar .grow { flex: 1 1 18rem; max-width: 30rem; }
+.filterrow { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); align-items: center; }
+.filterrow + .filterrow { margin-top: var(--ds-size-2); }
+
+/* ---------- Project shelves ---------- */
+.project { margin-top: var(--ds-size-12); }
+.project-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--ds-size-3) var(--ds-size-6); padding-bottom: var(--ds-size-3); border-bottom: 1px solid var(--ds-color-neutral-border-subtle); margin-bottom: var(--ds-size-5); }
+.project-head h2 { margin: 0; font-size: var(--ds-font-size-6); letter-spacing: -0.01em; }
+.project-head p { margin: var(--ds-size-1) 0 0; }
+.project-state { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); margin-top: var(--ds-size-3); }
+.project-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+
+/* justified rows: tiles keep their aspect ratio, rows share a height */
+.shelf { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--ds-size-6) var(--ds-size-4); }
+.shelf::after { content: ""; flex-grow: 999; }
+.tile { flex: calc(var(--ar) * 10) 1 calc(var(--ar) * 11rem); max-width: 100%; position: relative; min-width: 0; }
+.tile .ph { aspect-ratio: var(--ar); }
+.tile-title { margin: var(--ds-size-3) 0 0; font-size: var(--ds-font-size-3); font-weight: 600; line-height: 1.3; }
+.tile-title a { text-decoration: none; }
+.tile-title a::after { content: ""; position: absolute; inset: 0; }
+.tile-title a:hover { text-decoration: underline; }
+.tile-meta { display: flex; flex-wrap: wrap; gap: var(--ds-size-1) var(--ds-size-4); margin-top: var(--ds-size-1); font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); align-items: center; }
+.tile-state { position: absolute; top: var(--ds-size-2); left: var(--ds-size-2); display: flex; gap: var(--ds-size-1); }
+.tile-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: var(--ds-size-2); margin-top: var(--ds-size-2); }
+.tile-msg { margin: var(--ds-size-2) 0 0; font-size: var(--ds-font-size-2); color: var(--ds-color-danger-text-default); line-height: 1.45; }
+.tile--failed .ph { outline: 2px solid var(--ds-color-danger-border-default); outline-offset: 2px; }
+
+/* visibility x price */
+.vis { display: inline-flex; align-items: center; gap: var(--ds-size-1); }
+.dots { display: inline-flex; }
+.dots i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--swatch); border: 2px solid #fff; display: block; }
+.dots i + i { margin-inline-start: -0.3rem; }
+.paid { color: var(--ds-color-neutral-text-default); font-weight: 600; }
+
+.empty-project { display: grid; gap: var(--ds-size-3); justify-items: start; padding: var(--ds-size-8); border: 1px dashed var(--ds-color-neutral-border-default); border-radius: var(--ds-border-radius-lg); background: var(--ds-color-neutral-background-tinted); }
+.empty-project p { margin: 0; max-width: 60ch; }
+
+/* ---------- Placeholder photographs ---------- */
+.ph { position: relative; display: block; width: 100%; background-color: #9aa5ad; background-repeat: no-repeat; border-radius: var(--ds-border-radius-md); overflow: hidden; }
+.ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.2)); border-radius: inherit; pointer-events: none; }
+.ph-latte { background:
+  radial-gradient(circle at 50% 50%, #f4e6d2 0 11%, #c9996a 12% 20%, #f2e3cf 21% 23%, #7a4a2a 24% 30%, #f6f0e8 31% 35%, transparent 36%),
+  repeating-linear-gradient(92deg, #5d3c28 0 18px, #4b2f1f 18px 25px, #674430 25px 40px);
+  background-color: #573825; }
+.ph-cafe { background:
+  linear-gradient(90deg, transparent 0 8%, #fbe6bf 8% 30%, transparent 30% 38%, #fae0b0 38% 60%, transparent 60% 68%, #f7d9a4 68% 90%, transparent 90%) 0 12% / 100% 42% no-repeat,
+  linear-gradient(180deg, transparent 0 70%, #3a2619 70% 73%, transparent 73%),
+  linear-gradient(180deg, #7a553b, #2f2018);
+  background-color: #5a3e2b; }
+.ph-barista { background:
+  radial-gradient(circle at 18% 26%, rgba(255,214,150,.75) 0 5%, transparent 6%),
+  radial-gradient(circle at 82% 18%, rgba(255,226,170,.6) 0 7%, transparent 8%),
+  radial-gradient(circle at 74% 44%, rgba(255,200,130,.5) 0 4%, transparent 5%),
+  radial-gradient(ellipse 22% 40% at 50% 82%, #2b1d16 0 97%, transparent 100%),
+  radial-gradient(circle at 50% 36%, #3a2a20 0 11%, transparent 12%),
+  linear-gradient(180deg, #8a5d3e, #3a261b);
+  background-color: #6b4730; }
+.ph-beans { background: repeating-radial-gradient(circle at 30% 40%, #3b2416 0 6px, #5a3820 6px 9px, #2a190f 9px 14px); background-color: #3b2416; }
+.ph-kraft { background:
+  linear-gradient(#f6f0e5, #f6f0e5) 50% 56% / 42% 30% no-repeat,
+  linear-gradient(115deg, #caa77a 0 48%, #b58f62 48% 52%, #d5b58b 52%);
+  background-color: #c9a679; }
+.ph-pour { background:
+  linear-gradient(90deg, transparent 0 47%, rgba(92,56,30,.9) 47% 53%, transparent 53%) 0 0 / 100% 55% no-repeat,
+  radial-gradient(ellipse 34% 16% at 50% 70%, #f0ebe4 0 60%, #c9c2b9 62% 70%, transparent 72%),
+  linear-gradient(180deg, #d9d4cd, #9e968c);
+  background-color: #c4bdb4; }
+.ph-terrace { background:
+  linear-gradient(180deg, #cfe0ea 0 38%, transparent 38%),
+  repeating-linear-gradient(90deg, #e9e2d6 0 26px, #d24b3c 26px 30px, #e9e2d6 30px 56px) 0 38% / 100% 16% no-repeat,
+  radial-gradient(circle at 30% 78%, #f6f2ec 0 7%, transparent 8%),
+  radial-gradient(circle at 66% 82%, #f6f2ec 0 7%, transparent 8%),
+  linear-gradient(180deg, #8a7f73, #5b5148);
+  background-color: #8a7f73; }
+.ph-snowcity { background:
+  linear-gradient(180deg, #edf1f4, #cfd8de) 0 0 / 100% 30% no-repeat,
+  repeating-linear-gradient(100deg, #f6f8f9 0 10px, #7b8792 10px 12px, #dfe5e9 12px 22px, #56616b 22px 24px, #eef2f4 24px 33px) 0 30% / 100% 38% no-repeat,
+  linear-gradient(180deg, #415668, #22313d) 0 100% / 100% 33% no-repeat;
+  background-color: #cfd8de; }
+.ph-dusk { background:
+  repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,214,140,.85) 18px 20px, transparent 20px 34px) 0 52% / 100% 10% no-repeat,
+  linear-gradient(180deg, #33415e 0%, #8c6f8f 38%, #e2a77c 50%, #2a3346 52%, #141c2b 100%);
+  background-color: #33415e; }
+.ph-fjord { background:
+  linear-gradient(140deg, transparent 0 46%, #4a6656 46%) 0 34% / 58% 42% no-repeat,
+  linear-gradient(220deg, transparent 0 44%, #364e40 44%) 100% 30% / 62% 46% no-repeat,
+  linear-gradient(180deg, #e4ecef, #c8d6dc) 0 0 / 100% 60% no-repeat,
+  linear-gradient(180deg, #8fb3bd, #3b5f68);
+  background-color: #6d8f97; }
+.ph-cyclist { background:
+  radial-gradient(circle at 62% 64%, #1b1f24 0 1.4%, transparent 1.6%),
+  linear-gradient(162deg, transparent 0 62%, #f2f4f5 62% 66%, #6b7077 66% 76%, #f2f4f5 76% 80%, transparent 80%),
+  linear-gradient(180deg, #f6c7a0, #e9a07c 40%, #7d8fa0 41%, #3e566a);
+  background-color: #e6ecef; }
+.ph-loading { background: var(--ds-color-neutral-surface-tinted); }
+
+/* ---------- Upload screen ---------- */
+.context { display: flex; gap: var(--ds-size-3); align-items: center; padding: var(--ds-size-3) var(--ds-size-4); border-radius: var(--ds-border-radius-md); background: var(--ds-color-neutral-background-tinted); margin-top: var(--ds-size-4); }
+.context .swatch { width: 1rem; height: 1rem; }
+.context p { margin: 0; }
+.upload-layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: var(--ds-size-10); margin-top: var(--ds-size-8); align-items: start; }
+.settings-card { position: sticky; top: 5.5rem; }
+.settings-card .ds-fieldset { border: 0; margin: 0; padding: 0; }
+.settings-stack { display: grid; gap: var(--ds-size-5); margin-top: var(--ds-size-4); }
+.chiprow { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.uplist { list-style: none; margin: var(--ds-size-6) 0 0; padding: 0; display: grid; gap: var(--ds-size-2); }
+.up {
+  display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto; gap: var(--ds-size-2) var(--ds-size-4); align-items: center;
+  padding: var(--ds-size-3); border-radius: var(--ds-border-radius-md); background: #fff; border: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.up .ph, .up .ph-slot { width: 4rem; height: 3rem; }
+.ph-slot { border-radius: var(--ds-border-radius-md); background: var(--ds-color-neutral-surface-tinted); display: grid; place-items: center; color: var(--ds-color-neutral-text-subtle); }
+.up-name { font-weight: 600; overflow-wrap: anywhere; }
+.up-sub { font-size: var(--ds-font-size-2); color: var(--ds-color-neutral-text-subtle); }
+.up-extra { grid-column: 2 / -1; display: grid; gap: var(--ds-size-3); }
+.up--warn { border-color: var(--ds-color-warning-border-default); background: var(--ds-color-warning-background-tinted); }
+.up--bad { border-color: var(--ds-color-danger-border-subtle); }
+.bar { height: 4px; border-radius: 2px; background: var(--ds-color-info-surface-tinted); overflow: hidden; grid-column: 2 / -1; }
+.bar span { display: block; height: 100%; background: var(--ds-color-info-base-default); }
+.side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-size-4); }
+.side-by-side figure { margin: 0; }
+.side-by-side figcaption { margin-top: var(--ds-size-2); font-size: var(--ds-font-size-2); }
+.side-by-side figcaption b { display: block; }
+.row-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-3); align-items: center; }
+
+.sheet-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--ds-size-3); margin-top: var(--ds-size-12); }
+.sheet-head h2 { margin: 0; }
+.sheet { list-style: none; margin: var(--ds-size-4) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); gap: var(--ds-size-3); }
+.sheet button { all: unset; display: block; width: 100%; cursor: pointer; border-radius: var(--ds-border-radius-md); position: relative; }
+.sheet button:focus-visible { outline: 3px solid var(--ds-color-focus-outer); outline-offset: 2px; }
+.sheet .ph { aspect-ratio: 4 / 3; }
+.sheet button[aria-pressed="true"] .ph { outline: 3px solid var(--ds-color-accent-base-default); outline-offset: 2px; }
+.sheet .mark { position: absolute; right: 4px; bottom: 4px; width: .75rem; height: .75rem; border-radius: 50%; border: 2px solid #fff; z-index: 1; }
+.editor { margin-top: var(--ds-size-6); }
+.editor-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--ds-size-8); }
+.editor-fields { display: grid; gap: var(--ds-size-5); }
+.editor-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--ds-size-2); align-items: center; margin-bottom: var(--ds-size-5); }
+.editor-head h3 { margin: 0; }
+.saved { color: var(--ds-color-success-text-subtle); font-size: var(--ds-font-size-2); display: inline-flex; gap: var(--ds-size-1); align-items: center; }
+.kwlist { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.kwcat { color: var(--ds-color-neutral-text-subtle); font-weight: 400; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: var(--ds-size-2) var(--ds-size-4); margin: var(--ds-size-4) 0 0; font-size: var(--ds-font-size-2); }
+.facts dt { color: var(--ds-color-neutral-text-subtle); }
+.facts dd { margin: 0; }
+.staff-note { font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); font-weight: 400; }
+
+/* ---------- Client portal ---------- */
+.portal-id { display: flex; align-items: center; gap: var(--ds-size-3); }
+.portal-id a { text-decoration: none; display: flex; align-items: center; gap: var(--ds-size-3); }
+.portal-id strong { display: block; font-size: var(--ds-font-size-4); line-height: 1.1; }
+.portal-id span.by { display: block; font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); }
+.own {
+  position: absolute; top: var(--ds-size-2); left: var(--ds-size-2); z-index: 1;
+  display: inline-flex; align-items: center; gap: var(--ds-size-1);
+  padding: 2px var(--ds-size-2) 2px 2px; border-radius: 999px; background: #fff;
+  color: var(--ds-color-success-text-subtle); font-size: var(--ds-font-size-2); font-weight: 600;
+  box-shadow: 0 0 0 1px var(--ds-color-success-border-subtle);
+}
+.own svg { width: 1.35rem; height: 1.35rem; padding: 3px; border-radius: 50%; background: var(--ds-color-success-base-default); color: #fff; }
+.price-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--ds-size-2); margin-top: var(--ds-size-2); position: relative; z-index: 1; }
+.terms { margin: var(--ds-size-1) 0 0; font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); position: relative; z-index: 1; }
+.cartbar {
+  position: sticky; bottom: var(--ds-size-4); z-index: 10; margin-top: var(--ds-size-10);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ds-size-3) var(--ds-size-6);
+  padding: var(--ds-size-4) var(--ds-size-5); background: #fff; border: 1px solid var(--ds-color-accent-border-subtle);
+  border-radius: var(--ds-border-radius-lg); box-shadow: var(--ds-shadow-md);
+}
+.cartbar-items { display: flex; align-items: center; gap: var(--ds-size-3); }
+.cartbar-items .ph { width: 3rem; height: 2.25rem; }
+.cartbar p { margin: 0; }
+.cartbar-actions { display: flex; flex-wrap: wrap; gap: var(--ds-size-2); }
+.people { list-style: none; margin: 0; padding: 0 var(--ds-size-2); display: grid; gap: var(--ds-size-3); font-size: var(--ds-font-size-2); }
+.people li { display: flex; align-items: center; gap: var(--ds-size-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .upload-layout { grid-template-columns: minmax(0, 1fr); }
+  .settings-card { position: static; }
+  .folder { grid-template-columns: auto minmax(0, 1fr); }
+  .folder-side { grid-column: 1 / -1; justify-items: start; }
+  .folder-actions { justify-content: start; }
+}
+@media (max-width: 900px) {
+  .app, .app[data-sidebar="closed"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "main"; }
+  .side { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(20rem, 88vw); max-height: none; box-shadow: var(--ds-shadow-xl); grid-area: auto; }
+  .side-nav { display: block; }
+  .topnav { display: none; }
+  .editor-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .top-search { order: 10; flex-basis: 100%; max-width: none; }
+  .top .wide-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .folder { grid-template-columns: minmax(0, 1fr); padding: var(--ds-size-5) var(--ds-size-4) var(--ds-size-5) var(--ds-size-6); }
+  .folder .ds-avatar { display: none; }
+  .folder h1 { font-size: var(--ds-font-size-7); }
+  .side-by-side { grid-template-columns: 1fr; }
+  .up { grid-template-columns: 3rem minmax(0, 1fr); }
+  .up .ph, .up .ph-slot { width: 3rem; height: 2.25rem; }
+  .up > .ds-tag { grid-column: 2; justify-self: start; }
+  .facts { grid-template-columns: 1fr; }
+  .cartbar-items .ph { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-side" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L20.5 7H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.4" fill="currentColor"/><circle cx="17" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 32 32"><path d="M4 9a3 3 0 0 1 3-3h6l3 3h9a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V9Z" fill="#6d2b5e"/><path d="M4 13h24" stroke="#fff" stroke-width="2"/></symbol>
+</svg>
+
+<!-- ===================== MOCK SWITCHER (not part of the design) ===================== -->
+<header class="mock" aria-label="Design direction switcher">
+  <div>
+    <h1>Direction 06: Client-centric</h1>
+    <p>Every image lives under someone. The sidebar is a client tree (client, then project), the library opens inside a client’s folder, and uploads start from a client so visibility defaults follow. Clients get the same idea turned around: the portal is Fjordkaffe’s own folder, with the agency’s wider catalogue beside it.</p>
+  </div>
+  <div class="mock-buttons" role="group" aria-label="Screens">
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-library" aria-pressed="true">Staff: Library</button>
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-upload" aria-pressed="false">Staff: Upload</button>
+    <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-show="screen-client" aria-pressed="false">Client: Find images</button>
+  </div>
+</header>
+
+<!-- ===================== SCREEN 1: STAFF LIBRARY ===================== -->
+<section class="screen" id="screen-library" aria-label="Staff library">
+<div class="app">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-lib" aria-expanded="true" aria-label="Client tree"><svg class="icon" aria-hidden="true"><use href="#i-side"/></svg></button>
+    <a class="brand" href="#"><svg class="brand-mark" aria-hidden="true"><use href="#i-mark"/></svg>CRM-DAM</a>
+    <nav class="topnav" aria-label="Main">
+      <ul>
+        <li><a href="#" aria-current="page" data-goto="screen-library">Library</a></li>
+        <li><a href="#" data-goto="screen-upload">Upload</a></li>
+        <li><a href="#">Licence log</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+    <form class="top-search" role="search" onsubmit="return false">
+      <div class="ds-search">
+        <input class="ds-input" type="search" aria-label="Search all clients" placeholder="Search all clients’ images">
+        <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="top-actions">
+      <button class="ds-button" data-variant="primary" type="button" data-goto="screen-upload"><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg><span class="wide-label">Upload</span></button>
+      <span class="ds-avatar" data-size="sm" role="img" aria-label="Ida, staff">I</span>
+    </div>
+  </header>
+
+  <aside class="side" id="side-lib" aria-label="Clients">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#" data-goto="screen-library" aria-current="page">Library</a></li>
+        <li><a class="ds-link" href="#" data-goto="screen-upload">Upload</a></li>
+        <li><a class="ds-link" href="#">Licence log</a></li>
+        <li><a class="ds-link" href="#">Settings</a></li>
+      </ul>
+    </nav>
+    <div class="side-head">
+      <h2>Clients</h2>
+      <button class="ds-button" data-variant="tertiary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>New client</button>
+    </div>
+    <nav aria-label="Client tree">
+      <ul class="tree">
+        <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>All images<span class="count">1 412</span></a></li>
+        <li style="--swatch: var(--c-fjordkaffe)">
+          <details open>
+            <summary><span class="swatch"></span>Fjordkaffe AS<span class="count">312</span></summary>
+            <ul>
+              <li><a href="#" aria-current="page">Overview<span class="count">312</span></a></li>
+              <li><a href="#"><span class="live-dot" aria-hidden="true"></span>Autumn campaign 2026<span class="count">80</span></a></li>
+              <li><a href="#">Café interiors 2025<span class="count">38</span></a></li>
+              <li><a href="#">Spring menu 2025<span class="count">64</span></a></li>
+              <li><a href="#">Packaging 2027<span class="count">12</span></a></li>
+            </ul>
+          </details>
+        </li>
+        <li style="--swatch: var(--c-nordlys)">
+          <details>
+            <summary><span class="swatch"></span>Nordlys Sykkel AS<span class="count">186</span></summary>
+            <ul>
+              <li><a href="#">Overview<span class="count">186</span></a></li>
+              <li><a href="#">Spring catalogue 2027<span class="count">36</span></a></li>
+              <li><a href="#">Coastal ride 2026<span class="count">150</span></a></li>
+            </ul>
+          </details>
+        </li>
+        <li class="inactive" style="--swatch: var(--c-gammel)">
+          <details>
+            <summary><span class="swatch"></span>Gammel Kunde AS<span class="count">Inactive</span></summary>
+            <ul><li><a href="#">Overview<span class="count">40</span></a></li></ul>
+          </details>
+        </li>
+      </ul>
+      <p class="tree-sep">Not tied to one client</p>
+      <ul class="tree">
+        <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Open to all clients<span class="count">220</span></a></li>
+        <li style="--swatch: var(--c-agency)">
+          <details>
+            <summary><span class="swatch"></span>Agency internal<span class="count">654</span></summary>
+            <ul>
+              <li><a href="#">Portfolio<span class="count">410</span></a></li>
+              <li><a href="#">Office and team<span class="count">244</span></a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <nav class="ds-breadcrumbs" aria-label="You are here">
+      <ol>
+        <li><a class="ds-link" href="#">Library</a></li>
+        <li><a class="ds-link" href="#" aria-current="page">Fjordkaffe AS</a></li>
+      </ol>
+    </nav>
+
+    <header class="folder">
+      <span class="ds-avatar" data-size="lg" role="img" aria-label="Fjordkaffe AS" data-variant="square" style="--dsc-avatar-background: var(--c-fjordkaffe)">FK</span>
+      <div>
+        <div class="folder-title">
+          <h1>Fjordkaffe AS</h1>
+          <span class="ds-tag" data-color="success" data-size="sm">Active</span>
+        </div>
+        <dl class="folder-facts">
+          <div><dt>Org. no.</dt><dd>923 456 781</dd></div>
+          <div><dt>Account manager</dt><dd>Ida</dd></div>
+          <div><dt>Licences</dt><dd>47 active</dd></div>
+          <div><dt>Billing</dt><dd>faktura@fjordkaffe.no</dd></div>
+        </dl>
+      </div>
+      <div class="folder-side">
+        <div class="folder-actions">
+          <button class="ds-button" data-variant="primary" type="button" data-goto="screen-upload"><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg>Upload for Fjordkaffe</button>
+          <button class="ds-button" data-variant="secondary" type="button">Edit client</button>
+        </div>
+        <div class="contacts">
+          <ul class="ds-avatar-stack" aria-label="Contacts">
+            <li><span class="ds-avatar" role="img" aria-label="Jonas Eide" style="--dsc-avatar-background: var(--c-fjordkaffe)">JE</span></li>
+            <li><span class="ds-avatar" role="img" aria-label="Lene Strand" style="--dsc-avatar-background: #a0714f">LS</span></li>
+          </ul>
+          <a class="ds-link" href="#">2 contacts</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="ds-tabs" style="margin-top:var(--ds-size-6)">
+      <div role="tablist" aria-label="Fjordkaffe AS">
+        <button role="tab" type="button" aria-selected="true">Images (312)</button>
+        <button role="tab" type="button" aria-selected="false">Contacts (2)</button>
+        <button role="tab" type="button" aria-selected="false">Licences (47)</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="grow">
+        <div class="ds-field">
+          <label class="ds-label" for="q-fk">Search in Fjordkaffe AS</label>
+          <div class="ds-search">
+            <input class="ds-input" id="q-fk" type="search" placeholder="Title, keyword or place">
+            <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+          </div>
+        </div>
+      </div>
+      <fieldset class="ds-toggle-group" data-variant="secondary" aria-label="Arrange">
+        <label class="ds-button"><input type="radio" name="arr" checked>By project</label>
+        <label class="ds-button"><input type="radio" name="arr">Newest first</label>
+      </fieldset>
+    </div>
+    <div class="filterrow" role="group" aria-label="Visibility">
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Fjordkaffe only</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Shared with other clients</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Open to all</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox">Internal only</label>
+    </div>
+    <div class="filterrow" role="group" aria-label="Price and status">
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Free</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Paid</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Draft</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Published</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox">Archived</label>
+      <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">More filters</button>
+    </div>
+
+    <!-- Project: draft batch in progress -->
+    <section class="project" aria-labelledby="p-autumn">
+      <div class="project-head">
+        <div>
+          <h2 id="p-autumn">Autumn campaign 2026</h2>
+          <p class="muted small">Draft batch by Ida, 80 images from Sara Haugen’s shoot, 14 October 2026</p>
+          <div class="project-state" aria-label="Processing states">
+            <span class="ds-tag" data-color="info" data-size="sm">3 uploading</span>
+            <span class="ds-tag" data-color="neutral" data-size="sm">12 queued</span>
+            <span class="ds-tag" data-color="accent" data-size="sm">4 generating</span>
+            <span class="ds-tag" data-color="success" data-size="sm">57 ready</span>
+            <span class="ds-tag" data-color="danger" data-size="sm">3 failed</span>
+            <span class="ds-tag" data-color="danger" data-variant="outline" data-size="sm">1 rejected</span>
+          </div>
+        </div>
+        <div class="project-actions">
+          <button class="ds-button" data-variant="secondary" type="button" data-goto="screen-upload">Review drafts</button>
+          <button class="ds-button" data-variant="primary" type="button">Publish 41 reviewed</button>
+        </div>
+      </div>
+      <ul class="shelf">
+        <li class="tile" style="--ar: 1.5">
+          <div class="ph ph-loading" role="img" aria-label="C0930_1502.jpg, still uploading"></div>
+          <div class="tile-state"><span class="ds-tag" data-color="info" data-size="sm">Uploading 72 %</span></div>
+          <h3 class="tile-title"><a href="#">C0930_1502.jpg</a></h3>
+          <div class="bar" role="progressbar" aria-label="Upload progress" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="margin-top:var(--ds-size-2)"><span style="width:72%"></span></div>
+        </li>
+        <li class="tile" style="--ar: 0.8">
+          <div class="ph ph-barista" role="img" aria-label="Barista behind the counter, warm lights blurred in the background"></div>
+          <div class="tile-state"><span class="ds-tag" data-color="accent" data-size="sm">Generating</span></div>
+          <h3 class="tile-title"><a href="#">C0930_1488.jpg</a></h3>
+          <div class="tile-meta"><span class="vis" style="--swatch: var(--c-fjordkaffe)"><span class="dots" aria-hidden="true"><i></i></span>Fjordkaffe only</span><span>Free</span></div>
+        </li>
+        <li class="tile tile--failed" style="--ar: 1.333">
+          <div class="ph ph-pour" role="img" aria-label="Coffee being poured into a white cup, seen from the side"></div>
+          <div class="tile-state"><span class="ds-tag" data-color="danger" data-size="sm">Failed</span></div>
+          <h3 class="tile-title"><a href="#">Untitled image</a></h3>
+          <p class="tile-msg">Metadata could not be generated: the AI service returned an empty answer. Fill in the fields yourself or try again.</p>
+          <div class="tile-actions"><button class="ds-button" data-variant="secondary" data-size="sm" type="button">Try again</button><button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Fill in</button></div>
+        </li>
+        <li class="tile" style="--ar: 1">
+          <div class="ph ph-latte" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+          <div class="tile-state"><span class="ds-tag" data-color="success" data-size="sm">Ready</span></div>
+          <h3 class="tile-title"><a href="#">Latte art on a dark oak table</a></h3>
+          <div class="tile-meta"><span class="vis" style="--swatch: var(--c-fjordkaffe)"><span class="dots" aria-hidden="true"><i></i></span>Fjordkaffe only</span><span>Free</span></div>
+        </li>
+        <li class="tile" style="--ar: 1.5">
+          <div class="ph ph-cafe" role="img" aria-label="Warm café interior with tall bright windows and a long wooden counter"></div>
+          <div class="tile-state"><span class="ds-tag" data-color="success" data-size="sm">Ready</span></div>
+          <h3 class="tile-title"><a href="#">Morning light in the Bryggen café</a></h3>
+          <div class="tile-meta"><span class="vis" style="--swatch: var(--c-fjordkaffe)"><span class="dots" aria-hidden="true"><i></i></span>Fjordkaffe only</span><span>Free</span></div>
+        </li>
+      </ul>
+      <p style="margin-top:var(--ds-size-5)"><a class="ds-link" href="#">Show all 80 in Autumn campaign 2026</a></p>
+    </section>
+
+    <!-- Project: published -->
+    <section class="project" aria-labelledby="p-cafe">
+      <div class="project-head">
+        <div>
+          <h2 id="p-cafe">Café interiors 2025</h2>
+          <p class="muted small">Published, 38 images by Mats Lund</p>
+        </div>
+        <div class="project-actions"><button class="ds-button" data-variant="tertiary" type="button">Change visibility for all</button></div>
+      </div>
+      <ul class="shelf">
+        <li class="tile" style="--ar: 1.777">
+          <div class="ph ph-terrace" role="img" aria-label="Café terrace with red and white awning and empty white tables"></div>
+          <h3 class="tile-title"><a href="#">Terrace under a striped awning</a></h3>
+          <div class="tile-meta"><span class="vis"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Open to all</span><span class="paid">120 USD</span></div>
+        </li>
+        <li class="tile" style="--ar: 1">
+          <div class="ph ph-beans" role="img" aria-label="Close-up of dark roasted coffee beans"></div>
+          <h3 class="tile-title"><a href="#">Dark roast beans, close-up</a></h3>
+          <div class="tile-meta"><span class="vis"><span class="dots" aria-hidden="true"><i style="--swatch: var(--c-fjordkaffe)"></i><i style="--swatch: var(--c-nordlys)"></i></span>Fjordkaffe, Nordlys Sykkel</span><span class="paid">60 USD</span></div>
+        </li>
+        <li class="tile" style="--ar: 0.75">
+          <div class="ph ph-kraft" role="img" aria-label="Kraft paper coffee bag with a blank white label"></div>
+          <h3 class="tile-title"><a href="#">Kraft bag with blank label</a></h3>
+          <div class="tile-meta"><span class="vis" style="--swatch: var(--c-fjordkaffe)"><span class="dots" aria-hidden="true"><i></i></span>Fjordkaffe only</span><span>Free</span></div>
+        </li>
+        <li class="tile" style="--ar: 1.5">
+          <div class="ph ph-cafe" role="img" aria-label="Café interior in the evening with warm window light"></div>
+          <h3 class="tile-title"><a href="#">Evening service at the counter</a></h3>
+          <div class="tile-meta"><span class="vis"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>Internal only</span><span>Free</span></div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Project: empty under current filters -->
+    <section class="project" aria-labelledby="p-pack">
+      <div class="project-head">
+        <div>
+          <h2 id="p-pack">Packaging 2027</h2>
+          <p class="muted small">12 images by Sara Haugen</p>
+        </div>
+      </div>
+      <div class="empty-project">
+        <p><strong>No images in Packaging 2027 match your filters.</strong> All 12 are archived, and archived images are hidden.</p>
+        <div class="row-actions">
+          <button class="ds-button" data-variant="secondary" data-size="sm" type="button">Show archived</button>
+          <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Clear filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="project" aria-label="Older projects">
+      <details class="ds-details">
+        <summary>Spring menu 2025 (64 images, published)</summary>
+        <div>Opens the project with its images, newest first.</div>
+      </details>
+    </section>
+  </main>
+</div>
+</section>
+
+<!-- ===================== SCREEN 2: STAFF UPLOAD ===================== -->
+<section class="screen" id="screen-upload" aria-label="Staff upload" hidden>
+<div class="app">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-up" aria-expanded="true" aria-label="Client tree"><svg class="icon" aria-hidden="true"><use href="#i-side"/></svg></button>
+    <a class="brand" href="#"><svg class="brand-mark" aria-hidden="true"><use href="#i-mark"/></svg>CRM-DAM</a>
+    <nav class="topnav" aria-label="Main">
+      <ul>
+        <li><a href="#" data-goto="screen-library">Library</a></li>
+        <li><a href="#" aria-current="page" data-goto="screen-upload">Upload</a></li>
+        <li><a href="#">Licence log</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+    <form class="top-search" role="search" onsubmit="return false">
+      <div class="ds-search">
+        <input class="ds-input" type="search" aria-label="Search all clients" placeholder="Search all clients’ images">
+        <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+      </div>
+    </form>
+    <div class="top-actions"><span class="ds-avatar" data-size="sm" role="img" aria-label="Ida, staff">I</span></div>
+  </header>
+
+  <aside class="side" id="side-up" aria-label="Clients">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#" data-goto="screen-library">Library</a></li>
+        <li><a class="ds-link" href="#" data-goto="screen-upload" aria-current="page">Upload</a></li>
+        <li><a class="ds-link" href="#">Licence log</a></li>
+        <li><a class="ds-link" href="#">Settings</a></li>
+      </ul>
+    </nav>
+    <div class="side-head"><h2>Clients</h2></div>
+    <nav aria-label="Client tree">
+      <ul class="tree">
+        <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>All images<span class="count">1 412</span></a></li>
+        <li style="--swatch: var(--c-fjordkaffe)">
+          <details open>
+            <summary><span class="swatch"></span>Fjordkaffe AS<span class="count">312</span></summary>
+            <ul>
+              <li><a href="#">Overview<span class="count">312</span></a></li>
+              <li><a href="#" aria-current="page"><span class="live-dot" aria-hidden="true"></span>Autumn campaign 2026<span class="count">80</span></a></li>
+              <li><a href="#">Café interiors 2025<span class="count">38</span></a></li>
+              <li><a href="#">Spring menu 2025<span class="count">64</span></a></li>
+              <li><a href="#">Packaging 2027<span class="count">12</span></a></li>
+            </ul>
+          </details>
+        </li>
+        <li style="--swatch: var(--c-nordlys)"><details><summary><span class="swatch"></span>Nordlys Sykkel AS<span class="count">186</span></summary><ul><li><a href="#">Overview<span class="count">186</span></a></li></ul></details></li>
+        <li class="inactive" style="--swatch: var(--c-gammel)"><details><summary><span class="swatch"></span>Gammel Kunde AS<span class="count">Inactive</span></summary><ul><li><a href="#">Overview<span class="count">40</span></a></li></ul></details></li>
+      </ul>
+      <p class="tree-sep">Not tied to one client</p>
+      <ul class="tree">
+        <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Open to all clients<span class="count">220</span></a></li>
+        <li style="--swatch: var(--c-agency)"><details><summary><span class="swatch"></span>Agency internal<span class="count">654</span></summary><ul><li><a href="#">Portfolio<span class="count">410</span></a></li></ul></details></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <nav class="ds-breadcrumbs" aria-label="You are here">
+      <ol>
+        <li><a class="ds-link" href="#" data-goto="screen-library">Library</a></li>
+        <li><a class="ds-link" href="#" data-goto="screen-library">Fjordkaffe AS</a></li>
+        <li><a class="ds-link" href="#" aria-current="page">Autumn campaign 2026</a></li>
+      </ol>
+    </nav>
+    <h1 class="ds-heading" data-size="lg" style="margin:var(--ds-size-4) 0 0">Upload to Autumn campaign 2026</h1>
+    <div class="context" style="--swatch: var(--c-fjordkaffe)">
+      <span class="swatch" aria-hidden="true"></span>
+      <p>These images belong to <strong>Fjordkaffe AS</strong>. The settings start from this client. Keep this page open until uploading finishes.</p>
+    </div>
+
+    <div class="upload-layout">
+      <div>
+        <div class="ds-field">
+          <label class="ds-label" for="drop6">Add images</label>
+          <div class="ds-file-upload">
+            <p class="ds-paragraph" data-field="description">Drop images here, or choose files</p>
+            <p class="ds-paragraph" data-field="description">JPEG or PNG, up to 50 MB each</p>
+            <span class="ds-button" data-variant="secondary">Choose files</span>
+            <input id="drop6" type="file" accept="image/jpeg,image/png" multiple title="">
+          </div>
+        </div>
+
+        <ul class="uplist" aria-label="Files in this upload">
+          <li class="up">
+            <span class="ph-slot" aria-hidden="true"><svg class="icon"><use href="#i-up"/></svg></span>
+            <div><div class="up-name">C0930_1502.jpg</div><div class="up-sub">18.4 MB</div></div>
+            <span class="ds-tag" data-color="info" data-size="sm">Uploading</span>
+            <div class="bar" role="progressbar" aria-label="Upload progress for C0930_1502.jpg" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><span style="width:72%"></span></div>
+          </li>
+          <li class="up">
+            <span class="ph-slot" aria-hidden="true">…</span>
+            <div><div class="up-name">C0930_1490.jpg</div><div class="up-sub">19.7 MB, waiting for the AI</div></div>
+            <span class="ds-tag" data-color="neutral" data-size="sm">Queued</span>
+          </li>
+          <li class="up">
+            <div class="ph ph-barista" role="img" aria-label="Barista behind the counter, warm lights blurred in the background"></div>
+            <div><div class="up-name">C0930_1488.jpg</div><div class="up-sub">22.1 MB</div></div>
+            <span class="ds-tag" data-color="accent" data-size="sm">Generating</span>
+          </li>
+          <li class="up up--bad">
+            <span class="ph-slot" aria-hidden="true">×</span>
+            <div><div class="up-name">C0930_1467.jpg</div><div class="up-sub">20.3 MB</div></div>
+            <span class="ds-tag" data-color="danger" data-variant="outline" data-size="sm">Rejected</span>
+            <div class="up-extra"><p class="small" style="margin:0">C0930_1467.jpg is already in the library. <a class="ds-link" href="#">Open the existing image</a></p></div>
+          </li>
+          <li class="up">
+            <span class="ph-slot" aria-hidden="true">×</span>
+            <div><div class="up-name">menu-board-final.tif</div><div class="up-sub">64.0 MB</div></div>
+            <span class="ds-tag" data-color="danger" data-variant="outline" data-size="sm">Rejected</span>
+            <div class="up-extra"><p class="small" style="margin:0">menu-board-final.tif was not uploaded: it is not a JPEG or PNG image.</p></div>
+          </li>
+          <li class="up up--warn">
+            <div class="ph ph-cafe" role="img" aria-label="Warm café interior with tall bright windows"></div>
+            <div><div class="up-name">C0930_1470.jpg</div><div class="up-sub">21.0 MB</div></div>
+            <span class="ds-tag" data-color="warning" data-size="sm">Same filename</span>
+            <div class="up-extra">
+              <p class="small" style="margin:0">An image called C0930_1470.jpg is already in the library. Compare them and choose.</p>
+              <div class="side-by-side">
+                <figure><div class="ph ph-cafe" style="aspect-ratio:3/2" role="img" aria-label="New file: café interior with three tall windows"></div><figcaption><b>New file</b><span class="muted">Taken 14 Oct 2026</span></figcaption></figure>
+                <figure><div class="ph ph-terrace" style="aspect-ratio:3/2" role="img" aria-label="Already in library: café terrace under a striped awning"></div><figcaption><b>Already in library</b><span class="muted">Café interiors 2025, Mats Lund</span></figcaption></figure>
+              </div>
+              <div class="row-actions">
+                <button class="ds-button" data-variant="secondary" data-size="sm" type="button">Keep both</button>
+                <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Discard new file</button>
+                <div class="ds-field"><input class="ds-input" type="checkbox" id="all6"><label class="ds-label" data-weight="regular" for="all6">Same answer for the other 3 matches</label></div>
+              </div>
+            </div>
+          </li>
+          <li class="up up--bad">
+            <div class="ph ph-pour" role="img" aria-label="Coffee being poured into a white cup"></div>
+            <div><div class="up-name">C0930_1477.jpg</div><div class="up-sub">23.4 MB</div></div>
+            <span class="ds-tag" data-color="danger" data-size="sm">Failed</span>
+            <div class="up-extra">
+              <p class="small" style="margin:0;color:var(--ds-color-danger-text-default)">Metadata could not be generated: the AI service returned an empty answer. Fill in the fields yourself or try again.</p>
+              <div class="row-actions"><button class="ds-button" data-variant="secondary" data-size="sm" type="button">Try again</button><button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Try all 3 failed again</button></div>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Contact sheet + editor -->
+        <div class="sheet-head">
+          <div>
+            <h2 class="ds-heading" data-size="sm">Check the AI metadata</h2>
+            <p class="muted small" style="margin:var(--ds-size-1) 0 0">57 ready. Pick an image; changes save as you type.</p>
+          </div>
+          <fieldset class="ds-toggle-group" data-variant="secondary" data-size="sm" aria-label="Show">
+            <label class="ds-button"><input type="radio" name="sh" checked>Not reviewed (16)</label>
+            <label class="ds-button"><input type="radio" name="sh">All (57)</label>
+          </fieldset>
+        </div>
+        <ul class="sheet" aria-label="Ready images">
+          <li><button type="button" aria-pressed="true" aria-label="C0930_1461.jpg, selected"><div class="ph ph-latte" aria-hidden="true"></div></button></li>
+          <li><button type="button" aria-pressed="false" aria-label="C0930_1462.jpg"><div class="ph ph-cafe" aria-hidden="true"></div></button></li>
+          <li><button type="button" aria-pressed="false" aria-label="C0930_1463.jpg"><div class="ph ph-beans" aria-hidden="true"></div></button></li>
+          <li><button type="button" aria-pressed="false" aria-label="C0930_1464.jpg"><div class="ph ph-kraft" aria-hidden="true"></div></button></li>
+          <li><button type="button" aria-pressed="false" aria-label="C0930_1465.jpg"><div class="ph ph-terrace" aria-hidden="true"></div></button></li>
+          <li><button type="button" aria-pressed="false" aria-label="C0930_1466.jpg"><div class="ph ph-pour" aria-hidden="true"></div></button></li>
+        </ul>
+
+        <section class="editor ds-card" data-color="neutral" aria-labelledby="ed-h">
+          <div class="editor-head">
+            <h3 id="ed-h" class="ds-heading" data-size="xs">C0930_1461.jpg</h3>
+            <span class="saved" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Saved</span>
+          </div>
+          <div class="editor-grid">
+            <div>
+              <div class="ph ph-latte" style="aspect-ratio:4/3" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+              <dl class="facts">
+                <dt>Date taken</dt><dd>14 Oct 2026, 09:12</dd>
+                <dt>Camera</dt><dd>Sony A7 IV, FE 35mm F1.4 GM, 1/125 s, f/2.0, ISO 800</dd>
+                <dt>Place <span class="staff-note">staff only</span></dt><dd>Bryggen, Bergen, Vestland, Norway</dd>
+                <dt>Generated by <span class="staff-note">staff only</span></dt><dd>Mock provider, prompt v3</dd>
+              </dl>
+            </div>
+            <form class="editor-fields" onsubmit="return false">
+              <div class="ds-field"><label class="ds-label" for="t6">Title</label><input class="ds-input" id="t6" type="text" value="Latte art on a dark oak table"></div>
+              <div class="ds-field"><label class="ds-label" for="d6">Description</label><textarea class="ds-input" id="d6" rows="3">A flat white with a rosetta pattern in a white ceramic cup on a dark oak table at the Bryggen café. Soft daylight from the left.</textarea></div>
+              <div class="ds-field">
+                <label class="ds-label" for="a6">Alt text</label>
+                <div data-field="description">Up to 250 characters. Aim for under 150.</div>
+                <textarea class="ds-input" id="a6" rows="2">Latte with a leaf pattern in a white cup on a dark wooden café table.</textarea>
+                <div data-field="description">71 of 250 characters</div>
+              </div>
+              <fieldset class="ds-fieldset">
+                <legend class="ds-label">Keywords (11 of 15)</legend>
+                <div class="kwlist">
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">place:</span> bryggen</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">place:</span> Bergen</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">season:</span> autumn</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">emotion:</span> cosy</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">colour:</span> warm</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">activity:</span> coffee break</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">object:</span> latte</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">object:</span> cup</button>
+                  <button class="ds-chip" type="button" data-removable="true"><span class="kwcat">perspective:</span> top-down</button>
+                  <button class="ds-chip" type="button" data-removable="true">fjordkaffe</button>
+                  <button class="ds-chip" type="button" data-removable="true">autumn campaign 2026</button>
+                </div>
+                <div class="ds-field"><label class="ds-label ds-sr-only" for="k6">Add keyword</label><input class="ds-input" id="k6" type="text" placeholder="Add a keyword"></div>
+              </fieldset>
+              <div class="row-actions">
+                <button class="ds-button" data-variant="primary" type="button">Mark as reviewed</button>
+                <button class="ds-button" data-variant="secondary" type="button">Next image</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+
+      <!-- Batch settings -->
+      <aside class="settings-card ds-card" data-color="neutral" aria-labelledby="bs-h">
+        <h2 id="bs-h" class="ds-heading" data-size="xs">Batch settings</h2>
+        <form class="settings-stack" onsubmit="return false">
+          <fieldset class="ds-fieldset">
+            <legend class="ds-label">Who can see these images</legend>
+            <div class="ds-field"><input class="ds-input" type="radio" name="v6" id="v6a" checked><label class="ds-label" data-weight="regular" for="v6a">Fjordkaffe AS only</label></div>
+            <div class="ds-field"><input class="ds-input" type="radio" name="v6" id="v6b"><label class="ds-label" data-weight="regular" for="v6b">Fjordkaffe AS and other clients</label></div>
+            <div class="ds-field"><input class="ds-input" type="radio" name="v6" id="v6c"><label class="ds-label" data-weight="regular" for="v6c">All clients</label></div>
+            <div class="ds-field"><input class="ds-input" type="radio" name="v6" id="v6d"><label class="ds-label" data-weight="regular" for="v6d">Internal only</label></div>
+          </fieldset>
+          <fieldset class="ds-fieldset">
+            <legend class="ds-label">Price</legend>
+            <div class="ds-field"><input class="ds-input" type="radio" name="p6" id="p6a" checked><label class="ds-label" data-weight="regular" for="p6a">Free</label></div>
+            <div class="ds-field"><input class="ds-input" type="radio" name="p6" id="p6b"><label class="ds-label" data-weight="regular" for="p6b">Paid, standard commercial use</label></div>
+          </fieldset>
+          <fieldset class="ds-fieldset">
+            <legend class="ds-label">Metadata</legend>
+            <div class="ds-field"><input class="ds-input" type="radio" name="m6" id="m6a" checked><label class="ds-label" data-weight="regular" for="m6a">Generate with AI</label></div>
+            <div class="ds-field"><input class="ds-input" type="radio" name="m6" id="m6b"><label class="ds-label" data-weight="regular" for="m6b">Write by hand</label></div>
+            <div class="ds-field"><input class="ds-input" type="checkbox" role="switch" id="g6" checked><label class="ds-label" data-weight="regular" for="g6">AI may use place names from GPS</label></div>
+          </fieldset>
+          <div class="ds-field">
+            <label class="ds-label" for="kw6">Keywords for every image</label>
+            <input class="ds-input" id="kw6" type="text" value="fjordkaffe, autumn campaign 2026">
+          </div>
+          <div>
+            <button class="ds-button" data-variant="secondary" type="button">Apply to whole batch</button>
+            <p class="muted small" style="margin:var(--ds-size-2) 0 0">Overwrites settings on 77 drafts. You confirm first.</p>
+          </div>
+        </form>
+      </aside>
+    </div>
+  </main>
+</div>
+</section>
+
+<!-- ===================== SCREEN 3: CLIENT PORTAL ===================== -->
+<section class="screen" id="screen-client" aria-label="Client find images" hidden>
+<div class="app">
+  <header class="top">
+    <button class="ds-button" data-variant="tertiary" data-icon="true" type="button" data-sidebar-toggle aria-controls="side-cl" aria-expanded="true" aria-label="My folders"><svg class="icon" aria-hidden="true"><use href="#i-side"/></svg></button>
+    <div class="portal-id">
+      <a href="#">
+        <span class="ds-avatar" data-size="sm" data-variant="square" role="img" aria-label="Fjordkaffe AS" style="--dsc-avatar-background: var(--c-fjordkaffe)">FK</span>
+        <span><strong>Fjordkaffe AS</strong><span class="by">Image portal from the agency</span></span>
+      </a>
+    </div>
+    <nav class="topnav" aria-label="Main" style="margin-inline-start:var(--ds-size-4)">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">My images</a></li>
+        <li><a href="#" aria-current="page">Find images</a></li>
+        <li><a href="#">Licence history</a></li>
+      </ul>
+    </nav>
+    <div class="top-actions" style="margin-inline-start:auto">
+      <a class="ds-button" data-variant="secondary" href="#cartbar">
+        <span class="ds-badge--position" data-placement="top-right" data-overlap="circle"><span class="ds-badge" data-count="2" data-color="accent" data-variant="base"></span><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg></span>
+        <span class="wide-label">Cart</span><span class="ds-sr-only">, 2 images</span>
+      </a>
+      <span class="ds-avatar" data-size="sm" role="img" aria-label="Jonas Eide" style="--dsc-avatar-background: var(--c-fjordkaffe)">JE</span>
+    </div>
+  </header>
+
+  <aside class="side" id="side-cl" aria-label="Fjordkaffe AS">
+    <nav class="side-nav" aria-label="Main (small screens)">
+      <ul class="ds-list ds-list--unstyled">
+        <li><a class="ds-link" href="#">Home</a></li>
+        <li><a class="ds-link" href="#">My images</a></li>
+        <li><a class="ds-link" href="#" aria-current="page">Find images</a></li>
+        <li><a class="ds-link" href="#">Licence history</a></li>
+      </ul>
+    </nav>
+    <div class="side-head"><h2>My images</h2></div>
+    <nav aria-label="My images by project">
+      <ul class="tree" style="--swatch: var(--c-fjordkaffe)">
+        <li>
+          <details open>
+            <summary><span class="swatch"></span>Fjordkaffe AS<span class="count">64</span></summary>
+            <ul>
+              <li><a href="#">Café interiors 2025<span class="count">22</span></a></li>
+              <li><a href="#">Spring menu 2025<span class="count">36</span></a></li>
+              <li><a href="#">Bought from the catalogue<span class="count">6</span></a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+      <p class="tree-sep">From the agency</p>
+      <ul class="tree">
+        <li><a href="#" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Find images<span class="count">212</span></a></li>
+        <li><a href="#"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>New since 3 Nov<span class="count">6</span></a></li>
+      </ul>
+    </nav>
+    <p class="tree-sep" style="margin-top:var(--ds-size-8)">People at Fjordkaffe</p>
+    <ul class="people">
+      <li><span class="ds-avatar" data-size="xs" role="img" aria-hidden="true" style="--dsc-avatar-background: var(--c-fjordkaffe)">JE</span>Jonas Eide (you)</li>
+      <li><span class="ds-avatar" data-size="xs" role="img" aria-hidden="true" style="--dsc-avatar-background: #a0714f">LS</span>Lene Strand</li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <h1 class="ds-heading" data-size="lg" style="margin:var(--ds-size-2) 0 0">Find images</h1>
+    <p class="muted" style="margin:var(--ds-size-2) 0 0;max-width:62ch">Everything the agency has made available to Fjordkaffe AS. Images you already own have a green tick and can be downloaded straight away.</p>
+
+    <div class="toolbar">
+      <div class="grow">
+        <div class="ds-field">
+          <label class="ds-label" for="q-cl">Search</label>
+          <div class="ds-search">
+            <input class="ds-input" id="q-cl" type="search" value="coffee">
+            <button class="ds-button" data-variant="tertiary" type="reset" aria-label="Clear search"></button>
+          </div>
+        </div>
+      </div>
+      <div class="ds-field"><input class="ds-input" type="checkbox" role="switch" id="mine6"><label class="ds-label" data-weight="regular" for="mine6">Only my images</label></div>
+    </div>
+    <div class="filterrow" role="group" aria-label="Price">
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Free</label>
+      <label class="ds-chip"><input class="ds-input" type="checkbox" checked>Paid</label>
+      <button class="ds-button" data-variant="tertiary" data-size="sm" type="button">Date taken</button>
+    </div>
+
+    <p class="muted small" style="margin:var(--ds-size-6) 0 var(--ds-size-4)">24 images match “coffee”, newest first.</p>
+    <ul class="shelf">
+      <li class="tile" style="--ar: 1">
+        <div class="ph ph-latte" role="img" aria-label="Latte art in a white cup on a dark wooden table"></div>
+        <span class="own"><svg aria-hidden="true"><use href="#i-check"/></svg>Yours</span>
+        <h2 class="tile-title"><a href="#">Latte art on a dark oak table</a></h2>
+        <div class="price-row"><span class="muted small">Café interiors 2025</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+      </li>
+      <li class="tile" style="--ar: 1.777">
+        <div class="ph ph-terrace" role="img" aria-label="Café terrace with red and white awning and empty white tables"></div>
+        <h2 class="tile-title"><a href="#">Terrace under a striped awning</a></h2>
+        <div class="price-row"><span class="paid">120 USD</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-cart"/></svg>Add to cart</button></div>
+      </li>
+      <li class="tile" style="--ar: 0.75">
+        <div class="ph ph-kraft" role="img" aria-label="Kraft paper coffee bag with a blank white label"></div>
+        <span class="own"><svg aria-hidden="true"><use href="#i-check"/></svg>Yours</span>
+        <h2 class="tile-title"><a href="#">Kraft bag with blank label</a></h2>
+        <div class="price-row"><span class="muted small">Café interiors 2025</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+      </li>
+      <li class="tile" style="--ar: 1">
+        <div class="ph ph-beans" role="img" aria-label="Close-up of dark roasted coffee beans"></div>
+        <h2 class="tile-title"><a href="#">Dark roast beans, close-up</a></h2>
+        <div class="price-row"><span class="paid">60 USD</span><button class="ds-button" data-variant="primary" data-size="sm" type="button" disabled aria-disabled="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>In cart</button></div>
+      </li>
+      <li class="tile" style="--ar: 1.333">
+        <div class="ph ph-pour" role="img" aria-label="Coffee being poured into a white cup, seen from the side"></div>
+        <h2 class="tile-title"><a href="#">Pour-over at the counter</a></h2>
+        <div class="price-row"><span>Free</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+        <p class="terms">Downloading accepts the <a class="ds-link" href="#">licence terms</a>.</p>
+      </li>
+      <li class="tile" style="--ar: 1.5">
+        <div class="ph ph-dusk" role="img" aria-label="Bergen harbour at dusk with snow on the quays and lit windows"></div>
+        <h2 class="tile-title"><a href="#">Harbour café windows at dusk</a></h2>
+        <div class="price-row"><span class="paid">200 USD</span><button class="ds-button" data-variant="primary" data-size="sm" type="button" disabled aria-disabled="true"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>In cart</button></div>
+      </li>
+      <li class="tile" style="--ar: 0.8">
+        <div class="ph ph-barista" role="img" aria-label="Barista behind the counter, warm lights blurred in the background"></div>
+        <span class="own"><svg aria-hidden="true"><use href="#i-check"/></svg>Yours</span>
+        <h2 class="tile-title"><a href="#">Barista at the evening rush</a></h2>
+        <div class="price-row"><span class="muted small">Bought 12 Sep 2026</span><button class="ds-button" data-variant="secondary" data-size="sm" type="button"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>Download</button></div>
+      </li>
+    </ul>
+
+    <ds-pagination class="ds-pagination" aria-label="Pages" style="margin-top:var(--ds-size-10)">
+      <ul>
+        <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Previous page" disabled>Previous</button></li>
+        <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Page 1" aria-current="true">1</button></li>
+        <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Page 2">2</button></li>
+        <li><button class="ds-button" data-variant="tertiary" type="button" aria-label="Next page">Next</button></li>
+      </ul>
+    </ds-pagination>
+
+    <section class="cartbar" id="cartbar" aria-label="Cart">
+      <div class="cartbar-items">
+        <div class="ph ph-beans" role="img" aria-label="Dark roast beans, close-up"></div>
+        <div class="ph ph-dusk" role="img" aria-label="Harbour café windows at dusk"></div>
+        <p><strong>2 images in your cart</strong><br><span class="muted small">260 USD excl. VAT, standard commercial use</span></p>
+      </div>
+      <div class="cartbar-actions">
+        <a class="ds-button" data-variant="secondary" href="#">Edit cart</a>
+        <a class="ds-button" data-variant="primary" href="#">Go to checkout</a>
+      </div>
+    </section>
+  </main>
+</div>
+</section>
+
+<script>
+(function () {
+  var screens = document.querySelectorAll('.screen');
+  var switchers = document.querySelectorAll('[data-show]');
+  function show(id) {
+    screens.forEach(function (s) { s.hidden = s.id !== id; });
+    switchers.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === id)); });
+    window.scrollTo(0, 0);
+  }
+  switchers.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-show')); }); });
+  document.querySelectorAll('[data-goto]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); show(a.getAttribute('data-goto')); });
+  });
+
+  var narrow = window.matchMedia('(max-width: 900px)');
+  function setSidebar(app, open) {
+    var btn = app.querySelector('[data-sidebar-toggle]');
+    var side = document.getElementById(btn.getAttribute('aria-controls'));
+    app.setAttribute('data-sidebar', open ? 'open' : 'closed');
+    btn.setAttribute('aria-expanded', String(open));
+    side.hidden = !open;
+  }
+  document.querySelectorAll('.app').forEach(function (app) {
+    setSidebar(app, !narrow.matches);
+    app.querySelector('[data-sidebar-toggle]').addEventListener('click', function () {
+      setSidebar(app, app.getAttribute('data-sidebar') !== 'open');
+    });
+  });
+  narrow.addEventListener('change', function (e) {
+    document.querySelectorAll('.app').forEach(function (app) { setSidebar(app, !e.matches); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !narrow.matches) return;
+    document.querySelectorAll('.app[data-sidebar="open"]').forEach(function (app) {
+      setSidebar(app, false);
+      app.querySelector('[data-sidebar-toggle]').focus();
+    });
+  });
+  show('screen-library');
+})();
+</script>
+</body>
+</html>
