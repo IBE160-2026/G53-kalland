@@ -324,3 +324,23 @@ Template:
 - **Rationale:** Claude's call, explained to the user afterwards. The bundle has a shadcn-based builder that clashes with D-031 and a second `skill-creator`. Keeping the skill in the repo makes it versioned and traceable.
 - **Consequences:** The renderer subagents read the skill. Updates are manual: copy a newer version from the marketplace clone when needed.
 - **Trace:** PR #38, commit `b3bfdbd`, [session log](sessions/2026-11-18-ux-design-round-1-2.md)
+
+## D-033: Library edits are saved explicitly; upload drafts autosave
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** In UX round 2 the user rejected autosave in the Library inspector and asked for an Edit step and a Save changes button. When the spines were distilled, the subagent found that PRD FR-17 said "Edits are saved automatically".
+- **Alternatives:** Update the PRD to match the UX; keep the PRD's autosave everywhere.
+- **Decision:** An image in the Library is edited with view mode → Edit → Save changes or Cancel. Leaving with unsaved changes opens a dialog with Save changes, Discard and Keep editing. Drafts in the upload review keep autosave. The FR-18 edit lock starts when the user chooses Edit and ends on Save changes, Cancel or Discard, on leaving, or after 15 minutes idle. PRD FR-17 and FR-18 and the addendum are updated.
+- **Rationale:** The user's choice: an extra step before changing an image that may already be published, and no silent saves. Upload drafts are work in progress, where saving as you type helps.
+- **Consequences:** Two save models, by surface. Stories for FR-17 must cover both, plus the unsaved-changes dialog. SC-10 (edit locks) follows the new lock start.
+- **Trace:** PR #40, commit `c627ed3`, [session log](sessions/2026-11-18-ux-design-round-3.md), `EXPERIENCE.md` "Editing and saving"
+
+## D-034: No client ownership of public images in v1
+- **Date:** 2026-11-18
+- **Status:** Accepted
+- **Context:** The user wanted staff to link clients to public images too, so that an image can belong to one client and still be for sale to others. In the PRD, only restricted images have a client list, and a public image is "own" only through a licence.
+- **Alternatives:** A: staff grant a 0 USD licence ("Owned by"), which leaves the access table unchanged. B: a client list on public images, which changes FR-21 and access table rows A1–A3. C: leave it out of v1.
+- **Decision:** C. Nothing is added to v1. If it comes later, A is the preferred model. The PRD addendum's data-model table now says a licence records how it came about (purchase, free download or granted by staff) and may have no contact.
+- **Rationale:** The user expects very few real cases. A can be added later without changing the access rules, if the licence record allows it from the start.
+- **Consequences:** The architecture step should give the licence record a source field and allow a licence without a contact. The inspector shows the client picker for Restricted only.
+- **Trace:** PR #40, commit `c627ed3`, [session log](sessions/2026-11-18-ux-design-round-3.md), `.memlog.md`
