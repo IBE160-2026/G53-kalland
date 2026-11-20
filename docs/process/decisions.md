@@ -307,7 +307,7 @@ Template:
 
 ## D-031: Designsystemet as the UI component system
 - **Date:** 2026-11-18
-- **Status:** Open
+- **Status:** Accepted (settled by D-038: Designsystemet React)
 - **Context:** The UX work (`bmad-ux`) needed a component library to design against. The user wanted Designsystemet (Digdir, designsystemet.no) and a custom theme on top of it. `architecture/technology.md` names shadcn/ui with Tailwind.
 - **Alternatives:** Designsystemet with a custom theme; shadcn/ui as `technology.md` names it; no system.
 - **Decision:** All UX mocks are built on Designsystemet (CSS 1.23.0, since 1.24.0 was less than two weeks old). The theme will be generated with its theme builder or `designsystemet.config.json`. The stack choice in `technology.md` is settled in the architecture step.
@@ -374,3 +374,43 @@ Template:
 - **Rationale:** User's choice. A filter with one option adds no value, and a disabled control needs a reason next to it.
 - **Consequences:** No PRD change. EXPERIENCE.md (IA, Licences row) records the rule. The Licences story should not build the filter.
 - **Trace:** PR #43, [session log](sessions/2026-11-20-ux-prototype-feedback.md), UX memlog entry of 2026-11-20
+
+## D-038: Next.js full-stack TypeScript with Designsystemet React
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** The architecture step had to choose the stack. The teacher advises one common, well-documented stack with local file storage, no more complex than needed. `technology.md` (the teacher's example) uses FastAPI + Next.js + Caddy + Redis + Supabase. The user had little FastAPI experience and no preference, wanted cheap or free options, and Vercel was mentioned in class. D-031 left Designsystemet vs shadcn/ui open.
+- **Alternatives:** (A) Django 6.1 + HTMX + Designsystemet CSS and web components; (B) Next.js full-stack TypeScript + Designsystemet React; (C) FastAPI + React SPA; (D) FastAPI + HTMX.
+- **Decision:** (B). One Next.js 16 app (Node 26 LTS) with Designsystemet React, a worker process from the same code and image, and PostgreSQL. ExifTool through `exiftool-vendored`, as the metadata research recommended for Node. Vercel is not a v1 target; hosting is chosen at RG-1.
+- **Rationale:** The user's choice. Claude recommended (A), because Django has login, sessions, CSRF, translations and migrations built in. The user preferred (B) for correct-by-construction Designsystemet markup and ARIA, `exiftool-vendored`, and the many Next.js libraries and examples, and accepted building auth and access rules with them. (C) and (D) were ruled out: two codebases, or Django's built-ins lost. Vercel's 4.5 MB request limit and lack of a long-running worker do not fit 50 MB uploads or background generation.
+- **Consequences:** Auth, CSRF on route handlers, the ORM, translations and the job queue are chosen and wired by us (D-039, D-040). Designsystemet versions follow the two-week rule (1.24.0, not 1.24.1). The spine must fix where access and session checks live (D-041).
+- **Trace:** PR #45, `_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/.memlog.md`, [session log](sessions/2026-11-20-architecture-stack-and-boundaries.md)
+
+## D-039: Own small session module instead of an auth library
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** Login has exact rules: no sign-up or email, staff-issued setup links (single-use, 7 days, a new link cancels the old), status checked on every request (S1, S2), a new password ends other sessions, 8 hours idle ends a session, and messages tested word for word.
+- **Alternatives:** Better Auth (admin plugin, reset token used as setup link); an own module following the Lucia guide; Auth.js.
+- **Decision:** An own module: a sessions table, a random token in an httpOnly cookie stored hashed, argon2 password hashes, a setup-link table. Only this module touches sessions, cookies, password hashes and setup links.
+- **Rationale:** Claude's recommendation, accepted by the user. The feature set is small and exact, so a library would mostly be switched off and its default routes locked down. Auth.js pushes email-and-password login toward JWT, which cannot honour S1, S2 or "end other sessions" cleanly.
+- **Consequences:** We own the security code and test each rule. A later switch to Better Auth stays at about half a day to a day, because only the auth module and its tables change.
+- **Trace:** PR #45, [session log](sessions/2026-11-20-architecture-stack-and-boundaries.md)
+
+## D-040: Drizzle as the database layer
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** The Next.js stack (D-038) needs an ORM and migrations on PostgreSQL.
+- **Alternatives:** Drizzle; Prisma.
+- **Decision:** Drizzle (`drizzle-orm`, `drizzle-kit` migrations).
+- **Rationale:** Claude's recommendation, accepted by the user. The access rules and S5 (one active licence, as a partial unique index), `ON CONFLICT` for double submits and queue locking read most clearly close to SQL. Prisma's npm `latest` tag pointed to an 8.0 release candidate on 2026-11-20.
+- **Consequences:** One data-access style across modules; the schema lives in TypeScript.
+- **Trace:** PR #45, [session log](sessions/2026-11-20-architecture-stack-and-boundaries.md)
+
+## D-041: A modular monolith with domain modules, built in vertical slices
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** Every story follows the code organisation, and shared rules (the access table, one active licence, no location data in client copies) must exist once (NFR-2a).
+- **Alternatives:** Domain modules (modular monolith); use-case slices as code structure; technical layers (`components/`, `services/`, `repositories/`).
+- **Decision:** Domain modules in `src/modules/<domain>`, with stories delivered as vertical slices through routes and the modules they need. Five rules: routes are thin and only modules touch the database; a module's public API is its `index.ts`; one owning module per table; the `access` module alone decides what a client may see, download or buy; reads in Server Components, form changes through Server Actions, file traffic through Route Handlers that check the request origin themselves.
+- **Rationale:** Proposed by Claude and accepted by the user after asking how it differs from vertical slices. Use-case slices would repeat the shared rules; technical layers spread one feature across many folders.
+- **Consequences:** The architecture spine states these rules. The access module's exact shape is still open in the run's memlog.
+- **Trace:** PR #45, [session log](sessions/2026-11-20-architecture-stack-and-boundaries.md)
