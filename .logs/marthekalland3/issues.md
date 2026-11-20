@@ -12,7 +12,7 @@
 - [ ] 2026-10-28 [haiku-pilot](994-2026-10-28-13-24-47-haiku-pilot.md) — fill in the 1–3 scores in the scoring table in `results.md`
 - [ ] 2026-10-28 [haiku-pilot](994-2026-10-28-13-24-47-haiku-pilot.md) — test Gemini Flash (or Flash-Lite) on the same 20 pilot images, if there is time
 - [x] 2026-10-28 [haiku-pilot](994-2026-10-28-13-24-47-haiku-pilot.md) — architecture: decide whether AI metadata is generated during upload or in the background (løst 2026-10-28)
-- [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — record the metadata library choice as a decision when the stack is chosen in architecture
+- [x] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — record the metadata library choice as a decision when the stack is chosen in architecture (løst 2026-11-20: `exiftool-vendored`, D-038)
 - [x] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — PRD: "location data (coordinates and place names) stripped" instead of "GPS stripped", with the report's checklist as acceptance criteria (løst 2026-10-28)
 - [x] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test `exiftool-vendored` install and round-trip on Windows (løst 2026-11-18: no longer needed, the app and its tools run in Docker, D-027)
 - [ ] 2026-10-28 [metadata-research](994-2026-10-28-13-20-51-metadata-research.md) — test a round-trip with a real iPhone HEIC and a JPEG with an EXIF thumbnail
@@ -39,7 +39,7 @@
 - [ ] 2026-11-18 [prd-feedback-revision](987-2026-11-18-09-45-36-prd-feedback-revision.md) — epics and stories: make the first stories a thin end-to-end slice through the spine (PRD Release Stages)
 - [x] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — UX round 3 on variant 2A: no big Upload button in the library, inspector with Edit and Save changes (no autosave), fix the sidebar toggle hidden under the drawer on tablet and phone (løst 2026-11-18: [ux-design-round-3](985-2026-11-18-20-38-16-ux-design-round-3.md))
 - [x] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — UX colour-theme pass and a real Designsystemet theme (theme builder); review the orange warning colour (løst 2026-11-18: Graphite chosen in [ux-design-round-3](985-2026-11-18-20-38-16-ux-design-round-3.md); theme-builder build is a new item)
-- [ ] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — architecture: settle Designsystemet vs shadcn/ui in `technology.md` (D-031)
+- [x] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — architecture: settle Designsystemet vs shadcn/ui in `technology.md` (D-031) (løst 2026-11-20: Designsystemet React, D-038)
 - [x] 2026-11-18 [ux-design-round-1-2](986-2026-11-18-15-13-37-ux-design-round-1-2.md) — finalize bmad-ux: write DESIGN.md and EXPERIENCE.md (løst 2026-11-18: drafts written in [ux-design-round-3](985-2026-11-18-20-38-16-ux-design-round-3.md); the rest of Finalize is a new item)
 - [x] 2026-11-18 [ux-design-round-3](985-2026-11-18-20-38-16-ux-design-round-3.md) — finish bmad-ux Finalize: rubric and accessibility reviewers, triage the open questions and `[ASSUMPTION]` tags in the spines, polish, set `status: final` (løst 2026-11-20)
 - [x] 2026-11-18 [ux-design-round-3](985-2026-11-18-20-38-16-ux-design-round-3.md) — review the renderer's assumptions in `mockups/more-screens.html` (account manager, licence count per client, placeholder licence text, no order number) (løst 2026-11-20)
@@ -50,3 +50,4 @@
 - [x] 2026-11-20 [ux-finalize-prototype](984-2026-11-20-09-45-16-ux-finalize-prototype.md) — review the prototype builders' unreviewed choices (memlog assumption entry, 2026-11-20) (løst 2026-11-20: [ux-prototype-feedback](983-2026-11-20-10-55-38-ux-prototype-feedback.md))
 - [ ] 2026-11-20 [ux-finalize-prototype](984-2026-11-20-09-45-16-ux-finalize-prototype.md) — staff Licences: add a licence-type filter only when a second licence type exists (FR-23)
 - [ ] 2026-11-20 [ux-prototype-feedback](983-2026-11-20-10-55-38-ux-prototype-feedback.md) — Library Status filter starts unticked, so the Library opens on mostly drafts after a big batch; revisit when the Library stories are built
+- [ ] 2026-11-20 [architecture-stack-and-boundaries](982-2026-11-20-14-14-04-architecture-stack-and-boundaries.md) — resume the architecture run: access module, lifecycle and worker, files, licences, AI port, errors/i18n, conventions, Docker/env; then finalize the spine
