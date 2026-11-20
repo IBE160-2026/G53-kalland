@@ -1,0 +1,32 @@
+/* Owner: Client portal (#/overview, #/my-images, #/find, #/licences, #/cart, #/checkout, #/checkout/done).
+   Screen-specific styles only; shared styles live in app.css. Same tokens, no new colours. */
+
+/* Details panel: no selection yet (wide screens only; inline shows nothing) */
+.cl-no-pick { padding: 24px; }
+
+/* small text-style buttons inside the licence option and the download note */
+.cl-small { font-size: 0.875rem; width: fit-content; }
+.insp-foot .note .ds-link { font-size: inherit; }
+
+/* "In cart" with a link to the cart, in place of Add to cart */
+.cl-in-cart { flex-basis: 100%; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 0.875rem; }
+
+/* date range error under the Date taken fields */
+.cl-range-err { margin: 8px 0 0; font-size: 0.8125rem; }
+
+/* Overview: own-image strip items are links to My images */
+.cl-strip-link { position: absolute; inset: 0; display: block; border-radius: inherit; }
+.cl-strip-link:hover .ph { filter: brightness(1.04); }
+.cl-strip-link:focus-visible { outline: 3px solid var(--ds-color-focus-outer); outline-offset: -3px; z-index: 3; }
+
+/* Done: own-image tick on the line thumbnail */
+.cthumb .own { position: absolute; top: 6px; right: 6px; z-index: 2; width: 22px; height: 22px; }
+.cthumb .own .ic { width: 13px; height: 13px; }
+
+/* Checkout */
+.cl-crumbs { margin-bottom: 14px; }
+.cl-change + .cl-change { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.cl-change .ds-paragraph { margin: 0; }
+.ctx-top > .ds-paragraph + .ds-paragraph { margin-top: 6px; }
+.cl-reason { flex-basis: 100%; }
+.sec-body > .ds-field { margin-top: 2px; }
