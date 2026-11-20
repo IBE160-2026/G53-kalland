@@ -29,7 +29,7 @@ Requirements, roles, glossary and fixed messages live in the PRD (FR / NFR / UJ 
 | Image page | "Open full image page" icon in the Details panel | Larger image with all staff metadata and actions (FR-30, FR-25, FR-26) | spine-only; same sections as the Details panel, larger image |
 | Upload | Main nav | Batches, to-do, drop zone, file list, per-file review and publish (FR-8 to FR-20) | `mockups/key-screens.html` (Upload) |
 | Clients | Main nav | Client list in the sidebar, client card with contacts, visible images and licences, setup links (FR-1, FR-2, FR-4, FR-7) | `mockups/more-screens.html` (Clients) |
-| Licences | Main nav | Transaction log of all licences, filters client / date range / paid only, revoked and credit flags (FR-41) | spine-only |
+| Licences | Main nav | Transaction log of all licences, filters client / date range / paid only, revoked and credit flags (FR-41). No licence-type filter while v1 has one licence type (FR-23); it is added when a second type exists | spine-only |
 | Settings | Account menu (avatar) | AI provider and key (FR-39), licence price and text (FR-40), staff users (FR-3) | spine-only |
 | Action log | Account menu | Action log per user (FR-42b) | spine-only |
 
@@ -87,7 +87,7 @@ Behavioural. Visual specs live in `DESIGN.md` → Components; names and groups a
 | Main nav tab | Section switch | Current section has `aria-current="page"`. Leaving the Library with unsaved edits opens the Unsaved-changes dialog first. |
 | Sidebar toggle | Show or hide the Context sidebar | `aria-expanded` matches the state. Opens and closes the sidebar in place, or the drawer (widths: Responsive & Platform). Opening the drawer moves focus into it; the toggle then becomes a close (×) button that stays on top. Closing returns focus to the toggle. |
 | Context sidebar | Filters, to-do, batches | A column or an overlay drawer (widths and open / closed defaults: Responsive & Platform). The drawer closes with the toggle, Escape or a click on the scrim; page scroll is locked while it is open. |
-| List row | Facets, batches, to-do items | Click applies the facet or opens the batch / filters the file list; current row has `aria-current`. Counts update live with processing (FR-15). |
+| List row | Facets, batches, to-do items | Click applies the facet, opens the batch, or moves that group to the top of the file list; current row has `aria-current`. Counts update live with processing (FR-15). |
 
 ### Wall and tile
 
@@ -118,11 +118,13 @@ Behavioural. Visual specs live in `DESIGN.md` → Components; names and groups a
 | Component | Use | Behavioural rules |
 |---|---|---|
 | Context alert | Upload: file name match (FR-10b), identical file (FR-10a) | File name match: Keep both / Discard new file, plus "Use the same answer for the other file name match" (applies to all open matches in the batch). The file cannot be published until decided. Identical file: link "Open the existing image"; "Remove from this list" dismisses the row. |
-| File row | Upload file list | Click selects the file and shows it in the Details panel (or expands it inline). Files that need a decision come first ("Showing 9 of 65, files that need you first"). Failed rows have an inline "Try again". |
-| To-do list | Upload sidebar | Each item filters the file list to that group (failed, file name matches, need alt text, ready to publish, still processing, not added). "Try the 3 failed again" retries all failed drafts in the batch (FR-16b). |
+| File row | Upload file list | Click selects the file and shows it in the Details panel (or expands it inline); clicking the selected row again deselects it (at every width). Failed rows have an inline "Try again". |
+| File order | Upload file list | Files that need you come first, in this order: file name matches, failed, missing alt text, not added, still processing. The list head says "65 files, files that need you first". The order holds while you work and catches up when you are idle (no file selected, focus outside the file list and the Details panel), so rows never move under the cursor. After a to-do item: "65 files. At the top: 12 need alt text" with "Back to the usual order". |
+| Ready group | Upload file list, after the rows that need you | Ready and published files fold into one group row: "81 ready to publish, 4 published" with Show / Hide (`aria-expanded`). It opens when you choose Show, when "ready to publish" is the current to-do item (the ready rows then come first, unfolded), when the selected file is in it, or when no other rows are left. Hide deselects a selected file inside it. Focus stays on the group row. |
+| To-do list | Upload sidebar | Each item (failed, file name matches, need alt text, ready to publish, still processing, not added) moves its files to the top of the file list; every file stays in the list. The page scrolls to the file list and focus moves to the first of those files. Clicking the current item again returns to the usual order. "Try the 3 failed again" retries all failed drafts in the batch (FR-16b). |
 | Batch list | Upload sidebar | Selecting a batch loads it in main. Other staff's batches are visible and openable (drafts are visible to all staff). |
-| Batch progress | Upload main | Live counts per state and a meter; the text legend carries the meaning. |
-| Drop zone | Upload main | Drop or choose JPEG / PNG files; rejections appear as file rows and never stop the batch (FR-8). |
+| Batch progress | Upload main | Live counts per state and a meter; the text legend carries the meaning. Ready and "need alt text" are counted apart, so the legend matches the to-do list. |
+| Drop zone | Upload main | Drop or choose JPEG / PNG files; rejections appear as file rows and never stop the batch (FR-8). Once the batch has files it shrinks to a one-line bar ("Add more files", "or drop JPEG or PNG files anywhere on this page, up to 50 MB each"); the whole page then accepts dropped files, and the bar lights up while files are dragged over it. |
 
 ### Client
 
@@ -184,7 +186,7 @@ Staff tile captions show visibility (Public with a globe, the client name for Re
 | Library | Empty result (FR-29) | Empty state: says no images match and offers "Clear filters". Copy: "No images match your search and filters." |
 | Library | Processing images | Tags on the tile: Uploading (skeleton + percentage), Queued, Generating (spinner), Ready, Failed; Draft / Archived as lifecycle tags. Updates live. |
 | Library | Failed image | Failed tag; with captions on, a one-line error under the title. With captions off, the Failed tag only. |
-| Library | No selection | Wide: the panel shows a one-line hint to select an image. ≤ 1240 px: no details shown. |
+| Library | No selection | No Details panel: the wall takes the full width. The panel appears when an image is selected. |
 | Library | View / editing / unsaved / saved / save failed | See Editing and Saving. |
 | Library | Locked by another user (FR-18, bonus) | The panel shows the NFR-7 lock message and Edit is disabled. A lock is taken when Edit starts and released on Save changes, Cancel or Discard, on leaving the editor, or after 15 minutes idle (PRD FR-18). |
 | Image page (staff) | All states | Same as the Library Details panel (view / edit / unsaved / locked), with the image larger. |
@@ -206,6 +208,7 @@ Staff tile captions show visibility (Public with a globe, the client name for Re
 | Action log | Empty | Empty state (NFR-7). |
 | Overview | New contact, nothing yet | Each section shows its own one-line empty state; links to My images and Find images stay. |
 | Overview | Activity (FR-38b) cut | Section not shown. |
+| Overview | No selection / image selected | No Details panel until an image is selected. Selecting an image anywhere on the Overview (a new image, the own-image strip, a licence row) opens the client Details panel (same as Find images) with Add to cart, Download and the licence text; the page never navigates away. Selecting the same image again closes the panel. Licence rows link to the image only while the client can still see it. |
 | Find images / My images | Cold load | Skeleton tiles. |
 | Find images / My images | Empty result | Empty state + "Clear filters" (FR-29). My images with no own images: says so and links to Find images. |
 | Licences (client) | Empty | Empty state with a link to Find images. |
@@ -237,8 +240,8 @@ Staff tile captions show visibility (Public with a globe, the client name for Re
 
 | Width | Behaviour |
 |---|---|
-| > 1240 px | Three columns: Context sidebar (open by default), main, Details panel fixed on the right. The Details panel has no close control. |
-| ≤ 1240 px | Details move inline (Library, Upload and client views share this breakpoint): wall → the selected image takes a full row, its details open directly below it with "Close details", and the other images continue below; details never drop below all the images. Upload → the selected file row expands as an accordion with the editable fields. Sidebar stays a column. |
+| > 1240 px | Three columns: Context sidebar (open by default), main, Details panel fixed on the right. The Details panel has no close control. Library and Overview show the panel only while an image is selected; otherwise main takes the panel's width. |
+| ≤ 1240 px | Details move inline (Library, Upload, Find images and My images share this breakpoint; the Overview instead shows its panel under the page and scrolls to it): wall → the selected image takes a full row, its details open directly below it with "Close details", and the other images continue below; details never drop below all the images. Upload → the selected file row expands as an accordion with the editable fields. Sidebar stays a column. |
 | ≤ 900 px | Context sidebar becomes an overlay drawer (closed by default) with the toggle on top as a close button; Escape and scrim click close it; focus returns to the toggle. Main nav and header search wrap onto their own full-width rows. Main padding 16 px. |
 | ≤ 560 px | Compact wall (shorter rows, tighter gaps); file rows stack (status below the name); key-value lists become one column; the cart label and the user's name are visually hidden (icon, badge and avatar remain). The Show captions switch moves onto its own line under the count. |
 | 360 px | Floor (NFR-5a): everything works, no horizontal scroll. |
@@ -250,7 +253,7 @@ Pointer and keyboard are primary; touch works through the same click targets. No
 Behavioural. Visual contrast lives in `DESIGN.md` → Colors. Target WCAG 2.1 A + AA on staff and client pages (NFR-5a): axe scan with no serious or critical violations on the main pages, plus a manual keyboard pass. WCAG 2.2 AA is a bonus (NFR-5b).
 
 - **Alt text:** alt attribute = alt text → title → "Untitled image"; no image is presented as decorative (NFR-5a). Images published without alt text are the PRD's known exception.
-- **Keyboard:** every action is reachable by Tab in reading order; tiles and file rows are buttons with `aria-pressed`, and `aria-expanded` when they open inline details.
+- **Keyboard:** every action is reachable by Tab in reading order; tiles and file rows are buttons with `aria-pressed`, and `aria-expanded` when they open inline details. The Upload ready group is a button with `aria-expanded`.
 - **Focus management:** drawer open → focus into the drawer; drawer close → focus back to the toggle. Edit → focus to Title; Save changes / Cancel → focus to Edit. Close details → focus to the tile. Keep editing → focus to the last edited field. Dialogs trap focus and return it to the trigger.
 - **Status announcements:** save status, unsaved count and processing updates use `role="status"` (polite). The Generating spinner is labelled "In progress".
 - **Colour is never the only signal:** tags have text, prices have the icon and weight, changed fields have a "Changed" label, the batch meter is decorative (`aria-hidden`) beside a text legend.
@@ -275,7 +278,7 @@ Failure: no match → empty state with "Clear filters" (FR-29). Reference: `mock
 ### UJ-2: Ida uploads a client shoot
 
 1. Ida opens Upload and starts a batch for the Fjordkaffe AS shoot with **New batch** at the top of the Batches list.
-2. She sets batch settings once: Restricted to Fjordkaffe AS, Free, AI metadata, place names on, keywords "fjordkaffe" and "autumn campaign" (FR-9). The settings show as one line under the batch title with "Edit batch settings".
+2. She sets batch settings once: Restricted to Fjordkaffe AS, Free, AI metadata, place names on, keywords "fjordkaffe" and "autumn campaign" (FR-9). The settings show as a summary under the batch title, with "Edit batch settings" on its own line below it.
 3. She drops 65 files. Rows appear at once; an identical file and a PDF land as "Not added" with their messages, a file name match lands as "Needs a decision". The rest upload and generate in the background (FR-15).
 4. The to-do list tells her what needs her: 3 failed, 2 file name matches, 12 need alt text, 41 ready to publish.
 5. She opens the file name match: the Context alert shows both images side by side; she picks **Keep both** and ticks "Use the same answer for the other file name match".

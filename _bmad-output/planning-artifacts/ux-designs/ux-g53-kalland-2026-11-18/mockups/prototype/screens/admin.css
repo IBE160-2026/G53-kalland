@@ -16,7 +16,7 @@
 /* filter bar above the Licences and Action log tables */
 .adm-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin: 0 0 24px; }
 .adm-filters > .ds-field { flex: 0 1 14rem; min-width: 0; }
-.adm-filters > .ds-field .ds-input { width: 100%; }
+.adm-filters > .ds-field:not(.adm-switch) .ds-input { width: 100%; } /* never stretch the Paid only switch */
 .adm-filters .adm-switch { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding-bottom: 8px; }
 .adm-filters .adm-clear { padding-bottom: 10px; font-size: 0.9375rem; }
 

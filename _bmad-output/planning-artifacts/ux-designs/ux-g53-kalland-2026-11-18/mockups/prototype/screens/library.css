@@ -10,7 +10,6 @@
 @keyframes lib-pulse { 50% { opacity: 0.35; } }
 
 /* ---------- Details panel ---------- */
-.lib-none { padding: 24px; }
 /* app.css targets ".insp-inline-bar + .panel-body"; in the shell the panel sits inside .details-body */
 .inspector.is-inline .details-body > .panel-body .insp-head { padding-top: 4px; }
 .lib-alert { margin: 14px 24px 0; }
@@ -74,7 +73,7 @@
 }
 @media (max-width: 900px) {
   .lib-alert { margin-left: 16px; margin-right: 16px; }
-  .lib-note, .lib-none { padding-left: 16px; padding-right: 16px; }
+  .lib-note { padding-left: 16px; padding-right: 16px; }
 }
 @media (max-width: 560px) {
   .lib-gps-row { grid-template-columns: 1fr; }

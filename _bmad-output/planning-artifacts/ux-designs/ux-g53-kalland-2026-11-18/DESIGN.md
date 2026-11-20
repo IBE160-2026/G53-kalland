@@ -253,6 +253,13 @@ components:
   drop-zone:
     variant: 'Designsystemet file upload'
     background: '{colors.surface}'
+  drop-bar:
+    border: '1px dashed {colors.border}'
+    background: '{colors.surface}'
+    radius: '{rounded.DEFAULT}'
+  file-group:
+    background: '{colors.surface-tinted}'
+    hover: '{colors.surface-hover}'
   keyword-chip:
     variant: 'Designsystemet removable chip (edit) / neutral tag (view)'
   licence-option:
@@ -429,7 +436,7 @@ Designsystemet components used as shipped: Button, Link, Search, Field, Input, S
 
 | Component | Visual spec |
 |---|---|
-| **Details panel** `details-panel` | White column, hairline left edge, square. Header: `panel-title` + file line in `meta`, actions right. Then a 236 px "loupe" (image centred on `canvas`, hairline border), a status line (tags, counts, save status), sections under `section-title`, Designsystemet Details for secondary groups, and a sticky footer (hairline top) with the primary action. |
+| **Details panel** `details-panel` | White column, hairline left edge, square. Header: `panel-title` + file line in `meta`, actions right. Then a 236 px "loupe" (image centred on `canvas`, hairline border; the height is fixed and never shrinks in a long panel), a status line (tags, counts, save status), sections under `section-title`, Designsystemet Details for secondary groups, and a sticky footer (hairline top) with the primary action. |
 | **Inline details** `inline-details` | The Details panel placed in the flow at ≤ 1240 px: hairline border, 3 px accent top edge, `{rounded.DEFAULT}`, "Close details" text action top-right, no loupe (the selected image above it is shown at full width, up to `min(60vh, 520px)` tall). Upload accordion: a chevron at the file row end. |
 | **Access controls** `access-controls` | Toggle groups for Visibility (Internal / Restricted / Public) and Price (Free / Paid); a one-line muted hint under Visibility; client chips + "Add client" when Restricted; a USD amount field "Price per licence, ex VAT" (max 11 rem) when Paid. View mode shows the same as a key-value list. |
 | **Changed-field marker** `changed-marker` | 3 px warning bar left of a changed field, plus "Changed" in `warning-text` 12 px after its label. |
@@ -445,8 +452,10 @@ Designsystemet components used as shipped: Button, Link, Search, Field, Input, S
 | **File row** `file-row` | 52 px thumb, file name or title (semibold), sub-line in `meta`, message line in `danger-text` or `warning-text`; status tag and row action at the end. Hairline dividers. Selected: `selected-row-tint` + 3 px accent inset bar. |
 | **To-do list** `todo-list` | Count in `stat-number`, right-aligned, coloured by kind (danger, warning, success, muted); label semibold with a muted one-line instruction below. Current item `selected-tint`. |
 | **Batch list** `batch-list` | List rows: batch name, muted second line (when, what is left), file count. Groups "Your batches" and "Other staff". |
-| **Batch progress** `batch-progress` | Legend line of status dots with bold counts, then a 6 px segmented meter in the same status colours on a `surface-tinted` track. |
+| **Batch progress** `batch-progress` | Legend line of status dots with bold counts, then a 6 px segmented meter in the same status colours on a `surface-tinted` track. "Need alt text" uses `warning-text`, so it stands apart from the `warning` "need a decision" segment next to it. |
+| **File group row** `file-group` | Full-width row at the end of the file list on `surface-tinted` (hover `surface-hover`): counts semibold left ("81 ready to publish, 4 published"), "Show" / "Hide" as an underlined text action right. |
 | **Drop zone** `drop-zone` | Designsystemet file upload on white: "Drop JPEG or PNG files here, up to 50 MB each" + "Choose files" secondary button. |
+| **Drop bar** `drop-bar` | Once a batch has files: one line on white with a dashed hairline, "Add more files" secondary button (sm, plus icon) + a `meta` line. While files are dragged over the page: `surface-tinted` with an accent border. |
 
 ### Client
 
