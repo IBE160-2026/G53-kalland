@@ -344,3 +344,33 @@ Template:
 - **Rationale:** The user expects very few real cases. A can be added later without changing the access rules, if the licence record allows it from the start.
 - **Consequences:** The architecture step should give the licence record a source field and allow a licence without a contact. The inspector shows the client picker for Restricted only.
 - **Trace:** PR #40, commit `c627ed3`, [session log](sessions/2026-11-18-ux-design-round-3.md), `.memlog.md`
+
+## D-035: Licence text has no visible version; the accepted text is stored with each licence
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** The more-screens mock showed "Standard commercial use, text version 2" at checkout and on the receipt. The PRD (FR-33, FR-40) keeps "the licence text as accepted" but says nothing about version numbers. The mock's licence text was placeholder text written by the renderer.
+- **Alternatives:** No visible version, with a snapshot per licence; a visible version number; an "updated <date>" label.
+- **Decision:** No version number or date is shown anywhere. Each licence stores a snapshot of the text the contact accepted. In Settings, saving a new licence text says it applies to new licences only. The licence text in mocks, prototype and seed data is labelled sample text; the agency's legal reviewer writes the real text before launch (RG-6).
+- **Rationale:** User's choice. Clients only need the text they accepted, which the snapshot gives them. A counter would add a field and a concept without a user need.
+- **Consequences:** The licence record needs a text snapshot field (architecture). Seed data marks the text as a sample.
+- **Trace:** PR #42, [session log](sessions/2026-11-20-ux-finalize-prototype.md), `_bmad-output/planning-artifacts/ux-designs/ux-g53-kalland-2026-11-18/.memlog.md`
+
+## D-036: Shared batch metadata and a "Licensed images" concept are out of v1
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** When the user reviewed the clickable prototype, they asked for two things. First, batch settings that set the same title, description and alt text on every photo. Second, a clearer split for clients between "My images" and "Licensed images". Both would change the PRD: FR-9 and FR-11 for the first, and FR-28, FR-33 and the access wording for the second.
+- **Alternatives:** Add both to v1; add them later.
+- **Decision:** Both are out of v1. Batch settings stay as they are: visibility, price, the AI and place-name options, and batch keywords. Client navigation and access wording stay as in the PRD and the UX spines.
+- **Rationale:** User's choice, to protect the remaining hours before the 2026-12-15 deadline.
+- **Consequences:** No PRD change. Both can come back as "Later" items.
+- **Trace:** PR #42, [session log](sessions/2026-11-20-ux-finalize-prototype.md), UX memlog entry of 2026-11-20
+
+## D-037: No licence-type filter on staff Licences while v1 has one licence type
+- **Date:** 2026-11-20
+- **Status:** Accepted
+- **Context:** While reviewing the prototype, the user asked whether the staff Licences page needs a licence-type filter. v1 has one licence type, standard commercial use (FR-23).
+- **Alternatives:** Show the filter disabled; hide it until a second licence type exists.
+- **Decision:** Hide it. The Licences filters stay client, date range and paid only. A licence-type filter is added when a second licence type exists.
+- **Rationale:** User's choice. A filter with one option adds no value, and a disabled control needs a reason next to it.
+- **Consequences:** No PRD change. EXPERIENCE.md (IA, Licences row) records the rule. The Licences story should not build the filter.
+- **Trace:** PR #43, [session log](sessions/2026-11-20-ux-prototype-feedback.md), UX memlog entry of 2026-11-20
