@@ -338,6 +338,12 @@
         go(App.href(basePath(kind), {}));
         App.status('Filters cleared.');
       });
+      bindPanelActions();
+    };
+  }
+
+  /* Add to cart, Download and the licence text in the client Details panel (walls and Overview). */
+  function bindPanelActions() {
       App.on('click', '[data-add-cart]', (e, el) => {
         const c = me();
         const id = el.getAttribute('data-add-cart');
@@ -358,7 +364,6 @@
         App.refresh();
       });
       App.on('click', '[data-lic-text]', (e, el) => licenceTextDialog(el.getAttribute('data-lic-text')));
-    };
   }
 
   function registerWall(kind) {
@@ -384,10 +389,39 @@
   /* ==================================================================
      Overview (FR-38a, FR-38b)
      ================================================================== */
-  App.registerScreen('/overview', {
+  /* Selecting an image on the Overview (new images, own-image strip, licence rows) opens it in
+     the Details panel on the Overview itself; the page never navigates away. Selecting the same
+     image again closes the panel. No selection: no panel. */
+  function overviewDetails(params) {
+    const image = params.imageId && App.find.image(params.imageId);
+    return image && App.access.canSee(me(), image) ? imagePanel(image) : '';
+  }
+  function overviewGo(imageId, focus) {
+    pendingFocus = focus;
+    go(imageId ? '#/overview/' + encodeURIComponent(imageId) : '#/overview');
+  }
+  const overviewDef = {
     role: 'client',
     title: 'Overview',
-    render() {
+    nav: 'overview',
+    details: overviewDetails,
+    detailsLabel: 'Selected image',
+    inlineDetails: false,
+    onCloseDetails() { const cur = App.current(); overviewGo(null, cur && cur.params.imageId ? sel(cur.params.imageId) : null); },
+    mount(root, params) {
+      takeFocus(root);
+      /* below 1240 px the panel sits under the page: bring it into view (after the shell's focus) */
+      const panel = params.imageId && App.isTight() && document.getElementById('app-details');
+      if (panel) window.requestAnimationFrame(() => panel.scrollIntoView({ block: 'start' }));
+      App.on('click', '#main [data-pick], #main [data-ov-pick]', (e, el) => {
+        e.preventDefault();
+        const id = el.getAttribute('data-id') || el.getAttribute('data-ov-pick');
+        const focus = el.id ? '#' + el.id : '.wall ' + sel(id);
+        overviewGo(id === params.imageId ? null : id, focus);
+      });
+      bindPanelActions();
+    },
+    render(params) {
       const c = me();
       const cl = org();
       const visible = App.access.visibleImages(c);
@@ -408,7 +442,7 @@
           ? h`<p>${App.fmt.plural(fresh.length, 'image')} the agency made available to you ${period}</p><a class="ds-link" href="#/find">See them in Find images</a>`
           : ''}</div>
         ${fresh.length
-          ? App.wall(fresh.slice(0, 8), { label: 'New images', viewer: 'client', contact: c, hrefFor: (im) => '#/find/' + encodeURIComponent(im.id) })
+          ? App.wall(fresh.slice(0, 8), { label: 'New images', viewer: 'client', contact: c, selectedId: params.imageId })
           : App.emptyState('No new images ' + period + '.', { label: 'Find images', href: '#/find' })}
       </section>`;
 
@@ -417,14 +451,17 @@
           ? h`<p>${App.fmt.plural(own.length, 'image')} ${cl.name} can download as often as it needs</p><a class="ds-link" href="#/my-images">See all in My images</a>`
           : ''}</div>
         ${own.length
-          ? h`<ul class="strip" aria-label="Your newest images">${own.slice(0, 8).map((im) => h`<li><a class="cl-strip-link ds-focus" href="#/my-images/${encodeURIComponent(im.id)}">${App.ownTick()}<span class="ph ${im.ph || ''}" role="img" aria-label="${App.altFor(im)}"></span></a></li>`)}</ul>`
+          ? h`<ul class="strip" aria-label="Your newest images">${own.slice(0, 8).map((im) => h`<li><a class="cl-strip-link ds-focus" href="#/overview/${encodeURIComponent(im.id)}" id="${'ov-strip-' + im.id}" data-ov-pick="${im.id}"${im.id === params.imageId ? App.raw(' aria-current="true"') : ''}>${App.ownTick()}<span class="ph ${im.ph || ''}" role="img" aria-label="${App.altFor(im)}"></span></a></li>`)}</ul>`
           : App.emptyState(cl.name + ' has no images of its own yet. Images the agency makes for you, and images you license, show up here.', { label: 'Find images', href: '#/find' })}
       </section>`;
 
       const licRows = lics.slice(0, 4).map((l) => {
         const im = App.find.image(l.imageId);
         const who = l.source === 'staff-grant' ? 'given by the agency' : contactName(l.contactId);
-        return h`<li><span class="mini">${thumb(im)}</span><span class="r-main"><b>${App.imageTitle(im)}</b><span>${App.fmt.date(l.date)}, ${who}</span></span><span class="r-end">${l.revoked ? App.statusTag('removed') : App.price(l.price)}</span></li>`;
+        const title = App.access.canSee(c, im)
+          ? h`<a class="ds-link" href="#/overview/${encodeURIComponent(im.id)}" id="${'ov-lic-' + l.id}" data-ov-pick="${im.id}"${im.id === params.imageId ? App.raw(' aria-current="true"') : ''}>${App.imageTitle(im)}</a>`
+          : App.imageTitle(im);
+        return h`<li><span class="mini">${thumb(im)}</span><span class="r-main"><b>${title}</b><span>${App.fmt.date(l.date)}, ${who}</span></span><span class="r-end">${l.revoked ? App.statusTag('removed') : App.price(l.price)}</span></li>`;
       });
       const licSec = h`<section class="card-sec" aria-labelledby="ov-lic-h">
         <div class="sec-head"><h2 id="ov-lic-h">Licences</h2><span class="sec-meta">${lics.length} for ${cl.name}</span>${lics.length ? h`<div class="sec-end"><a class="ds-link" href="#/licences">See all licences</a></div>` : ''}</div>
@@ -462,7 +499,9 @@
         ${newSec}${ownSec}
         <div class="ov-cols">${licSec}${actSec}</div>`;
     }
-  });
+  };
+  App.registerScreen('/overview', overviewDef);
+  App.registerScreen('/overview/:imageId', overviewDef);
 
   /* ==================================================================
      Licences, client history (FR-33)

@@ -179,7 +179,7 @@ a[aria-current="true"] .two-line small { color: var(--ds-color-accent-text-subtl
 .insp-head h2 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
 .insp-head .file { color: var(--muted); font-size: 0.8125rem; margin-top: 2px; }
 .insp-head .actions { margin-left: auto; display: flex; gap: 2px; }
-.loupe { margin: 16px 24px 0; background: var(--canvas); border: 1px solid var(--line); border-radius: var(--r-card); height: 236px; position: relative; overflow: hidden; }
+.loupe { flex-shrink: 0; margin: 16px 24px 0; background: var(--canvas); border: 1px solid var(--line); border-radius: var(--r-card); height: 236px; position: relative; overflow: hidden; }
 .loupe .ph { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 86%; border-radius: max(1px, calc(var(--r-img) - 6px)); }
 .loupe .ph.r32 { aspect-ratio: 3 / 2; height: auto; width: 88%; }
 .loupe .ph.r23 { aspect-ratio: 2 / 3; width: auto; }
@@ -841,6 +841,8 @@ dl.kv dd { margin: 0; overflow-wrap: anywhere; }
 }
 .proto-h { margin: 0; font-weight: 600; color: var(--ink); }
 .proto-links { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.proto-size { display: flex; gap: 14px; }
+.proto-size label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
 @media print { .proto-pill { display: none; } }
 @media (max-width: 560px) {
   .auth-card { padding: 24px 16px; }

@@ -60,6 +60,7 @@
   let editing = null;        // batch id whose settings form is open
   let editDraft = null;      // settings draft while editing
   let newDraft = null;       // settings draft on the New batch page
+  let jumpToRows = false;    // a To do item was clicked: scroll to the rows it moved to the top
   let result = null;         // { batchId, published:[names], skipped:[{name, reason}] }
   let lastSidebar = '';
   let lastDetailsKey = '';
@@ -77,6 +78,7 @@
   function U() {
     if (!App.store.ui) App.store.ui = {};
     if (!App.store.ui.upload) App.store.ui.upload = { sel: {}, edited: {}, plan: {}, seq: 500 };
+    if (!App.store.ui.upload.openDone) App.store.ui.upload.openDone = {};
     return App.store.ui.upload;
   }
   function me() { return App.currentUser(); }
@@ -150,20 +152,56 @@
     files.forEach((f, i) => { idx[f.id] = i; });
     return files.slice().sort((a, b) => (RANK[stateOf(a)] - RANK[stateOf(b)]) || (idx[a.id] - idx[b.id]));
   }
+  function topRank(kind, f) { return kind && kind.states.indexOf(stateOf(f)) === -1 ? 1 : 0; }
+  /* The order holds while you work and catches up when you are idle: no file selected and
+     focus outside the file list and the Details panel. Rows never move under the cursor. */
+  function isIdle() {
+    const a = document.activeElement;
+    return !sel && !(a && a.closest && a.closest('#main .files, #app-details'));
+  }
   function shownIds(b, show) {
     const live = liveFiles(b);
     const liveSet = new Set(live.map((f) => f.id));
     const key = b.id + '|' + (show || '');
-    if (!view || view.key !== key || live.some((f) => !view.seen.has(f.id))) {
+    if (!view || view.key !== key || live.some((f) => !view.seen.has(f.id)) || isIdle()) {
       const kind = KINDS.find((k) => k.key === show);
       view = {
         key,
-        ids: sortFiles(live).filter((f) => !kind || kind.states.indexOf(stateOf(f)) !== -1).map((f) => f.id),
+        /* a To do item moves its files to the top; every file stays in the list */
+        ids: sortFiles(live).sort((x, y) => topRank(kind, x) - topRank(kind, y)).map((f) => f.id),
         seen: new Set(live.map((f) => f.id))
       };
     }
     view.ids = view.ids.filter((id) => liveSet.has(id));
     return view.ids;
+  }
+
+  /* Ready and published files fold into one group row at the end of the list, so the rows
+     that need you stay in view. The group opens on "Show", when its to-do item is the current
+     one, when the selected file is in it, or when nothing else is left. */
+  const DONE = ['ready', 'published', 'archived'];
+  function fileList(b, show) {
+    const ids = shownIds(b, show);
+    const isDone = (id) => DONE.indexOf(stateOf(fileById(b, id))) !== -1;
+    const done = ids.filter(isDone);
+    const rest = ids.filter((id) => !isDone(id));
+    if (!done.length || show === 'ready' || show === 'published') return { rows: ids, done, group: null };
+    const open = !!U().openDone[b.id] || done.indexOf(sel) !== -1 || !rest.length;
+    return { rows: open ? rest.concat(done) : rest, done, group: { at: rest.length, open } };
+  }
+  function listKey(b, fl) {
+    const keys = fl.rows.slice();
+    if (fl.group) keys.splice(fl.group.at, 0, 'group:' + groupText(b, fl.done) + ':' + fl.group.open);
+    return keys.join();
+  }
+  function groupText(b, done) {
+    const n = { ready: 0, published: 0 };
+    done.forEach((id) => { n[stateOf(fileById(b, id)) === 'ready' ? 'ready' : 'published']++; });
+    return [n.ready ? n.ready + ' ready to publish' : '', n.published ? n.published + ' published' : ''].filter(Boolean).join(', ');
+  }
+  function groupHTML(b, fl) {
+    const open = fl.group.open;
+    return h`<li class="file-group" data-group="${'group:' + groupText(b, fl.done) + ':' + open}"><button class="up-fold ds-focus" type="button" data-fold id="up-fold" aria-expanded="${open ? 'true' : 'false'}"><span class="up-fold-n">${groupText(b, fl.done)}</span><span class="up-fold-act">${open ? 'Hide' : 'Show'}</span></button></li>`;
   }
 
   /* ---------------------------------------------------------------- shared markup */
@@ -231,6 +269,12 @@
     </div>`;
   }
 
+  function dropBarHTML() {
+    return h`<div class="drop up-drop-bar" data-drop role="group" aria-label="Add more files to this batch">
+      <button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-choose id="up-choose">${App.icon('plus')}Add more files</button>
+      <p class="ds-paragraph">or drop JPEG or PNG files anywhere on this page, up to 50 MB each</p>
+    </div>`;
+  }
   function dropHTML(label) {
     return h`<div class="drop">
       <p class="ds-label up-drop-label" id="up-drop-l">${label}</p>
@@ -331,6 +375,7 @@
 
   const LEGEND = [
     ['ready', 'ready', 'ready', 'var(--ds-color-success-base-default)'],
+    ['alt', 'needs alt text', 'need alt text', 'var(--ds-color-warning-text-subtle)'],
     ['generating', 'generating', 'generating', 'var(--ds-color-accent-base-default)'],
     ['queued', 'queued', 'queued', 'var(--ds-color-neutral-border-default)'],
     ['uploading', 'uploading', 'uploading', 'var(--ds-color-info-base-default)'],
@@ -341,7 +386,7 @@
   function progressHTML(b) {
     const c = countStates(b);
     const n = {
-      ready: (c.ready || 0) + (c['needs-alt'] || 0), generating: c.generating || 0, queued: c.queued || 0, uploading: c.uploading || 0,
+      ready: c.ready || 0, alt: c['needs-alt'] || 0, generating: c.generating || 0, queued: c.queued || 0, uploading: c.uploading || 0,
       failed: c.failed || 0, decision: (c['needs-decision'] || 0) + (c.rejected || 0), published: (c.published || 0) + (c.archived || 0)
     };
     const total = liveFiles(b).length;
@@ -357,11 +402,13 @@
     return up ? h`<p class="keep-open">${App.icon('upload')}Keep this page open until the last file has uploaded. Metadata keeps generating if you leave.</p>` : h``;
   }
 
-  function filesHeadHTML(b, show, shown) {
-    const total = liveFiles(b).length;
+  function filesHeadHTML(b, show) {
+    const live = liveFiles(b);
+    const total = live.length;
     const kind = KINDS.find((k) => k.key === show);
-    if (kind) {
-      return h`<h2 id="up-files-h">Files</h2><span>Showing ${shown} of ${total}: ${kind.many}</span><a class="ds-link up-show-all" href="${'#/upload/' + b.id}">Show all ${App.fmt.plural(total, 'file')}</a>`;
+    const top = kind ? live.filter((f) => !topRank(kind, f)).length : 0;
+    if (top) {
+      return h`<h2 id="up-files-h">Files</h2><span>${App.fmt.plural(total, 'file')}. At the top: ${top} ${top === 1 ? kind.one : kind.many}</span><a class="ds-link up-show-all" href="${'#/upload/' + b.id}">Back to the usual order</a>`;
     }
     return h`<h2 id="up-files-h">Files</h2><span>${App.fmt.plural(total, 'file')}, files that need you first</span>`;
   }
@@ -424,8 +471,8 @@
   function batchMainHTML(params) {
     const b = App.find.batch(params.batchId);
     const show = params.query && params.query.show;
-    const ids = shownIds(b, show);
-    if (sel && ids.indexOf(sel) === -1) sel = null;
+    const fl = fileList(b, show);
+    if (sel && fl.rows.indexOf(sel) === -1) sel = null;
     const owner = App.find.user(b.ownerId);
     const day = App.fmt.day(b.createdAt);
     const when = day === 'Today' || day === 'Yesterday' ? day.toLowerCase() : 'on ' + day;
@@ -435,8 +482,9 @@
     const fileLine = !total ? 'No files yet.'
       : App.fmt.plural(total, 'file') + ', ' + (pub ? pub + ' published, ' + stillDrafts(total - pub - (c.rejected || 0)) : 'all drafts until you publish.');
     rowCache = {};
-    partCache = { head: String(publishHeadHTML(b)), progress: String(progressHTML(b)), keep: String(keepOpenHTML(b)), fhead: String(filesHeadHTML(b, show, ids.length)) };
-    const files = ids.map((id) => fileById(b, id));
+    partCache = { head: String(publishHeadHTML(b)), progress: String(progressHTML(b)), keep: String(keepOpenHTML(b)), fhead: String(filesHeadHTML(b, show)) };
+    const rows = fl.rows.map((id) => rowHTML(fileById(b, id)));
+    if (fl.group) rows.splice(fl.group.at, 0, groupHTML(b, fl));
     return h`${resultHTML(b)}
       <div class="batch-head">
         <div>
@@ -451,12 +499,12 @@
       </div>`}
       <div data-part="progress">${App.raw(partCache.progress)}</div>
       <div data-part="keep">${App.raw(partCache.keep)}</div>
-      ${dropHTML('Add more files to this batch')}
+      ${total ? dropBarHTML() : dropHTML('Add more files to this batch')}
       <div class="files-card">
         <div class="files-head" data-part="fhead">${App.raw(partCache.fhead)}</div>
-        ${files.length
-          ? h`<ul class="files" aria-labelledby="up-files-h" data-select-group>${files.map(rowHTML)}</ul>`
-          : h`<div class="up-files-empty">${App.emptyState(total ? 'No files in this group any more.' : 'No files in this batch yet. Drop files above or choose them.', total ? { label: 'Show all files', href: '#/upload/' + b.id } : null)}</div>`}
+        ${rows.length
+          ? h`<ul class="files" aria-labelledby="up-files-h" data-select-group>${rows}</ul>`
+          : h`<div class="up-files-empty">${App.emptyState('No files in this batch yet. Drop files above or choose them.')}</div>`}
       </div>`;
   }
 
@@ -639,13 +687,14 @@
     const main = document.getElementById('main');
     if (!main) return;
     const show = params.query && params.query.show;
-    const ids = shownIds(b, show);
-    const rendered = Array.prototype.map.call(main.querySelectorAll('.files [data-row]'), (li) => li.getAttribute('data-row'));
-    if (ids.join() !== rendered.join()) {
+    const fl = fileList(b, show);
+    const ids = fl.rows;
+    const rendered = Array.prototype.map.call(main.querySelectorAll('.files [data-row], .files [data-group]'), (li) => li.getAttribute('data-row') || li.getAttribute('data-group'));
+    if (listKey(b, fl) !== rendered.join()) {
       if (sel && ids.indexOf(sel) === -1) sel = null;
       refreshMain();
     } else {
-      const parts = { head: publishHeadHTML(b), progress: progressHTML(b), keep: keepOpenHTML(b), fhead: filesHeadHTML(b, show, ids.length) };
+      const parts = { head: publishHeadHTML(b), progress: progressHTML(b), keep: keepOpenHTML(b), fhead: filesHeadHTML(b, show) };
       Object.keys(parts).forEach((k) => {
         const html = String(parts[k]);
         if (partCache[k] !== html) { partCache[k] = html; setPart(main.querySelector('[data-part="' + k + '"]'), html); }
@@ -797,6 +846,7 @@
     const next = (ext) => 'IMG_' + String(u.seq++).padStart(4, '0') + (ext || '.jpg');
     const inBatch = (name) => b.files.some((f) => f.fileName.toLowerCase() === name.toLowerCase());
     const bergen = { place: 'Bryggen, Bergen, Vestland, Norway', gps: { lat: 60.3975, lng: 5.3242 } };
+    if (App.protoBatchSize() === 100) return largeSpecs(next, inBatch, bergen);
     const specs = [
       Object.assign({ name: next(), mb: 14.2, ph: 'p-fjord' }, bergen),
       Object.assign({ name: next(), mb: 16.8, ph: 'p-harbour' }, bergen),
@@ -808,6 +858,25 @@
     if (!inBatch('DSC_2051.jpg')) specs.push({ name: 'DSC_2051.jpg', mb: 17.0, ph: 'p-market' });
     if (!inBatch('IMG_9120.jpg')) specs.push({ name: 'IMG_9120.jpg', mb: 17.3, identical: 'img-fjord' });
     specs.push({ name: 'shot-list.docx', mb: 0.4, reject: 'type' });
+    specs.push({ name: next(), mb: 61.5, reject: 'size' });
+    return specs;
+  }
+  /* Prototype "100 files" sample: a full shoot with the mix a real batch has. 3 fail, 10 lack
+     alt text, 2 file name matches, 1 identical file, 1 wrong type and 1 too large. */
+  function largeSpecs(next, inBatch, bergen) {
+    const phs = Object.keys(MOCK);
+    const specs = [];
+    for (let i = 0; i < 95; i++) {
+      const sp = { name: next(), mb: 9 + (i * 7 % 90) / 10, ph: phs[i % phs.length] };
+      if (i % 3 === 0) Object.assign(sp, bergen);
+      if (i === 17) sp.fail = 'the AI service did not answer within 30 seconds';
+      if (i === 48 || i === 81) sp.fail = 'the AI service returned an empty answer';
+      if (i % 9 === 4) sp.noAlt = true;
+      specs.push(sp);
+    }
+    ['DSC_2051.jpg', 'DSC_4410.jpg'].forEach((name, i) => { if (!inBatch(name)) specs.splice(30 + i * 30, 0, { name, mb: 16.4, ph: 'p-market' }); });
+    if (!inBatch('IMG_9120.jpg')) specs.splice(55, 0, { name: 'IMG_9120.jpg', mb: 17.3, identical: 'img-fjord' });
+    specs.push({ name: 'shot-list.pdf', mb: 0.4, reject: 'type' });
     specs.push({ name: next(), mb: 61.5, reject: 'size' });
     return specs;
   }
@@ -856,11 +925,9 @@
     flushPending();
     const b = currentBatch();
     if (!b) return;
-    if (opts.toggle && sel === fid && App.details.isInline()) {
-      sel = null;
-      U().sel[b.id] = null;
-      markPressed();
-      App.details.collapse();
+    if (opts.toggle && sel === fid) {
+      /* the selected row again deselects it (at every width), which lets the order catch up */
+      deselect(b);
       return;
     }
     sel = fid;
@@ -871,6 +938,13 @@
     keepFocus(() => { App.refresh('details'); App.details.place(btn); });
     if (opts.focusRow && btn) btn.focus();
   }
+  function deselect(b) {
+    sel = null;
+    U().sel[b.id] = null;
+    App.save();
+    markPressed();
+    if (App.details.isInline()) App.details.collapse(); else refreshDetails();
+  }
   function markPressed() {
     document.querySelectorAll('#main .files [data-pick]').forEach((el) => el.setAttribute('aria-pressed', String(el.getAttribute('data-id') === sel)));
   }
@@ -878,7 +952,7 @@
     const b = currentBatch();
     if (!b) return;
     const c = App.current();
-    const ids = shownIds(b, c.params.query.show);
+    const ids = fileList(b, c.params.query.show).rows;
     if (!ids.length) return;
     const i = ids.indexOf(sel);
     const j = i === -1 ? 0 : (i + dir + ids.length) % ids.length;
@@ -922,9 +996,9 @@
   /* select the next row after f is gone from the list */
   function moveOn(b, f) {
     const c = App.current();
-    const ids = view ? view.ids.slice() : [];
+    const ids = Array.prototype.map.call(document.querySelectorAll('#main .files [data-row]'), (li) => li.getAttribute('data-row'));
     const i = ids.indexOf(f.id);
-    const rest = shownIds(b, c.params.query.show);
+    const rest = fileList(b, c.params.query.show).rows;
     const next = rest.find((id) => ids.indexOf(id) > i) || rest[rest.length - 1] || null;
     sel = next;
     U().sel[b.id] = next;
@@ -1325,6 +1399,29 @@
     bindCommon();
 
     App.on('click', '.files [data-pick]', (e, el) => selectFile(el.getAttribute('data-id'), { toggle: true }));
+    App.on('click', '.todo a', () => { jumpToRows = true; });
+    App.on('click', '[data-fold]', (e, el) => {
+      const open = el.getAttribute('aria-expanded') !== 'true';
+      U().openDone[b.id] = open;
+      if (!open && sel && DONE.indexOf(stateOf(fileById(b, sel))) !== -1) deselect(b);
+      App.save();
+      refreshMain();
+      const btn = document.getElementById('up-fold');
+      if (btn) btn.focus();
+      App.status(open ? 'Showing the ready and published files.' : 'Ready and published files hidden.');
+    });
+    if (jumpToRows) {
+      jumpToRows = false;
+      const first = params.query && params.query.show && root.querySelector('.files [data-pick]');
+      const card = root.querySelector('.files-card');
+      if (first && card) {
+        /* after the shell has placed focus for the new route */
+        window.requestAnimationFrame(() => {
+          card.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          first.focus({ preventScroll: true });
+        });
+      }
+    }
     App.on('click', '[data-prev]', (e, el) => step(-1, el.id));
     App.on('click', '[data-next]', (e, el) => step(1, el.id));
     App.on('click', '[data-retry]', (e, el) => {
@@ -1384,13 +1481,26 @@
       addFiles(b, sampleSpecs(b));
       refreshLive();
     });
-    App.on('drop', '[data-drop]', (e, el) => {
+    const dropFiles = (e) => {
       e.preventDefault();
-      el.classList.remove('is-over');
+      document.querySelectorAll('#main .is-over').forEach((x) => x.classList.remove('is-over'));
       const list = e.dataTransfer && e.dataTransfer.files;
       addFiles(b, list && list.length ? specsFromFiles(list) : sampleSpecs(b));
       refreshLive();
+    };
+    App.on('drop', '[data-drop]', (e) => dropFiles(e));
+    /* with the compact bar, the whole page takes the drop; the bar lights up while dragging */
+    App.on('dragover', '#main', (e) => {
+      const bar = document.querySelector('#main .up-drop-bar');
+      if (!bar) return;
+      e.preventDefault();
+      bar.classList.add('is-over');
     });
+    App.on('dragleave', '#main', (e) => {
+      const main = document.getElementById('main');
+      if (main && !main.contains(e.relatedTarget)) document.querySelectorAll('#main .up-drop-bar.is-over').forEach((x) => x.classList.remove('is-over'));
+    });
+    App.on('drop', '#main', (e) => { if (document.querySelector('#main .up-drop-bar') && !e.target.closest('[data-drop]')) dropFiles(e); });
 
     /* first paint: selection, inline placement, guard */
     const btn = sel ? document.getElementById('up-row-' + sel) : null;

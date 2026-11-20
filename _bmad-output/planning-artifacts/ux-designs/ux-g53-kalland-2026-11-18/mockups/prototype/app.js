@@ -104,7 +104,8 @@
      sidebarLabel: 'Filters',                      // aria-label of the sidebar <aside>
      sidebarToggleLabel: 'Show or hide filters',   // accessible name of the toggle
      render: fn(params) -> html,                   // required; content of <main>
-     details: fn(params) -> html,                  // optional; Details panel content (right column)
+     details: fn(params) -> html,                  // optional; Details panel content (right column).
+                                                   //   Empty output = no panel: the column takes no space
      detailsLabel: 'Selected image',
      inlineDetails: true,                          // default true; false keeps details as a column
      onCloseDetails: fn(collapse),                 // optional; "Close details" clicked. Call collapse()
@@ -1444,7 +1445,9 @@
       if (sb && def.sidebar) sb.innerHTML = String(def.sidebar(c.params) || '');
     } else if (slot === 'details') {
       const body = document.getElementById('app-details-body');
-      if (body && def.details) body.innerHTML = String(def.details(c.params) || '');
+      const html = def.details ? String(def.details(c.params) || '') : '';
+      if (!body !== !html) { route({ refresh: true }); return; } // panel appears or goes away
+      if (body) body.innerHTML = html;
     } else if (slot === 'topbar') {
       const tb = root.querySelector('.topbar');
       if (tb) tb.outerHTML = String(topbarHTML(def, c.params));
@@ -1557,7 +1560,8 @@
 
   function renderShell(root, def, params, res) {
     const hasSb = !!def.sidebar;
-    const hasDetails = !!def.details;
+    const detailsBody = def.details ? String(def.details(params) || '') : '';
+    const hasDetails = !!detailsBody;
     if (App.isNarrow()) state.sidebarOpen = false;
     root.className = 'app' + (hasSb ? '' : ' no-sb');
     root.setAttribute('data-role', App.isClient() ? 'client' : 'staff');
@@ -1569,7 +1573,7 @@
       ? h`<aside class="sidebar" id="app-sidebar" tabindex="-1" aria-label="${def.sidebarLabel || 'Filters'}">${App.raw(String(def.sidebar(params) || ''))}</aside>`
       : '';
     const details = hasDetails
-      ? h`<aside class="inspector" id="app-details" aria-label="${def.detailsLabel || 'Details'}"><div class="insp-inline-bar"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-details-close>${App.icon('close')}Close details</button></div><div class="details-body" id="app-details-body">${App.raw(String(def.details(params) || ''))}</div></aside>`
+      ? h`<aside class="inspector" id="app-details" aria-label="${def.detailsLabel || 'Details'}"><div class="insp-inline-bar"><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-details-close>${App.icon('close')}Close details</button></div><div class="details-body" id="app-details-body">${App.raw(detailsBody)}</div></aside>`
       : '';
     root.innerHTML = String(h`${topbarHTML(def, params)}<div class="workspace${hasDetails ? '' : ' no-insp'}">${sidebar}<main class="main" id="main" tabindex="-1">${flashHTML(App.takeFlash())}${App.raw(String(def.render(params) || ''))}</main>${details}</div>`);
   }
@@ -1690,12 +1694,16 @@
   /* ======================================================================
      Prototype pill (bottom-left, outside the design)
      ====================================================================== */
+  /* Prototype only: how many sample files "Choose files" / drop adds on Upload (10 or 100). */
+  App.protoBatchSize = function () {
+    try { return window.localStorage.getItem('proto-batch-size') === '100' ? 100 : 10; } catch (e) { return 10; }
+  };
   function renderPill() {
     if (document.getElementById('proto-pill')) return;
     const el = document.createElement('details');
     el.className = 'proto-pill';
     el.id = 'proto-pill';
-    el.innerHTML = String(h`<summary>Prototype</summary><div class="proto-body" role="group" aria-label="Prototype controls"><p class="proto-h">Switch role</p><button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-proto-role="staff">Staff: Ida</button><button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-proto-role="client">Client: Jonas Hauge, Fjordkaffe AS</button><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-proto-reset>Reset data</button><p class="proto-links"><a class="ds-link" href="../../EXPERIENCE.md">Behaviour spine</a> <a class="ds-link" href="../../DESIGN.md">Design spine</a></p></div>`);
+    el.innerHTML = String(h`<summary>Prototype</summary><div class="proto-body" role="group" aria-label="Prototype controls"><p class="proto-h">Switch role</p><button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-proto-role="staff">Staff: Ida</button><button class="ds-button" data-variant="secondary" data-size="sm" type="button" data-proto-role="client">Client: Jonas Hauge, Fjordkaffe AS</button><p class="proto-h">Sample batch for "Choose files"</p><div class="proto-size">${[10, 100].map((n) => h`<label><input type="radio" name="proto-size" value="${n}" data-proto-size${App.protoBatchSize() === n ? App.raw(' checked') : ''}> ${n} files</label>`)}</div><button class="ds-button" data-variant="tertiary" data-size="sm" type="button" data-proto-reset>Reset data</button><p class="proto-links"><a class="ds-link" href="../../EXPERIENCE.md">Behaviour spine</a> <a class="ds-link" href="../../DESIGN.md">Design spine</a></p></div>`);
     document.body.appendChild(el);
   }
 
@@ -1782,6 +1790,10 @@
     });
 
     document.addEventListener('change', (e) => {
+      if (e.target.matches && e.target.matches('[data-proto-size]')) {
+        try { window.localStorage.setItem('proto-batch-size', e.target.value); } catch (err) { /* private window: stays 10 */ }
+        return;
+      }
       const sw = e.target.closest && e.target.closest('[data-caption-toggle]');
       if (!sw) return;
       App.prefs.set('captions', sw.checked);

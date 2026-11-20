@@ -696,7 +696,7 @@
   }
   function detailsHTML(params) {
     const im = params.imageId && App.find.image(params.imageId);
-    if (!im) return h`<div class="panel-body lib-none"><p class="hint">Select an image to see its details.</p></div>`;
+    if (!im) return ''; // no selection: no panel, the wall gets the width
     return panelHTML(im);
   }
   /* re-render the panel in place (keeps its placement, open <details> and focus) */
