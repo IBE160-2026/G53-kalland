@@ -1,0 +1,35 @@
+/* Owner: Staff Clients, Licences, Settings and Action log (#/clients, #/clients/:id, #/licences, #/settings, #/log). Screen-specific styles only; shared styles live in app.css. */
+
+/* forms in a card: two columns that fall to one, wide fields span both */
+.adm-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 16px 32px; align-items: start; }
+.adm-form .adm-wide { grid-column: 1 / -1; }
+.adm-form .ds-field, .adm-form .ds-input { min-width: 0; }
+.adm-form textarea.ds-input { width: 100%; resize: vertical; }
+.adm-form .adm-alert { margin: 0 0 14px; }
+.adm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; color: var(--muted); }
+.adm-actions .adm-last { font-size: 0.875rem; }
+.adm-saved { margin: 0; flex: 1 1 18rem; color: var(--ds-color-success-text-subtle); font-size: 0.875rem; font-weight: 500; }
+.adm-saved:empty { display: none; }
+.adm-note { margin-top: 8px; max-width: 40rem; }
+.adm-kv code { font: 0.875rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* filter bar above the Licences and Action log tables */
+.adm-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin: 0 0 24px; }
+.adm-filters > .ds-field { flex: 0 1 14rem; min-width: 0; }
+.adm-filters > .ds-field .ds-input { width: 100%; }
+.adm-filters .adm-switch { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding-bottom: 8px; }
+.adm-filters .adm-clear { padding-bottom: 10px; font-size: 0.9375rem; }
+
+/* table header meta, sortable date column, revoked status */
+.adm-meta { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; color: var(--muted); font-size: 0.875rem; }
+.adm-meta .count { color: var(--ink); font-weight: 600; }
+.adm-sort { color: inherit; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.adm-rv { display: block; }
+.adm-rv:focus { outline: none; }
+.adm-rv:focus-visible { outline: 3px solid var(--ds-color-focus-outer); outline-offset: 2px; }
+.adm-tags { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.adm-log .adm-detail { overflow-wrap: anywhere; max-width: 32rem; }
+
+@media (max-width: 560px) {
+  .adm-filters > .ds-field { flex: 1 1 100%; }
+}
