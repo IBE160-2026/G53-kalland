@@ -7,7 +7,7 @@ import { setClientStatus, setUserStatus } from "@/modules/accounts";
 import { createTestContact, FACTORY_PASSWORD } from "@/test/factories";
 import { loginAs } from "@/test/login-as";
 import { SESSION_COOKIE } from "./cookies";
-import { currentActor, endCurrentSession, requireContact, requireStaff } from "./guards";
+import { currentActor, endCurrentSession, requireContact, requireStaff, requireUser } from "./guards";
 import { REQUEST_PATH_HEADER } from "./request-path";
 import { IDLE_TIMEOUT_MS, login } from "./sessions";
 import { hashToken } from "./tokens";
@@ -97,6 +97,28 @@ describe("requireStaff and requireContact", () => {
     await setClientStatus(db, staff, contact.clientId, "inactive");
     holdCookie(token);
     await expect(requireContact()).rejects.toThrow("redirect:/login?reason=inactive");
+  });
+});
+
+describe("requireUser", () => {
+  it("returns the Actor for either role", async () => {
+    const staff = await loginAs(fixtureUsers.ida);
+    holdCookie(staff.token);
+    await expect(requireUser()).resolves.toEqual(staff.actor);
+    const contact = await loginAs(fixtureUsers.emil);
+    holdCookie(contact.token);
+    await expect(requireUser()).resolves.toEqual(contact.actor);
+  });
+
+  it("sends a request without a session to Login, and a deactivated user to Login with the inactive message", async () => {
+    request.path = "/api/images/x/thumbnail";
+    await expect(requireUser()).rejects.toThrow("redirect:/login?returnTo=%2Fapi%2Fimages%2Fx%2Fthumbnail");
+    const contact = await createTestContact();
+    const { actor: staff } = await loginAs(fixtureUsers.per);
+    const { token } = await login(contact.email, FACTORY_PASSWORD);
+    await setUserStatus(db, staff, contact.userId, "inactive");
+    holdCookie(token);
+    await expect(requireUser()).rejects.toThrow("redirect:/login?reason=inactive");
   });
 });
 

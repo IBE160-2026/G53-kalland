@@ -480,6 +480,38 @@ body {
   justify-self: center;
 }
 
+/* Own-image tick (UX-DR-15): 26 px success circle with a white check and a 2 px white ring, on the
+   image top-right; the 18 px inline variant before "Yours to download". */
+.own-tick {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  color: var(--ds-color-success-base-contrast-default);
+  background: var(--ds-color-success-base-default);
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px var(--ds-color-neutral-surface-default);
+  stroke-width: 2.4;
+}
+.own-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: var(--ds-color-success-text-subtle);
+}
+.own-tick-inline {
+  width: 18px;
+  height: 18px;
+  padding: 3px;
+  color: var(--ds-color-success-base-contrast-default);
+  background: var(--ds-color-success-base-default);
+  border-radius: 9999px;
+  stroke-width: 2.4;
+}
+
 .details-panel {
   position: sticky;
   top: 16px;
@@ -597,6 +629,40 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+/* Licence option (UX-DR-35): a card on canvas with a hairline border. */
+.licence-option {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--ds-color-neutral-background-tinted);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--radius-default);
+}
+.licence-option-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  width: 100%;
+  margin: 0;
+}
+.licence-name {
+  font-weight: 600;
+}
+.price-lg {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.licence-scope {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+}
+.licence-text {
+  white-space: pre-line;
 }
 .dialog-actions {
   display: flex;

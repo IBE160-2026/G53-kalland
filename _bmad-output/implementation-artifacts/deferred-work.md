@@ -19,3 +19,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-7-the-examiner-starts-with-a-sample-library.md`
   summary: Restore test coverage of the Library page's empty state (the `total === 0` branch, the sidebar text "Filters appear when the library has images." and its axe scan), lost when the e2e database became always seeded in Story 1.7.
   evidence: `tests/e2e/empty-library.spec.ts` was deleted; `src/app/_components/shell/empty-state.test.ts` renders only `EmptyState` with its own props, so removing or inverting the branch in `src/app/(staff)/library/page.tsx` passes every test. The user accepted the gap on 2026-11-23. Possible fixes: an app-test instance with `SEED_ON_START=false`, or a reachable empty/no-results state in e2e (Story 4.1 filters).
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-8-a-contact-finds-the-images-their-client-may-see.md`
+  summary: Test the shared wall pagination (`WallPagination` in `src/app/_components/wall/wall.tsx`), used by the Library and Find images, with a page count above 1.
+  evidence: Review finding 14. No test renders a wall with more than 48 images (22 seed images in e2e). A broken `hrefFor` call, Next link or `wall.*` key would ship unnoticed. The cheap fix is a static render test of `Wall` with a stub `hrefFor`, in the style of `empty-state.test.ts`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-8-a-contact-finds-the-images-their-client-may-see.md`
+  summary: Cover the Find images page's empty branch (`list.total === 0` → `EmptyState`) for a contact whose client may see nothing.
+  evidence: Review finding 15. `empty-state.test.ts` renders only the component, and every test DB holds public images, so inverting the branch passes every test. This is the same class as the 1.7 Library empty-state gap. Fix options: a page-level test with `listClientImages` stubbed, or an app-test instance without the sample library.

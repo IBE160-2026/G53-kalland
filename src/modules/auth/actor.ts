@@ -9,6 +9,10 @@ export function assertStaff(actor: Actor): asserts actor is Extract<Actor, { rol
   if (actor.role !== "staff") throw new Forbidden();
 }
 
+export function assertContact(actor: Actor): asserts actor is Extract<Actor, { role: "contact" }> {
+  if (actor.role !== "contact") throw new Forbidden();
+}
+
 export const LOGIN_PATH = "/login";
 
 export function landingPathFor(actor: Actor): string {

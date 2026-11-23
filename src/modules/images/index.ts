@@ -6,6 +6,7 @@ export {
   LIBRARY_PAGE_SIZE,
   listLibrary,
   METADATA_FIELDS,
+  pageWindow,
   type LibraryImage,
   type LibraryItem,
   type MetadataField,
@@ -14,7 +15,7 @@ export { archiveImage, publishImage, saveAccess, type AccessInput } from "./publ
 export {
   completeUpload,
   createUploadRows,
-  getThumbnail,
+  getDerivedFile,
   listBatchUploads,
   STALE_UPLOAD_MS,
   sweepStaleUploads,

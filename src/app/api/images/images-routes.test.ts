@@ -1,7 +1,9 @@
 import { rm } from "node:fs/promises";
+import { eq } from "drizzle-orm";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { getDb } from "@/db/client";
+import { imageClients, images } from "@/db/schema";
 import { fixtureUsers, type FixtureUser } from "@/db/seed/fixture";
 import { PLACEHOLDER_OUTPUT } from "@/modules/ai/providers/mock";
 import { createUploadRows } from "@/modules/images";
@@ -9,7 +11,8 @@ import { SESSION_COOKIE } from "@/modules/auth/cookies";
 import { makeJpeg, useTempFileStore } from "@/test/images";
 import { loginAs } from "@/test/login-as";
 import { PUT } from "./[id]/file/route";
-import { GET } from "./[id]/thumbnail/route";
+import { GET as getPreview } from "./[id]/preview/route";
+import { GET as getThumbnail } from "./[id]/thumbnail/route";
 
 // The request a guard sees, as in guards.test.ts: a cookie jar; forbidden() and redirect() throw.
 const request = vi.hoisted(() => ({ cookies: new Map<string, string>() }));
@@ -149,25 +152,76 @@ describe("PUT /api/images/[id]/file", () => {
   });
 });
 
-describe("GET /api/images/[id]/thumbnail", () => {
-  it("streams the WebP privately and never cached", async () => {
-    const imageId = await newRow();
-    await as(fixtureUsers.ida);
-    await PUT(...put(imageId, new Uint8Array(await makeJpeg())));
+type FileRoute = (request: Request, context: { params: Promise<{ id: string }> }) => Promise<Response>;
 
+const FILE_ROUTES: [string, FileRoute][] = [
+  ["thumbnail", getThumbnail as FileRoute],
+  ["preview", getPreview as FileRoute],
+];
+
+function get(route: FileRoute, imageId: string, kind: string) {
+  return route(new Request(`${APP_ORIGIN}/api/images/${imageId}/${kind}`), context(imageId));
+}
+
+// An uploaded image (a real file) in the given access state, restricted to the clients of `listedFor`.
+async function uploadedImage(state: Partial<typeof images.$inferInsert> = {}, listedFor: FixtureUser[] = []): Promise<string> {
+  const imageId = await newRow();
+  await as(fixtureUsers.ida);
+  await PUT(...put(imageId, new Uint8Array(await makeJpeg())));
+  if (Object.keys(state).length > 0) await getDb().update(images).set(state).where(eq(images.id, imageId));
+  for (const contact of listedFor) {
+    const { actor } = await loginAs(contact);
+    await getDb().insert(imageClients).values({ imageId, clientId: actor.clientId! });
+  }
+  return imageId;
+}
+
+describe.each(FILE_ROUTES)("GET /api/images/[id]/%s", (kind, route) => {
+  it("streams the WebP to staff, privately and never cached", async () => {
+    const imageId = await uploadedImage();
     await as(fixtureUsers.per);
-    const response = await GET(new Request(`${APP_ORIGIN}/api/images/${imageId}/thumbnail`), context(imageId));
+    const response = await get(route, imageId, kind);
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toBe("image/webp");
     expect(response.headers.get("cache-control")).toBe("private, no-store");
     expect(Buffer.from(await response.arrayBuffer()).subarray(8, 12).toString()).toBe("WEBP");
   });
 
-  it("is forbidden to a contact, and 404 for an image without a file", async () => {
+  it("answers staff 404 for an image without a file and for an id that is not a UUID", async () => {
     const imageId = await newRow();
     await as(fixtureUsers.ida);
-    expect((await GET(new Request(`${APP_ORIGIN}/api/images/${imageId}/thumbnail`), context(imageId))).status).toBe(404);
+    expect((await get(route, imageId, kind)).status).toBe(404);
+    expect((await get(route, "not-a-uuid", kind)).status).toBe(404);
+  });
+
+  it("streams the WebP to a contact whose client may see the image, privately and never cached", async () => {
+    const imageId = await uploadedImage({ status: "published", visibility: "restricted", publishedAt: new Date() }, [fixtureUsers.jonas]);
     await as(fixtureUsers.jonas);
-    await expect(GET(new Request(`${APP_ORIGIN}/api/images/${imageId}/thumbnail`), context(imageId))).rejects.toThrow("forbidden");
+    const response = await get(route, imageId, kind);
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("image/webp");
+    expect(response.headers.get("cache-control")).toBe("private, no-store");
+    expect(Buffer.from(await response.arrayBuffer()).subarray(8, 12).toString()).toBe("WEBP");
+  });
+
+  it("answers a contact 404, never 403, for an image their client may not see", async () => {
+    const restricted = await uploadedImage({ status: "published", visibility: "restricted", publishedAt: new Date() }, [fixtureUsers.emil]);
+    const draft = await uploadedImage({ status: "draft", visibility: "public" });
+    // Visible (published, public) but without a file.
+    const noFile = await newRow();
+    await getDb().update(images).set({ status: "published", visibility: "public", publishedAt: new Date() }).where(eq(images.id, noFile));
+    await as(fixtureUsers.jonas);
+    for (const imageId of [restricted, draft, noFile, crypto.randomUUID(), "not-a-uuid"]) {
+      const response = await get(route, imageId, kind);
+      expect(response.status).toBe(404);
+      expect(response.headers.get("cache-control")).toBe("private, no-store");
+      expect(await response.json()).toEqual({ error: "errors.notFound" });
+    }
+  });
+
+  it("sends a request without a session to Login", async () => {
+    const imageId = await uploadedImage({ status: "published", visibility: "public", publishedAt: new Date() });
+    request.cookies.clear();
+    await expect(get(route, imageId, kind)).rejects.toThrow(/^redirect:\/login/);
   });
 });

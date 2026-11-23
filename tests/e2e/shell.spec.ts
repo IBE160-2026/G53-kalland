@@ -97,7 +97,8 @@ test.describe("client shell", () => {
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/find-images\?q=boat$/);
     await expect(page.getByRole("link", { name: "Find images" })).toHaveAttribute("aria-current", "page");
-    await expect(page.getByText("There are no images to show yet.")).toBeVisible();
+    // Search arrives with Story 4.4; until then Find images shows the whole wall.
+    await expect(page.getByRole("list", { name: "Images" })).toBeVisible();
   });
 
   test("Log out in the account menu ends the session", async ({ page }) => {

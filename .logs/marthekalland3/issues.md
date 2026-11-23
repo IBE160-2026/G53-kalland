@@ -76,3 +76,6 @@
 - [ ] 2026-11-23 [1-6-publish-with-visibility-and-price](974-2026-11-23-16-27-30-1-6-publish-with-visibility-and-price.md) — unsaved-changes dialog in the Library panel (deferred to Story 3.4)
 - [ ] 2026-11-23 [1-7-sample-library](973-2026-11-23-20-03-40-1-7-sample-library.md) — restore test coverage of the empty Library page: the `total === 0` branch, its sidebar text and its axe scan (deferred-work.md)
 - [ ] 2026-11-23 [1-7-sample-library](973-2026-11-23-20-03-40-1-7-sample-library.md) — test the seed's per-file error branch and its missing-Ida branch
+- [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — check story 1.8 by hand with `docker compose up` as jonas and emil (A7, A4/A5 visibility, licence dialog)
+- [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — test the shared wall pagination with more than 48 images (deferred-work.md)
+- [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — cover the Find images empty branch for a client that may see nothing (deferred-work.md)

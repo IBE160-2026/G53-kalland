@@ -30,6 +30,14 @@
     "staff": "Search title, description, keywords and places",
     "client": "Search images"
   },
+  "wall": {
+    "count": "{n, plural, one {# image} other {# images}}, newest first",
+    "label": "Images",
+    "pagination": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageLabel": "Page {n}"
+  },
   "library": {
     "title": "Library",
     "filters": "Filters",
@@ -37,13 +45,7 @@
     "filtersEmpty": "Filters appear when the library has images.",
     "empty": "The library has no images yet.",
     "emptyAction": "Upload images",
-    "count": "{n, plural, one {# image} other {# images}}, newest first",
     "untitled": "Untitled image",
-    "wall": "Images",
-    "pagination": "Pages",
-    "previous": "Previous",
-    "next": "Next",
-    "pageLabel": "Page {n}",
     "tag": {
       "draft": "Draft",
       "published": "Published",
@@ -145,11 +147,45 @@
   },
   "findImages": {
     "title": "Find images",
-    "empty": "There are no images to show yet."
+    "empty": "There are no images to show yet.",
+    "free": "Free",
+    "yoursToDownload": "Yours to download",
+    "panel": {
+      "about": "About the image",
+      "technical": "Technical details",
+      "description": "Description",
+      "altText": "Alt text",
+      "dateTaken": "Date taken",
+      "keywords": "Keywords",
+      "camera": "Camera",
+      "lens": "Lens",
+      "exposureTime": "Exposure",
+      "aperture": "Aperture",
+      "focalLength": "Focal length",
+      "iso": "ISO",
+      "pixelSize": "Pixel size",
+      "pixels": "{width} × {height} px, {orientation}",
+      "orientation": {
+        "landscape": "landscape",
+        "portrait": "portrait",
+        "square": "square"
+      }
+    },
+    "licence": {
+      "title": "Licence",
+      "scope": "Use in your own marketing and communication, in print and online. Price ex VAT.",
+      "readTerms": "Read the licence terms",
+      "termsTitle": "Licence terms: {name}",
+      "close": "Close"
+    }
   },
   "forbidden": {
     "title": "No access",
     "body": "You do not have access to this page. Go to your start page, or contact the agency if you think you should have access.",
+    "home": "Go to your start page"
+  },
+  "notFound": {
+    "title": "Not found",
     "home": "Go to your start page"
   },
   "accounts": {
