@@ -150,7 +150,8 @@ class RedactTest(unittest.TestCase):
     def test_scan_flags_unmasked_and_passes_masked(self):
         tmp = Path(tempfile.mkdtemp())
         clean, leaky = tmp / "clean.md", tmp / "leaky.md"
-        clean.write_text(f"token = {redact.MASK}\nnothing here\n", encoding="utf-8")
+        # A masked value followed by punctuation (markdown code span, full stop) is still masked.
+        clean.write_text(f"token = {redact.MASK}\n- `DEMO_PASSWORD = {redact.MASK}`.\nnothing here\n", encoding="utf-8")
         leaky.write_text(f"ok\nkey {FAKE_KEY}\n", encoding="utf-8")
         self.assertEqual(redact.scan([str(clean)]), 0)
         self.assertEqual(redact.scan([str(clean), str(leaky)]), 1)
