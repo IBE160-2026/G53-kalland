@@ -3,7 +3,7 @@ name: g53-kalland
 status: final
 sources:
   - {planning_artifacts}/prds/prd-g53-kalland-2026-11-18/prd.md
-updated: 2026-11-20
+updated: 2026-11-23
 ---
 
 # CRM-DAM — Experience Spine
@@ -107,11 +107,11 @@ Behavioural. Visual specs live in `DESIGN.md` → Components; names and groups a
 |---|---|---|
 | Details panel | Selected image (Library, client views) or file (Upload) | Shows the current selection (placement per width: Responsive & Platform). Library variant: view → Edit → Save changes (see Editing and Saving). Upload variant: fields editable at once, autosave. Client variant: read-only, licence and download / cart actions. |
 | Inline details | The Details panel placed inline at narrower widths (layout: Responsive & Platform) | "Close details" collapses it and returns focus to the tile. The Upload accordion keeps the editable fields and autosave. |
-| Access controls | Visibility and price, Library edit mode and Upload panel | Client picker shows only for Restricted (no client ownership of public images in v1). Paid shows the amount field. If Restricted has no clients, an inline warning under the client chips says the image behaves as internal-only (S4). |
+| Access controls | Visibility and price, Library edit mode and Upload panel | Client picker shows only for Restricted (no client ownership of public images in v1). Paid shows the current licence price read-only ("90 USD per licence, ex VAT"), with a link to Settings where staff change it (FR-23, FR-40); there is no per-image amount. If Restricted has no clients, an inline warning under the client chips says the image behaves as internal-only (S4). |
 | Changed-field marker | Library edit mode | Appears on a field as soon as its value differs from the saved value; disappears if changed back. |
 | Save status | Details panel status line and footer | Upload: "Saved" after each autosave. Library: "No changes yet" → "Unsaved changes (n fields)" while editing; "Changes saved" in the status line after Save changes. Announced via `role="status"`. |
 | Unsaved-changes dialog | Leaving Library edit mode with unsaved changes | See Editing and Saving. |
-| Keyword chip | Metadata keywords | Remove with the chip's × ("Remove keyword {k}"); "Add keyword" adds one. Upload groups generated keywords by category and shows "(n of 15)" (FR-14). |
+| Keyword chip | Metadata keywords | Remove with the chip's × ("Remove keyword {k}"); "Add keyword" adds one. Upload groups generated keywords by category and shows "(n of 15)" (FR-14); the category comes from the AI output (prompt v3), and embedded, shared and hand-written keywords sit in their own group. |
 
 ### Upload
 
@@ -184,7 +184,7 @@ Staff tile captions show visibility (Public with a globe, the client name for Re
 |---|---|---|
 | Library | Cold load | Designsystemet skeleton tiles in the wall; sidebar and toolbar render at once. |
 | Library | Empty result (FR-29) | Empty state: says no images match and offers "Clear filters". Copy: "No images match your search and filters." |
-| Library | Processing images | Tags on the tile: Uploading (skeleton + percentage), Queued, Generating (spinner), Ready, Failed; Draft / Archived as lifecycle tags. Updates live. |
+| Library | Processing images | Tags on the tile: Uploading (skeleton; the uploader also sees a percentage, other staff do not), Queued, Generating (spinner), Ready, Failed; Draft / Archived as lifecycle tags. Updates live. |
 | Library | Failed image | Failed tag; with captions on, a one-line error under the title. With captions off, the Failed tag only. |
 | Library | No selection | No Details panel: the wall takes the full width. The panel appears when an image is selected. |
 | Library | View / editing / unsaved / saved / save failed | See Editing and Saving. |
@@ -331,5 +331,5 @@ From ten round-1 directions and three later rounds:
 
 ## Open Questions
 
-1. **UI system.** Designsystemet vs shadcn/ui is settled in architecture (D-031, `technology.md`). The spines assume Designsystemet; if it changes, `DESIGN.md` must be re-mapped; this spine's behaviour stays.
+1. **UI system.** Settled: the architecture spine (AD-1) chooses Designsystemet React, closing D-031.
 2. **Licence text.** The text in the mocks and seed data is sample text; the agency's legal reviewer writes the real one before launch (RG-6).
