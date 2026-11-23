@@ -534,3 +534,33 @@ Template:
 - **Rationale:** (A) was tried: Compose aborted when Vitest exited 0, then hung after Playwright passed. A separate project has its own database volume, so a test run never stops or touches the dev stack. Forcing the mock keeps tests free and offline whatever `.env` holds; the `_test` rule is a positive check before a destructive reset.
 - **Consequences:** The test command is one long line of three Compose calls; the test stack stays up after a run until `down -v`. Later stories add tests to the same `unit` and `e2e` services; access tests (AD-7) reuse the same reset.
 - **Trace:** PR #51, Story 1.1, [spec](../../_bmad-output/implementation-artifacts/spec-1-1-the-app-starts-from-one-command.md), [session log](sessions/2026-11-23-1-1-app-starts-from-one-command.md)
+
+## D-054: Log out is the one Server Action without a role guard
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The story 1.2 spec says every page, Server Action and Route Handler calls a guard first, except the public Login page, the root redirect and `/api/health`. Log out is a Server Action used by both roles. `requireStaff()` refuses contacts and `requireContact()` refuses staff. Both guards send an expired session to Login instead of letting the user leave.
+- **Alternatives:** (A) no guard; Log out calls `auth.endCurrentSession()`, which acts only on the caller's own cookie; (B) a new `requireAnyRole()` guard used by Log out; (C) two Log out actions, one per role guard.
+- **Decision:** (A). `endCurrentSession()` deletes the session behind the caller's cookie and clears the cookie, and does nothing without one. Log out is added to the spec rule's exceptions.
+- **Rationale:** Log out takes no input, reads no data and can end only the sender's own session, so a guard would protect nothing. (B) and (C) add code whose only effect is to block logging out of an expired or deactivated session. The AI (bmad-build implementation subagent) proposed the exception; the user accepted it after the review.
+- **Consequences:** Any other Server Action or Route Handler without a guard still breaks the rule. A new exception needs its own D-entry. If Log out later does more than end the caller's session (e.g. `images.releaseLocksOf`, AD-5), it must use the guard's Actor rather than trust the cookie alone.
+- **Trace:** PR #53, Story 1.2, [spec](../../_bmad-output/implementation-artifacts/spec-1-2-staff-and-contacts-log-in-and-out.md) (Implementation Notes), `src/app/_components/actions.ts`, [session log](sessions/2026-11-23-1-2-staff-and-contacts-log-in-and-out.md)
+
+## D-055: The Graphite theme is generated with the Designsystemet 1.24 CLI, with every DESIGN.md role pinned as an override, and the CSS is committed
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.3 requires the Graphite theme "generated from `designsystemet.config.json`". DESIGN.md's config sample uses the pre-1.24 nested shape (`main`/`support`), and the role values in DESIGN.md came from the 1.23 theme builder in the mockups. In a scratch run, the 1.24.0 CLI generated other values from the same base colours (accent-hover `#36393e` instead of `#1D1F24`, text `#2a2c2e` instead of `#202124`). The deprecated `@digdir/designsystemet-theme` package is no option (architecture review F9).
+- **Alternatives:** (A) the 1.24 CLI with flat `colors`, status colours in `overrides.severity`, and every DESIGN.md Colors-table role pinned in `overrides.colors.<color>.<token>.light` plus `overrides.focus`; generated CSS committed; (B) accept the CLI's 1.24 values and update DESIGN.md to match; (C) hand-write the `--ds-*` variables in CSS, without the CLI.
+- **Decision:** (A). New dev dependency `@digdir/designsystemet` 1.24.0 (CLI), script `npm run theme:build`; `src/styles/theme/graphite.css` is generated and committed, never edited by hand. `src/styles/theme/theme.test.ts` checks each role against the generated CSS. Also added: `@digdir/designsystemet-react` and `-css` 1.24.0 (stack table) and `@axe-core/playwright` 4.14.0 (pinned in the spine) for the axe scans.
+- **Rationale:** (A) keeps both DESIGN.md (whose contrast table was checked against its values) and the AC's "generated from the config". (B) would change approved, contrast-checked colours. (C) breaks the AC and loses the generated full scales. Committing the CSS keeps builds reproducible and the diff reviewable. Claude found the shape and value differences while planning; the user approved the spec.
+- **Consequences:** Changing a colour means editing the config and running `theme:build`, then committing both. Nothing in CI yet checks that the committed CSS matches the config (deferred in `deferred-work.md`). `designsystemet.config.json` sits in the repo root, which the CLI expects but CLAUDE.md's "no loose files in the root" does not list as an exception; still open.
+- **Trace:** PR #54, Story 1.3, [spec](../../_bmad-output/implementation-artifacts/spec-1-3-staff-and-client-shells-in-the-graphite-theme.md), `designsystemet.config.json`, [session log](sessions/2026-11-23-story-1-3-shells.md)
+
+## D-056: Story 1.3 ships Overview as a contact tab, with placeholder Upload and Find images pages
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.3's AC lists the tabs "built so far": staff Library and Upload, contacts Find images. `/upload` (1.4) and `/find-images` (1.8) did not exist yet, and contacts land on `/overview`, which the AC does not list, so their landing page would have no current tab.
+- **Alternatives:** (A) the AC's tabs exactly, with placeholder pages; (B) the AC's tabs plus Overview for contacts, with placeholder pages; (C) only tabs whose pages exist (Library; Overview), adding Upload and Find images in 1.4 and 1.8.
+- **Decision:** (B). Staff tabs Library and Upload; contact tabs Overview and Find images. `/upload` and `/find-images` are guarded placeholder pages with a one-line empty state until 1.4 and 1.8 replace them. Before filters exist, the Library sidebar holds a "Filters" heading and one muted line.
+- **Rationale:** The user's choice of the three options Claude presented. It matches EXPERIENCE.md's IA (Overview is a main-nav tab), gives the landing page an `aria-current` tab, and lets the drawer AC be tested now.
+- **Consequences:** Two placeholder pages and a placeholder sidebar line must be removed or replaced in stories 1.4, 1.8 and the Library filter story. Both placeholder pages are on the axe scan list and have cross-role 403 tests.
+- **Trace:** PR #54, Story 1.3, [spec](../../_bmad-output/implementation-artifacts/spec-1-3-staff-and-client-shells-in-the-graphite-theme.md) (Decisions), [session log](sessions/2026-11-23-story-1-3-shells.md)
