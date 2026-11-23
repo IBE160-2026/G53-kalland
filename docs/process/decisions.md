@@ -564,3 +564,53 @@ Template:
 - **Rationale:** The user's choice of the three options Claude presented. It matches EXPERIENCE.md's IA (Overview is a main-nav tab), gives the landing page an `aria-current` tab, and lets the drawer AC be tested now.
 - **Consequences:** Two placeholder pages and a placeholder sidebar line must be removed or replaced in stories 1.4, 1.8 and the Library filter story. Both placeholder pages are on the axe scan list and have cross-role 403 tests.
 - **Trace:** PR #54, Story 1.3, [spec](../../_bmad-output/implementation-artifacts/spec-1-3-staff-and-client-shells-in-the-graphite-theme.md) (Decisions), [session log](sessions/2026-11-23-story-1-3-shells.md)
+
+## D-057: Upload rows are created by a Server Action, then each file goes as a raw-body PUT, one at a time, outside the proxy
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** AD-11 requires the image row (`uploading`) before the file is sent, and AD-4 sends file traffic through Route Handlers. The architecture leaves the transport open (multipart or raw body, concurrency). Server Actions cap bodies at 1 MB, and the existing `src/proxy.ts` would cap request bodies at 10 MB (architecture review F11), while files may be 50 MB.
+- **Alternatives:** Multipart POST with row creation in the same request; raw-body PUT per file; parallel or sequential sending; raising the proxy's body limit instead of excluding the route.
+- **Decision:** A Server Action creates the batch (if needed) and all rows at once; the browser then sends each file as the raw `application/octet-stream` body of `PUT /api/images/<id>/file`, one file at a time. The route is excluded from the proxy matcher (anchored to exactly that path), and checks `Origin` against `APP_ORIGIN`.
+- **Rationale:** A raw body streams straight to `tmp/` with the hash computed in-stream, never buffered; an abort surfaces as a stream error that triggers cleanup. Rows-first gives each file a visible row at once. Sequential sending keeps the first cut simple; the parallel queue is AD-13 / Story 3.1.
+- **Consequences:** Story 3.1 replaces the sequential loop with the queue provider. Any future route under `/api/images/<id>/file` gets no request-path header from the proxy. A test uploads a > 10 MB PNG to prove the exclusion works.
+- **Trace:** PR #56, Story 1.4, [spec](../../_bmad-output/implementation-artifacts/spec-1-4-staff-upload-an-image-and-the-library-stores-it-safely.md) (Design Notes), [session log](sessions/2026-11-23-story-1-4-upload.md)
+
+## D-058: The Upload page keeps the current batch in the URL (`/upload?batch=<id>`)
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Until Story 3.1 adds sidebar batch lists, file rows only lived in the browser; a reload would empty the page although the drafts are stored.
+- **Alternatives:** (a) browser-only rows, lost on reload; (b) the batch id in the URL, with the server rendering that batch's stored rows.
+- **Decision:** (b), the user's choice. After the first file is added, the URL becomes `/upload?batch=<id>` (replace, no navigation). A reload renders the batch's stored rows; rows still `uploading` show the lost-connection message, since nothing sends them any more. Rejected files are not stored, so they do not survive a reload. A batch id that is not a UUID, does not exist or belongs to another staff user gives a fresh page.
+- **Rationale:** Losing the list on reload looks like lost uploads. It costs one read function and one page branch.
+- **Consequences:** Story 3.1's batch lists can link to the same URL.
+- **Trace:** PR #56, Story 1.4, [spec](../../_bmad-output/implementation-artifacts/spec-1-4-staff-upload-an-image-and-the-library-stores-it-safely.md) (Decisions), [session log](sessions/2026-11-23-story-1-4-upload.md)
+
+## D-059: Derived files are WebP (thumbnail ≤ 480 px, preview ≤ 800 px), and embedded metadata is read XMP first, then IPTC-IIM, then EXIF
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** AD-16 fixes the preview at ≤ 800 px and the ICC-only rule but gives no thumbnail size or format. The metadata research gives the write mapping per field but no read precedence.
+- **Alternatives:** JPEG or PNG derived files per source type; a 52 px thumbnail (the file-row size only); other read orders.
+- **Decision:** Thumbnail and preview are auto-oriented WebP that keep only the ICC profile, ≤ 480 px and ≤ 800 px on the long edge. Fields are read XMP → IIM → EXIF (title `dc:title` → `ObjectName`; description `dc:description` → `Caption-Abstract` → `ImageDescription`, keeping line breaks; alt text `AltTextAccessibility`, cut to 250; keywords `dc:subject` → `Keywords`, deduplicated case-insensitively), all stripped of control characters.
+- **Rationale:** WebP keeps alpha for PNGs and stays small; 480 px serves the later image walls on high-density screens. XMP holds full values while IIM may be truncated (research § C).
+- **Consequences:** Thumbnail responses are `image/webp`. Library wall stories can reuse the thumbnail as is.
+- **Trace:** PR #56, Story 1.4, [spec](../../_bmad-output/implementation-artifacts/spec-1-4-staff-upload-an-image-and-the-library-stores-it-safely.md) (Code Map), [session log](sessions/2026-11-23-story-1-4-upload.md)
+
+## D-060: The AI provider port carries the file name as its own field, and the AI input is made in memory
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** AD-21 defines the port input as AI image, media type, metadata text and output language. AD-22 makes the mock pick fixtures and fail on demand by file name, which is not in that input. AD-16 lists the AI input as a derived file but not where it lives.
+- **Alternatives:** put the file name in the metadata text (a real model would get it too); key fixtures on the original's hash (the port receives the derived image, not the original); store the AI input under `derived/` at upload.
+- **Decision:** The port input gains `filename`, read only by the mock; real adapters ignore it. Media makes the AI input (auto-oriented, ≤ 1568 px, sRGB JPEG, no metadata) in memory from the stored original for each run and never stores it. The mock fails as `unavailable`; an unknown `AI_PROVIDER` also fails as `unavailable` until the Claude adapter (Story 3.5).
+- **Rationale:** File names can carry client names and are noise for a model; keeping the name out of the text keeps the Claude adapter clean. Making the input on demand avoids another stored file and lets retry (3.9) remake it.
+- **Consequences:** Story 3.5's adapter must not forward `filename`. Seed fixtures in Story 1.7 are keyed by the seed image's file name.
+- **Trace:** PR #57, Story 1.5, [spec](../../_bmad-output/implementation-artifacts/spec-1-5-uploaded-images-get-ai-metadata-from-the-mock-provider.md) (Design Notes), [session log](sessions/2026-11-23-story-1-5-ai-metadata.md)
+
+## D-061: A Failed upload row shows the Failed tag only until Story 3.2
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.5 makes images end `failed` when generation fails; FR-16a wants a plain reason, and Story 3.2 owns the exact NFR-7 message with one reason per error category.
+- **Alternatives:** the NFR-7 message with one generic reason now; all seven per-category reasons now.
+- **Decision:** In Story 1.5 a Failed row shows the Failed tag, with the embedded title (or "Untitled image") over the file name and no message line. The failure reason is stored in `images.failure_reason`.
+- **Rationale:** Keeps 1.5 to the AI pipeline; the reason copy is written once, in 3.2.
+- **Consequences:** Until 3.2, staff see that generation failed but not why.
+- **Trace:** PR #57, Story 1.5, [spec](../../_bmad-output/implementation-artifacts/spec-1-5-uploaded-images-get-ai-metadata-from-the-mock-provider.md) (Decisions), [session log](sessions/2026-11-23-story-1-5-ai-metadata.md)
