@@ -9,7 +9,7 @@ import { Conflict, Forbidden, NotFound, Validation } from "@/modules/shared/erro
 import { createTestClient } from "@/test/factories";
 import { createLibraryImage, imageRow } from "@/test/library-images";
 import { loginAs } from "@/test/login-as";
-import { getLibraryImage, publishImage, saveAccess, type AccessInput } from ".";
+import { archiveImage, getLibraryImage, publishImage, saveAccess, type AccessInput } from ".";
 
 const db = getDb();
 let ida: Actor;
@@ -94,6 +94,33 @@ describe("publishImage", () => {
     await expect(publishImage(ida, id)).rejects.toBeInstanceOf(Conflict);
     expect((await imageRow(id)).status).toBe("archived");
     await expect(publishImage(ida, "019ab0c0-0000-7000-8000-00000000dead")).rejects.toBeInstanceOf(NotFound);
+  });
+});
+
+describe("archiveImage", () => {
+  it("archives a published image and bumps the version", async () => {
+    const id = await createLibraryImage(ida);
+    await publishImage(ida, id);
+    await archiveImage(ida, id);
+    expect(await imageRow(id)).toMatchObject({ status: "archived", version: 3 });
+  });
+
+  it.each(["draft", "archived"] as const)("refuses a %s image with Conflict and changes nothing", async (status) => {
+    const id = await createLibraryImage(ida, { status });
+    await expect(archiveImage(ida, id)).rejects.toBeInstanceOf(Conflict);
+    expect(await imageRow(id)).toMatchObject({ status, version: 1 });
+  });
+
+  it("refuses an unknown image with NotFound", async () => {
+    await expect(archiveImage(ida, "019ab0c0-0000-7000-8000-00000000dead")).rejects.toBeInstanceOf(NotFound);
+  });
+
+  it("archives once when called in parallel", async () => {
+    const id = await createLibraryImage(ida);
+    await publishImage(ida, id);
+    const results = await Promise.allSettled(Array.from({ length: 5 }, () => archiveImage(ida, id)));
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(await imageRow(id)).toMatchObject({ status: "archived", version: 3 });
   });
 });
 
@@ -194,6 +221,9 @@ describe("the publish and access writes need a staff Actor", () => {
     await expect(publishImage(jonas, id)).rejects.toBeInstanceOf(Forbidden);
     await expect(saveAccess(jonas, id, access(1, { visibility: "public" }))).rejects.toBeInstanceOf(Forbidden);
     expect(await imageRow(id)).toMatchObject({ status: "draft", visibility: "internal", version: 1 });
+    await publishImage(ida, id);
+    await expect(archiveImage(jonas, id)).rejects.toBeInstanceOf(Forbidden);
+    expect((await imageRow(id)).status).toBe("published");
   });
 });
 

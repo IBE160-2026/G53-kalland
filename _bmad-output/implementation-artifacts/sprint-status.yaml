@@ -45,7 +45,7 @@
 # Story keys carry the heading's tier tag, cut at a fixed length (e.g. "...-rank-1" on
 # 6.3 is rank 14); the ranks above are the right ones.
 generated: 11-23-2026 10:20
-last_updated: 11-23-2026 16:25
+last_updated: 11-23-2026 20:01
 project: g53-kalland
 project_key: NOKEY
 tracking_system: file-system
@@ -58,7 +58,7 @@ development_status:
   1-4-staff-upload-an-image-and-the-library-stores-it-safely: review
   1-5-uploaded-images-get-ai-metadata-from-the-mock-provider: review
   1-6-staff-publish-an-image-with-its-visibility-and-price: review
-  1-7-the-examiner-starts-with-a-sample-library: backlog
+  1-7-the-examiner-starts-with-a-sample-library: review
   1-8-a-contact-finds-the-images-their-client-may-see: backlog
   1-9-a-contact-checks-out-a-paid-image-and-staff-see-the-licence: backlog
   epic-1-retrospective: optional

@@ -25,6 +25,6 @@ WORKDIR /e2e
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json playwright.config.ts ./
 COPY tests/e2e ./tests/e2e
-# The named seed users (pure data) that the e2e tests log in as.
+# The named seed users and sample-image fixture (pure data) that the e2e tests use.
 COPY src/db/seed/fixture.ts ./src/db/seed/fixture.ts
 CMD ["npx", "playwright", "test"]

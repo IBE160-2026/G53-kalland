@@ -10,7 +10,7 @@ export {
   type LibraryItem,
   type MetadataField,
 } from "./library";
-export { publishImage, saveAccess, type AccessInput } from "./publish";
+export { archiveImage, publishImage, saveAccess, type AccessInput } from "./publish";
 export {
   completeUpload,
   createUploadRows,
