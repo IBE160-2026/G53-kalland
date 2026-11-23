@@ -1,0 +1,129 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+
+# BUILD ORDER (D-050, from "Dependencies and build order" in planning-artifacts/epics.md):
+# ==================================================================================
+# The entries below are in epic order. Stories are built in this order instead, so the
+# 2026-11-30 checkpoint can draw the cut line by rank. The status view's "next story"
+# takes the first backlog entry in file order; ignore it and take the next one here.
+#   1. Thin slice:  1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9
+#   2. Spine:       2.1-2.4, 3.1-3.6, 4.1-4.7, 5.1-5.5, 7.1-7.3
+#   3. Planned:     3.7 (rank 1), 3.8 (2), 3.9 (3), 4.8 (4), 5.6 (5)
+#   4. Bonus:       5.7 (rank 6), 3.10 (7), 6.1 (8), 2.5 (9), 3.11 (10), 2.6 (11),
+#                   3.12 (12), 6.2 (13), 6.3 (14), 3.13 (15), 3.14 (16), 5.8 (17),
+#                   3.15 (18), 6.4 (19), 6.5 (20), 2.7 (21), 7.4 (22)
+# Spine cut candidates (D-052): 3.6, 4.7, and the drawer/breakpoint part of 1.3.
+# Stories below the checkpoint cut line take their PRD fallback; each cut is a D-entry.
+# Story keys carry the heading's tier tag, cut at a fixed length (e.g. "...-rank-1" on
+# 6.3 is rank 14); the ranks above are the right ones.
+generated: 11-23-2026 10:20
+last_updated: 11-23-2026 10:21
+project: g53-kalland
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+development_status:
+  epic-1: backlog
+  1-1-the-app-starts-from-one-command: backlog
+  1-2-staff-and-contacts-log-in-and-out: backlog
+  1-3-staff-and-client-shells-in-the-graphite-theme: backlog
+  1-4-staff-upload-an-image-and-the-library-stores-it-safely: backlog
+  1-5-uploaded-images-get-ai-metadata-from-the-mock-provider: backlog
+  1-6-staff-publish-an-image-with-its-visibility-and-price: backlog
+  1-7-the-examiner-starts-with-a-sample-library: backlog
+  1-8-a-contact-finds-the-images-their-client-may-see: backlog
+  1-9-a-contact-checks-out-a-paid-image-and-staff-see-the-licence: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-staff-create-and-manage-clients: backlog
+  2-2-staff-add-and-manage-contacts: backlog
+  2-3-contacts-set-their-password-from-a-setup-link: backlog
+  2-4-contacts-can-never-reach-staff-routes-or-data: backlog
+  2-5-staff-see-everything-about-a-client-on-one-card-bonus-rank-9: backlog
+  2-6-staff-manage-staff-accounts-bonus-rank-11: backlog
+  2-7-repeated-failed-logins-are-slowed-down-bonus-rank-21: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-staff-follow-a-batch-on-the-upload-page: backlog
+  3-2-problem-files-are-explained-identical-files-and-ai-failures: backlog
+  3-3-staff-review-drafts-with-autosave: backlog
+  3-4-staff-edit-any-image-in-the-library: backlog
+  3-5-claude-writes-the-metadata-with-prompt-v3: backlog
+  3-6-files-that-need-you-come-first: backlog
+  3-7-staff-set-batch-settings-once-for-a-whole-shoot-planned-rank: backlog
+  3-8-generated-metadata-is-checked-before-it-is-saved-planned-ran: backlog
+  3-9-staff-retry-failed-images-planned-rank-3: backlog
+  3-10-images-with-gps-get-a-place-name-bonus-rank-7: backlog
+  3-11-upload-and-generation-run-in-the-background-bonus-rank-10: backlog
+  3-12-staff-discard-a-draft-that-was-never-published-bonus-rank-12: backlog
+  3-13-only-one-staff-user-edits-an-image-at-a-time-bonus-rank-15: backlog
+  3-14-staff-decide-on-files-with-the-same-name-bonus-rank-16: backlog
+  3-15-staff-publish-a-whole-batch-at-once-bonus-rank-18: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-staff-search-and-filter-the-library: backlog
+  4-2-staff-archive-and-restore-images-and-change-access-after-pub: backlog
+  4-3-staff-open-an-image-s-full-page: backlog
+  4-4-contacts-browse-my-images-and-find-images: backlog
+  4-5-contacts-see-the-right-details-and-actions-for-each-image: backlog
+  4-6-every-read-rule-of-the-access-table-is-proven-through-real-r: backlog
+  4-7-image-walls-adapt-to-the-screen-and-the-viewer: backlog
+  4-8-contacts-land-on-their-client-s-overview-planned-rank-4: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-staff-download-a-staff-copy-with-the-current-metadata: backlog
+  5-2-contacts-download-client-copies-with-no-location-data: backlog
+  5-3-a-first-download-of-a-free-image-records-a-free-licence: backlog
+  5-4-contacts-see-their-client-s-licence-history: backlog
+  5-5-staff-filter-the-transaction-log: backlog
+  5-6-contacts-collect-images-in-a-cart-and-check-out-together-pla: backlog
+  5-7-staff-revoke-a-licence-bonus-rank-6: backlog
+  5-8-contacts-download-several-images-as-one-zip-bonus-rank-17: backlog
+  epic-5-retrospective: optional
+
+  epic-6: backlog
+  6-1-every-important-action-is-recorded-bonus-rank-8: backlog
+  6-2-staff-set-the-licence-price-and-text-bonus-rank-13: backlog
+  6-3-staff-choose-the-ai-provider-and-key-in-the-app-bonus-rank-1: backlog
+  6-4-staff-read-the-action-log-per-user-bonus-rank-19: backlog
+  6-5-contacts-see-their-client-s-recent-activity-bonus-rank-20: backlog
+  epic-6-retrospective: optional
+
+  epic-7: backlog
+  7-1-accessibility-pass-and-error-messages: backlog
+  7-2-scale-and-ai-timing-are-measured-and-recorded: backlog
+  7-3-the-readme-works-from-a-fresh-clone: backlog
+  7-4-pages-meet-wcag-2-2-aa-bonus-rank-22: backlog
+  epic-7-retrospective: optional
