@@ -614,3 +614,33 @@ Template:
 - **Rationale:** Keeps 1.5 to the AI pipeline; the reason copy is written once, in 3.2.
 - **Consequences:** Until 3.2, staff see that generation failed but not why.
 - **Trace:** PR #57, Story 1.5, [spec](../../_bmad-output/implementation-artifacts/spec-1-5-uploaded-images-get-ai-metadata-from-the-mock-provider.md) (Decisions), [session log](sessions/2026-11-23-story-1-5-ai-metadata.md)
+
+## D-062: The restricted client list is cleared when an image leaves Restricted
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.6 review found that saving an image as Public or Internal kept its `image_clients` rows hidden; switching back to Restricted brought the old clients back with their old `addedAt`, so AD-6's "visible since" would be wrong for them. The spec did not settle it.
+- **Alternatives:** keep the hidden list for convenience when switching back.
+- **Decision:** `saveAccess` deletes the image's restricted list whenever visibility is saved as anything other than Restricted, and ignores `added`; re-added clients get a fresh `addedAt`.
+- **Rationale:** Matches how `visibleToAllSince` is reset when an image leaves Public; no hidden state.
+- **Consequences:** Staff re-pick clients after switching back to Restricted.
+- **Trace:** PR #59, Story 1.6, [spec](../../_bmad-output/implementation-artifacts/spec-1-6-staff-publish-an-image-with-its-visibility-and-price.md) (Decisions, Spec Change Log), [session log](sessions/2026-11-23-story-1-6-publish.md)
+
+## D-063: The Library's unsaved-changes dialog is deferred to Story 3.4
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** UX-DR-20 asks for a "You have unsaved changes" dialog when leaving Library edit mode with changes; Story 1.6's ACs do not.
+- **Alternatives:** build it in 1.6 (about 1 h more).
+- **Decision:** Defer it to Story 3.4, when metadata fields join edit mode. Until then, selecting another tile or page while editing drops the edits without asking.
+- **Rationale:** In 1.6 edit mode holds only three access controls; the dialog matters more once metadata is edited.
+- **Consequences:** Logged in `deferred-work.md`; 3.4 must add it.
+- **Trace:** PR #59, Story 1.6, [spec](../../_bmad-output/implementation-artifacts/spec-1-6-staff-publish-an-image-with-its-visibility-and-price.md) (Decisions), [session log](sessions/2026-11-23-story-1-6-publish.md)
+
+## D-064: The seed creates the licence type on every start
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The seed ran only on an empty `users` table, so databases seeded before Story 1.6 would never get the "Standard commercial use" licence type that paid prices come from.
+- **Alternatives:** a data migration; requiring a database reset.
+- **Decision:** `seedIfEmpty` calls `licences.ensureStandardLicenceType` before the users check. It is idempotent and serialised with an advisory lock.
+- **Rationale:** Seed data goes through module functions (AD-3), never migrations; no reset needed for existing dev databases.
+- **Consequences:** With `SEED_ON_START=true`, every start makes sure the licence type exists; the rest of the seed still runs only once.
+- **Trace:** PR #59, Story 1.6, [spec](../../_bmad-output/implementation-artifacts/spec-1-6-staff-publish-an-image-with-its-visibility-and-price.md), [session log](sessions/2026-11-23-story-1-6-publish.md)
