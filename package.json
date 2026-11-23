@@ -16,14 +16,17 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@node-rs/argon2": "2.2.2",
     "drizzle-orm": "0.45.4",
     "exiftool-vendored": "39.2.0",
     "next": "16.4.6",
     "next-intl": "4.14.9",
     "pg": "8.23.1",
+    "pino": "10.4.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "zod": "4.6.7"
   },
   "engines": {
     "node": ">=26"

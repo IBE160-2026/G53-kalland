@@ -25,3 +25,7 @@ export function getPool(): pg.Pool {
 export function getDb() {
   return drizzle(getPool(), { schema });
 }
+
+export type Db = ReturnType<typeof getDb>;
+// A Drizzle transaction, or the db itself. Module write functions take one as their first argument (AD-20).
+export type Tx = Db | Parameters<Parameters<Db["transaction"]>[0]>[0];
