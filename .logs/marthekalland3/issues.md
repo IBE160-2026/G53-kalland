@@ -79,3 +79,4 @@
 - [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — check story 1.8 by hand with `docker compose up` as jonas and emil (A7, A4/A5 visibility, licence dialog)
 - [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — test the shared wall pagination with more than 48 images (deferred-work.md)
 - [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — cover the Find images empty branch for a client that may see nothing (deferred-work.md)
+- [ ] 2026-11-23 [seed-image-prep-and-worktrees](972-2026-11-23-20-32-01-seed-image-prep-and-worktrees.md) — `finish.sh` stops if `git worktree remove` fails partway (Docker VM holding files) and skips the pull and branch cleanup
