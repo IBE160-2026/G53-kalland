@@ -20,3 +20,28 @@ Start the architecture step (`bmad-architecture`, coaching path) from the PRD an
 
 ### Open items
 - Resume the architecture run from its memlog: answer the access-module questions (one SQL condition vs if/else; representative route tests vs full matrix), then image lifecycle and worker, storage and derived files, licences, AI port, errors/i18n, conventions, Docker/env; then distill and finalize the spine.
+
+## 2026-11-23 kl. 08:56 — marthekalland3
+
+### Task
+Resume the paused architecture run and finish the spine: the remaining invariants one topic at a time, then distill, review and finalize.
+
+### Plan
+- Worked in a worktree on `docs/architecture-spine`; resumed from the memlog.
+- Coaching topics in order: access module shape and tests, image lifecycle and queue, upload flow and locks, storage and file pipelines, licences and checkout, AI provider, conventions, place names, Docker/env/CI.
+- Distill the spine, run the reviewer gate (five parallel reviewer subagents), fix findings, put open choices to the user, set `status: final`.
+- Spine: [`ARCHITECTURE-SPINE.md`](../../_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md); reviews in the `reviews/` folder next to it.
+
+### Result
+- Spine final with AD-1 to AD-24: access as one SQL condition with a client-safe `ClientImage` view; SC-1 kept (access tests through real routes); image table as the job queue with a lease; per-field sources for metadata; optimistic concurrency with `version`; local FileStore; on-demand client copies with a fail-closed location check; one licence grant path; GeoNames place names; Docker Compose envelope.
+- The user corrected Claude: "uploading" cannot be a browser-only state, because the UX shows other staff's uploads live.
+- The reviewers found real holes in the first draft (guards in Server Actions, a lost update on the restricted list, images stuck without FR-15, AI input 1000 px vs 1568 px, three pins too new, starter defaults); all were fixed.
+- The user decided: price lives on the licence type; build the client copy before recording a free-download licence; keep EXIF Orientation; keyword categories in prompt v3.
+- PRD FR-35, the addendum, EXPERIENCE.md and DESIGN.md were updated to match.
+- Commits `edec73f` (spine) and `4b030f6` (PRD/UX), PR #47. Decisions D-042 to D-049.
+
+### Open items
+- Foundation story: verify ExifTool in the app image (full `perl` package, `serverExternalPackages`, UTF-8 IIM writing).
+- Prompt v3 adds keyword categories and the people rule; pilot it before relying on it (PRD Open Question 3).
+- The PRD says PRD changes go through `bmad-correct-course`; FR-35 was edited directly with an addendum entry. Decide whether to run `bmad-correct-course` for it.
+- UX mockups and the prototype still show a per-image price field and a percentage for all staff; the spec wins, update them only if they are used again.
