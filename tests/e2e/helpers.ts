@@ -13,3 +13,13 @@ export async function loginAs(page: Page, user: FixtureUser) {
   await fillLogin(page, user.email, DEMO_PASSWORD);
   await expect(page).toHaveURL(user.role === "staff" ? /\/library$/ : /\/overview$/);
 }
+
+// Logs out through the account menu in the top bar (avatar and first name).
+export async function logOutVia(page: Page, user: FixtureUser) {
+  await page.getByRole("button", { name: firstName(user) }).click();
+  await page.getByRole("button", { name: "Log out" }).click();
+}
+
+export function firstName(user: FixtureUser): string {
+  return user.name.split(/\s+/)[0];
+}

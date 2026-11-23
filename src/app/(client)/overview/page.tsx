@@ -1,17 +1,18 @@
+import { Heading } from "@digdir/designsystemet-react";
 import { getTranslations } from "next-intl/server";
-import { LogoutButton } from "@/app/_components/logout-button";
-import { getUser } from "@/modules/accounts";
+import { EmptyState, PageMain } from "@/app/_components/shell/shell";
 import { requireContact } from "@/modules/auth";
 
-// Client landing page. A placeholder until the client dashboard arrives (1.3, 1.8).
+// Client landing page. Empty until the agency shares images (1.8). No Context sidebar here.
 export default async function OverviewPage() {
-  const actor = await requireContact();
-  const [user, t] = await Promise.all([getUser(actor.userId), getTranslations()]);
+  await requireContact();
+  const t = await getTranslations("overview");
   return (
-    <main>
-      <h1>{t("overview.title")}</h1>
-      <p>{t("session.signedInAs", { name: user.name })}</p>
-      <LogoutButton />
-    </main>
+    <PageMain>
+      <Heading level={1} className="page-title">
+        {t("title")}
+      </Heading>
+      <EmptyState text={t("empty")} />
+    </PageMain>
   );
 }

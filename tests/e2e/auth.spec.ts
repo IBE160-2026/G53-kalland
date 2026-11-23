@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { DEMO_PASSWORD, fixtureUsers } from "../../src/db/seed/fixture.ts";
-import { fillLogin, loginAs } from "./helpers.ts";
+import { fillLogin, firstName, loginAs, logOutVia } from "./helpers.ts";
 
 const INCORRECT = "Incorrect email or password. Contact the agency to set up a new password.";
 const INACTIVE = "Your account is not active. Contact the agency.";
@@ -8,12 +8,12 @@ const INACTIVE = "Your account is not active. Contact the agency.";
 test("a staff user logs in to the staff landing page and logs out again", async ({ page, context }) => {
   await loginAs(page, fixtureUsers.ida);
   await expect(page.getByRole("heading", { level: 1, name: "Library" })).toBeVisible();
-  await expect(page.getByText(`Signed in as ${fixtureUsers.ida.name}.`)).toBeVisible();
+  await expect(page.getByRole("button", { name: firstName(fixtureUsers.ida) })).toBeVisible();
 
   const [cookie] = await context.cookies();
   expect(cookie).toMatchObject({ httpOnly: true, sameSite: "Lax", secure: false });
 
-  await page.getByRole("button", { name: "Log out" }).click();
+  await logOutVia(page, fixtureUsers.ida);
   await expect(page).toHaveURL(/\/login$/);
   expect(await context.cookies()).toEqual([]);
 
@@ -26,7 +26,7 @@ test("a staff user logs in to the staff landing page and logs out again", async 
 test("a contact lands on the client landing page", async ({ page }) => {
   await loginAs(page, fixtureUsers.emil);
   await expect(page.getByRole("heading", { level: 1, name: "Overview" })).toBeVisible();
-  await expect(page.getByText(`Signed in as ${fixtureUsers.emil.name}.`)).toBeVisible();
+  await expect(page.getByRole("button", { name: firstName(fixtureUsers.emil) })).toBeVisible();
 });
 
 test("an unknown email and a wrong password get the same message", async ({ page }) => {

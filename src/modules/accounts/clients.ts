@@ -1,11 +1,13 @@
 import { eq } from "drizzle-orm";
-import type { Tx } from "@/db/client";
+import { getDb, type Tx } from "@/db/client";
 import { clients } from "@/db/schema";
 import { DEFAULT_TENANT_ID } from "@/db/tenant";
 import { assertStaff, type Actor } from "@/modules/auth";
 import { NotFound } from "@/modules/shared/errors";
 
 export type Status = "active" | "inactive";
+
+export type Client = { id: string; name: string; status: Status };
 
 export async function createClient(tx: Tx, input: { name: string; status?: Status }): Promise<string> {
   const [row] = await tx
@@ -20,4 +22,14 @@ export async function setClientStatus(tx: Tx, actor: Actor, clientId: string, st
   assertStaff(actor);
   const updated = await tx.update(clients).set({ status }).where(eq(clients.id, clientId)).returning({ id: clients.id });
   if (updated.length === 0) throw new NotFound();
+}
+
+// A read for display, such as the client shell's name. Callers pass an id they are allowed to show.
+export async function getClient(clientId: string): Promise<Client> {
+  const [row] = await getDb()
+    .select({ id: clients.id, name: clients.name, status: clients.status })
+    .from(clients)
+    .where(eq(clients.id, clientId));
+  if (!row) throw new NotFound();
+  return row;
 }

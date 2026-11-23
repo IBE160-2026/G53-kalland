@@ -2,11 +2,11 @@ import { eq } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import { getDb } from "@/db/client";
 import { users } from "@/db/schema";
-import { fixtureUsers } from "@/db/seed/fixture";
+import { fixtureClients, fixtureUsers } from "@/db/seed/fixture";
 import { Conflict, Forbidden, NotFound } from "@/modules/shared/errors";
 import { createTestClient, createTestContact } from "@/test/factories";
 import { loginAs } from "@/test/login-as";
-import { createUser, getUser, setClientStatus, setUserStatus } from ".";
+import { createUser, getClient, getUser, setClientStatus, setUserStatus } from ".";
 
 const db = getDb();
 
@@ -48,5 +48,21 @@ describe("createUser", () => {
     await expect(createUser(db, { role: "staff", name: "Duplicate", email })).rejects.toEqual(
       new Conflict("accounts.emailTaken"),
     );
+  });
+});
+
+describe("getClient", () => {
+  it("returns the contact's own client for the client shell", async () => {
+    const { actor } = await loginAs(fixtureUsers.jonas);
+    if (actor.role !== "contact") throw new Error("Jonas is a contact");
+    expect(await getClient(actor.clientId)).toEqual({
+      id: actor.clientId,
+      name: fixtureClients.fjordkaffe.name,
+      status: "active",
+    });
+  });
+
+  it("throws NotFound for an unknown id", async () => {
+    await expect(getClient("019ab0c0-0000-7000-8000-00000000dead")).rejects.toBeInstanceOf(NotFound);
   });
 });
