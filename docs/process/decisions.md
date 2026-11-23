@@ -494,3 +494,43 @@ Template:
 - **Rationale:** The reviewers found real holes the draft had: guards missing in Server Actions, a lost update that could give a revoked client access again, images stuck without FR-15, a wrong AI input size, three pins that broke the two-week rule, and starter defaults that fight the design.
 - **Consequences:** Stories cite AD IDs. Next step: `bmad-create-epics-and-stories`.
 - **Trace:** PR #47 (commit `edec73f`), [session log](sessions/2026-11-23-architecture-spine.md), review reports in `reviews/` next to the spine
+
+## D-050: Epics start with a thin slice; stories run spine → planned → bonus inside each epic
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The PRD wants a thin slice through the whole spine first and a checkpoint on 2026-11-30 (SC-3 in mock mode), and it ranks the non-spine FRs for a cut line. BMad's epic rules want epics by user value that never depend on a later epic.
+- **Alternatives:** Epics by area only (no slice, so the checkpoint flow comes late); epics by tier (spine / planned / bonus), which mixes unrelated features in one epic; a slice epic followed by area epics with tier order inside each.
+- **Decision:** Epic 1 is the thin slice (9 stories, ending in the SC-3 e2e test). Epics 2–6 complete one area each (accounts, upload and metadata, finding images, licensing and downloads, administration); Epic 7 makes the app ready for the examiner. Inside each epic, stories run spine → planned → bonus with the PRD rank, and a separate build order in `epics.md` follows the tiers across epics. FR-38b (activity list) moved from Epic 4 to Epic 6 during story writing, because it lists downloads that only the action log (FR-42a) records.
+- **Rationale:** Keeps the checkpoint question answerable early and lets the cut line be drawn by dropping stories at the bottom of the rank list, not by restructuring epics. Moving FR-38b avoids an epic depending on a later one; its rank (20, after FR-42a's 8) keeps the build order unchanged.
+- **Consequences:** 7 epics, 56 stories, each with a "Traces to" line (FR / AD / UX-DR / SC, tag, estimate, fallback). Sprint planning must follow the build order, not the epic order. Epics 1, 3 and 4 all touch the Library Details panel; accepted, since later epics extend the slice instead of rebuilding it.
+- **Trace:** PR #49 (commit `4854c8d`), [session log](sessions/2026-11-23-epics-and-stories.md), `_bmad-output/planning-artifacts/epics.md`
+
+## D-051: Client search also matches alt text
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** PRD FR-28 said client search matches title, description and keywords; architecture AD-6 lists title, description, alt text and keywords. Found while extracting requirements for the epics.
+- **Alternatives:** Keep the PRD wording and change AD-6; follow AD-6 and align the PRD.
+- **Decision:** Follow AD-6. FR-28 now says title, description, alt text and keywords; a row in the PRD addendum's "Changes from the architecture" table records it.
+- **Rationale:** Alt text is an agency field clients already see on the image page, so matching it reveals nothing, and one client field set keeps `buildSearchCondition` simple.
+- **Consequences:** Story 4.4 tests client search over alt text. The PRD was edited directly, like FR-35 earlier, so it belongs in the open question of whether such alignments go through `bmad-correct-course`.
+- **Trace:** PR #49 (commit `2d7c332`), [session log](sessions/2026-11-23-epics-and-stories.md)
+
+## D-052: Story estimates exceed the PRD's spine budget; nothing is cut before the checkpoint
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Estimating each story (tests and the per-story routine included) puts the spine at about 99 h, against 75 h in the PRD and about 87 h of build time in total; Epic 1 alone is about 45 h against the PRD's 35–40 h before the checkpoint. Most of the gap is Epic 1 and UX surfaces the PRD's per-FR estimates did not price.
+- **Alternatives:** Cut now (all bonus ranks and the UX cut candidates; the spine would still be about 92 h); or keep the stories and decide at the checkpoint with real hours.
+- **Decision:** Cut nothing now. `epics.md` gets an hours table and three spine cut candidates with fallbacks: 3.6 Files that need you come first (~2.5 h), 4.7 Image walls adapt to the screen and the viewer (~2 h), and the drawer and breakpoint work in 1.3 (~2 h).
+- **Rationale:** The estimates are rough on both sides. Epic 1's actual hours on 2026-11-30 show which estimates hold, and the PRD's checkpoint process (cut line by rank, reduced spine if the slice fails) already handles the outcome.
+- **Consequences:** At the checkpoint, compare Epic 1's actual hours with ~45 h, then draw the cut line. Each cut gets its own D-entry; PRD changes go through `bmad-correct-course`.
+- **Trace:** PR #49, [session log](sessions/2026-11-23-epics-and-stories.md), "Hours and cut candidates" in `epics.md`
+
+## D-053: The tests run as their own Compose project, always on the mock, with a guarded test-database reset
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.1 needs one README test command that runs Vitest against a freshly migrated test database and Playwright against `app-test`, shows both outputs and fails when a test fails (NFR-1, AD-7). The spec preferred a single `docker compose up --exit-code-from e2e`. The review also found that test containers inherited `AI_PROVIDER` and a real `ANTHROPIC_API_KEY` from a local `.env`, and that the reset (which drops the schema) only checked that the test URL differed from `DATABASE_URL`.
+- **Alternatives:** (A) one `compose up --exit-code-from e2e`; (B) two `compose run` steps in the dev project; (C) two `compose run` steps in a separate project `crm-dam-test`, preceded by `down -v`.
+- **Decision:** (C). The README test command runs `down -v`, then `run --rm --build unit`, then `run --rm --build e2e`, all with `-p crm-dam-test --profile test`; CI runs the same steps plus lint and typecheck. Test file directories are tmpfs, so they are empty on every start. The test containers always use `AI_PROVIDER=mock` with an empty key. The reset refuses unless the target database name ends in `_test` and differs from `DATABASE_URL`.
+- **Rationale:** (A) was tried: Compose aborted when Vitest exited 0, then hung after Playwright passed. A separate project has its own database volume, so a test run never stops or touches the dev stack. Forcing the mock keeps tests free and offline whatever `.env` holds; the `_test` rule is a positive check before a destructive reset.
+- **Consequences:** The test command is one long line of three Compose calls; the test stack stays up after a run until `down -v`. Later stories add tests to the same `unit` and `e2e` services; access tests (AD-7) reuse the same reset.
+- **Trace:** PR #51, Story 1.1, [spec](../../_bmad-output/implementation-artifacts/spec-1-1-the-app-starts-from-one-command.md), [session log](sessions/2026-11-23-1-1-app-starts-from-one-command.md)
