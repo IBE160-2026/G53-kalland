@@ -2,7 +2,7 @@
 title: "PRD: CRM-DAM"
 status: final
 created: 2026-11-18
-updated: 2026-11-18
+updated: 2026-11-23
 ---
 
 # PRD: CRM-DAM
@@ -338,7 +338,7 @@ An own image with an active licence is shown with a tick, and the client downloa
 
 - **FR-34 [spine] Current metadata.** *Realizes UJ-1, UJ-3.* Every downloaded copy carries the current metadata: XMP always, with IPTC-IIM and EXIF description where the format supports them, in UTF-8. Staff download a staff copy, with all metadata including location data.
   - IIM limits are in bytes (title 64, description 2000, each keyword 64), and æ, ø and å take 2 bytes each. A value over the limit is shortened in IIM at the last whole word that fits, or at the last whole character if the first word alone is too long, so IIM always holds valid UTF-8. A keyword over the limit is left out of IIM. XMP and EXIF always hold the full value.
-- **FR-35 [spine] Client copies.** *Realizes UJ-3.* A client copy is rebuilt from a whitelist and keeps only: the agency fields; any embedded copyright notice, creator and credit line; date taken; camera make and model, lens and exposure settings; and the colour profile.
+- **FR-35 [spine] Client copies.** *Realizes UJ-3.* A client copy is rebuilt from a whitelist and keeps only: the agency fields; any embedded copyright notice, creator and credit line; date taken; camera make and model, lens and exposure settings; the colour profile; and the EXIF orientation tag, a technical field that keeps portrait photos upright.
   - Maker notes, serial numbers and owner names are left out.
 - **FR-36 [spine] No location data.** *Realizes UJ-3.* Client copies, including previews and images shown on a page, contain no location data: no coordinates, no structured location fields in EXIF, XMP or IPTC (city, sub-location, state, country, location shown or created), no place name record, and no embedded thumbnail or preview. This holds for JPEG and PNG.
   - Place names in the agency fields are content and stay. Staff control this through the batch setting (FR-9) and by editing.

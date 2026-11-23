@@ -4,7 +4,7 @@ description: CRM-DAM for a design agency. Designsystemet (Digdir) with a custom 
 status: final
 sources:
   - {planning_artifacts}/prds/prd-g53-kalland-2026-11-18/prd.md
-updated: 2026-11-20
+updated: 2026-11-23
 colors:
   # Graphite theme. Each token maps to a Designsystemet (--ds-*) variable where one
   # exists (table in "Colors"). Light only: no dark tokens.
@@ -426,7 +426,7 @@ Designsystemet components used as shipped: Button, Link, Search, Field, Input, S
 |---|---|
 | **Filter chip** `filter-chip` | Designsystemet checkbox chips for Status, Visibility, Price; a removable chip for each active filter in the wall toolbar ("Taken from 1 Jan 2025"). |
 | **Image wall** `image-wall` | Justified rows (see Layout). Toolbar above: count semibold ("248 images, newest first"), active filter chips, sort select (staff), captions switch. Pagination below. |
-| **Image tile** `image-tile` | Image at its own aspect ratio, `{rounded.image}`. Status tags top-left on the image; own-image tick top-right. Caption below: title (`tile-title`, one line), meta line (`meta`, muted): visibility icon + label or client name, and price. Hover: 1 px `border` ring. Selected: 2 px canvas gap + 2 px accent ring, title in `accent-text`. Uploading: skeleton with a white percentage pill. Failed: one-line error in `danger-text` under the title (captions on only). |
+| **Image tile** `image-tile` | Image at its own aspect ratio, `{rounded.image}`. Status tags top-left on the image; own-image tick top-right. Caption below: title (`tile-title`, one line), meta line (`meta`, muted): visibility icon + label or client name, and price. Hover: 1 px `border` ring. Selected: 2 px canvas gap + 2 px accent ring, title in `accent-text`. Uploading: skeleton, with a white percentage pill for the uploader only. Failed: one-line error in `danger-text` under the title (captions on only). |
 | **Status tag** `status-tag` | Designsystemet tag, size sm. Neutral: Draft, Queued, Archived. Info: Uploading. Accent + spinner: Generating (its facet dot and progress dot pulse slowly, so it stands apart from the grey Queued dot). Success: Ready, Published. Danger: Failed. Warning: Needs a decision, Rejected, Needs alt text. |
 | **Own-image tick** `own-tick` | 26 px success circle, white check, 2 px white ring, on the image top-right. Inline variant 18 px before "Your image" / "Yours to download" in `success-text` semibold `meta`. |
 | **Price** `price` | See Colors → Price; no wrap; `price-lg` in the licence option. |
@@ -438,7 +438,7 @@ Designsystemet components used as shipped: Button, Link, Search, Field, Input, S
 |---|---|
 | **Details panel** `details-panel` | White column, hairline left edge, square. Header: `panel-title` + file line in `meta`, actions right. Then a 236 px "loupe" (image centred on `canvas`, hairline border; the height is fixed and never shrinks in a long panel), a status line (tags, counts, save status), sections under `section-title`, Designsystemet Details for secondary groups, and a sticky footer (hairline top) with the primary action. |
 | **Inline details** `inline-details` | The Details panel placed in the flow at ≤ 1240 px: hairline border, 3 px accent top edge, `{rounded.DEFAULT}`, "Close details" text action top-right, no loupe (the selected image above it is shown at full width, up to `min(60vh, 520px)` tall). Upload accordion: a chevron at the file row end. |
-| **Access controls** `access-controls` | Toggle groups for Visibility (Internal / Restricted / Public) and Price (Free / Paid); a one-line muted hint under Visibility; client chips + "Add client" when Restricted; a USD amount field "Price per licence, ex VAT" (max 11 rem) when Paid. View mode shows the same as a key-value list. |
+| **Access controls** `access-controls` | Toggle groups for Visibility (Internal / Restricted / Public) and Price (Free / Paid); a one-line muted hint under Visibility; client chips + "Add client" when Restricted; when Paid, the current licence price as read-only text ("90 USD per licence, ex VAT") with a link to Settings. View mode shows the same as a key-value list. |
 | **Changed-field marker** `changed-marker` | 3 px warning bar left of a changed field, plus "Changed" in `warning-text` 12 px after its label. |
 | **Save status** `save-status` | "Saved" / "Changes saved": check icon, `success-text`. "Unsaved changes (n fields)": 8 px warning dot, `warning-text`, weight 500. "No changes yet": muted. |
 | **Unsaved-changes dialog** `unsaved-dialog` | Designsystemet dialog, max 30 rem: heading (xs), one paragraph with the image title in bold, actions Save changes (primary), Discard (secondary), Keep editing (text action). |

@@ -28,6 +28,12 @@ This run answers the [teacher's feedback](../prd-g53-kalland-2026-11-04/tilbakem
 |---|---|---|
 | Library images are edited with Edit → Save changes, with a prompt on unsaved changes; upload drafts keep autosave | The user wants an extra step before changing an image that may be published, and no silent saves | FR-17, FR-18, [UX spines](../../ux-designs/ux-g53-kalland-2026-11-18/EXPERIENCE.md) |
 
+## Changes from the architecture (2026-11-23)
+
+| Change | Why | Where |
+|---|---|---|
+| Client copies also keep the EXIF orientation tag | Client copies keep the original pixels, so without the tag portrait camera photos arrive sideways. Orientation is not location data | FR-35, [architecture spine](../../architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md) AD-16 |
+
 ## Hours budget
 
 Set on 2026-11-18. The user has about 130 hours left until the final deadline, 2026-12-15, for everything. The split below is the agent's estimate, accepted by the user. The per-FR estimates are in the PRD's priority table.
