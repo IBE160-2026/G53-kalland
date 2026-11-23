@@ -288,25 +288,23 @@ components:
 
 A white-walled gallery. The agency has no brand to carry (branding is out of scope in the PRD), so the interface steps back: graphite and white only, and the photographs carry the colour. Status colours are small, saturated signals; nothing else is chromatic. The posture is a working tool for designers and photographers: minimal, airy, never cramped, with the most-used actions one click away and the rest in menus and the sidebar.
 
-Built on **Designsystemet** (Digdir, CSS 1.23) with a custom theme. Components come from Designsystemet unchanged unless listed under Components; this file specifies the theme values and the product components.
+Built on **Designsystemet** (Digdir, CSS 1.24) with a custom theme. Components come from Designsystemet unchanged unless listed under Components; this file specifies the theme values and the product components.
 
-Theme builder input (`designsystemet.config.json`):
+Theme builder input: [`designsystemet.config.json`](../../../../designsystemet.config.json) in the repo root, the source of the committed theme CSS (`src/styles/theme/graphite.css`, made with `npm run theme:build`). The 1.24 CLI takes a flat `colors` map, so the base colours are:
 
 ```json
 {
   "themes": {
     "graphite": {
-      "colors": {
-        "main":    { "accent": "#25282D" },
-        "support": { "brand1": "#5D6672" },
-        "neutral": "#2B2D30"
-      },
+      "colors": { "accent": "#25282D", "brand1": "#5D6672", "neutral": "#2B2D30" },
       "borderRadius": 3,
       "typography": { "fontFamily": "Instrument Sans" }
     }
   }
 }
 ```
+
+`overrides.severity` holds the status colours below. `overrides.colors.<color>.<token>.light` pins every role in the Colors table to its hex, and `overrides.focus` the focus ring: without them 1.24 generates other values (for example accent-hover `#36393e`, text `#2a2c2e`). `src/styles/theme/theme.test.ts` checks every row of the table against the generated CSS.
 
 ## Colors
 

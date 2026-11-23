@@ -1,0 +1,66 @@
+{
+  "$schema": "./node_modules/@digdir/designsystemet/dist/config.schema.json",
+  "output": [{ "type": "css", "dir": "src/styles/theme" }],
+  "themes": {
+    "graphite": {
+      "colors": {
+        "accent": "#25282D",
+        "brand1": "#5D6672",
+        "neutral": "#2B2D30"
+      },
+      "borderRadius": 3,
+      "typography": { "fontFamily": "Instrument Sans" },
+      "overrides": {
+        "severity": {
+          "success": "#16803C",
+          "danger": "#CC1631",
+          "warning": "#EE6A0E",
+          "info": "#1E5FC2"
+        },
+        "colors": {
+          "accent": {
+            "base-default": { "light": "#25282D" },
+            "base-hover": { "light": "#1D1F24" },
+            "base-active": { "light": "#14171C" },
+            "base-contrast-default": { "light": "#FFFFFF" },
+            "text-subtle": { "light": "#25282D" },
+            "surface-tinted": { "light": "#E3E4E6" },
+            "background-tinted": { "light": "#F3F3F4" }
+          },
+          "neutral": {
+            "background-tinted": { "light": "#F5F6F6" },
+            "surface-default": { "light": "#FFFFFF" },
+            "surface-tinted": { "light": "#EDEEEF" },
+            "surface-hover": { "light": "#E2E3E4" },
+            "text-default": { "light": "#202124" },
+            "text-subtle": { "light": "#595C5F" },
+            "border-default": { "light": "#7F8185" },
+            "border-strong": { "light": "#5F6265" },
+            "border-subtle": { "light": "#CCCED0" }
+          },
+          "success": {
+            "base-default": { "light": "#16803C" },
+            "text-subtle": { "light": "#186B34" }
+          },
+          "danger": {
+            "base-default": { "light": "#CC1631" },
+            "text-subtle": { "light": "#BD0529" }
+          },
+          "warning": {
+            "base-default": { "light": "#EE6A0E" },
+            "text-subtle": { "light": "#A84802" },
+            "base-contrast-default": { "light": "#000000" }
+          },
+          "info": {
+            "base-default": { "light": "#1E5FC2" },
+            "text-subtle": { "light": "#255BB1" }
+          }
+        },
+        "focus": {
+          "outer": { "light": "#25282D" },
+          "inner": { "light": "#FFFFFF" }
+        }
+      }
+    }
+  }
+}

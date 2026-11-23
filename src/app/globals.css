@@ -1,0 +1,372 @@
+/* Product layer on top of Designsystemet and the generated Graphite theme (DESIGN.md).
+   Never edit src/styles/theme/graphite.css: change designsystemet.config.json and run npm run theme:build. */
+
+/* ---------- Tokens (UX-DR-2, UX-DR-3) ---------- */
+:root {
+  /* Instrument Sans from next/font (self-hosted), with the DESIGN.md fallback stack. */
+  --ds-font-family: var(--font-instrument-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --price: var(--ds-color-brand1-base-default);
+  --scrim: rgb(28 34 43 / 0.35);
+  --drawer-shadow: 6px 0 24px rgb(28 34 43 / 0.18);
+
+  --radius-none: 0;
+  --radius-default: var(--ds-border-radius-base);
+
+  --topbar-height: 64px;
+  --page-pad-top: 28px;
+  --page-pad-x: 36px;
+  --page-pad-bottom: 56px;
+  --page-pad-mobile: 16px;
+  --sidebar-pad-y: 28px;
+  --sidebar-pad-x: 24px;
+  --sidebar-width: 264px;
+  --drawer-width: 320px;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ds-font-family);
+  font-variant-numeric: tabular-nums;
+  background: var(--ds-color-neutral-background-tinted);
+  color: var(--ds-color-neutral-text-default);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.muted {
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Keyboard focus only (UX-DR-45): the Designsystemet ring (3 px graphite outer, white inner) on
+   elements Designsystemet does not style itself. Designsystemet components bring their own. */
+:where(a, button, input, select, textarea, summary, [tabindex]):not([class*="ds-"]):focus-visible {
+  outline: var(--dsc-focus-outline);
+  outline-offset: var(--ds-border-width-focus);
+  box-shadow: var(--dsc-focus-boxShadow);
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+/* Targets of the skip link and the drawer receive focus by script; they are not controls. */
+.page-main:focus,
+.context-sidebar:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Text actions are underlined, because graphite gives no colour cue (UX-DR-50). Not for icon-only
+   buttons, menu triggers, menu items, toggle groups, pagination or the search clear button. */
+.ds-button[data-variant="tertiary"]:not([data-icon], .account-trigger, .ds-dropdown *, .ds-toggle-group > *, .ds-pagination *, .ds-search *) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.ds-button[data-variant="tertiary"]:not([data-icon], .account-trigger, .ds-dropdown *, .ds-toggle-group > *, .ds-pagination *, .ds-search *):hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- Typography roles ---------- */
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.sidebar-heading {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ---------- Shell (UX-DR-6, UX-DR-7, UX-DR-8) ---------- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  min-height: var(--topbar-height);
+  padding: 0 20px;
+  background: var(--ds-color-neutral-surface-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ds-color-neutral-text-default);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wordmark-mark {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--ds-color-accent-base-default);
+  border-radius: var(--radius-default);
+  overflow: hidden;
+}
+.wordmark-mark::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: 6px;
+  background: var(--ds-color-accent-base-default);
+  border-radius: 1px;
+}
+
+.client-name {
+  display: grid;
+  gap: 0;
+  line-height: 1.2;
+}
+.client-name small {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.main-nav a {
+  padding: 20px 10px 18px;
+  border-bottom: 2px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ds-color-neutral-text-subtle);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.main-nav a:hover {
+  color: var(--ds-color-neutral-text-default);
+}
+.main-nav a[aria-current="page"] {
+  color: var(--ds-color-neutral-text-default);
+  border-bottom-color: var(--ds-color-accent-base-default);
+}
+
+.header-search {
+  flex: 1 1 260px;
+  max-width: 520px;
+  margin: 0;
+}
+
+.top-bar-end {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.account-trigger {
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+.workspace:has(> .context-sidebar) {
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+}
+.app[data-sidebar="closed"] .workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+.app[data-sidebar="closed"] .context-sidebar {
+  display: none;
+}
+
+.context-sidebar {
+  position: sticky;
+  top: 0;
+  align-self: stretch;
+  max-height: 100vh;
+  overflow: auto;
+  padding: var(--sidebar-pad-y) var(--sidebar-pad-x) 40px;
+  background: var(--ds-color-neutral-surface-default);
+  border-right: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--radius-none);
+}
+.context-sidebar p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.page-main {
+  min-width: 0;
+  padding: var(--page-pad-top) var(--page-pad-x) var(--page-pad-bottom);
+}
+
+/* One muted sentence where the list would be, at most one action (UX-DR-47). */
+.empty-state {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  margin-top: 8px;
+}
+.empty-state p {
+  margin: 0;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* Login and 403: one centred card on the canvas, no navigation (UX-DR-9). */
+.centred-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--page-pad-mobile);
+}
+.centred-card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 26rem);
+  padding: 32px;
+  background: var(--ds-color-neutral-surface-default);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--radius-default);
+}
+.centred-card p {
+  margin: 0;
+}
+.form-stack {
+  display: grid;
+  gap: 18px;
+}
+
+/* ---------- Breakpoints (UX-DR-49). 1240 px moves the Details panel inline; it has none to move yet. ---------- */
+@media (max-width: 900px) {
+  .app .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The sidebar is an overlay drawer. The toggle stays above it: the top bar has no stacking
+     context, so the toggle (z 32) paints over the drawer (z 30) and the scrim (z 29). */
+  .context-sidebar {
+    display: none;
+  }
+  .app[data-drawer="open"] .context-sidebar {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    width: min(var(--drawer-width), 86vw);
+    max-height: none;
+    padding-top: var(--drawer-pad, var(--sidebar-pad-y));
+    box-shadow: var(--drawer-shadow);
+  }
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    background: var(--scrim);
+  }
+  .app[data-drawer="open"] .sidebar-toggle {
+    position: relative;
+    z-index: 32;
+    background: var(--ds-color-neutral-surface-default);
+    box-shadow: 0 0 0 1px var(--ds-color-neutral-border-subtle);
+  }
+
+  .top-bar {
+    gap: 8px 12px;
+    padding: 8px var(--page-pad-mobile);
+  }
+  .main-nav {
+    order: 3;
+    width: 100%;
+  }
+  .main-nav a {
+    padding: 10px 8px 8px;
+  }
+  .header-search {
+    order: 4;
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .page-main {
+    padding: 24px var(--page-pad-mobile) 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .account-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .centred-card {
+    padding: 24px var(--page-pad-mobile);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

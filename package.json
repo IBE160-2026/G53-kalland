@@ -13,9 +13,12 @@
     "db:migrate": "node src/db/migrate.ts",
     "db:reset-test": "node src/db/reset-test.ts",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "theme:build": "designsystemet --config designsystemet.config.json -y"
   },
   "dependencies": {
+    "@digdir/designsystemet-css": "1.24.0",
+    "@digdir/designsystemet-react": "1.24.0",
     "@node-rs/argon2": "2.2.2",
     "drizzle-orm": "0.45.4",
     "exiftool-vendored": "39.2.0",
@@ -32,6 +35,8 @@
     "node": ">=26"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@digdir/designsystemet": "1.24.0",
     "@playwright/test": "1.65.0",
     "@types/node": "26.6.6",
     "@types/pg": "8.23.1",

@@ -13,14 +13,42 @@
     "inactive": "Your account is not active. Contact the agency."
   },
   "session": {
-    "signedInAs": "Signed in as {name}.",
     "logout": "Log out"
   },
+  "shell": {
+    "skipToContent": "Skip to main content",
+    "mainNav": "Main",
+    "imagePortal": "Image portal"
+  },
+  "nav": {
+    "library": "Library",
+    "upload": "Upload",
+    "overview": "Overview",
+    "findImages": "Find images"
+  },
+  "search": {
+    "staff": "Search title, description, keywords and places",
+    "client": "Search images"
+  },
   "library": {
-    "title": "Library"
+    "title": "Library",
+    "filters": "Filters",
+    "filtersToggle": "Show or hide filters",
+    "filtersEmpty": "Filters appear when the library has images.",
+    "empty": "The library has no images yet.",
+    "emptyAction": "Upload images"
+  },
+  "upload": {
+    "title": "Upload",
+    "empty": "Uploading images comes in a later version."
   },
   "overview": {
-    "title": "Overview"
+    "title": "Overview",
+    "empty": "The agency has not shared any images with you yet."
+  },
+  "findImages": {
+    "title": "Find images",
+    "empty": "There are no images to show yet."
   },
   "forbidden": {
     "title": "No access",
