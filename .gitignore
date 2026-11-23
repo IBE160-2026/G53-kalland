@@ -1,5 +1,8 @@
 # Next.js / Node
 node_modules/
+.pnp
+.pnp.*
+*.pem
 .next/
 out/
 dist/
@@ -37,6 +40,9 @@ htmlcov/
 coverage.xml
 test-results/
 playwright-report/
+
+# Local file store when the app runs outside Docker (uploads never enter git, NFR-3)
+/storage/
 
 # Secrets and local environment; keep example files
 .env
