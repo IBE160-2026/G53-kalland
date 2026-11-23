@@ -664,3 +664,33 @@ Template:
 - **Rationale:** Existing dev databases get the library without a reset. The story's acceptance criteria name A11, and 4.2 can reuse the function for its UI.
 - **Consequences:** The first start on an empty database takes about 40 s longer. An interrupted first start leaves a partial library until `docker compose down -v`. The e2e database is always seeded, so the empty Library page is no longer tested end to end (deferred-work.md).
 - **Trace:** PR #62, Story 1.7, [spec](../../_bmad-output/implementation-artifacts/spec-1-7-the-examiner-starts-with-a-sample-library.md), [session log](sessions/2026-11-23-1-7-sample-library.md)
+
+## D-067: The two location test images carry hand-written public positions
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.7 needs a JPEG with GPS and city fields and a PNG with location data. The developer's phone photos (D-065) have GPS tags, but every one is empty, so no photo holds a real position.
+- **Alternatives:** find other photos with real GPS; leave the location cases out of the seed.
+- **Decision:** `IMG_20260720_144130024.jpg` gets Stortorget, Tromsø (69.6489 N, 18.9553 E) and City "Tromsø", Country "Norway". `IMG_20260720_122021652.png`, taken at Polaria, gets Polaria (69.6431 N, 18.9481 E) and the same place fields. Both positions are approximations of public places, written with `exiftool`. The PNG was converted from the JPEG with `pngquant` (256 colours) to stay about 1600 px and under 500 KB.
+- **Rationale:** The empty tags mean nothing private is published, and public positions near where the photos were taken make the location tests realistic without revealing where the developer has been.
+- **Consequences:** `SOURCES.md` should say that the positions were added as test data. Refines D-065, which reads as if the phone recorded the GPS.
+- **Trace:** session log [2026-11-23-seed-image-prep-and-worktrees.md](sessions/2026-11-23-seed-image-prep-and-worktrees.md), Story 1.7, PR #62
+
+## D-068: The client image page is the Find images wall with `?image=`, and access reads what it needs itself
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The Story 1.8 ACs test an "image page" for 404, but the UX gives clients no separate image page (the Details panel opens on the wall). The access module must also price images and give the file routes a file without creating module cycles.
+- **Alternatives:** a dedicated `/find-images/[id]` route; call `licences.currentLicenceType` from access; let the images module serve contact files.
+- **Decision:** The client image page is `/find-images?image=<id>`, as in the staff Library; a hidden or bad id gives the global Not found page (404). Access reads the current licence type itself (same oldest-first query, with a test that the two agree), because licences will call access (AD-3). `ClientImage` carries the latest `fileVersionId`, and the file routes go from `getClientImage` straight to `media.openDerivedFile`.
+- **Rationale:** Keeps "the panel never navigates away", gives one place that decides visibility, and avoids an access ↔ licences or access ↔ images cycle.
+- **Consequences:** Story 1.9 adds the licence branch to `ownedBy` as one more `or` term. The Not found page is rendered outside the client shell.
+- **Trace:** PR #64, Story 1.8, [spec](../../_bmad-output/implementation-artifacts/spec-1-8-a-contact-finds-the-images-their-client-may-see.md), [session log](sessions/2026-11-23-1-8-contact-finds-images.md)
+
+## D-069: Own tiles show "Yours to download" before download exists
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** A free image restricted to the contact's client (A4) is own. UX-DR-13/15 give own tiles a tick and "Yours to download", but download arrives only in Epic 5.
+- **Alternatives:** show the tick with "Free" until download ships.
+- **Decision:** The user chose to show the tick and "Yours to download" now; the panel has no Download button until Epic 5.
+- **Rationale:** Matches the UX spec, so Epic 5 only adds the button.
+- **Consequences:** Until Epic 5 the caption promises an action the panel does not offer yet.
+- **Trace:** PR #64, Story 1.8, [session log](sessions/2026-11-23-1-8-contact-finds-images.md)
