@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "CRM-DAM",
+    "description": "Image library and licensing for a design agency and its clients."
+  },
+  "home": {
+    "running": "The app is running."
+  }
+}

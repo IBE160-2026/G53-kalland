@@ -1,0 +1,9 @@
+# Scripts and Dockerfiles must keep LF line endings, also on Windows checkouts (D-027, AD-24).
+*.sh text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+docker/** text eol=lf
+Dockerfile* text eol=lf
+.dockerignore text eol=lf
+docker-compose*.yml text eol=lf
+.claude/scripts/* text eol=lf
