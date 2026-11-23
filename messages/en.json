@@ -3,7 +3,39 @@
     "name": "CRM-DAM",
     "description": "Image library and licensing for a design agency and its clients."
   },
-  "home": {
-    "running": "The app is running."
+  "login": {
+    "title": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "missing": "Enter your email and password.",
+    "incorrect": "Incorrect email or password. Contact the agency to set up a new password.",
+    "inactive": "Your account is not active. Contact the agency."
+  },
+  "session": {
+    "signedInAs": "Signed in as {name}.",
+    "logout": "Log out"
+  },
+  "library": {
+    "title": "Library"
+  },
+  "overview": {
+    "title": "Overview"
+  },
+  "forbidden": {
+    "title": "No access",
+    "body": "You do not have access to this page. Go to your start page, or contact the agency if you think you should have access.",
+    "home": "Go to your start page"
+  },
+  "accounts": {
+    "emailTaken": "This email address is already in use. Use another one, or find the existing user."
+  },
+  "errors": {
+    "notFound": "We could not find what you asked for. Check the address, or go back and try again.",
+    "forbidden": "You do not have access to this. Contact the agency if you think you should.",
+    "conflict": "Someone changed this at the same time. Reload the page and try again.",
+    "validation": "Some of the information is not valid. Check it and try again.",
+    "locked": "Someone else is editing this right now. Try again in a few minutes.",
+    "unexpected": "Something went wrong. Try again, and contact the agency if it keeps happening."
   }
 }

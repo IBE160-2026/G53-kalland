@@ -15,6 +15,13 @@
       "when": 1795426930680,
       "tag": "0001_default-tenant",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795432078674,
+      "tag": "0002_accounts-and-auth",
+      "breakpoints": true
     }
   ]
 }

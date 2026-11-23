@@ -12,7 +12,7 @@ The repo contains the application and documentation of how it was developed, tes
 
 **CRM-DAM** is an image library with client management and licensing for a small design agency. Staff upload and describe images (with AI-generated metadata), decide which clients may see each image and at what price, and track licences. The agency's clients log in to find, buy and download the images they may use.
 
-v1 is under construction. Story 1.1 (this version) gives the runnable foundation: the app, its database, migrations, tests and CI. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
+v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 adds logging in and out for staff and contacts, with demo users. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ v1 is under construction. Story 1.1 (this version) gives the runnable foundation
 docker compose up --build
 ```
 
-Open <http://localhost:3000>. Compose starts `db` (PostgreSQL), then `migrate` (applies the database migrations and exits), then `app`. `GET /api/health` returns `{"status":"ok"}` once the database answers.
+Open <http://localhost:3000> and log in as one of the [demo users](#test-data). Compose starts `db` (PostgreSQL), then `migrate` (applies the database migrations and exits), then `app`. `GET /api/health` returns `{"status":"ok"}` once the database answers.
 
 Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the database and the stored files.
 
@@ -35,7 +35,7 @@ Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the databa
 docker compose -p crm-dam-test --profile test down -v && docker compose -p crm-dam-test --profile test run --rm --build unit && docker compose -p crm-dam-test --profile test run --rm --build e2e
 ```
 
-This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
+This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same steps on every pull request and on pushes to `main`.
 
@@ -59,14 +59,26 @@ Compose works without a `.env` file. To change a setting, copy `.env.example` to
 
 ### Test data
 
-No seed data yet. Demo users and sample images come with stories 1.2 and 1.7.
+With `SEED_ON_START=true` (the default), the app creates these demo users when it starts on an empty database. It does nothing if users already exist. All six share the demo password **`crm-dam-demo-2026`**.
+
+| Email | Role | Client | Lands on |
+| --- | --- | --- | --- |
+| `ida@agency.example` | staff | – | `/library` |
+| `per@agency.example` | staff | – | `/library` |
+| `jonas@fjordkaffe.example` | contact | Fjordkaffe AS | `/overview` |
+| `kari@fjordkaffe.example` | contact | Fjordkaffe AS | `/overview` |
+| `emil@nordlys.example` | contact | Nordlys Sykkel AS | `/overview` |
+| `liv@gammelkunde.example` | contact | Gammel Kunde AS (inactive) | refused: "Your account is not active." |
+
+The same users are the named fixture in [`src/db/seed/fixture.ts`](src/db/seed/fixture.ts) that the tests log in as. Sample images come with story 1.7.
 
 ### Folder overview
 
 ```text
 src/app/            routes only: pages and /api Route Handlers
 src/modules/        domain modules (auth, accounts, images, access, licences, downloads, media, ai, places, activity)
-src/db/             schema/ (one file per owning module), migrations/ (committed SQL), seed/, migrate and test-reset scripts
+src/db/             schema/ (one file per owning module), migrations/ (committed SQL), seed/ (demo data and test fixture), migrate and test-reset scripts
+src/test/           Vitest setup and helpers (loginAs, factories)
 src/worker/         background worker (later)
 messages/en.json    every UI string
 tests/e2e/          Playwright tests

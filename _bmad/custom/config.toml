@@ -5,3 +5,8 @@
 #
 # [agents.bmad-agent-pm]
 # description = "Prefers short, bulleted PRDs over narrative drafts."
+
+# Required by the bmad-build renderer; missing from the installer's answers.
+# English, matching document_output_language (D-008).
+[core]
+communication_language = "English"

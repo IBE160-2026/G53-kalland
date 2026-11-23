@@ -6,8 +6,8 @@ test("the health endpoint reports ok", async ({ request }) => {
   expect(await response.json()).toEqual({ status: "ok" });
 });
 
-test("the start page renders", async ({ page }) => {
+test("the root page sends a visitor without a session to Login", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "CRM-DAM" })).toBeVisible();
-  await expect(page.getByText("The app is running.")).toBeVisible();
+  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Log in" })).toBeVisible();
 });
