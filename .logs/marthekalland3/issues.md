@@ -57,5 +57,6 @@
 - [ ] 2026-11-23 [architecture-stack-and-boundaries](982-2026-11-20-14-14-04-architecture-stack-and-boundaries.md) — UX mockups and prototype still show a per-image price field and a percentage for all staff; update only if they are used again
 - [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — at the 2026-11-30 checkpoint: compare Epic 1's actual hours with its ~45 h estimate; spine estimated at ~99 h vs the PRD's 75 h (D-052)
 - [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — source 20–40 CC0 / public-domain (or own) seed images for Story 1.7, incl. GPS+city JPEG, embedded-thumbnail JPEG and PNG with location data
-- [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — run `bmad-sprint-planning` with the build order from epics.md, then stories → GitHub issues and milestones
+- [x] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — run `bmad-sprint-planning` with the build order from epics.md, then stories → GitHub issues and milestones (løst 2026-11-23: sprint-status.yaml with the build order, [sprint-planning](980-2026-11-23-10-26-35-sprint-planning.md), PR #50; issues and milestones are a new item)
 - [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — the FR-28 PRD edit was made directly like FR-35; include it in the open `bmad-correct-course` decision
+- [ ] 2026-11-23 [sprint-planning](980-2026-11-23-10-26-35-sprint-planning.md) — turn the stories into GitHub issues and milestones
