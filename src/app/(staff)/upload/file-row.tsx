@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Tag } from "@digdir/designsystemet-react";
 
-export type FileRowState = "uploading" | "ready" | "rejected";
+export type FileRowState = "uploading" | "ready" | "failed" | "rejected";
 
 export type FileRowData = {
   key: string;
@@ -16,14 +16,16 @@ export type FileRowData = {
   messageKey?: string;
 };
 
-const TAG_COLOR = { uploading: "info", ready: "success", rejected: "warning" } as const;
+const TAG_COLOR = { uploading: "info", ready: "success", failed: "danger", rejected: "warning" } as const;
 
 // A file row (UX-DR-28, first cut): 52 px thumb, title or file name, sub-line, message line and status
-// tag. Every text is rendered as escaped React text: file names and embedded titles are untrusted.
+// tag. A stored file (Ready or Failed) shows its title, or "Untitled image", over the file name. Every
+// text is rendered as escaped React text: file names, embedded titles and AI output are untrusted.
 export function FileRow({ row }: { row: FileRowData }) {
   const t = useTranslations();
-  const primary = row.state === "ready" ? (row.title ?? t("upload.untitled")) : row.filename;
-  const sub = row.state === "ready" ? row.filename : row.state === "rejected" ? t("upload.notAdded") : null;
+  const stored = row.state === "ready" || row.state === "failed";
+  const primary = stored ? (row.title ?? t("upload.untitled")) : row.filename;
+  const sub = stored ? row.filename : row.state === "rejected" ? t("upload.notAdded") : null;
   return (
     <li className="file-row" data-state={row.state}>
       <span className="file-row-thumb">

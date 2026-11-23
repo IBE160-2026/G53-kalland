@@ -3,6 +3,7 @@ import { exiftool } from "exiftool-vendored";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { getDb } from "@/db/client";
 import { fixtureUsers, type FixtureUser } from "@/db/seed/fixture";
+import { PLACEHOLDER_OUTPUT } from "@/modules/ai/providers/mock";
 import { createUploadRows } from "@/modules/images";
 import { SESSION_COOKIE } from "@/modules/auth/cookies";
 import { makeJpeg, useTempFileStore } from "@/test/images";
@@ -49,9 +50,9 @@ async function as(user: FixtureUser) {
   return actor;
 }
 
-async function newRow(): Promise<string> {
+async function newRow(filename = "harbour.jpg"): Promise<string> {
   const { actor } = await loginAs(fixtureUsers.ida);
-  const { images } = await createUploadRows(getDb(), actor, { filenames: ["harbour.jpg"] });
+  const { images } = await createUploadRows(getDb(), actor, { filenames: [filename] });
   return images[0].id;
 }
 
@@ -92,13 +93,25 @@ describe("PUT /api/images/[id]/file", () => {
     expect((await PUT(...put(imageId, new Uint8Array(await makeJpeg())))).status).toBe(200);
   });
 
-  it("stores the file and answers with the title and thumbnail URL", async () => {
+  it("stores the file, generates its metadata and answers ready with the AI title and thumbnail URL", async () => {
     const imageId = await newRow();
     await as(fixtureUsers.ida);
     const response = await PUT(...put(imageId, new Uint8Array(await makeJpeg())));
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toBe("private, no-store");
-    expect(await response.json()).toEqual({ status: "ready", title: null, thumbnailUrl: `/api/images/${imageId}/thumbnail` });
+    expect(await response.json()).toEqual({
+      status: "ready",
+      title: PLACEHOLDER_OUTPUT.title,
+      thumbnailUrl: `/api/images/${imageId}/thumbnail`,
+    });
+  });
+
+  it("answers failed with 200 when generation fails, since the file was stored", async () => {
+    const imageId = await newRow("fail-boat.jpg");
+    await as(fixtureUsers.ida);
+    const response = await PUT(...put(imageId, new Uint8Array(await makeJpeg())));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ status: "failed", title: null, thumbnailUrl: `/api/images/${imageId}/thumbnail` });
   });
 
   it("answers a rejected file with its reason", async () => {

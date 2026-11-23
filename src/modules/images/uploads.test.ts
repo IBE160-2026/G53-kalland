@@ -8,6 +8,7 @@ import messages from "../../../messages/en.json";
 import { getDb } from "@/db/client";
 import { batches, fileVersions, imageKeywords, images } from "@/db/schema";
 import { fixtureUsers } from "@/db/seed/fixture";
+import { PLACEHOLDER_OUTPUT } from "@/modules/ai/providers/mock";
 import type { Actor } from "@/modules/auth";
 import { Conflict, Forbidden } from "@/modules/shared/errors";
 import { chunksOf, listFiles, makeJpeg, makePng, useTempFileStore, withTags } from "@/test/images";
@@ -112,7 +113,7 @@ describe("createUploadRows", () => {
 });
 
 describe("completeUpload", () => {
-  it("stores a ready draft with its embedded metadata, file version and files (NFR-10)", async () => {
+  it("stores a draft with its embedded metadata, file version and files, then generates its AI metadata (NFR-10)", async () => {
     const bytes = await withTags(await makeJpeg({ width: 1200, height: 900 }), "jpg", {
       "XMP-dc:Title": "Harbour",
       "XMP-dc:Subject": ["Boat", "Sea"],
@@ -123,27 +124,28 @@ describe("completeUpload", () => {
     });
     const { imageId } = await oneRow();
     const result = await completeUpload(ida, imageId, chunksOf(bytes), bytes.length);
-    expect(result).toEqual({ title: "Harbour", thumbnailUrl: `/api/images/${imageId}/thumbnail` });
+    expect(result).toEqual({
+      processingState: "ready",
+      title: PLACEHOLDER_OUTPUT.title,
+      thumbnailUrl: `/api/images/${imageId}/thumbnail`,
+    });
 
+    // The AI text replaces the embedded title and keywords (generation.test.ts covers the details);
+    // the embedded facts stay.
     expect(await imageRow(imageId)).toMatchObject({
       status: "draft",
       processingState: "ready",
       visibility: "internal",
       priceTier: "free",
-      title: "Harbour",
-      titleSource: "embedded",
-      description: null,
-      descriptionSource: null,
+      title: PLACEHOLDER_OUTPUT.title,
+      titleSource: "ai",
       dateTaken: "2024-06-01 05:12:30",
       cameraMake: "Canon",
       latitude: 63.4305,
       longitude: 10.3951,
     });
     const keywords = await db.select().from(imageKeywords).where(eq(imageKeywords.imageId, imageId));
-    expect(keywords.map((k) => [k.keyword, k.source])).toEqual([
-      ["Boat", "embedded"],
-      ["Sea", "embedded"],
-    ]);
+    expect(keywords.every((k) => k.source === "ai")).toBe(true);
 
     const [version] = await db.select().from(fileVersions).where(eq(fileVersions.imageId, imageId));
     expect(version).toMatchObject({ hash: sha256(bytes), mediaType: "image/jpeg", byteSize: bytes.length, width: 1200, height: 900 });
@@ -156,11 +158,11 @@ describe("completeUpload", () => {
     expect(await tmpFiles()).toEqual([]);
   });
 
-  it("stores a PNG without metadata with empty fields", async () => {
+  it("stores a PNG without metadata, and a failed generation leaves its fields empty", async () => {
     const bytes = await makePng();
-    const { imageId } = await oneRow(ida, "plain.png");
-    expect(await completeUpload(ida, imageId, chunksOf(bytes), bytes.length)).toMatchObject({ title: null });
-    expect(await imageRow(imageId)).toMatchObject({ processingState: "ready", title: null, titleSource: null });
+    const { imageId } = await oneRow(ida, "fail-plain.png");
+    expect(await completeUpload(ida, imageId, chunksOf(bytes), bytes.length)).toMatchObject({ processingState: "failed", title: null });
+    expect(await imageRow(imageId)).toMatchObject({ processingState: "failed", title: null, titleSource: null, cameraMake: null });
   });
 
   it.each([
@@ -287,7 +289,13 @@ describe("reads", () => {
       batchId,
       rows: [
         { id: rows[0].id, filename: "one.png", title: null, processingState: "uploading", thumbnailUrl: null },
-        { id: rows[1].id, filename: "two.png", title: null, processingState: "ready", thumbnailUrl: `/api/images/${rows[1].id}/thumbnail` },
+        {
+          id: rows[1].id,
+          filename: "two.png",
+          title: PLACEHOLDER_OUTPUT.title,
+          processingState: "ready",
+          thumbnailUrl: `/api/images/${rows[1].id}/thumbnail`,
+        },
       ],
     });
     expect(await listBatchUploads(per, batchId)).toBeNull();

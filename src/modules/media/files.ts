@@ -12,9 +12,13 @@ export type DerivedKind = "thumbnail" | "preview";
 // An upload's files while they wait in tmp/ for the transaction that stores them (AD-11).
 export type StagedUpload = ReceivedFile & { thumbnailKey: string; previewKey: string; width: number; height: number };
 
+export function originalKey(fileVersionId: string): string {
+  return `originals/${fileVersionId}`;
+}
+
 function finalKeys(fileVersionId: string) {
   return {
-    original: `originals/${fileVersionId}`,
+    original: originalKey(fileVersionId),
     thumbnail: `derived/${fileVersionId}/thumbnail`,
     preview: `derived/${fileVersionId}/preview`,
   };

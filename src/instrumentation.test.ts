@@ -26,6 +26,30 @@ afterAll(async () => {
   await rm(storeDir, { recursive: true, force: true });
 });
 
+it("at startup fails queued and lease-expired generating images as interrupted, leaving live leases (AD-12)", async () => {
+  const db = getDb();
+  const { actor } = await loginAs(fixtureUsers.ida);
+  const { images: rows } = await createUploadRows(db, actor, { filenames: ["queued.jpg", "expired.jpg", "live.jpg"] });
+  const [queued, expired, live] = rows.map((row) => row.id);
+  await db.update(images).set({ processingState: "queued" }).where(eq(images.id, queued));
+  await db
+    .update(images)
+    .set({ processingState: "generating", generationToken: crypto.randomUUID(), leaseUntil: sql`now() - interval '1 second'` })
+    .where(eq(images.id, expired));
+  await db
+    .update(images)
+    .set({ processingState: "generating", generationToken: crypto.randomUUID(), leaseUntil: sql`now() + interval '1 minute'` })
+    .where(eq(images.id, live));
+
+  await register();
+
+  const stateOf = async (id: string) => (await db.select().from(images).where(eq(images.id, id)))[0];
+  for (const id of [queued, expired]) {
+    expect(await stateOf(id)).toMatchObject({ processingState: "failed", failureReason: "interrupted" });
+  }
+  expect(await stateOf(live)).toMatchObject({ processingState: "generating", failureReason: null });
+});
+
 it("at startup deletes stale uploading rows and empties tmp/ (AD-11)", async () => {
   const db = getDb();
   const { actor } = await loginAs(fixtureUsers.ida);
