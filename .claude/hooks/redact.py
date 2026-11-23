@@ -16,7 +16,7 @@ SECRET_PATTERNS = [
     re.compile(r"(?i)bearer\s+[A-Za-z0-9._~+/-]{16,}=*"),
     re.compile(
         r"(?i)\b([A-Z0-9_]*(?:api[_-]?key|secret|password|passord|token)[A-Z0-9_]*)"
-        r"(\s*[=:]\s*)(\"[^\"]+\"|'[^']+'|\S+)"
+        r"(\s*[=:]\s*)(?!\[MASKERT\])(\"[^\"]+\"|'[^']+'|\S+)"
     ),
 ]
 
