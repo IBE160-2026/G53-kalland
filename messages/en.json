@@ -40,7 +40,29 @@
   },
   "upload": {
     "title": "Upload",
-    "empty": "Uploading images comes in a later version."
+    "start": "Start a new batch, then add the JPEG or PNG files you want in the library.",
+    "newBatch": "New batch",
+    "dropZone": "Drop JPEG or PNG files here, up to 50 MB each",
+    "chooseFiles": "Choose files",
+    "addMore": "Add more files",
+    "dropAnywhere": "or drop JPEG or PNG files anywhere on this page, up to 50 MB each",
+    "keepOpen": "Keep this page open until the last file has uploaded.",
+    "files": "Files in this batch",
+    "untitled": "Untitled image",
+    "notAdded": "Not added",
+    "tag": {
+      "uploading": "Uploading",
+      "ready": "Ready",
+      "rejected": "Rejected"
+    },
+    "rejected": {
+      "notImage": "{name} was not uploaded: it is not a JPEG or PNG image.",
+      "tooLarge": "{name} was not uploaded: it is larger than 50 MB.",
+      "damaged": "{name} was not uploaded: the file is damaged.",
+      "duplicate": "{name} is already in the library.",
+      "unsafePreview": "{name} was not uploaded: its preview could not be made safely. Try again.",
+      "connectionLost": "{name} was not uploaded: the connection was lost. Add the file again."
+    }
   },
   "overview": {
     "title": "Overview",

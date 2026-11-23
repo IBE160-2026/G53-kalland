@@ -43,13 +43,13 @@ test.describe("staff shell", () => {
     await expect(current).toHaveCSS("border-bottom-color", "rgb(37, 40, 45)");
   });
 
-  test("Library shows its empty state with one action, and Upload is a placeholder", async ({ page }) => {
+  test("Library shows its empty state with one action, which leads to Upload", async ({ page }) => {
     await loginAs(page, fixtureUsers.ida);
     await expect(page.getByRole("main").getByText("The library has no images yet.")).toBeVisible();
     await page.getByRole("main").getByRole("link", { name: "Upload images" }).click();
     await expect(page).toHaveURL(/\/upload$/);
     await expect(page.getByRole("heading", { level: 1, name: "Upload" })).toBeVisible();
-    await expect(page.getByText("Uploading images comes in a later version.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "New batch" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Upload", exact: true })).toHaveAttribute("aria-current", "page");
     // Upload has no Context sidebar, so no toggle.
     await expect(page.getByRole("button", { name: FILTERS_TOGGLE })).toHaveCount(0);
@@ -251,7 +251,7 @@ test("the skip link moves focus to the main content", async ({ page }) => {
   await expect(page.getByRole("main")).toBeFocused();
 });
 
-test.describe("the placeholder pages are guarded by role", () => {
+test.describe("Upload and Find images are guarded by role", () => {
   test("a contact on Upload gets 403", async ({ page }) => {
     await loginAs(page, fixtureUsers.jonas);
     const response = await page.goto("/upload");

@@ -45,7 +45,8 @@ Build the thinnest end-to-end version of the CRM-DAM: staff log in, upload one i
 
 ## UX & Interaction Patterns
 
-- Graphite theme generated from `designsystemet.config.json`; Instrument Sans self-hosted via `next/font` (offline at runtime); light only.
+- Graphite theme on Designsystemet CSS 1.24, light only. `designsystemet.config.json` (repo root) is the theme-builder input: a flat `colors` map (accent, brand1, neutral), border radius 3, Instrument Sans; `overrides.colors.<color>.<token>.light` pins every Graphite role to its spec hex, `overrides.severity` the status colours and `overrides.focus` the focus ring (without the pins the CLI generates different values). `npm run theme:build` generates the committed `src/styles/theme/graphite.css`; `src/styles/theme/theme.test.ts` checks the generated CSS against the colour table.
+- Instrument Sans self-hosted via `next/font` (offline at runtime).
 - Staff shell: top bar with "CRM-DAM" wordmark, tabs Library / Upload / Clients / Licences, header search, account menu. Client shell: client name over "Image portal", tabs Overview / My images / Find images / Licences, cart button.
 - Login and set-password pages are one centred form without navigation; contacts on staff routes get a 403 page; anything a contact may not see is a Not found page.
 

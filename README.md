@@ -12,7 +12,7 @@ The repo contains the application and documentation of how it was developed, tes
 
 **CRM-DAM** is an image library with client management and licensing for a small design agency. Staff upload and describe images (with AI-generated metadata), decide which clients may see each image and at what price, and track licences. The agency's clients log in to find, buy and download the images they may use.
 
-v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 adds the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
+v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 added the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme; story 1.4 adds Upload: staff upload JPEG and PNG files, and each is stored unchanged as a draft with a thumbnail, a preview and its embedded metadata. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
 
 ### Prerequisites
 
@@ -35,7 +35,7 @@ Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the databa
 docker compose -p crm-dam-test --profile test down -v && docker compose -p crm-dam-test --profile test run --rm --build unit && docker compose -p crm-dam-test --profile test run --rm --build e2e
 ```
 
-This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.3 there are 111 Vitest tests (in 15 files, including the theme token test) and 45 Playwright tests (including the shell tests and the axe scans). Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
+This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.4 there are 168 Vitest tests (in 21 files, including the theme token test and the upload, media and route tests) and 61 Playwright tests (including the shell and upload tests and the axe scans). The tests make their images on the fly; the repo holds no image files. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same steps on every pull request and on pushes to `main`.
 
@@ -48,7 +48,7 @@ Compose works without a `.env` file. To change a setting, copy `.env.example` to
 | `DATABASE_URL` | App database | set by Compose |
 | `TEST_DATABASE_URL` | Test database (reset by the tests) | set by Compose |
 | `APP_ORIGIN` | Address the browser uses; other origins cannot change data | `http://localhost:3000` |
-| `FILE_STORE_DIR` | Where uploaded and derived files are stored | Compose volume |
+| `FILE_STORE_DIR` | Where uploaded originals and their thumbnails and previews are stored, under keys the app makes (never the file name). No URL serves this folder; files reach the browser only through guarded routes | Compose volume `files` |
 | `AI_PROVIDER` | `mock` (no key) or `claude` | `mock` |
 | `ANTHROPIC_API_KEY` | Only for `AI_PROVIDER=claude` | empty |
 | `AI_MODEL`, `AI_EFFORT` | Claude model and effort | `claude-haiku-5-5`, `medium` |

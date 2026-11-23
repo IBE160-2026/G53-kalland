@@ -10,6 +10,9 @@ export function proxy(request: NextRequest) {
   return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
+// The upload route, exactly /api/images/<id>/file, is left out: a proxy caps request bodies at
+// 10 MB, and uploads may be 50 MB.
+// Its guard needs no return-to, since a Route Handler is never a page to come back to.
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/health).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/health|api/images/[^/]+/file$).*)"],
 };
