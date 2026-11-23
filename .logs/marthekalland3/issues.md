@@ -68,3 +68,6 @@
 - [ ] 2026-11-23 [1-3-staff-and-client-shells](977-2026-11-23-13-19-17-1-3-staff-and-client-shells.md) — check the shells by hand in a browser at 1440 px and 360 px as Ida and as Jonas
 - [ ] 2026-11-23 [1-3-staff-and-client-shells](977-2026-11-23-13-19-17-1-3-staff-and-client-shells.md) — add a CI check that the committed theme CSS matches `designsystemet.config.json`
 - [ ] 2026-11-23 [1-3-staff-and-client-shells](977-2026-11-23-13-19-17-1-3-staff-and-client-shells.md) — decide whether `designsystemet.config.json` may stay in the repo root (CLAUDE.md: no loose files in root)
+- [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — check story 1.5 by hand as Ida with `docker compose up --build` (placeholder title; `fail-x.jpg` ends Failed)
+- [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — rare Vitest flake: `failInterruptedGenerations` in the restart tests can fail another file's freshly `queued` upload
+- [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — test that a reloaded `queued`/`generating` upload row shows Failed (deferred-work.md; with stories 3.1/3.11)

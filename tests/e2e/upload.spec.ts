@@ -6,6 +6,9 @@ import { fixtureUsers } from "../../src/db/seed/fixture.ts";
 import { loginAs, logOutVia } from "./helpers.ts";
 import { makeDamagedPng, makePng } from "./png.ts";
 
+// The mock provider's labelled placeholder title (src/modules/ai/providers/mock.ts).
+const PLACEHOLDER_TITLE = "Placeholder title from the mock AI";
+
 type UploadFile = { name: string; mimeType: string; buffer: Buffer };
 
 function png(name: string, buffer = makePng()): UploadFile {
@@ -25,14 +28,12 @@ async function startBatch(page: Page, files: UploadFile[] | string[]) {
   await page.getByLabel("Choose files").setInputFiles(files);
 }
 
-test("a new batch stores a PNG with its embedded title, shown escaped, and keeps it on reload", async ({ page }) => {
-  const title = "Harbour <b>at dawn</b>";
-  await startBatch(page, [png("harbour.png", makePng({ title }))]);
+test("a new batch stores a PNG, replaces its embedded title with the mock AI title, and keeps it on reload", async ({ page }) => {
+  await startBatch(page, [png("harbour.png", makePng({ title: "Harbour at dawn" }))]);
 
   const row = fileRow(page, "harbour.png");
   await expect(row.getByText("Ready", { exact: true })).toBeVisible();
-  await expect(row.getByText(title, { exact: true })).toBeVisible();
-  await expect(row.locator("b")).toHaveCount(0);
+  await expect(row.getByText(PLACEHOLDER_TITLE, { exact: true })).toBeVisible();
   const thumb = row.locator("img");
   await expect.poll(() => thumb.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth)).toBe(32);
 
@@ -41,15 +42,31 @@ test("a new batch stores a PNG with its embedded title, shown escaped, and keeps
   await expect(page.getByText("or drop JPEG or PNG files anywhere on this page, up to 50 MB each")).toBeVisible();
 
   await page.reload();
-  await expect(fileRow(page, "harbour.png").getByText(title, { exact: true })).toBeVisible();
+  await expect(fileRow(page, "harbour.png").getByText(PLACEHOLDER_TITLE, { exact: true })).toBeVisible();
   await expect(fileRow(page, "harbour.png").getByText("Ready", { exact: true })).toBeVisible();
 });
 
-test("a PNG without metadata is an Untitled image with its file name below", async ({ page }) => {
-  await startBatch(page, [png("plain.png")]);
-  const row = fileRow(page, "plain.png");
-  await expect(row.getByText("Ready", { exact: true })).toBeVisible();
+test("a failed generation shows Failed with the embedded title, escaped, and the next file ends Ready", async ({ page }) => {
+  const title = "Harbour <b>at dawn</b>";
+  await startBatch(page, [png("fail-harbour.png", makePng({ title })), png("next.png")]);
+
+  const failed = fileRow(page, "fail-harbour.png");
+  await expect(failed.getByText("Failed", { exact: true })).toBeVisible();
+  await expect(failed.getByText(title, { exact: true })).toBeVisible();
+  await expect(failed.locator("b")).toHaveCount(0);
+  await expect(fileRow(page, "next.png").getByText("Ready", { exact: true })).toBeVisible();
+
+  await page.reload();
+  await expect(fileRow(page, "fail-harbour.png").getByText("Failed", { exact: true })).toBeVisible();
+  await expect(fileRow(page, "fail-harbour.png").getByText(title, { exact: true })).toBeVisible();
+});
+
+test("a failed PNG without metadata is an Untitled image with its file name below", async ({ page }) => {
+  await startBatch(page, [png("fail-plain.png")]);
+  const row = fileRow(page, "fail-plain.png");
+  await expect(row.getByText("Failed", { exact: true })).toBeVisible();
   await expect(row.getByText("Untitled image", { exact: true })).toBeVisible();
+  await expect(row.getByText("fail-plain.png", { exact: true })).toBeVisible();
 });
 
 test("a text file renamed to .jpg is not added", async ({ page }) => {

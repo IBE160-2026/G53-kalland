@@ -14,16 +14,19 @@ const ACCEPT = "image/jpeg,image/png";
 const GROUP_SIZE = 500;
 
 type UploadResponse =
-  | { status: "ready"; title: string | null; thumbnailUrl: string }
+  | { status: "ready" | "failed"; title: string | null; thumbnailUrl: string }
   | { status: "rejected"; reason: string }
   | { error?: string };
 
-// A stored row still `uploading` after a reload has lost its file: nothing will send it any more.
+// A stored row still `uploading` after a reload has lost its file: nothing will send it any more. A row
+// still `queued` or `generating` cannot follow a completed upload (generation runs inside it), so after a
+// reload it shows as Failed, as it will be once the app restarts (AD-12).
 function fromStored(row: UploadRow): FileRowData {
   if (row.processingState === "uploading") {
     return { key: row.id, filename: row.filename, state: "rejected", messageKey: "upload.rejected.connectionLost" };
   }
-  return { key: row.id, filename: row.filename, state: "ready", title: row.title, thumbnailUrl: row.thumbnailUrl };
+  const state = row.processingState === "ready" ? "ready" : "failed";
+  return { key: row.id, filename: row.filename, state, title: row.title, thumbnailUrl: row.thumbnailUrl };
 }
 
 // Sends one file as the raw body of a PUT to the upload Route Handler, and turns the answer into the
@@ -40,8 +43,8 @@ async function sendFile(imageId: string, file: File): Promise<Partial<FileRowDat
   } catch {
     return { state: "rejected", messageKey: "upload.rejected.connectionLost" };
   }
-  if (body && "status" in body && body.status === "ready") {
-    return { state: "ready", title: body.title, thumbnailUrl: body.thumbnailUrl };
+  if (body && "status" in body && (body.status === "ready" || body.status === "failed")) {
+    return { state: body.status, title: body.title, thumbnailUrl: body.thumbnailUrl };
   }
   if (body && "status" in body && body.status === "rejected") {
     return { state: "rejected", messageKey: `upload.rejected.${body.reason}` };

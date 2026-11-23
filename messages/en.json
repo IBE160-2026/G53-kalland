@@ -53,6 +53,7 @@
     "tag": {
       "uploading": "Uploading",
       "ready": "Ready",
+      "failed": "Failed",
       "rejected": "Rejected"
     },
     "rejected": {

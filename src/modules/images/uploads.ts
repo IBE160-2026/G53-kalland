@@ -18,6 +18,7 @@ import {
 import { isUniqueViolation } from "@/modules/shared/db-errors";
 import { Conflict, Forbidden, ModuleError, NotFound } from "@/modules/shared/errors";
 import { log } from "@/modules/shared/log";
+import { generateMetadata } from "./generation";
 
 // Why an upload was not added. Each reason has one NFR-7 message, `upload.rejected.<reason>`.
 export type UploadRejectionReason = MediaRejectionReason | "duplicate";
@@ -98,17 +99,18 @@ async function deleteUpload(imageId: string, tmpKey?: string, fileVersionId?: st
   }
 }
 
-// Receives the file of an `uploading` image row and stores it as a ready draft (AD-11): the body
-// streams to tmp/ with its hash; the thumbnail and preview are made and checked; embedded metadata is
-// read; then one short transaction stores the file version, the fields and keywords, and moves the
-// files to their final keys. Any failure deletes the row and the files. A rejected file throws
-// UploadRejected; a byte-identical file already stored is `duplicate`.
+// Receives the file of an `uploading` image row and stores it as a draft (AD-11): the body streams to
+// tmp/ with its hash; the thumbnail and preview are made and checked; embedded metadata is read; then
+// one short transaction stores the file version, the fields and keywords, moves the files to their final
+// keys and sets `queued`. Any failure up to there deletes the row and the files. A rejected file throws
+// UploadRejected; a byte-identical file already stored is `duplicate`. After the commit, generation runs
+// inline (AD-12) and the image ends `ready` or `failed`; a failed generation never fails the upload.
 export async function completeUpload(
   actor: Actor,
   imageId: string,
   body: AsyncIterable<Uint8Array>,
   contentLength: number | null,
-): Promise<{ title: string | null; thumbnailUrl: string }> {
+): Promise<{ processingState: UploadRow["processingState"]; title: string | null; thumbnailUrl: string }> {
   assertStaff(actor);
   const db = getDb();
   const [row] = await db
@@ -128,7 +130,7 @@ export async function completeUpload(
     const staged = await stageDerivedFiles(received);
     const embedded = await readStagedMetadata(received);
 
-    const title = await db.transaction(async (tx) => {
+    await db.transaction(async (tx) => {
       const [version] = await tx
         .insert(fileVersions)
         .values({
@@ -152,11 +154,11 @@ export async function completeUpload(
           descriptionSource: description ? "embedded" : null,
           altText,
           altTextSource: altText ? "embedded" : null,
-          processingState: "ready",
+          processingState: "queued",
           updatedAt: new Date(),
         })
         .where(and(eq(images.id, imageId), eq(images.processingState, "uploading")))
-        .returning({ title: images.title });
+        .returning({ id: images.id });
       if (updated.length === 0) throw new Conflict();
       if (keywords.length > 0) {
         await tx
@@ -165,15 +167,21 @@ export async function completeUpload(
           .onConflictDoNothing();
       }
       await storeStagedFiles(staged, version.id);
-      return updated[0].title;
     });
-    return { title, thumbnailUrl: thumbnailUrl(imageId) };
   } catch (error) {
     await deleteUpload(imageId, tmpKey, fileVersionId);
     if (error instanceof MediaRejected) throw new UploadRejected(error.reason);
     if (isUniqueViolation(error)) throw new UploadRejected("duplicate");
     throw error;
   }
+
+  await generateMetadata(imageId);
+  const [stored] = await db
+    .select({ processingState: images.processingState, title: images.title })
+    .from(images)
+    .where(eq(images.id, imageId));
+  if (!stored) throw new NotFound();
+  return { ...stored, thumbnailUrl: thumbnailUrl(imageId) };
 }
 
 // The startup sweep (AD-11): deletes `uploading` rows not touched for an hour. Returns how many.

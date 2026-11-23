@@ -18,6 +18,8 @@ import { tenants, users } from "./accounts.ts";
 const VISIBILITIES = ["internal", "restricted", "public"] as const;
 const PRICE_TIERS = ["free", "paid"] as const;
 const FIELD_SOURCES = ["embedded", "ai", "staff"] as const;
+// Why generation failed: the ai module's error categories (AD-21), or "interrupted" by a restart (AD-12).
+const FAILURE_REASONS = ["auth", "rate_limit", "timeout", "unavailable", "refused", "invalid_output", "interrupted"] as const;
 
 // A batch holds defaults only; they are copied onto each image when its row is created (AD-9).
 export const batches = pgTable(
@@ -84,6 +86,10 @@ export const images = pgTable(
     latitude: doublePrecision("latitude"),
     longitude: doublePrecision("longitude"),
     publishedAt: timestamp("published_at", { withTimezone: true }),
+    // The generation lease (AD-12): set by the claim, cleared by the save or the failure.
+    generationToken: uuid("generation_token"),
+    leaseUntil: timestamp("lease_until", { withTimezone: true }),
+    failureReason: text("failure_reason", { enum: FAILURE_REASONS }),
     version: integer("version").notNull().default(1),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -102,6 +108,10 @@ export const images = pgTable(
     check("images_title_source_check", sql`${t.titleSource} in ('embedded', 'ai', 'staff')`),
     check("images_description_source_check", sql`${t.descriptionSource} in ('embedded', 'ai', 'staff')`),
     check("images_alt_text_source_check", sql`${t.altTextSource} in ('embedded', 'ai', 'staff')`),
+    check(
+      "images_failure_reason_check",
+      sql`${t.failureReason} in ('auth', 'rate_limit', 'timeout', 'unavailable', 'refused', 'invalid_output', 'interrupted')`,
+    ),
   ],
 );
 
