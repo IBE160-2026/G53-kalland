@@ -59,3 +59,11 @@ export function toFormState(error: unknown): FormState {
   log.error({ err: error }, "Unexpected error in a Server Action");
   return { error: UNEXPECTED_KEY };
 }
+
+// Maps a thrown error to a Route Handler's JSON error response: { error: <message key> } with the
+// error's HTTP status. Unknown errors are logged and answered with the generic message.
+export function toErrorResponse(error: unknown): Response {
+  if (!(error instanceof ModuleError)) log.error({ err: error }, "Unexpected error in a Route Handler");
+  const messageKey = error instanceof ModuleError ? error.messageKey : UNEXPECTED_KEY;
+  return Response.json({ error: messageKey }, { status: toHttpStatus(error), headers: { "Cache-Control": "private, no-store" } });
+}
