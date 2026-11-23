@@ -314,7 +314,7 @@ An own image with an active licence is shown with a tick, and the client downloa
 - **FR-27 [spine] Staff search.** *Realizes UJ-1.* Staff search the whole library by keyword, matching title, description, keywords and place names, and filter by client, visibility, price, status (draft, published or archived) and date taken.
 - **FR-28 [spine] Client browsing.** *Realizes UJ-3.* Clients have two entry points: **My images** (own images) and **Find images** (every image the client can see).
   - In Find images, own images carry a green tick. Clients can search and filter by price and date taken, and narrow to "only my images". There is no client filter.
-  - In v1, client search matches title, description and keywords, and not the place name record or staff notes.
+  - In v1, client search matches title, description, alt text and keywords, and not the place name record or staff notes.
 - **FR-29 [spine] Search behaviour.** *Realizes UJ-1, UJ-3.* For staff and clients alike: search ignores case; several terms must all match; results come newest first, in pages; and an empty result says so and offers to clear the filters.
 - **FR-30 [spine] Image page.** *Realizes UJ-1, UJ-3.* The image page shows the image larger with its metadata.
   - A contact sees the agency fields, date taken and camera data, and never staff notes, provider details or other clients. In v1, a contact also never sees GPS or the place name record.

@@ -33,6 +33,7 @@ This run answers the [teacher's feedback](../prd-g53-kalland-2026-11-04/tilbakem
 | Change | Why | Where |
 |---|---|---|
 | Client copies also keep the EXIF orientation tag | Client copies keep the original pixels, so without the tag portrait camera photos arrive sideways. Orientation is not location data | FR-35, [architecture spine](../../architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md) AD-16 |
+| Client search also matches alt text | Alt text is an agency field clients already see on the image page, so matching it leaks nothing, and one client field set keeps `buildSearchCondition` simple. Confirmed by the user on 2026-11-23 during epics and stories | FR-28, [architecture spine](../../architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md) AD-6 |
 
 ## Hours budget
 
