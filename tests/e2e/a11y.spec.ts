@@ -47,7 +47,7 @@ async function openPublishDialog(page: Page) {
 const SCAN_LIST: { name: string; path: string; h1: string; as?: FixtureUser; setup?: (page: Page) => Promise<void> }[] = [
   { name: "Login", path: "/login", h1: "Log in" },
   { name: "403", path: "/library", h1: "No access", as: fixtureUsers.jonas },
-  // The empty Library is scanned in empty-library.spec.ts; here other tests' uploads may fill the wall.
+  // The empty Library is checked in src/app/_components/shell/empty-state.test.ts (no axe scan); here the wall holds the sample library and other tests' uploads.
   { name: "Library wall", path: "/library", h1: "Library", as: fixtureUsers.ida },
   // These start on Upload: setup uploads a file first, then opens the Library.
   { name: "Library with the Details panel", path: "/upload", h1: "Library", as: fixtureUsers.ida, setup: (page) => openDetailsPanel(page) },

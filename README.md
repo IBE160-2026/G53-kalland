@@ -12,7 +12,7 @@ The repo contains the application and documentation of how it was developed, tes
 
 **CRM-DAM** is an image library with client management and licensing for a small design agency. Staff upload and describe images (with AI-generated metadata), decide which clients may see each image and at what price, and track licences. The agency's clients log in to find, buy and download the images they may use.
 
-v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 added the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme; story 1.4 added Upload: staff upload JPEG and PNG files, and each is stored unchanged as a draft with a thumbnail, a preview and its embedded metadata; story 1.5 added AI metadata: after each upload the AI provider (the mock by default) writes the title, description, alt text and keywords, and the file ends Ready, or Failed with its embedded text kept; story 1.6 adds the Library: staff see every image, drafts included, newest first and 48 a page, open one in the Details panel, choose who can see it (Internal only, Restricted to chosen clients, or Public) and whether it is free or paid (the seeded licence type "Standard commercial use", 90 USD ex VAT), and publish it, with a confirm dialog when metadata is missing. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
+v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 added the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme; story 1.4 added Upload: staff upload JPEG and PNG files, and each is stored unchanged as a draft with a thumbnail, a preview and its embedded metadata; story 1.5 added AI metadata: after each upload the AI provider (the mock by default) writes the title, description, alt text and keywords, and the file ends Ready, or Failed with its embedded text kept; story 1.6 added the Library: staff see every image, drafts included, newest first and 48 a page, open one in the Details panel, choose who can see it (Internal only, Restricted to chosen clients, or Public) and whether it is free or paid (the seeded licence type "Standard commercial use", 90 USD ex VAT), and publish it, with a confirm dialog when metadata is missing; story 1.7 adds the [sample library](#sample-images): 22 photos that the app uploads, describes and publishes on its first start, so every access case can be tried without uploading anything. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ v1 is under construction. Story 1.1 gave the runnable foundation (the app, its d
 docker compose up --build
 ```
 
-Open <http://localhost:3000> and log in as one of the [demo users](#test-data). Compose starts `db` (PostgreSQL), then `migrate` (applies the database migrations and exits), then `app`. `GET /api/health` returns `{"status":"ok"}` once the database answers.
+Open <http://localhost:3000> and log in as one of the [demo users](#test-data). The first start on an empty database takes about 40 seconds longer, while the app seeds the [sample images](#sample-images) (`MOCK_DELAY_MS`, 1.5 s, per image); `docker compose up` reports the app healthy once that is done. Compose starts `db` (PostgreSQL), then `migrate` (applies the database migrations and exits), then `app`. `GET /api/health` returns `{"status":"ok"}` once the database answers.
 
 Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the database and the stored files.
 
@@ -35,7 +35,7 @@ Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the databa
 docker compose -p crm-dam-test --profile test down -v && docker compose -p crm-dam-test --profile test run --rm --build unit && docker compose -p crm-dam-test --profile test run --rm --build e2e
 ```
 
-This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.6 there are 253 Vitest tests (in 28 files, including the theme token test, the upload, media, AI, generation, Library, publish and licence tests and the route and action tests) and 68 Playwright tests (including the shell, upload and Library tests and the axe scans). The empty-Library test runs first, as its own Playwright project, while the test database has no images. The tests make their images on the fly; the repo holds no image files. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
+This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.7 there are 308 Vitest tests (in 32 files, including the theme token test, the upload, media, AI, generation, Library, publish and licence tests, the route and action tests, and the sample library tests, which seed a database of their own) and 68 Playwright tests (including the shell, upload and Library tests and the axe scans). `app-test` seeds the sample library when it starts, so the e2e database always has images; the seeded-library test runs first, as its own Playwright project, and counts them before other tests upload more. Apart from the sample images in `src/db/seed/images/`, the tests make their images on the fly. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same steps on every pull request and on pushes to `main`.
 
@@ -54,10 +54,10 @@ Compose works without a `.env` file. To change a setting, copy `.env.example` to
 | `AI_MODEL`, `AI_EFFORT` | Claude model and effort | `claude-haiku-5-5`, `medium` |
 | `MOCK_DELAY_MS`, `MOCK_FAIL` | Mock provider delay, and forced failures | `1500`, `false` |
 | `WORKER_CONCURRENCY` | Images generated at once by the worker | `2` |
-| `SEED_ON_START` | Seed demo data on an empty database (dev and tests only) | `true` |
+| `SEED_ON_START` | Seed the demo users on a database without users, and the sample library on one without images (dev and tests only) | `true` |
 | `APP_ENCRYPTION_KEY` | Encrypts an AI key saved in Settings | empty |
 
-**The mock AI provider** (`AI_PROVIDER=mock`, the default) needs no key or network. It waits `MOCK_DELAY_MS` milliseconds per image (`0` in the tests), then returns fixture metadata for a seed image (from story 1.7) or clearly labelled placeholder metadata ("Placeholder title from the mock AI", one `mock <category>` keyword per keyword category) for any other file. It fails, and the image ends Failed with its embedded text kept, when `MOCK_FAIL=true` or when the file name contains `fail` (for example `fail-boat.jpg`); the other files in the batch carry on. Every provider run is recorded in the `metadata_generations` table. The Claude provider arrives with story 3.5; until then any other `AI_PROVIDER` value makes generation fail.
+**The mock AI provider** (`AI_PROVIDER=mock`, the default) needs no key or network. It waits `MOCK_DELAY_MS` milliseconds per image (`0` in the tests), then returns the fixture metadata written for each [sample image](#sample-images) (in [`mock-fixtures.ts`](src/modules/ai/providers/mock-fixtures.ts), covering all seven keyword categories) or clearly labelled placeholder metadata ("Placeholder title from the mock AI", one `mock <category>` keyword per keyword category) for any other file. It fails, and the image ends Failed with its embedded text kept, when `MOCK_FAIL=true` or when the file name contains `fail` (for example `fail-boat.jpg`); the other files in the batch carry on. Every provider run is recorded in the `metadata_generations` table. The Claude provider arrives with story 3.5; until then any other `AI_PROVIDER` value makes generation fail.
 
 ### Test data
 
@@ -72,14 +72,37 @@ With `SEED_ON_START=true` (the default), the app creates these demo users when i
 | `emil@nordlys.example` | contact | Nordlys Sykkel AS | `/overview` |
 | `liv@gammelkunde.example` | contact | Gammel Kunde AS (inactive) | refused: "Your account is not active." |
 
-The same users are the named fixture in [`src/db/seed/fixture.ts`](src/db/seed/fixture.ts) that the tests log in as. Sample images come with story 1.7.
+The same users are the named fixture in [`src/db/seed/fixture.ts`](src/db/seed/fixture.ts) that the tests log in as.
+
+#### Sample images
+
+With `SEED_ON_START=true`, the app also seeds a sample library when it starts with no images, also on a database whose users were seeded earlier. It uploads the 22 files in [`src/db/seed/images/`](src/db/seed/images/) as Ida Berg, in one batch, through the same module functions as the Upload page, so each gets a thumbnail, a preview and mock AI metadata; then it sets each file's visibility, price and status. The first start takes about 40 seconds (`MOCK_DELAY_MS` × 22 images, plus processing); later starts skip it. If that first start is interrupted (for example with `Ctrl+C`), the library stays incomplete, since later starts see images and skip the seed: run `docker compose down -v` and start again.
+
+The photos are the developer's own: **Photos by Marthe Kalland, © all rights reserved, used only as sample data in this repo.** None comes from a stock site. [`SOURCES.md`](src/db/seed/images/SOURCES.md) lists each file with its author, licence and notes, and the commands that prepared them (at most 1600 px and under 500 KB, all camera metadata removed).
+
+Which seeded client sees what, by row of the PRD's access table (for a client without a licence; rows that need a licence come with story 1.9). An own image is one the client may use: it shows with a tick in My images, and the client may download it without buying.
+
+| Row | File | Status | Visibility | Price | Fjordkaffe AS | Nordlys Sykkel AS |
+| --- | --- | --- | --- | --- | --- | --- |
+| A1 | `jellyfish-tank.jpg` | Published | Public | Free | Sees it, may download | Sees it, may download |
+| A2 | `low-tide-beach.jpg` | Published | Public | Paid | Sees it, may buy | Sees it, may buy |
+| A4 | `dinner-table-wine.jpg` | Published | Restricted to Fjordkaffe | Free | Own image (sees it, may download) | Not found |
+| A5 | `mountain-farm-painting.jpg` | Published | Restricted to Fjordkaffe | Paid | Sees it, may buy | Not found |
+| A7 | `snowy-path-overcast.jpg` | Published | Restricted to Nordlys | Free | Not found | Own image (sees it, may download) |
+| A9 | `wrap-film-samples.jpg` | Published | Internal only | Free | Not found | Not found |
+| A11 | `birthday-balloon-window.jpg` | Archived | Public | Free | Not found | Not found |
+| A13 | `garden-clearing-trimmer.jpg` | Draft | Public | Free | Not found | Not found |
+| S4 | `gilded-frame-corner.jpg` | Published | Restricted, no clients | Free | Not found | Not found |
+| – | `aquarium-jellyfish-fail.jpg` | Draft, AI failed | Internal only | Free | Not found | Not found |
+
+The other 12 files, including the location test files `tromso-harbour-gps.jpg` (JPEG with GPS, City and Country), `jellyfish-polaria-location.png` (PNG with location data) and the thumbnail test file `tabby-cat-terrace-thumbnail.jpg` (JPEG with an embedded EXIF thumbnail), are published, public and free, so every client sees them. Staff see all 22 in the Library. Contacts of Gammel Kunde AS cannot log in. The client pages that show these images arrive with story 1.8.
 
 ### Folder overview
 
 ```text
 src/app/            routes only: pages and /api Route Handlers
 src/modules/        domain modules (auth, accounts, images, access, licences, downloads, media, ai, places, activity)
-src/db/             schema/ (one file per owning module), migrations/ (committed SQL), seed/ (demo data and test fixture), migrate and test-reset scripts
+src/db/             schema/ (one file per owning module), migrations/ (committed SQL), seed/ (demo users, sample images with SOURCES.md, and the test fixture), migrate and test-reset scripts
 src/styles/theme/   generated Graphite theme CSS (from designsystemet.config.json) and its token test
 src/test/           Vitest setup and helpers (loginAs, factories)
 src/worker/         background worker (later)

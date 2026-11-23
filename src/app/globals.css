@@ -467,7 +467,9 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+/* Positioned, so it also clips its visually hidden separator, which would otherwise widen the page. */
 .wall-tile-meta {
+  position: relative;
   overflow: hidden;
   font-size: 0.875rem;
   color: var(--ds-color-neutral-text-subtle);

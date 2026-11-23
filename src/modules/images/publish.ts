@@ -45,6 +45,24 @@ export async function publishImage(actor: Actor, imageId: string): Promise<boole
   throw new Conflict();
 }
 
+// Archives a published image (FR-26, AD-8): one conditional update from `published` to `archived`,
+// bumping `version`. An image in any other state is refused with Conflict; a missing one is NotFound.
+// No UI yet (Story 4.2 adds it); the seed uses it for the A11 row.
+export async function archiveImage(actor: Actor, imageId: string): Promise<void> {
+  assertStaff(actor);
+  const db = getDb();
+  const archived = await db
+    .update(images)
+    .set({ status: "archived", version: sql`${images.version} + 1`, updatedAt: new Date() })
+    .where(and(eq(images.id, imageId), eq(images.status, "published")))
+    .returning({ id: images.id });
+  if (archived.length > 0) return;
+
+  const [row] = await db.select({ id: images.id }).from(images).where(eq(images.id, imageId));
+  if (!row) throw new NotFound();
+  throw new Conflict();
+}
+
 // Saves an image's visibility, price tier and restricted list in one transaction (FR-21, AD-8). The update
 // is conditional on the loaded `version` and bumps it; a mismatch writes nothing and throws Conflict with
 // the NFR-7 failed-save message. Only active clients may be added; any other visibility than Restricted
