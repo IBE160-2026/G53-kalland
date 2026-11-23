@@ -16,7 +16,7 @@ import { loginAs } from "@/test/login-as";
 import {
   completeUpload,
   createUploadRows,
-  getThumbnail,
+  getDerivedFile,
   listBatchUploads,
   STALE_UPLOAD_MS,
   sweepStaleUploads,
@@ -271,14 +271,16 @@ describe("sweepStaleUploads", () => {
 });
 
 describe("reads", () => {
-  it("getThumbnail streams the WebP thumbnail to staff only", async () => {
+  it("getDerivedFile streams the WebP thumbnail and preview to staff only", async () => {
     const bytes = await makeJpeg();
     const { imageId } = await oneRow();
     await completeUpload(ida, imageId, chunksOf(bytes), bytes.length);
-    const chunks: Buffer[] = [];
-    for await (const chunk of await getThumbnail(per, imageId)) chunks.push(chunk as Buffer);
-    expect(Buffer.concat(chunks).subarray(8, 12).toString()).toBe("WEBP");
-    await expect(getThumbnail(jonas, imageId)).rejects.toThrow(Forbidden);
+    for (const kind of ["thumbnail", "preview"] as const) {
+      const chunks: Buffer[] = [];
+      for await (const chunk of await getDerivedFile(per, imageId, kind)) chunks.push(chunk as Buffer);
+      expect(Buffer.concat(chunks).subarray(8, 12).toString()).toBe("WEBP");
+      await expect(getDerivedFile(jonas, imageId, kind)).rejects.toThrow(Forbidden);
+    }
   });
 
   it("listBatchUploads lists the actor's own batch in upload order, and nothing for anyone else's", async () => {

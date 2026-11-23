@@ -6,14 +6,14 @@ import { REQUEST_PATH_HEADER } from "./request-path";
 import { safeReturnTo } from "./return-to";
 import { logout, resolveSession } from "./sessions";
 
-async function requireRole(role: Actor["role"]): Promise<Actor> {
+async function requireRole(role: Actor["role"] | "any"): Promise<Actor> {
   const result = await resolveSession(await readSessionToken(), new Date());
   if (result.status === "inactive") redirect(`${LOGIN_PATH}?reason=inactive`);
   if (result.status !== "active") {
     const returnTo = safeReturnTo((await headers()).get(REQUEST_PATH_HEADER));
     redirect(returnTo ? `${LOGIN_PATH}?returnTo=${encodeURIComponent(returnTo)}` : LOGIN_PATH);
   }
-  if (result.actor.role !== role) forbidden();
+  if (role !== "any" && result.actor.role !== role) forbidden();
   return result.actor;
 }
 
@@ -25,6 +25,12 @@ export function requireStaff(): Promise<Extract<Actor, { role: "staff" }>> {
 // The first statement of every client page, Server Action and Route Handler (AD-5).
 export function requireContact(): Promise<Extract<Actor, { role: "contact" }>> {
   return requireRole("contact") as Promise<Extract<Actor, { role: "contact" }>>;
+}
+
+// The first statement of a Route Handler that serves both roles, such as the image files (AD-15). The
+// handler then asks access (contact) or the staff path itself which data the actor gets.
+export function requireUser(): Promise<Actor> {
+  return requireRole("any");
 }
 
 // The current user, or null. Only for the public entry points (root redirect); never a guard.

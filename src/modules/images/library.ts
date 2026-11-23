@@ -6,6 +6,13 @@ import { displayTitle } from "./display";
 
 export const LIBRARY_PAGE_SIZE = 48;
 
+// Offset paging for an image wall (Conventions: Lists): 1-based, a page past the end gives the last page.
+export function pageWindow(page: number, total: number): { page: number; pageCount: number; offset: number } {
+  const pageCount = Math.max(1, Math.ceil(total / LIBRARY_PAGE_SIZE));
+  const current = Math.min(Math.max(1, Math.trunc(page) || 1), pageCount);
+  return { page: current, pageCount, offset: (current - 1) * LIBRARY_PAGE_SIZE };
+}
+
 type Image = typeof images.$inferSelect;
 
 export type LibraryItem = {
@@ -67,14 +74,13 @@ export async function listLibrary(
   assertStaff(actor);
   const db = getDb();
   const [{ total }] = await db.select({ total: count() }).from(images);
-  const pageCount = Math.max(1, Math.ceil(total / LIBRARY_PAGE_SIZE));
-  const current = Math.min(Math.max(1, Math.trunc(page) || 1), pageCount);
+  const { page: current, pageCount, offset } = pageWindow(page, total);
   const rows = await db
     .select(itemColumns)
     .from(images)
     .orderBy(desc(images.createdAt), desc(images.id))
     .limit(LIBRARY_PAGE_SIZE)
-    .offset((current - 1) * LIBRARY_PAGE_SIZE);
+    .offset(offset);
   return { items: rows.map((row) => ({ ...row, title: displayTitle(row.title) })), total, page: current, pageCount };
 }
 

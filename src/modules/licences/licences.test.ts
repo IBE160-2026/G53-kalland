@@ -2,7 +2,7 @@ import { eq, sql } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import { getDb } from "@/db/client";
 import { licenceTexts, licenceTypes } from "@/db/schema";
-import { currentLicenceType, ensureStandardLicenceType, formatPrice } from ".";
+import { currentLicenceText, currentLicenceType, ensureStandardLicenceType, formatPrice } from ".";
 
 const db = getDb();
 
@@ -25,6 +25,26 @@ describe("ensureStandardLicenceType", () => {
     expect(texts).toHaveLength(1);
     expect(texts[0].version).toBe(1);
     expect(texts[0].body.length).toBeGreaterThan(0);
+  });
+});
+
+describe("currentLicenceText", () => {
+  it("returns the body of the latest text version, and null for a type without text", async () => {
+    const type = await currentLicenceType(db);
+    const v1 = await currentLicenceText(db, type!.id);
+    expect(v1).toMatch(/^The client may use the image/);
+    expect(await currentLicenceText(db, crypto.randomUUID())).toBeNull();
+
+    // Version 2 inside a transaction that is rolled back, so other test files never see it.
+    const rollback = new Error("rollback");
+    await expect(
+      db.transaction(async (tx) => {
+        await tx.insert(licenceTexts).values({ licenceTypeId: type!.id, version: 2, body: "Version two." });
+        expect(await currentLicenceText(tx, type!.id)).toBe("Version two.");
+        throw rollback;
+      }),
+    ).rejects.toBe(rollback);
+    expect(await currentLicenceText(db, type!.id)).toBe(v1);
   });
 });
 

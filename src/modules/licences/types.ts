@@ -1,4 +1,4 @@
-import { asc, eq, sql } from "drizzle-orm";
+import { asc, desc, eq, sql } from "drizzle-orm";
 import type { Tx } from "@/db/client";
 import { licenceTexts, licenceTypes } from "@/db/schema";
 import { DEFAULT_TENANT_ID } from "@/db/tenant";
@@ -44,4 +44,16 @@ export async function currentLicenceType(db: Tx): Promise<LicenceType | null> {
     .orderBy(asc(licenceTypes.createdAt), asc(licenceTypes.id))
     .limit(1);
   return row ?? null;
+}
+
+// The current text of a licence type: its latest licence_texts version's body (AD-18), or null when the
+// type has no text.
+export async function currentLicenceText(db: Tx, licenceTypeId: string): Promise<string | null> {
+  const [row] = await db
+    .select({ body: licenceTexts.body })
+    .from(licenceTexts)
+    .where(eq(licenceTexts.licenceTypeId, licenceTypeId))
+    .orderBy(desc(licenceTexts.version))
+    .limit(1);
+  return row?.body ?? null;
 }

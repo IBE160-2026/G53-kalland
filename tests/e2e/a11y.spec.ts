@@ -42,6 +42,20 @@ async function openPublishDialog(page: Page) {
   await dialog.evaluate((element) => Promise.all(element.getAnimations({ subtree: true }).map((animation) => animation.finished)));
 }
 
+// Find images with the client Details panel of a paid image (A5) and its licence terms dialog open.
+async function openLicenceTerms(page: Page) {
+  await page.getByRole("list", { name: "Images" }).getByRole("link").filter({ hasText: "Painting of a mountain farm" }).click();
+  await page.getByRole("button", { name: "Read the licence terms" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.evaluate((element) => Promise.all(element.getAnimations({ subtree: true }).map((animation) => animation.finished)));
+}
+
+async function openClientPanel(page: Page) {
+  await page.getByRole("list", { name: "Images" }).getByRole("link").filter({ hasText: "Painting of a mountain farm" }).click();
+  await expect(page.getByRole("heading", { name: "About the image" })).toBeVisible();
+}
+
 // Every page goes on this list as it is built (NFR-5a). `as` logs in first; the 403 page is a
 // contact on a staff route. `h1` confirms which page was scanned; `setup` brings the page to the state scanned.
 const SCAN_LIST: { name: string; path: string; h1: string; as?: FixtureUser; setup?: (page: Page) => Promise<void> }[] = [
@@ -57,6 +71,9 @@ const SCAN_LIST: { name: string; path: string; h1: string; as?: FixtureUser; set
   { name: "Upload with a file row", path: "/upload", h1: "Upload", as: fixtureUsers.ida, setup: uploadOneFile },
   { name: "Overview", path: "/overview", h1: "Overview", as: fixtureUsers.jonas },
   { name: "Find images", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas },
+  { name: "Find images with the Details panel", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas, setup: openClientPanel },
+  { name: "Find images licence terms dialog", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas, setup: openLicenceTerms },
+  { name: "404", path: "/find-images?image=00000000-0000-7000-8000-000000000000", h1: "Not found", as: fixtureUsers.jonas },
 ];
 
 for (const entry of SCAN_LIST) {

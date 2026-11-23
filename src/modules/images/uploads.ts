@@ -13,6 +13,7 @@ import {
   receiveUpload,
   stageDerivedFiles,
   storeStagedFiles,
+  type DerivedKind,
   type MediaRejectionReason,
 } from "@/modules/media";
 import { isUniqueViolation } from "@/modules/shared/db-errors";
@@ -193,8 +194,9 @@ export async function sweepStaleUploads(now: Date): Promise<number> {
   return deleted.length;
 }
 
-// The thumbnail of an image's latest file version. Staff only.
-export async function getThumbnail(actor: Actor, imageId: string): Promise<Readable> {
+// The thumbnail or preview of an image's latest file version. Staff only; contacts get files through
+// access (AD-6, AD-15).
+export async function getDerivedFile(actor: Actor, imageId: string, kind: DerivedKind): Promise<Readable> {
   assertStaff(actor);
   const [version] = await getDb()
     .select({ id: fileVersions.id })
@@ -203,7 +205,7 @@ export async function getThumbnail(actor: Actor, imageId: string): Promise<Reada
     .orderBy(desc(fileVersions.createdAt), desc(fileVersions.id))
     .limit(1);
   if (!version) throw new NotFound();
-  return openDerivedFile(version.id, "thumbnail");
+  return openDerivedFile(version.id, kind);
 }
 
 // The stored rows of one of the actor's own batches, in upload order; null for a batch that does not

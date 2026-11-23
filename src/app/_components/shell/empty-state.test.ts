@@ -23,3 +23,9 @@ it("the empty Library shows one muted sentence and one action, which leads to Up
   expect(html).toMatch(/^<div class="empty-state"><p>The library has no images yet\.<\/p><a [^>]*>Upload images<\/a><\/div>$/);
   expect(html).toContain('href="/upload"');
 });
+
+// Find images for a client that may see nothing (the shared databases always hold public images).
+it("Find images with nothing visible shows one muted sentence and no action", () => {
+  const html = renderToStaticMarkup(createElement(EmptyState, { text: messages.findImages.empty }));
+  expect(html).toBe('<div class="empty-state"><p>There are no images to show yet.</p></div>');
+});
