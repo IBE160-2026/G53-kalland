@@ -4,3 +4,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-3-staff-and-client-shells-in-the-graphite-theme.md`
   summary: Add a CI check that regenerates the Graphite theme from `designsystemet.config.json` and fails when it differs from the committed `src/styles/theme/graphite.css`.
   evidence: `ci.yml` never runs `theme:build`; editing an override without regenerating keeps `theme.test.ts` and CI green while config and CSS disagree. Needs a decision on running the CLI in CI (host Node or the unit container, which has no git).
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-uploaded-images-get-ai-metadata-from-the-mock-provider.md`
+  summary: Test that the Upload page shows a stored `queued` or `generating` row as Failed after a reload (`fromStored` in `upload-workspace.tsx`).
+  evidence: Review finding 21 (verification gap): no test reaches those states on reload, so mapping them to Ready would pass. Reaching them needs DB state inside an e2e test or an exported `fromStored`; settle when the worker (Story 3.11) makes these states reachable and live state (3.1) replaces the mapping.
