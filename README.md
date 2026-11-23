@@ -12,7 +12,7 @@ The repo contains the application and documentation of how it was developed, tes
 
 **CRM-DAM** is an image library with client management and licensing for a small design agency. Staff upload and describe images (with AI-generated metadata), decide which clients may see each image and at what price, and track licences. The agency's clients log in to find, buy and download the images they may use.
 
-v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 added the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme; story 1.4 added Upload: staff upload JPEG and PNG files, and each is stored unchanged as a draft with a thumbnail, a preview and its embedded metadata; story 1.5 adds AI metadata: after each upload the AI provider (the mock by default) writes the title, description, alt text and keywords, and the file ends Ready, or Failed with its embedded text kept. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
+v1 is under construction. Story 1.1 gave the runnable foundation (the app, its database, migrations, tests and CI); story 1.2 added logging in and out for staff and contacts, with demo users; story 1.3 added the staff and client shells (top bar, navigation, sidebar drawer) in the Graphite theme; story 1.4 added Upload: staff upload JPEG and PNG files, and each is stored unchanged as a draft with a thumbnail, a preview and its embedded metadata; story 1.5 added AI metadata: after each upload the AI provider (the mock by default) writes the title, description, alt text and keywords, and the file ends Ready, or Failed with its embedded text kept; story 1.6 adds the Library: staff see every image, drafts included, newest first and 48 a page, open one in the Details panel, choose who can see it (Internal only, Restricted to chosen clients, or Public) and whether it is free or paid (the seeded licence type "Standard commercial use", 90 USD ex VAT), and publish it, with a confirm dialog when metadata is missing. The features follow in the order in [`sprint-status.yaml`](_bmad-output/implementation-artifacts/sprint-status.yaml).
 
 ### Prerequisites
 
@@ -35,7 +35,7 @@ Stop with `Ctrl+C`, or `docker compose down`. Add `-v` to also delete the databa
 docker compose -p crm-dam-test --profile test down -v && docker compose -p crm-dam-test --profile test run --rm --build unit && docker compose -p crm-dam-test --profile test run --rm --build e2e
 ```
 
-This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.5 there are 205 Vitest tests (in 24 files, including the theme token test, the upload, media, AI and generation tests and the route tests) and 62 Playwright tests (including the shell and upload tests and the axe scans). The tests make their images on the fly; the repo holds no image files. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
+This runs as its own Compose project (`crm-dam-test`), with its own database, so it never touches the running app. The first part removes any earlier test stack. `unit` runs Vitest against a freshly migrated and seeded test database. `e2e` resets the test database again, starts `app-test` on it with an empty file directory, and runs Playwright (image `v1.65.0-noble`) against it. The command exits non-zero if any test fails. At story 1.6 there are 253 Vitest tests (in 28 files, including the theme token test, the upload, media, AI, generation, Library, publish and licence tests and the route and action tests) and 68 Playwright tests (including the shell, upload and Library tests and the axe scans). The empty-Library test runs first, as its own Playwright project, while the test database has no images. The tests make their images on the fly; the repo holds no image files. Afterwards, stop the test stack with `docker compose -p crm-dam-test --profile test down -v`.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs the same steps on every pull request and on pushes to `main`.
 
@@ -61,7 +61,7 @@ Compose works without a `.env` file. To change a setting, copy `.env.example` to
 
 ### Test data
 
-With `SEED_ON_START=true` (the default), the app creates these demo users when it starts on an empty database. It does nothing if users already exist. All six share the demo password **`crm-dam-demo-2026`**.
+With `SEED_ON_START=true` (the default), the app creates these demo users when it starts on an empty database; it does not add users if any exist. On every start it also makes sure the licence type "Standard commercial use" (9000 minor units, that is 90 USD, ex VAT, with licence text version 1) exists, so databases seeded earlier get it too. All six share the demo password **`crm-dam-demo-2026`**.
 
 | Email | Role | Client | Lands on |
 | --- | --- | --- | --- |

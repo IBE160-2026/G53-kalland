@@ -6,7 +6,7 @@ import { fixtureClients, fixtureUsers } from "@/db/seed/fixture";
 import { Conflict, Forbidden, NotFound } from "@/modules/shared/errors";
 import { createTestClient, createTestContact } from "@/test/factories";
 import { loginAs } from "@/test/login-as";
-import { createUser, getClient, getUser, setClientStatus, setUserStatus } from ".";
+import { createUser, getClient, getUser, listActiveClients, setClientStatus, setUserStatus } from ".";
 
 const db = getDb();
 
@@ -64,5 +64,23 @@ describe("getClient", () => {
 
   it("throws NotFound for an unknown id", async () => {
     await expect(getClient("019ab0c0-0000-7000-8000-00000000dead")).rejects.toBeInstanceOf(NotFound);
+  });
+});
+
+describe("listActiveClients", () => {
+  it("lists active clients by name and leaves inactive ones out", async () => {
+    const { actor: staff } = await loginAs(fixtureUsers.ida);
+    const suffix = crypto.randomUUID();
+    const bravo = await createTestClient(`Bravo ${suffix}`);
+    const alpha = await createTestClient(`Alpha ${suffix}`);
+    const inactive = await createTestClient(`Inactive ${suffix}`);
+    await setClientStatus(db, staff, inactive, "inactive");
+
+    const listed = await listActiveClients();
+    const ids = listed.map((client) => client.id);
+    expect(listed).toContainEqual({ id: alpha, name: `Alpha ${suffix}` });
+    expect(ids.indexOf(alpha)).toBeLessThan(ids.indexOf(bravo));
+    expect(ids).not.toContain(inactive);
+    expect(listed.map((client) => client.name)).not.toContain(fixtureClients.gammelKunde.name);
   });
 });

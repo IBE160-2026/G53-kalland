@@ -3,6 +3,7 @@ import type { Db } from "@/db/client";
 import { users } from "@/db/schema";
 import { createClient, createUser } from "@/modules/accounts";
 import { setPassword } from "@/modules/auth";
+import { ensureStandardLicenceType } from "@/modules/licences";
 import { log } from "@/modules/shared/log";
 import { DEMO_PASSWORD, fixtureClients, fixtureUsers, type FixtureClientKey } from "./fixture";
 
@@ -10,10 +11,12 @@ import { DEMO_PASSWORD, fixtureClients, fixtureUsers, type FixtureClientKey } fr
 const SEED_LOCK_ID = 53_000_102;
 
 // Creates the fixture clients and users, through the accounts and auth modules (AD-3), when the users
-// table is empty. Runs in one transaction under an advisory lock. Returns true if it seeded.
+// table is empty. Runs in one transaction under an advisory lock. Returns true if it seeded the users.
+// The licence type is its own step, before the users check, so databases seeded earlier get it too.
 export async function seedIfEmpty(db: Db): Promise<boolean> {
   return db.transaction(async (tx) => {
     await tx.execute(sql`select pg_advisory_xact_lock(${SEED_LOCK_ID})`);
+    await ensureStandardLicenceType(tx);
     const [{ count }] = await tx.select({ count: sql<number>`count(*)::int` }).from(users);
     if (count > 0) return false;
 

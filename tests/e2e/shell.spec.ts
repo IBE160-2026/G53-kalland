@@ -43,18 +43,6 @@ test.describe("staff shell", () => {
     await expect(current).toHaveCSS("border-bottom-color", "rgb(37, 40, 45)");
   });
 
-  test("Library shows its empty state with one action, which leads to Upload", async ({ page }) => {
-    await loginAs(page, fixtureUsers.ida);
-    await expect(page.getByRole("main").getByText("The library has no images yet.")).toBeVisible();
-    await page.getByRole("main").getByRole("link", { name: "Upload images" }).click();
-    await expect(page).toHaveURL(/\/upload$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Upload" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "New batch" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Upload", exact: true })).toHaveAttribute("aria-current", "page");
-    // Upload has no Context sidebar, so no toggle.
-    await expect(page.getByRole("button", { name: FILTERS_TOGGLE })).toHaveCount(0);
-  });
-
   test("the header search submits a GET to the library", async ({ page }) => {
     await loginAs(page, fixtureUsers.ida);
     await page.getByRole("searchbox", { name: STAFF_SEARCH }).fill("boat");
@@ -71,7 +59,6 @@ test.describe("staff shell", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     await expect(sidebar).toBeVisible();
     await expect(sidebar.getByRole("heading", { name: "Filters" })).toBeVisible();
-    await expect(sidebar.getByText("Filters appear when the library has images.")).toBeVisible();
     expect((await box(sidebar)).x).toBeLessThan((await box(page.getByRole("main"))).x);
 
     await toggle.click();
