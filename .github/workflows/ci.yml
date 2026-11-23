@@ -1,0 +1,29 @@
+# Builds the images and runs the README's test command on x86 Linux (D-027, AD-24).
+name: CI
+
+on:
+  pull_request:
+    paths-ignore: ["docs/process/**", ".logs/**"]
+  push:
+    branches: [main]
+    paths-ignore: ["docs/process/**", ".logs/**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      COMPOSE: docker compose -p crm-dam-test --profile test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build images
+        run: $COMPOSE build
+      - name: Lint and type check
+        run: $COMPOSE run --rm unit sh -c "npm run lint && npm run typecheck"
+      - name: Unit and integration tests (Vitest)
+        run: $COMPOSE run --rm unit
+      - name: End-to-end tests (Playwright)
+        run: $COMPOSE run --rm e2e
+      - name: Stop the test stack
+        if: always()
+        run: $COMPOSE down -v
