@@ -20,5 +20,5 @@ Build story 1.2 from its ready-for-dev spec with `/bmad-build`: staff and contac
 ### Open items
 - Log in by hand in a browser as `ida@agency.example` after `docker compose up --build` (spec AC 1; so far only Playwright did it).
 - Demo users are seeded whenever `SEED_ON_START` is unset (defaults to `true`); add a production guard if the app is ever deployed (`deferred-work.md`).
-- Log out has no role guard, unlike the spec rule "every Server Action calls a guard first"; not recorded as a D-entry (user's choice). Revisit if a reviewer or the teacher flags it.
+- Log out has no role guard, unlike the spec rule "every Server Action calls a guard first". Resolved in the same session: recorded as D-054.
 - `_bmad/custom/config.toml` in the worktree has an uncommitted `[core] communication_language` entry from before the session; commit it on a `chore/` branch.

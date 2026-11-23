@@ -63,5 +63,5 @@
 - [ ] 2026-11-23 [1-1-app-starts-from-one-command](979-2026-11-23-11-14-10-1-1-app-starts-from-one-command.md) — check that the new CI workflow goes green on PR #51 (first run on GitHub)
 - [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — log in by hand in a browser as the seeded staff user (story 1.2 AC 1)
 - [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — guard the demo seed against production if the app is ever deployed (`SEED_ON_START` defaults to true)
-- [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — Log out has no role guard (spec rule exception, no D-entry); revisit if flagged
+- [x] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — Log out has no role guard (spec rule exception, no D-entry); revisit if flagged (løst 2026-11-23: recorded as D-054)
 - [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — commit the `[core] communication_language` entry in `_bmad/custom/config.toml` on a `chore/` branch
