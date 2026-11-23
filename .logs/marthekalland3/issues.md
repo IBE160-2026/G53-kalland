@@ -61,3 +61,7 @@
 - [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — the FR-28 PRD edit was made directly like FR-35; include it in the open `bmad-correct-course` decision
 - [ ] 2026-11-23 [sprint-planning](980-2026-11-23-10-26-35-sprint-planning.md) — turn the stories into GitHub issues and milestones
 - [ ] 2026-11-23 [1-1-app-starts-from-one-command](979-2026-11-23-11-14-10-1-1-app-starts-from-one-command.md) — check that the new CI workflow goes green on PR #51 (first run on GitHub)
+- [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — log in by hand in a browser as the seeded staff user (story 1.2 AC 1)
+- [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — guard the demo seed against production if the app is ever deployed (`SEED_ON_START` defaults to true)
+- [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — Log out has no role guard (spec rule exception, no D-entry); revisit if flagged
+- [ ] 2026-11-23 [1-2-staff-and-contacts-log-in-and-out](978-2026-11-23-12-29-24-1-2-staff-and-contacts-log-in-and-out.md) — commit the `[core] communication_language` entry in `_bmad/custom/config.toml` on a `chore/` branch
