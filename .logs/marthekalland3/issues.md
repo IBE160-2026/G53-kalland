@@ -71,3 +71,6 @@
 - [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — check story 1.5 by hand as Ida with `docker compose up --build` (placeholder title; `fail-x.jpg` ends Failed)
 - [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — rare Vitest flake: `failInterruptedGenerations` in the restart tests can fail another file's freshly `queued` upload
 - [ ] 2026-11-23 [1-5-ai-metadata-mock-provider](975-2026-11-23-15-44-45-1-5-ai-metadata-mock-provider.md) — test that a reloaded `queued`/`generating` upload row shows Failed (deferred-work.md; with stories 3.1/3.11)
+- [ ] 2026-11-23 [1-6-publish-with-visibility-and-price](974-2026-11-23-16-27-30-1-6-publish-with-visibility-and-price.md) — check story 1.6 by hand as Ida: upload, Restricted + Paid, publish; tile shows the client name and "90 USD"
+- [ ] 2026-11-23 [1-6-publish-with-visibility-and-price](974-2026-11-23-16-27-30-1-6-publish-with-visibility-and-price.md) — e2e test for retrying after a stale Save changes in the Library panel (deferred-work.md)
+- [ ] 2026-11-23 [1-6-publish-with-visibility-and-price](974-2026-11-23-16-27-30-1-6-publish-with-visibility-and-price.md) — unsaved-changes dialog in the Library panel (deferred to Story 3.4)
