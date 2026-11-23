@@ -1,7 +1,7 @@
 import { eq, inArray, sql } from "drizzle-orm";
 import { expect, it } from "vitest";
 import { getDb } from "@/db/client";
-import { clients, credentials, users } from "@/db/schema";
+import { clients, credentials, licenceTexts, licenceTypes, users } from "@/db/schema";
 import { fixtureClients, fixtureUsers } from "./fixture";
 import { seedIfEmpty } from "./seed";
 
@@ -36,4 +36,13 @@ it("does nothing on a database that already has users", async () => {
     (await db.select({ n: sql<number>`count(*)::int` }).from(users).where(inArray(users.email, emails)))[0].n;
   expect(await seedIfEmpty(db)).toBe(false);
   expect(await count()).toBe(6);
+});
+
+it("created the standard licence type with text version 1, once, also when users already exist", async () => {
+  const types = async () => db.select({ name: licenceTypes.name, priceMinor: licenceTypes.priceMinor, currency: licenceTypes.currency }).from(licenceTypes);
+  expect(await types()).toEqual([{ name: "Standard commercial use", priceMinor: 9000, currency: "USD" }]);
+  expect(await seedIfEmpty(db)).toBe(false);
+  expect(await types()).toHaveLength(1);
+  const texts = await db.select({ version: licenceTexts.version }).from(licenceTexts);
+  expect(texts).toEqual([{ version: 1 }]);
 });

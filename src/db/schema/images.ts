@@ -6,13 +6,14 @@ import {
   index,
   integer,
   pgTable,
+  primaryKey,
   real,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import { tenants, users } from "./accounts.ts";
+import { clients, tenants, users } from "./accounts.ts";
 
 // Owned by the images module (AD-3).
 const VISIBILITIES = ["internal", "restricted", "public"] as const;
@@ -86,6 +87,8 @@ export const images = pgTable(
     latitude: doublePrecision("latitude"),
     longitude: doublePrecision("longitude"),
     publishedAt: timestamp("published_at", { withTimezone: true }),
+    // When the image last became public; null while it is not public (AD-6 "visible since").
+    visibleToAllSince: timestamp("visible_to_all_since", { withTimezone: true }),
     // The generation lease (AD-12): set by the claim, cleared by the save or the failure.
     generationToken: uuid("generation_token"),
     leaseUntil: timestamp("lease_until", { withTimezone: true }),
@@ -98,6 +101,8 @@ export const images = pgTable(
     index("images_batch_id_idx").on(t.batchId),
     index("images_uploaded_by_idx").on(t.uploadedBy),
     index("images_processing_state_idx").on(t.processingState),
+    // The Library wall's order (Conventions: Lists).
+    index("images_created_at_idx").on(t.createdAt.desc(), t.id.desc()),
     check("images_status_check", sql`${t.status} in ('draft', 'published', 'archived')`),
     check(
       "images_processing_state_check",
@@ -155,4 +160,19 @@ export const imageKeywords = pgTable(
     uniqueIndex("image_keywords_image_id_keyword_unique").on(t.imageId, sql`lower(${t.keyword})`),
     check("image_keywords_source_check", sql`${t.source} in ('embedded', 'shared', 'ai', 'staff')`),
   ],
+);
+
+// The restricted list: the clients that may see a restricted image (AD-6). addedAt feeds "visible since".
+export const imageClients = pgTable(
+  "image_clients",
+  {
+    imageId: uuid("image_id")
+      .notNull()
+      .references(() => images.id, { onDelete: "cascade" }),
+    clientId: uuid("client_id")
+      .notNull()
+      .references(() => clients.id, { onDelete: "restrict" }),
+    addedAt: timestamp("added_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.imageId, t.clientId] }), index("image_clients_client_id_idx").on(t.clientId)],
 );

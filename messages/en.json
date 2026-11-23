@@ -36,7 +36,81 @@
     "filtersToggle": "Show or hide filters",
     "filtersEmpty": "Filters appear when the library has images.",
     "empty": "The library has no images yet.",
-    "emptyAction": "Upload images"
+    "emptyAction": "Upload images",
+    "count": "{n, plural, one {# image} other {# images}}, newest first",
+    "untitled": "Untitled image",
+    "wall": "Images",
+    "pagination": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageLabel": "Page {n}",
+    "tag": {
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived",
+      "uploading": "Uploading",
+      "queued": "Queued",
+      "generating": "In progress",
+      "ready": "Ready",
+      "failed": "Failed"
+    },
+    "visibility": {
+      "internal": "Internal only",
+      "restricted": "Restricted",
+      "public": "Public"
+    },
+    "free": "Free",
+    "paid": "Paid",
+    "panel": {
+      "whoCanSeeIt": "Who can see it",
+      "metadata": "Metadata",
+      "description": "Description",
+      "altText": "Alt text",
+      "keywords": "Keywords",
+      "none": "None",
+      "edit": "Edit",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "saved": "Changes saved",
+      "noChanges": "No changes yet",
+      "unsaved": "Unsaved changes ({n, plural, one {# field} other {# fields}})",
+      "publish": "Publish this image",
+      "notReady": "This image is still being processed. Publish it when it is ready."
+    },
+    "access": {
+      "visibility": "Visibility",
+      "price": "Price",
+      "clients": "Clients",
+      "option": {
+        "internal": "Internal",
+        "restricted": "Restricted",
+        "public": "Public",
+        "free": "Free",
+        "paid": "Paid"
+      },
+      "hint": {
+        "internal": "Only agency staff can see it.",
+        "restricted": "Only the clients you choose can see it, once it is published.",
+        "public": "All clients can see it, once it is published."
+      },
+      "addClient": "Add client",
+      "chooseClient": "Choose a client",
+      "removeClient": "Remove {name}",
+      "noClients": "No clients are chosen, so this image behaves as internal only. Add a client, or choose another visibility.",
+      "pricePerLicence": "{price} per licence, ex VAT"
+    },
+    "publishDialog": {
+      "title": "Publish without all metadata?",
+      "body": "This image is missing: {fields}. It will be harder to find and less accessible.",
+      "confirm": "Publish",
+      "goBack": "Go back",
+      "fields": {
+        "title": "title",
+        "description": "description",
+        "altText": "alt text",
+        "keywords": "keywords"
+      }
+    }
   },
   "upload": {
     "title": "Upload",
@@ -87,6 +161,8 @@
     "conflict": "Someone changed this at the same time. Reload the page and try again.",
     "validation": "Some of the information is not valid. Check it and try again.",
     "locked": "Someone else is editing this right now. Try again in a few minutes.",
-    "unexpected": "Something went wrong. Try again, and contact the agency if it keeps happening."
+    "unexpected": "Something went wrong. Try again, and contact the agency if it keeps happening.",
+    "publishNotReady": "This image is still being processed. Publish it when it is ready.",
+    "saveFailed": "Your change was not saved. Try again."
   }
 }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Tag } from "@digdir/designsystemet-react";
+import { StatusTag } from "@/app/_components/status-tag";
 
 export type FileRowState = "uploading" | "ready" | "failed" | "rejected";
 
@@ -15,8 +15,6 @@ export type FileRowData = {
   // A key in messages/en.json; rejection messages take the file name as {name}.
   messageKey?: string;
 };
-
-const TAG_COLOR = { uploading: "info", ready: "success", failed: "danger", rejected: "warning" } as const;
 
 // A file row (UX-DR-28, first cut): 52 px thumb, title or file name, sub-line, message line and status
 // tag. A stored file (Ready or Failed) shows its title, or "Untitled image", over the file name. Every
@@ -36,9 +34,9 @@ export function FileRow({ row }: { row: FileRowData }) {
         {sub && <span className="file-row-meta">{sub}</span>}
         {row.messageKey && <span className="file-row-message">{t(row.messageKey, { name: row.filename })}</span>}
       </span>
-      <Tag className="file-row-tag" data-color={TAG_COLOR[row.state]} data-size="sm">
+      <StatusTag className="file-row-tag" state={row.state}>
         {t(`upload.tag.${row.state}`)}
-      </Tag>
+      </StatusTag>
     </li>
   );
 }

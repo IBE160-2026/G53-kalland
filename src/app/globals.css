@@ -22,6 +22,7 @@
   --sidebar-pad-x: 24px;
   --sidebar-width: 264px;
   --drawer-width: 320px;
+  --panel-width: 400px;
 }
 
 /* ---------- Base ---------- */
@@ -373,7 +374,246 @@ body {
   flex: none;
 }
 
-/* ---------- Breakpoints (UX-DR-49). 1240 px moves the Details panel inline; it has none to move yet. ---------- */
+/* ---------- Library (UX-DR-11, UX-DR-13, UX-DR-16, UX-DR-18, UX-DR-23) ---------- */
+.library {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+.library[data-panel="open"] {
+  grid-template-columns: minmax(0, 1fr) var(--panel-width);
+}
+
+.price {
+  color: var(--price);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.wall {
+  --wall-row-height: 168px;
+  display: grid;
+  gap: 16px;
+}
+.wall-count {
+  margin: 0;
+  font-weight: 600;
+}
+/* Justified rows: each tile grows by its aspect ratio from a basis of row height × ratio. The last
+   row's filler keeps its tiles at their natural width. */
+.wall-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wall-tiles::after {
+  content: "";
+  flex-grow: 1000000;
+}
+.wall-tile {
+  min-width: 0;
+}
+.wall-tile-link {
+  display: grid;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-default);
+}
+.wall-tile-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--ds-color-neutral-surface-tinted);
+  border-radius: 2px;
+}
+.wall-tile-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wall-tile-link:hover .wall-tile-image {
+  box-shadow: 0 0 0 1px var(--ds-color-neutral-border-default);
+}
+.wall-tile-link[aria-current="true"] .wall-tile-image {
+  box-shadow:
+    0 0 0 2px var(--ds-color-neutral-background-tinted),
+    0 0 0 4px var(--ds-color-accent-base-default);
+}
+.wall-tile-tags {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.wall-tile-tags .ds-tag {
+  box-shadow: 0 1px 3px rgb(28 34 43 / 0.25);
+}
+.wall-tile-caption {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.wall-tile-title {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wall-tile-meta {
+  overflow: hidden;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.wall-pagination {
+  justify-self: center;
+}
+
+.details-panel {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  background: var(--ds-color-neutral-surface-default);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--radius-none);
+}
+.panel-header {
+  display: grid;
+  gap: 2px;
+}
+.panel-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.panel-file {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+  overflow-wrap: anywhere;
+}
+.panel-loupe {
+  height: 236px;
+  background: var(--ds-color-neutral-background-tinted);
+}
+.panel-loupe img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.panel-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.save-status {
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+}
+.save-status[data-state="saved"] {
+  color: var(--ds-color-success-text-subtle);
+}
+.save-status[data-state="unsaved"] {
+  font-weight: 500;
+  color: var(--ds-color-warning-text-subtle);
+}
+.panel-section {
+  display: grid;
+  gap: 10px;
+}
+.section-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.key-values {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 6px 16px;
+  margin: 0;
+}
+.key-values dt {
+  color: var(--ds-color-neutral-text-subtle);
+}
+.key-values dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.panel-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.panel-reason {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+.access-controls {
+  display: grid;
+  gap: 16px;
+}
+.access-group {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+.access-label {
+  font-weight: 500;
+}
+.access-hint,
+.access-price {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.access-hint {
+  color: var(--ds-color-neutral-text-subtle);
+}
+.access-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- Breakpoints (UX-DR-49) ---------- */
+@media (max-width: 1240px) {
+  /* The Details panel moves inline, above the wall. */
+  .library[data-panel="open"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .details-panel {
+    position: static;
+    order: -1;
+  }
+}
+
 @media (max-width: 900px) {
   .app .workspace {
     grid-template-columns: minmax(0, 1fr);
@@ -431,6 +671,12 @@ body {
 }
 
 @media (max-width: 560px) {
+  .wall {
+    --wall-row-height: 120px;
+  }
+  .key-values {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .account-name {
     position: absolute;
     width: 1px;
