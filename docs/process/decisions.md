@@ -644,3 +644,23 @@ Template:
 - **Rationale:** Seed data goes through module functions (AD-3), never migrations; no reset needed for existing dev databases.
 - **Consequences:** With `SEED_ON_START=true`, every start makes sure the licence type exists; the rest of the seed still runs only once.
 - **Trace:** PR #59, Story 1.6, [spec](../../_bmad-output/implementation-artifacts/spec-1-6-staff-publish-an-image-with-its-visibility-and-price.md), [session log](sessions/2026-11-23-story-1-6-publish.md)
+
+## D-065: The sample library uses the developer's own photos
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Story 1.7 needs 20–40 freely usable images in the repo (not Unsplash or Pexels). CLAUDE.md says not to commit large binary files.
+- **Alternatives:** CC0 or public-domain images from other sources; releasing the own photos under CC0.
+- **Decision:** The 22 seed images are the developer's own phone photos, at most 1600 px and under 500 KB each (8.1 MB in total). Camera metadata is stripped, except GPS, City and Country on the two location test files and an EXIF thumbnail on one file. The licence is "Photos by Marthe Kalland, © all rights reserved, used only as sample data in this repo". The originals stay outside the repo. The book-cover photo was dropped because its cover shows a swastika; photos with children (no clear faces), a signed painting and 3M samples were kept.
+- **Rationale:** The story allows the user's own photos. The licence keeps the rights with the photographer, since CC0 cannot be taken back. The size budget keeps the repo small.
+- **Consequences:** `fixture.test.ts` checks the budget (at most 40 files, under 500 KB each, at most 1600 px) and which files keep metadata. New seed images must follow `SOURCES.md`.
+- **Trace:** PR #62, Story 1.7, [spec](../../_bmad-output/implementation-artifacts/spec-1-7-the-examiner-starts-with-a-sample-library.md), [session log](sessions/2026-11-23-1-7-sample-library.md)
+
+## D-066: The image seed has its own gate, and `archiveImage` comes before Story 4.2
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The users seed runs only on an empty `users` table, so dev databases seeded earlier would never get the sample images. Access row A11 needs an archived image, archiving arrives in Story 4.2, and the seed may not write to the database directly.
+- **Alternatives:** seed images only together with the users; leave A11 out until 4.2.
+- **Decision:** `seedSampleLibrary` runs when the `images` table is empty, independent of the users check, under the seed's advisory lock. A minimal `archiveImage(actor, id)` in the images module (published → archived, one conditional update, no UI) seeds A11.
+- **Rationale:** Existing dev databases get the library without a reset. The story's acceptance criteria name A11, and 4.2 can reuse the function for its UI.
+- **Consequences:** The first start on an empty database takes about 40 s longer. An interrupted first start leaves a partial library until `docker compose down -v`. The e2e database is always seeded, so the empty Library page is no longer tested end to end (deferred-work.md).
+- **Trace:** PR #62, Story 1.7, [spec](../../_bmad-output/implementation-artifacts/spec-1-7-the-examiner-starts-with-a-sample-library.md), [session log](sessions/2026-11-23-1-7-sample-library.md)
