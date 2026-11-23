@@ -60,3 +60,4 @@
 - [x] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — run `bmad-sprint-planning` with the build order from epics.md, then stories → GitHub issues and milestones (løst 2026-11-23: sprint-status.yaml with the build order, [sprint-planning](980-2026-11-23-10-26-35-sprint-planning.md), PR #50; issues and milestones are a new item)
 - [ ] 2026-11-23 [epics-and-stories](981-2026-11-23-10-08-35-epics-and-stories.md) — the FR-28 PRD edit was made directly like FR-35; include it in the open `bmad-correct-course` decision
 - [ ] 2026-11-23 [sprint-planning](980-2026-11-23-10-26-35-sprint-planning.md) — turn the stories into GitHub issues and milestones
+- [ ] 2026-11-23 [1-1-app-starts-from-one-command](979-2026-11-23-11-14-10-1-1-app-starts-from-one-command.md) — check that the new CI workflow goes green on PR #51 (first run on GitHub)
