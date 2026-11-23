@@ -414,3 +414,83 @@ Template:
 - **Rationale:** Proposed by Claude and accepted by the user after asking how it differs from vertical slices. Use-case slices would repeat the shared rules; technical layers spread one feature across many folders.
 - **Consequences:** The architecture spine states these rules. The access module's exact shape is still open in the run's memlog.
 - **Trace:** PR #45, [session log](sessions/2026-11-20-architecture-stack-and-boundaries.md)
+
+## D-042: One access condition in SQL, and access tests through real routes
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** D-041 left the access module's shape open. Every client list, count, page and file must agree on what a client may see, and SC-1 promises tests "through the same routes users hit".
+- **Alternatives:** One SQL condition "visible to client X" vs load images and decide with if/else per image; full matrix through routes vs module-level tests plus one representative route test per kind (which would have needed an SC-1 change).
+- **Decision:** One SQL condition plus computed own/canDownload/canBuy, used by every client-facing read; client routes get a fixed `ClientImage` view with no location or staff fields. The A1–A13 matrix and read S-rules run as table-driven HTTP tests over one seed fixture; mutation S-rules run at the module function the Server Action calls, plus one browser test each. SC-1 is unchanged.
+- **Rationale:** One place that can be wrong instead of one per page; lists, counts and pages cannot disagree. HTTP-level tests are cheap once the fixture and `loginAs` helper exist, and they back the most important criterion directly.
+- **Consequences:** The first auth story builds the shared fixture and `loginAs`. Spine AD-6, AD-7.
+- **Trace:** PR #47, [session log](sessions/2026-11-23-architecture-spine.md), [spine](../../_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md)
+
+## D-043: The image table is the job queue for AI generation
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** FR-15 (background generation) is a bonus; without it images are processed while the upload page waits. Both must share one code path, and after a restart every image must end ready or failed.
+- **Alternatives:** pg-boss or graphile-worker (own job tables) vs the image's own processing state as the queue.
+- **Decision:** The worker claims queued images with `FOR UPDATE SKIP LOCKED` and a lease; generation runs in three steps (claim, call the provider outside any transaction, save only if the token matches and the image is still a draft). One `generateMetadata` function is called inline without FR-15 and by a worker service with it.
+- **Rationale:** A queue library keeps a second record of job state that can drift from the image's state. The three-step shape came from the reviewer gate, which found that one transaction would hold a row lock through a 30 s call.
+- **Consequences:** Without FR-15, interrupted images become failed at app start. Spine AD-12.
+- **Trace:** PR #47, [session log](sessions/2026-11-23-architecture-spine.md), [spine](../../_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md)
+
+## D-044: Local file storage behind one interface; client copies built on demand and checked for location data
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** FR-35/FR-36 forbid location data in anything a client receives; the addendum settles local storage for v1, with cheaper separate storage wanted later (RG-1).
+- **Alternatives:** Cache client copies per metadata revision vs build on demand; trust the stripping step vs read every client file back against the location checklist.
+- **Decision:** A `FileStore` interface used only by the media module, local disk in v1. Thumbnails and previews are made once with no metadata and checked once; client and staff copies are built per download (about a second for 50 MB, accepted by the user) and each client copy is checked before it is sent; a hit fails closed.
+- **Rationale:** No stale copies or cache cleanup; an S3-compatible store later is one new implementation. The read-back check turns FR-36 into a testable guarantee.
+- **Consequences:** Spine AD-15 to AD-17.
+- **Trace:** PR #47, [session log](sessions/2026-11-23-architecture-spine.md), [spine](../../_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md)
+
+## D-045: Place names from a committed GeoNames extract
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** FR-13 needs an offline place-name lookup; the addendum left the data set and its credit to the architecture.
+- **Alternatives:** An npm offline geocoder (downloads GeoNames on first use, so network at runtime); Kartverket municipality boundaries (Norway only, needs PostGIS); a trimmed GeoNames extract.
+- **Decision:** A kept script builds a compressed GeoNames extract (Norwegian populated places with municipality and county, world cities over 15,000), committed with its download date and loaded into Postgres by the migrate service; nearest place within a radius in SQL. GeoNames (CC BY 4.0) is credited in the README, beside the data and on the staff help page.
+- **Rationale:** No network at runtime (D-027). GeoNames already has Norway's 15 counties from 2024, checked on 2026-11-23.
+- **Consequences:** Spine AD-23.
+- **Trace:** PR #47, [session log](sessions/2026-11-23-architecture-spine.md), [spine](../../_bmad-output/planning-artifacts/architecture/architecture-g53-kalland-2026-11-20/ARCHITECTURE-SPINE.md)
+
+## D-046: Client copies keep the EXIF orientation tag
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** Client copies keep the original pixels and only FR-35's whitelist of metadata. Orientation was not on the whitelist, so portrait camera photos would arrive sideways.
+- **Alternatives:** Keep the Orientation tag; or rotate and re-encode the pixels, losing quality and the "original pixels untouched" rule.
+- **Decision:** Keep EXIF Orientation as a technical tag. Derived files are auto-oriented before stripping. FR-35 updated, with an entry in the addendum's "Changes from the architecture".
+- **Rationale:** Orientation is not location data; keeping it costs nothing and keeps downloads lossless.
+- **Consequences:** The PRD edit was made directly, not through `bmad-correct-course` as the PRD's release-stages section asks; whether to run it is an open item.
+- **Trace:** PR #47 (commit `4b030f6`), [session log](sessions/2026-11-23-architecture-spine.md)
+
+## D-047: Generated keywords carry a category in prompt v3
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The UX groups generated keywords by FR-12's seven categories with "(n of 15)", but the pilot's output schema returns a flat keyword list.
+- **Alternatives:** Add a category to the v3 output schema; or drop the grouping from the UX.
+- **Decision:** The v3 schema returns keywords as `{term, category}`; categories are stored on AI keyword rows. Embedded, shared and hand-written keywords sit in their own group.
+- **Rationale:** Cheap before the AI story is built, costly after; v3 is not piloted yet anyway.
+- **Consequences:** Prompt v3 must be piloted before relying on it (PRD Open Question 3). EXPERIENCE.md updated. Spine AD-10, AD-21.
+- **Trace:** PR #47, [session log](sessions/2026-11-23-architecture-spine.md)
+
+## D-048: A paid image's price comes from its licence type
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** PRD FR-23/FR-40 price a paid image by its licence type, set in Settings; the UX showed an amount field on each image. The cart and checkout re-check must compare one price.
+- **Alternatives:** Price on the licence type (PRD); or a per-image amount (UX), which needed a PRD change.
+- **Decision:** An image stores only free or paid; the amount is the licence type's current price. The image's access controls show it read-only with a link to Settings. Cart lines store the licence type and the price the contact saw.
+- **Rationale:** Follows the PRD and gives display, cart and checkout one source.
+- **Consequences:** EXPERIENCE.md and DESIGN.md updated; the mockups and prototype still show the old field (the spec wins). Spine AD-18, AD-19.
+- **Trace:** PR #47 (commit `4b030f6`), [session log](sessions/2026-11-23-architecture-spine.md)
+
+## D-049: The architecture spine is final after a five-reviewer gate
+- **Date:** 2026-11-23
+- **Status:** Accepted
+- **Context:** The spine is the contract every story builds against, mostly by Claude. A draft written by the same session that coached it misses its own holes.
+- **Alternatives:** Finalize after a self-check; or run independent reviewers first.
+- **Decision:** Five reviewer subagents ran in parallel (PRD reconcile, UX/addendum reconcile, checklist, version check, adversarial). All findings were fixed or put to the user, and the spine was marked final with AD-1 to AD-24. Versions are pinned at least two weeks old.
+- **Rationale:** The reviewers found real holes the draft had: guards missing in Server Actions, a lost update that could give a revoked client access again, images stuck without FR-15, a wrong AI input size, three pins that broke the two-week rule, and starter defaults that fight the design.
+- **Consequences:** Stories cite AD IDs. Next step: `bmad-create-epics-and-stories`.
+- **Trace:** PR #47 (commit `edec73f`), [session log](sessions/2026-11-23-architecture-spine.md), review reports in `reviews/` next to the spine
