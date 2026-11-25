@@ -120,3 +120,104 @@ test("a contact gets 403 on the Clients tab", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "No access" })).toBeVisible();
   await expect(page.getByText(fixtureClients.nordlys.name)).toHaveCount(0);
 });
+
+// Story 2.2: staff add and manage contacts (FR-2, FR-5, S1).
+async function addClient(page: Page, name: string) {
+  await page.goto("/clients/new");
+  await page.getByLabel("Name").fill(name);
+  await page.getByLabel("Billing email").fill("faktura@contacts.example");
+  await page.getByLabel("Account manager").selectOption({ label: fixtureUsers.ida.name });
+  await page.getByRole("button", { name: "Save client" }).click();
+  await expect(page).toHaveURL(/\/clients\/[0-9a-f-]{36}$/);
+}
+
+test("staff add a contact, who is listed under the client and counted in the sidebar", async ({ page }) => {
+  await loginAs(page, fixtureUsers.ida);
+  const name = `Contact Test ${Date.now()}`;
+  await addClient(page, name);
+  const clientUrl = page.url();
+  const main = page.getByRole("main");
+  await expect(main.getByText("This client has no contacts yet.")).toBeVisible();
+
+  await main.getByRole("link", { name: "Add contact" }).click();
+  await expect(page).toHaveURL(/\/contacts\/new$/);
+  const email = `nora-${Date.now()}@contacts.example`;
+  await page.getByLabel("Name").fill("Nora Dahl");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Phone (optional)").fill("+47 912 34 567");
+  await page.getByRole("button", { name: "Save contact" }).click();
+
+  await expect(page).toHaveURL(clientUrl);
+  const row = main.getByRole("listitem").filter({ hasText: "Nora Dahl" });
+  await expect(row).toContainText(`${email}, +47 912 34 567`);
+  await expect(row.getByText("Active", { exact: true })).toBeVisible();
+  await expect(row.getByRole("link", { name: "Edit Nora Dahl" })).toBeVisible();
+  await expect(row.getByRole("button", { name: "Deactivate Nora Dahl" })).toBeVisible();
+  await expect(main.getByRole("button", { name: /delete|remove/i })).toHaveCount(0);
+  await expect(sidebar(page).getByRole("listitem").filter({ hasText: name })).toContainText("1 contact");
+
+  await row.getByRole("link", { name: "Edit Nora Dahl" }).click();
+  await expect(page.getByLabel("Email")).toHaveValue(email);
+  await page.getByLabel("Name").fill("Nora Dahl-Berg");
+  await page.getByRole("button", { name: "Save contact" }).click();
+  await expect(page).toHaveURL(clientUrl);
+  await expect(main.getByText("Nora Dahl-Berg")).toBeVisible();
+});
+
+test("a duplicate email shows an inline error, keeps the values and saves nothing", async ({ page }) => {
+  await loginAs(page, fixtureUsers.ida);
+  await addClient(page, `Duplicate Test ${Date.now()}`);
+  const clientUrl = page.url();
+  await page.goto(`${clientUrl}/contacts/new`);
+  await page.getByLabel("Name").fill("Copy of Ida");
+  await page.getByLabel("Email").fill(`  ${fixtureUsers.ida.email.toUpperCase()} `);
+  await page.getByRole("button", { name: "Save contact" }).click();
+
+  await expect(page.getByText("This email is already used by another user.")).toBeVisible();
+  await expect(page.getByLabel("Email")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByLabel("Name")).toHaveValue("Copy of Ida");
+  await expect(page).toHaveURL(/\/contacts\/new$/);
+  await page.goto(clientUrl);
+  await expect(page.getByRole("main").getByText("This client has no contacts yet.")).toBeVisible();
+});
+
+test("deactivating a logged-in contact refuses them; reactivating lets them log in", async ({ page, browser }) => {
+  const contact = await browser.newPage();
+  await loginAs(contact, fixtureUsers.emil);
+
+  await loginAs(page, fixtureUsers.ida);
+  await page.goto("/clients");
+  await sidebar(page).getByRole("link", { name: new RegExp(fixtureClients.nordlys.name) }).click();
+  const row = page.getByRole("main").getByRole("listitem").filter({ hasText: fixtureUsers.emil.name });
+  await row.getByRole("button", { name: `Deactivate ${fixtureUsers.emil.name}` }).click();
+  try {
+    await expect(row.getByText("Inactive", { exact: true })).toBeVisible();
+    await contact.reload();
+    await expect(contact).toHaveURL(/\/login\?reason=inactive$/);
+    await expect(contact.getByText("Your account is not active. Contact the agency.")).toBeVisible();
+  } finally {
+    await row.getByRole("button", { name: `Reactivate ${fixtureUsers.emil.name}` }).click();
+    await expect(row.getByText("Active", { exact: true })).toBeVisible();
+  }
+
+  await loginAs(contact, fixtureUsers.emil);
+  await contact.close();
+});
+
+test("a contact page under the wrong client, or with an unknown or malformed id, shows Not found", async ({ page }) => {
+  await loginAs(page, fixtureUsers.ida);
+  await page.goto("/clients");
+  await sidebar(page).getByRole("link", { name: new RegExp(fixtureClients.nordlys.name) }).click();
+  const nordlysUrl = page.url();
+  await sidebar(page).getByRole("link", { name: new RegExp(fixtureClients.fjordkaffe.name) }).click();
+  await page.getByRole("main").getByRole("link", { name: `Edit ${fixtureUsers.jonas.name}` }).click();
+  await expect(page).toHaveURL(/\/contacts\/[0-9a-f-]{36}\/edit$/);
+  await expect(page.getByLabel("Phone (optional)")).toHaveValue("+47 912 34 567");
+  const jonasId = /\/contacts\/([0-9a-f-]{36})\/edit$/.exec(page.url())![1];
+
+  for (const path of [`${nordlysUrl}/contacts/${jonasId}/edit`, `${nordlysUrl}/contacts/${crypto.randomUUID()}/edit`, `${nordlysUrl}/contacts/not-a-uuid/edit`]) {
+    const response = await page.goto(path);
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole("heading", { name: "Not found" })).toBeVisible();
+  }
+});

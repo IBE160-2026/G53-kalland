@@ -259,6 +259,38 @@
       "accountManager": "Choose an account manager from the active staff users."
     }
   },
+  "contacts": {
+    "title": "Contacts",
+    "add": "Add contact",
+    "empty": "This client has no contacts yet.",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "edit": "Edit",
+    "editLabel": "Edit {name}",
+    "deactivate": "Deactivate",
+    "deactivateLabel": "Deactivate {name}",
+    "reactivate": "Reactivate",
+    "reactivateLabel": "Reactivate {name}",
+    "form": {
+      "addTitle": "Add contact to {client}",
+      "editTitle": "Edit {name}",
+      "name": "Name",
+      "email": "Email",
+      "emailHint": "The contact logs in with this email.",
+      "phone": "Phone (optional)",
+      "phoneHint": "For example +47 912 34 567.",
+      "save": "Save contact",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "name": "Enter the contact's name, at most 200 characters.",
+      "email": "Enter a valid email address, for example name@example.com.",
+      "emailTaken": "This email is already used by another user.",
+      "phone": "Enter a valid phone number: 5 to 30 characters, using only digits, spaces, +, -, ( and )."
+    }
+  },
   "forbidden": {
     "title": "No access",
     "body": "You do not have access to this page. Go to your start page, or contact the agency if you think you should have access.",

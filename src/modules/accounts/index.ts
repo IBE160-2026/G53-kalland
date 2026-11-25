@@ -1,5 +1,5 @@
 // Public API of the accounts module (AD-3). Owns (writes) the tables: tenants, clients, users.
-// Clients are never deleted (S10): there is no delete function here.
+// Clients and users are never deleted (S10): there is no delete function here.
 export {
   CLIENT_FIELD_ERRORS,
   createClient,
@@ -17,4 +17,19 @@ export {
   type ClientListItem,
   type Status,
 } from "./clients";
+export {
+  CONTACT_EMAIL_TAKEN,
+  CONTACT_FIELD_ERRORS,
+  CONTACT_NAME_MAX,
+  createContact,
+  EMAIL_MAX,
+  getContactForStaff,
+  isValidPhone,
+  listContactsForStaff,
+  setContactStatus,
+  updateContact,
+  type Contact,
+  type ContactField,
+  type ContactInput,
+} from "./contacts";
 export { createUser, getUser, listActiveStaff, setUserStatus, type NewUser, type User } from "./users";
