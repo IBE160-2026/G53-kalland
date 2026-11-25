@@ -90,3 +90,4 @@
 - [ ] 2026-11-25 [2-3-contacts-set-password-from-setup-link](968-2026-11-25-14-57-20-2-3-contacts-set-password-from-setup-link.md) — check story 2.3 by hand with `docker compose up`: add a contact, copy the link, set a password in a private window, reopen the link → expired message
 - [ ] 2026-11-25 [2-3-contacts-set-password-from-setup-link](968-2026-11-25-14-57-20-2-3-contacts-set-password-from-setup-link.md) — test that Next's request log never prints `/setup/<token>` (deferred-work.md)
 - [ ] 2026-11-25 [2-3-contacts-set-password-from-setup-link](968-2026-11-25-14-57-20-2-3-contacts-set-password-from-setup-link.md) — fix axe colour contrast on the selected client's sub-line in the Clients sidebar (from 2.1)
+- [ ] 2026-11-25 [epic-2-build-order-tracking](967-2026-11-25-15-03-07-epic-2-build-order-tracking.md) — build story 2.4 (last Epic 2 spine story), then the Epic 3 spine 3.1–3.6 per the build order in epics.md
