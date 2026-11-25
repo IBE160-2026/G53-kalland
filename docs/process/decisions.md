@@ -694,3 +694,33 @@ Template:
 - **Rationale:** Matches the UX spec, so Epic 5 only adds the button.
 - **Consequences:** Until Epic 5 the caption promises an action the panel does not offer yet.
 - **Trace:** PR #64, Story 1.8, [session log](sessions/2026-11-23-1-8-contact-finds-images.md)
+
+## D-070: Clients e2e runs last as its own Playwright project
+- **Date:** 2026-11-25
+- **Status:** Accepted
+- **Context:** The Story 2.1 e2e test sets the seeded client Nordlys Sykkel AS inactive to prove that its logged-in contact is refused (S2). Other e2e specs log in as Nordlys's contact Emil, and Playwright runs specs in parallel, so they could fail while Nordlys is inactive.
+- **Alternatives:** Use a factory-made client and contact instead of a seeded one; run the whole suite serially; give the clients spec its own Playwright project that depends on the `app` project.
+- **Decision:** `clients.spec.ts` runs as a third Playwright project, `clients`, after `seeded library` and `app`. Its `try/finally` sets Nordlys active again even if an assertion fails.
+- **Rationale:** The e2e test exercises the seeded data the examiner uses, keeps the rest of the suite parallel, and adds one line of config.
+- **Consequences:** Any later spec that changes a seeded client's or user's status belongs in this last project, or must use factory rows. The README describes the three projects.
+- **Trace:** Story 2.1, PR #68, commit `a3e8006`, session log `sessions/2026-11-25-story-2-1-staff-create-and-manage-clients.md`
+
+## D-071: Contacts: phone on users, unique email as the double-submit guard
+- **Date:** 2026-11-25
+- **Status:** Accepted
+- **Context:** Story 2.2 needs an optional phone for contacts, which the data model did not have, and contact creation must not make duplicates on a double submit (Conventions: Idempotency).
+- **Alternatives:** Phone in a separate contact-details table, or on `users`. For idempotency: a form nonce stored on `users` (as `clients.form_nonce` in Story 2.1), or the existing unique index on `lower(email)`.
+- **Decision:** A nullable `users.phone` column (migration 0008). The unique email is the natural key: a repeated submit is refused as a duplicate email and creates nothing. Add/Edit contact are their own pages, like Add/Edit client (chosen by the user at spec approval).
+- **Rationale:** One column is the smallest change and stays with the table `accounts` owns. The conventions use a unique constraint where a natural key exists; a nonce is only for creates without one.
+- **Consequences:** A double submit shows "This email is already used by another user." on the second request after the first succeeded. Staff users can also carry a phone if Story 2.6 needs it.
+- **Trace:** Story 2.2, `story/2.2-staff-add-and-manage-contacts`, spec `spec-2-2-staff-add-and-manage-contacts.md`, session log `2026-11-25-story-2-2-staff-add-and-manage-contacts.md`
+
+## D-072: Setup links: hashed single-use tokens in the path, shown on the Add contact page
+- **Date:** 2026-11-25
+- **Status:** Accepted
+- **Context:** Story 2.3 needs a way for contacts to set their own password, and the app sends no email (FR-4, AD-5). Staff must see the link right after creating a contact, and the token is a credential that must never be stored or logged in clear.
+- **Alternatives:** After Add contact, redirect to the client page and show the link under the new row as in the mockup (the token would have to survive the redirect, e.g. in a short-lived cookie, and would reappear on reload); keep the token in the URL fragment so the server never sees it (needs a client round trip to check the link on open).
+- **Decision:** A `setup_links` table owned by auth stores only the SHA-256 of a 256-bit token, with `expires_at` (7 days), `used_at` and `cancelled_at`. Links are `${APP_ORIGIN}/setup/<token>`; Next's dev request log ignores `/setup/` paths and the page sends no Referer. Issuing a link locks the user row and cancels earlier unused links; using one is a conditional update. The Add contact page does not redirect after a save; it shows the link with Copy and "Back to <client>". "New setup link" on each contact row shows its link under the row.
+- **Rationale:** The token only ever leaves the server in the action response, so no cookie or redirect carries it. Path tokens match the mockup and keep the page a plain server-rendered form. The row lock and conditional update are tested under parallel calls.
+- **Consequences:** Story 2.6 reuses `issueSetupLink` for staff users. Used, cancelled and expired rows are kept. A check that Next's request log hides `/setup/` paths is deferred (deferred-work.md).
+- **Trace:** Story 2.3, PR #70, `_bmad-output/implementation-artifacts/spec-2-3-contacts-set-their-password-from-a-setup-link.md`, session log `sessions/2026-11-25-story-2-3-contacts-set-password-from-setup-link.md`
