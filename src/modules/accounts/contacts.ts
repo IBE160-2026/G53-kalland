@@ -1,7 +1,7 @@
 import { and, asc, eq } from "drizzle-orm";
 import { getDb, type Tx } from "@/db/client";
 import { clients, users } from "@/db/schema";
-import { assertStaff, type Actor } from "@/modules/auth";
+import { assertStaff, issueSetupLink, type Actor, type SetupLink } from "@/modules/auth";
 import { Conflict, NotFound, Validation } from "@/modules/shared/errors";
 import { isUniqueViolation } from "@/modules/shared/db-errors";
 import { normaliseEmail } from "@/modules/shared/email";
@@ -74,21 +74,43 @@ function toContact(row: Omit<Contact, "clientId"> & { clientId: string | null })
   return { ...row, clientId: row.clientId };
 }
 
-// Staff only (FR-2). Creates an active contact of the client; contacts can be added to an inactive
-// client too. The unique email is the natural key (Conventions: Idempotency): a double submit creates
-// one user, and the second is refused as a duplicate email.
-export async function createContact(tx: Tx, actor: Actor, clientId: string, input: ContactInput): Promise<string> {
+// Staff only (FR-2, FR-4). Creates an active contact of the client and its first setup link in one
+// transaction; contacts can be added to an inactive client too. The unique email is the natural key
+// (Conventions: Idempotency): a double submit creates one user, and the second is refused as a
+// duplicate email, with no user and no link.
+export async function createContact(
+  tx: Tx,
+  actor: Actor,
+  clientId: string,
+  input: ContactInput,
+): Promise<{ contactId: string; link: SetupLink }> {
   assertStaff(actor);
   const values = checkContactInput(input);
   if (!UUID_SHAPE.test(clientId)) throw new NotFound();
-  const [client] = await tx.select({ id: clients.id }).from(clients).where(eq(clients.id, clientId));
-  if (!client) throw new NotFound();
   try {
-    return await createUser(tx, { role: "contact", clientId: client.id, ...values, phone: values.phone ?? undefined });
+    // A transaction of its own, or a savepoint inside the caller's, so a duplicate leaves the caller's usable.
+    return await tx.transaction(async (inner) => {
+      const [client] = await inner.select({ id: clients.id }).from(clients).where(eq(clients.id, clientId));
+      if (!client) throw new NotFound();
+      const contactId = await createUser(inner, { role: "contact", clientId: client.id, ...values, phone: values.phone ?? undefined });
+      return { contactId, link: await issueSetupLink(inner, contactId) };
+    });
   } catch (error) {
     if (error instanceof Conflict) throw new Validation(CONTACT_EMAIL_TAKEN);
     throw error;
   }
+}
+
+// Staff only (FR-4). A new setup link for a contact, for a first password or a reset; it cancels the
+// contact's earlier unused links. NotFound for a staff user's id, so this UI never makes staff links.
+export async function newContactSetupLink(tx: Tx, actor: Actor, contactId: string): Promise<SetupLink> {
+  assertStaff(actor);
+  if (!UUID_SHAPE.test(contactId)) throw new NotFound();
+  return tx.transaction(async (inner) => {
+    const [contact] = await inner.select({ id: users.id }).from(users).where(isContact(contactId));
+    if (!contact) throw new NotFound();
+    return issueSetupLink(inner, contact.id);
+  });
 }
 
 // Staff only (FR-2). Replaces the name, email and phone. The user id, role, client and status stay, so

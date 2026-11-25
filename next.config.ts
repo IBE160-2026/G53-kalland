@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   agentRules: false,
   // forbidden() and forbidden.tsx for a contact on a staff route, and vice versa (AD-5).
   experimental: { authInterrupts: true },
+  // Setup-link tokens are in the path; the dev request log must never print them (AD-5, Conventions: Logging).
+  logging: { incomingRequests: { ignore: [/\/setup\//] } },
 };
 
 export default createNextIntlPlugin()(nextConfig);

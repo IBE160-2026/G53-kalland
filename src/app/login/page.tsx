@@ -3,8 +3,14 @@ import { getTranslations } from "next-intl/server";
 import { safeReturnTo } from "@/modules/auth";
 import { LoginForm } from "./login-form";
 
-// Public. `reason=inactive` comes from a guard that refused a deactivated user or client.
-// One centred form on the canvas, without navigation (UX-DR-9).
+// The message shown for a `reason`: `inactive` from a guard that refused a deactivated user or client,
+// `expired` from a setup link that was used, expired or replaced (S8).
+const REASONS = new Map([
+  ["inactive", "login.inactive"],
+  ["expired", "login.expired"],
+]);
+
+// Public. One centred form on the canvas, without navigation (UX-DR-9).
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const { returnTo, reason } = await searchParams;
   const t = await getTranslations();
@@ -20,7 +26,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         </Heading>
         <LoginForm
           returnTo={safeReturnTo(returnTo) ?? undefined}
-          initialError={reason === "inactive" ? "login.inactive" : undefined}
+          initialError={REASONS.get(String(reason))}
         />
       </div>
     </main>

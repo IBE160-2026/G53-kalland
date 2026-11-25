@@ -12,18 +12,31 @@ import {
   EMAIL_MAX,
   getContactForStaff,
   isValidPhone,
+  newContactSetupLink,
   setContactStatus,
   updateContact,
   type ContactField,
   type ContactInput,
 } from "@/modules/accounts";
-import { requireStaff } from "@/modules/auth";
+import { requireStaff, type SetupLink } from "@/modules/auth";
 import { Validation, toFormState, type FormState } from "@/modules/shared/errors";
+import { formatOsloDateTime } from "@/modules/shared/time";
 
-// What the contact form shows after a refused save: each field's inline error. The form keeps its own values.
+// A setup link as the staff page shows it: the URL to copy and when it expires, in Oslo time.
+export type SetupLinkView = { url: string; expires: string };
+
+// What the contact form shows after a save: each field's inline error when it was refused (the form keeps
+// its own values), or the new contact's name and setup link when it was added.
 export type ContactFormState = FormState & {
   fieldErrors?: Partial<Record<ContactField, string>>;
+  created?: { name: string; link: SetupLinkView };
 };
+
+export type SetupLinkState = FormState & { link?: SetupLinkView };
+
+function viewOf(link: SetupLink): SetupLinkView {
+  return { url: link.url, expires: formatOsloDateTime(link.expiresAt) };
+}
 
 const contactInput = z.object({
   name: z.string().trim().min(1).max(CONTACT_NAME_MAX),
@@ -67,8 +80,10 @@ function stateOf(error: unknown): ContactFormState {
   return toFormState(error);
 }
 
-// The Add contact form (FR-2), bound to the client's id. The unique email is the natural key, so a double
-// submit creates one contact and the second is refused as a duplicate email.
+// The Add contact form (FR-2, FR-4), bound to the client's id. The contact and its first setup link are
+// made in one transaction; the form then shows the link instead of redirecting, since the app sends no
+// email. The unique email is the natural key, so a double submit creates one contact and the second is
+// refused as a duplicate email.
 export async function createContactAction(
   clientId: string,
   _previous: ContactFormState,
@@ -80,13 +95,14 @@ export async function createContactAction(
   const result = parse(valuesOf(formData));
   if ("state" in result) return result.state;
 
+  let link: SetupLink;
   try {
-    await createContact(getDb(), actor, id.data, result.input);
+    ({ link } = await getDb().transaction((tx) => createContact(tx, actor, id.data, result.input)));
   } catch (error) {
     return stateOf(error);
   }
   revalidatePath("/clients", "layout");
-  redirect(`/clients/${id.data}`);
+  return { created: { name: result.input.name, link: viewOf(link) } };
 }
 
 // The Edit contact form (FR-2), bound to the client's and the contact's id. A contact of another client
@@ -128,4 +144,16 @@ export async function setContactStatusAction(_previous: FormState, formData: For
   }
   revalidatePath("/clients", "layout");
   return {};
+}
+
+// New setup link (FR-4), for a first password or a reset. It cancels the contact's earlier unused links.
+export async function newSetupLinkAction(_previous: SetupLinkState, formData: FormData): Promise<SetupLinkState> {
+  const actor = await requireStaff();
+  const parsed = z.uuid().safeParse(formData.get("contactId"));
+  if (!parsed.success) return { error: "errors.validation" };
+  try {
+    return { link: viewOf(await newContactSetupLink(getDb(), actor, parsed.data)) };
+  } catch (error) {
+    return toFormState(error);
+  }
 }

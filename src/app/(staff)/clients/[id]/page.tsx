@@ -7,6 +7,7 @@ import { listContactsForStaff } from "@/modules/accounts";
 import { requireStaff } from "@/modules/auth";
 import { ContactStatusForm } from "../contact-status-form";
 import { loadClient } from "../load-client";
+import { ContactRow } from "../contact-row";
 import { StatusForm } from "../status-form";
 
 // Shows an org number in the usual groups of three: 921 456 786.
@@ -14,8 +15,8 @@ function formatOrgNumber(value: string): string {
   return value.replace(/^(\d{3})(\d{3})(\d{3})$/, "$1 $2 $3");
 }
 
-// A client's details and contacts for staff (FR-1, FR-2, FR-5): Edit, Set inactive or Set active,
-// Deactivate or Reactivate, never delete (S10). Staff notes and the account manager appear only here.
+// A client's details and contacts for staff (FR-1, FR-2, FR-4, FR-5): Edit, Set inactive or Set active,
+// Deactivate or Reactivate, New setup link, never delete (S10). Staff notes and the account manager appear only here.
 export default async function ClientPage({ params }: PageProps<"/clients/[id]">) {
   const actor = await requireStaff();
   const client = await loadClient(actor, (await params).id);
@@ -85,31 +86,38 @@ export default async function ClientPage({ params }: PageProps<"/clients/[id]">)
         ) : (
           <ul className="contact-list">
             {contacts.map((contact) => (
-              <li key={contact.id} className="contact-row">
-                <span className="contact-who">
-                  <span className="contact-name">{contact.name}</span>
-                  <span className="contact-details">
-                    {contact.phone ? `${contact.email}, ${contact.phone}` : contact.email}
+              <ContactRow
+                key={contact.id}
+                contactId={contact.id}
+                name={contact.name}
+                who={
+                  <span className="contact-who">
+                    <span className="contact-name">{contact.name}</span>
+                    <span className="contact-details">
+                      {contact.phone ? `${contact.email}, ${contact.phone}` : contact.email}
+                    </span>
                   </span>
-                </span>
-                <span className="contact-end">
-                  <StatusTag state={contact.status}>{tContacts(`status.${contact.status}`)}</StatusTag>
-                  <Button asChild variant="tertiary" data-size="sm">
-                    <NextLink
-                      href={`/clients/${client.id}/contacts/${contact.id}/edit`}
-                      aria-label={tContacts("editLabel", { name: contact.name })}
-                    >
-                      {tContacts("edit")}
-                    </NextLink>
-                  </Button>
-                  <ContactStatusForm
-                    key={contact.status}
-                    contactId={contact.id}
-                    name={contact.name}
-                    status={contact.status}
-                  />
-                </span>
-              </li>
+                }
+                actions={
+                  <>
+                    <StatusTag state={contact.status}>{tContacts(`status.${contact.status}`)}</StatusTag>
+                    <Button asChild variant="tertiary" data-size="sm">
+                      <NextLink
+                        href={`/clients/${client.id}/contacts/${contact.id}/edit`}
+                        aria-label={tContacts("editLabel", { name: contact.name })}
+                      >
+                        {tContacts("edit")}
+                      </NextLink>
+                    </Button>
+                    <ContactStatusForm
+                      key={contact.status}
+                      contactId={contact.id}
+                      name={contact.name}
+                      status={contact.status}
+                    />
+                  </>
+                }
+              />
             ))}
           </ul>
         )}
