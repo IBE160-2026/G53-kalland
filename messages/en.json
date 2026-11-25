@@ -24,7 +24,8 @@
     "library": "Library",
     "upload": "Upload",
     "overview": "Overview",
-    "findImages": "Find images"
+    "findImages": "Find images",
+    "licences": "Licences"
   },
   "search": {
     "staff": "Search title, description, keywords and places",
@@ -176,8 +177,39 @@
       "scope": "Use in your own marketing and communication, in print and online. Price ex VAT.",
       "readTerms": "Read the licence terms",
       "termsTitle": "Licence terms: {name}",
-      "close": "Close"
+      "close": "Close",
+      "licenseImage": "License this image"
     }
+  },
+  "checkout": {
+    "title": "Check out",
+    "recheck": "The image is checked again when you check out. Nothing is recorded until then.",
+    "noPayment": "No payment is taken in the portal. Checking out records one licence for your organisation.",
+    "lines": "Image to license",
+    "acceptTerms": "I accept the licence terms for this image on behalf of my organisation",
+    "termsRequired": "Accept the licence terms to continue.",
+    "submit": "Check out",
+    "confirmNewPrice": "Confirm new price",
+    "removed": "{title} was removed from your cart: it is no longer available.",
+    "priceChanged": "The price of {title} has changed from {oldPrice} to {newPrice} USD. Confirm to continue.",
+    "backToFindImages": "Back to Find images",
+    "confirmation": {
+      "title": "Licence recorded",
+      "body": "Your organisation now holds a licence for this image.",
+      "licensed": "Licensed {date}"
+    }
+  },
+  "licences": {
+    "title": "Licences",
+    "empty": "No licences yet. They appear here when a client checks out.",
+    "caption": "Licences, newest first",
+    "client": "Client",
+    "contact": "Contact",
+    "image": "Image",
+    "licenceType": "Licence",
+    "price": "Price",
+    "date": "Date",
+    "noContact": "None"
   },
   "forbidden": {
     "title": "No access",

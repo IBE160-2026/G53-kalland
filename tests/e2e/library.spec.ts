@@ -1,6 +1,6 @@
-import { expect, test, type Locator, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { fixtureUsers } from "../../src/db/seed/fixture.ts";
-import { loginAs } from "./helpers.ts";
+import { chooseOption as choose, loginAs } from "./helpers.ts";
 import { makePng } from "./png.ts";
 
 const S4_WARNING = "No clients are chosen, so this image behaves as internal only.";
@@ -19,12 +19,6 @@ async function uploadAndOpenLibrary(page: Page, filename: string, title: string)
   const tile = page.getByRole("list", { name: "Images" }).getByRole("link").filter({ hasText: title });
   await expect(tile).toBeVisible();
   return tile;
-}
-
-// Toggle group items are radios inside their labels; the label takes the click.
-async function choose(panel: Locator, option: string) {
-  await panel.locator("label", { hasText: new RegExp(`^${option}$`) }).click();
-  await expect(panel.getByRole("radio", { name: option })).toBeChecked();
 }
 
 test("Ida restricts a draft to Fjordkaffe at the paid price, then publishes it after the missing-metadata dialog", async ({ page }) => {

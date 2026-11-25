@@ -63,8 +63,8 @@ function clientColumns(clientId: string) {
   };
 }
 
-function selectClientRows(clientId: string) {
-  return getDb().select(clientColumns(clientId)).from(images).$dynamic();
+function selectClientRows(db: Tx, clientId: string) {
+  return db.select(clientColumns(clientId)).from(images).$dynamic();
 }
 
 type ClientRow = Awaited<ReturnType<typeof selectClientRows>>[number];
@@ -118,7 +118,7 @@ export async function listClientImages(
   const visible = visibleTo(actor.clientId);
   const [{ total }] = await db.select({ total: count() }).from(images).where(visible);
   const window = pageWindow(page, total);
-  const rows = await selectClientRows(actor.clientId)
+  const rows = await selectClientRows(db, actor.clientId)
     .where(visible)
     .orderBy(desc(images.createdAt), desc(images.id))
     .limit(LIBRARY_PAGE_SIZE)
@@ -128,11 +128,12 @@ export async function listClientImages(
 }
 
 // One image for the contact's client, or null when it does not exist or is not visible to them. Every
-// route turns null into 404, never 403 (AD-6).
-export async function getClientImage(actor: Actor, imageId: string): Promise<ClientImage | null> {
+// route turns null into 404, never 403 (AD-6). Checkout passes its transaction, so the re-check reads
+// what the grant will see (AD-19, AD-20).
+export async function getClientImage(actor: Actor, imageId: string, db: Tx = getDb()): Promise<ClientImage | null> {
   assertContact(actor);
   if (!z.uuid().safeParse(imageId).success) return null;
-  const [row] = await selectClientRows(actor.clientId).where(and(eq(images.id, imageId), visibleTo(actor.clientId)));
+  const [row] = await selectClientRows(db, actor.clientId).where(and(eq(images.id, imageId), visibleTo(actor.clientId)));
   if (!row) return null;
-  return toClientImage(row, await currentPrice(getDb()));
+  return toClientImage(row, await currentPrice(db));
 }

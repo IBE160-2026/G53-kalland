@@ -29,3 +29,9 @@ it("Find images with nothing visible shows one muted sentence and no action", ()
   const html = renderToStaticMarkup(createElement(EmptyState, { text: messages.findImages.empty }));
   expect(html).toBe('<div class="empty-state"><p>There are no images to show yet.</p></div>');
 });
+
+// The staff Licences tab with no licences (the shared databases always hold the seeded licences).
+it("Licences with no licences shows one muted sentence and no action", () => {
+  const html = renderToStaticMarkup(createElement(EmptyState, { text: messages.licences.empty }));
+  expect(html).toBe('<div class="empty-state"><p>No licences yet. They appear here when a client checks out.</p></div>');
+});

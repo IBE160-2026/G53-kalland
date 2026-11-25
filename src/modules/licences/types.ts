@@ -5,6 +5,9 @@ import { DEFAULT_TENANT_ID } from "@/db/tenant";
 
 export type LicenceType = { id: string; name: string; priceMinor: number; currency: string };
 
+// One immutable version of a licence type's text; a licence records its id (AD-18).
+export type LicenceText = { id: string; body: string };
+
 // Serialises concurrent calls of ensureStandardLicenceType, so it creates the type once.
 const LICENCE_TYPE_LOCK_ID = 53_000_106;
 
@@ -46,14 +49,14 @@ export async function currentLicenceType(db: Tx): Promise<LicenceType | null> {
   return row ?? null;
 }
 
-// The current text of a licence type: its latest licence_texts version's body (AD-18), or null when the
-// type has no text.
-export async function currentLicenceText(db: Tx, licenceTypeId: string): Promise<string | null> {
+// The current text of a licence type: its latest licence_texts version, id and body (AD-18), or null
+// when the type has no text.
+export async function currentLicenceText(db: Tx, licenceTypeId: string): Promise<LicenceText | null> {
   const [row] = await db
-    .select({ body: licenceTexts.body })
+    .select({ id: licenceTexts.id, body: licenceTexts.body })
     .from(licenceTexts)
     .where(eq(licenceTexts.licenceTypeId, licenceTypeId))
     .orderBy(desc(licenceTexts.version))
     .limit(1);
-  return row?.body ?? null;
+  return row ?? null;
 }

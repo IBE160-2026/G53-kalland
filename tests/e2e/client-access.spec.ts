@@ -18,26 +18,42 @@ import { loginAs } from "./helpers.ts";
 const TITLES = {
   a1: "Moon jellyfish close up",
   a2: "Low tide in a quiet bay",
+  a3: "Coastline from a plane window",
   a4: "Venison dinner with red wine",
   a5: "Painting of a mountain farm",
+  a6: "Birch-lined path in the thaw",
   a7: "Snowy path on a grey day",
+  a8: "King crab at the glass",
   a9: "Wrap film colour samples",
+  a10: "Seal swimming past the window",
   a11: "First birthday by the window",
+  a12: "Starfish and sea anemone",
   a13: "Clearing an overgrown garden",
   s4: "Corner of a gilded frame",
   gpsJpeg: "Tromsø harbour reflections",
   locationPng: "Moon jellyfish in blue light",
 } as const satisfies Partial<Record<FixtureImageKey, string>>;
 
-const ROWS = ["a1", "a2", "a4", "a5", "a7", "a9", "a11", "a13", "s4"] as const;
+const ROWS = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "s4"] as const;
 const CONTACTS = [fixtureUsers.jonas, fixtureUsers.emil] as const;
 // The embedded location of the two location files (GPS, City and Country), which no client response may hold.
 const LOCATION_LEAKS = ["69.64", "18.95", "18.94", "Norway", "latitude", "longitude", "tromso-harbour-gps", "jellyfish-polaria-location"];
 
+// Own (AD-6): free and restricted to a list with the client (A4, A7), or licensed to the client (A3, A6,
+// A8, A10, A12), whatever its status or visibility.
+function ownedBy(image: FixtureImage, client: FixtureClientKey): boolean {
+  const listed = (image.clients as readonly string[]).includes(client);
+  return (
+    (image.status === "published" && image.priceTier === "free" && image.visibility === "restricted" && listed) ||
+    (image.licensedTo ?? []).includes(client)
+  );
+}
+
 function visibleTo(image: FixtureImage, client: FixtureClientKey): boolean {
   return (
-    image.status === "published" &&
-    (image.visibility === "public" || (image.visibility === "restricted" && (image.clients as readonly string[]).includes(client)))
+    (image.status === "published" &&
+      (image.visibility === "public" || (image.visibility === "restricted" && (image.clients as readonly string[]).includes(client)))) ||
+    ownedBy(image, client)
   );
 }
 
@@ -87,13 +103,20 @@ for (const user of CONTACTS) {
     });
 
     for (const key of ROWS) {
-      const image = fixtureImages[key];
+      const image: FixtureImage = fixtureImages[key];
       const visible = visibleTo(image, user.client);
-      test(`${image.row} is ${visible ? "visible" : "404 and absent"}: image page, thumbnail, preview and list`, async ({ page }) => {
+      const own = visible && ownedBy(image, user.client);
+      const canBuy = visible && !own && image.priceTier === "paid";
+      const state = !visible ? "404 and absent" : own ? "own" : canBuy ? "buyable" : "visible";
+      test(`${image.row} is ${state}: image page, checkout, thumbnail, preview and list`, async ({ page }) => {
         const id = ids.get(key)!;
         const imagePage = await get(page.request, `/find-images?image=${id}`);
         expect(imagePage.status()).toBe(visible ? 200 : 404);
-        if (!visible) expect(await imagePage.text()).toContain("Not found");
+        const html = await imagePage.text();
+        if (!visible) expect(html).toContain("Not found");
+        // Only a buyable image offers the licence and its checkout page; an own one shows Yours to download.
+        expect(html.includes(`/checkout?image=${id}`), "License this image").toBe(canBuy);
+        expect((await get(page.request, `/checkout?image=${id}`)).status(), "checkout").toBe(canBuy ? 200 : 404);
 
         for (const kind of ["thumbnail", "preview"]) {
           const file = await get(page.request, `/api/images/${id}/${kind}`);
@@ -105,6 +128,9 @@ for (const user of CONTACTS) {
         const wall = await (await get(page.request, "/find-images")).text();
         if (visible) {
           expect(wall).toContain(TITLES[key]);
+          await page.goto("/find-images");
+          const tile = page.getByRole("list", { name: "Images" }).getByRole("link").filter({ hasText: TITLES[key] });
+          await expect(tile.getByText("Yours to download")).toHaveCount(own ? 1 : 0);
         } else {
           expect(wall).not.toContain(TITLES[key]);
           expect(wall).not.toContain(id);

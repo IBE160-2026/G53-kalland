@@ -26,8 +26,9 @@ export const fixtureUsers = {
 
 // The sample library (Story 1.7): seed images under SEED_IMAGES_DIR, uploaded as Ida when the images
 // table is empty. Each entry below gives one file the state its access row needs, seen from Fjordkaffe
-// (AD-7); every other seed file is published, public and free. Rows that need a licence (A3, A6, A8,
-// A10, A12) come in Story 1.9.
+// (AD-7); every other seed file is published, public and free. The rows that need a licence (A3, A6, A8,
+// A10, A12) are paid and licensed to Fjordkaffe: the seed grants each as Jonas, at the current price,
+// after the images are seeded (Story 1.9). Nordlys may buy A3 and A8 and sees none of the other three.
 export const SEED_IMAGES_DIR = "src/db/seed/images";
 // How many image files SEED_IMAGES_DIR holds (checked by fixture.test.ts), for tests that cannot read it.
 export const SEED_IMAGE_COUNT = 22;
@@ -39,16 +40,23 @@ export type FixtureImage = {
   visibility: "internal" | "restricted" | "public";
   clients: FixtureClientKey[];
   priceTier: "free" | "paid";
+  // The clients that hold a licence for the image, granted by the seed as their first contact.
+  licensedTo?: FixtureClientKey[];
 };
 
 export const fixtureImages = {
   a1: { file: "jellyfish-tank.jpg", row: "A1", status: "published", visibility: "public", clients: [], priceTier: "free" },
   a2: { file: "low-tide-beach.jpg", row: "A2", status: "published", visibility: "public", clients: [], priceTier: "paid" },
+  a3: { file: "aerial-coast-plane-window.jpg", row: "A3", status: "published", visibility: "public", clients: [], priceTier: "paid", licensedTo: ["fjordkaffe"] },
   a4: { file: "dinner-table-wine.jpg", row: "A4", status: "published", visibility: "restricted", clients: ["fjordkaffe"], priceTier: "free" },
   a5: { file: "mountain-farm-painting.jpg", row: "A5", status: "published", visibility: "restricted", clients: ["fjordkaffe"], priceTier: "paid" },
+  a6: { file: "birch-path-thaw.jpg", row: "A6", status: "published", visibility: "restricted", clients: ["fjordkaffe"], priceTier: "paid", licensedTo: ["fjordkaffe"] },
   a7: { file: "snowy-path-overcast.jpg", row: "A7", status: "published", visibility: "restricted", clients: ["nordlys"], priceTier: "free" },
+  a8: { file: "king-crab-claw.jpg", row: "A8", status: "published", visibility: "restricted", clients: ["nordlys"], priceTier: "paid", licensedTo: ["fjordkaffe"] },
   a9: { file: "wrap-film-samples.jpg", row: "A9", status: "published", visibility: "internal", clients: [], priceTier: "free" },
+  a10: { file: "seal-pool-window.jpg", row: "A10", status: "published", visibility: "internal", clients: [], priceTier: "paid", licensedTo: ["fjordkaffe"] },
   a11: { file: "birthday-balloon-window.jpg", row: "A11", status: "archived", visibility: "public", clients: [], priceTier: "free" },
+  a12: { file: "starfish-aquarium.jpg", row: "A12", status: "archived", visibility: "public", clients: [], priceTier: "paid", licensedTo: ["fjordkaffe"] },
   a13: { file: "garden-clearing-trimmer.jpg", row: "A13", status: "draft", visibility: "public", clients: [], priceTier: "free" },
   s4: { file: "gilded-frame-corner.jpg", row: "S4", status: "published", visibility: "restricted", clients: [], priceTier: "free" },
   gpsJpeg: { file: "tromso-harbour-gps.jpg", row: "JPEG with GPS, City and Country", status: "published", visibility: "public", clients: [], priceTier: "free" },

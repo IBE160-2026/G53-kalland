@@ -664,10 +664,70 @@ body {
 .licence-text {
   white-space: pre-line;
 }
+.licence-option > .ds-button {
+  margin-top: 8px;
+}
 .dialog-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* ---------- Checkout and confirmation (UX-DR-37, first cut) ---------- */
+.checkout {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+  max-width: 40rem;
+  margin-top: 16px;
+}
+.checkout > .ds-alert,
+.checkout-lines {
+  width: 100%;
+}
+.checkout-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.checkout-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 16px;
+  padding: 12px 0;
+}
+.checkout-line-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.checkout-line-licence {
+  grid-row: 2;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+}
+.checkout-line .price {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+}
+.checkout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.checkout-reason {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* ---------- Staff Licences (UX-DR-42, first cut) ---------- */
+.licence-table {
+  width: 100%;
+  margin-top: 16px;
 }
 
 /* ---------- Breakpoints (UX-DR-49) ---------- */
