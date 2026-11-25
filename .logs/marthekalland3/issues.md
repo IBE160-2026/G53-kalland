@@ -83,3 +83,6 @@
 - [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — check story 1.9 by hand with `docker compose up`: Jonas licenses A2, Ida sees it in Licences
 - [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — checkout needs JavaScript (form submits from `onSubmit`); revisit if a no-JS fallback is wanted
 - [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — Story 6.2: check the licence text version the contact saw at checkout (today the current version is recorded)
+- [ ] 2026-11-25 [2-1-staff-create-and-manage-clients](970-2026-11-25-13-54-55-2-1-staff-create-and-manage-clients.md) — check story 2.1 by hand with `docker compose up` on a fresh database: add a client, invalid org number refused, Nordlys inactive refuses Emil
+- [ ] 2026-11-25 [2-1-staff-create-and-manage-clients](970-2026-11-25-13-54-55-2-1-staff-create-and-manage-clients.md) — test whether Back after Add client reuses the form nonce and drops a second client (deferred-work.md, unverified)
+- [ ] 2026-11-25 [2-1-staff-create-and-manage-clients](970-2026-11-25-13-54-55-2-1-staff-create-and-manage-clients.md) — Story 2.4: exempt or move `accounts.createClient` (no Actor, unchecked details) for the guard test (deferred-work.md)
