@@ -25,3 +25,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-8-a-contact-finds-the-images-their-client-may-see.md`
   summary: Cover the Find images page's empty branch (`list.total === 0` → `EmptyState`) for a contact whose client may see nothing.
   evidence: Review finding 15. `empty-state.test.ts` renders only the component, and every test DB holds public images, so inverting the branch passes every test. This is the same class as the 1.7 Library empty-state gap. Fix options: a page-level test with `listClientImages` stubbed, or an app-test instance without the sample library.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-1-staff-create-and-manage-clients.md`
+  summary: Going Back to Add client after a create may reuse the form nonce, so a second client is silently dropped and staff land on the first one.
+  evidence: maybe-false (would be medium). The nonce is rendered by `/clients/new/page.tsx`; if Next's back/forward router cache replays that payload, `createClientAsStaff` returns the earlier client's id. Settle with an e2e test: create a client, press Back, fill a different client, save, and check two clients exist.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-1-staff-create-and-manage-clients.md`
+  summary: `accounts.createClient` is exported with no Actor or role check and now accepts org number, billing email and account manager without the mod-11 and active-staff checks.
+  evidence: Pre-existing seed/factory function widened in 2.1. Story 2.4's guard test ("every exported module write function with a contact Actor expecting Forbidden") must either exempt it as seed/test-only or move it out of the public API.
