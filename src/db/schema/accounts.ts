@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check, index, pgTable, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { check, index, pgTable, text, timestamp, uniqueIndex, uuid, type AnyPgColumn } from "drizzle-orm/pg-core";
 
 // Owned by the accounts module (AD-3).
 export const tenants = pgTable("tenants", {
@@ -17,8 +17,23 @@ export const clients = pgTable(
       .references(() => tenants.id, { onDelete: "restrict" }),
     name: text("name").notNull(),
     status: text("status", { enum: ["active", "inactive"] }).notNull().default("active"),
+    // Nine digits, stored without spaces; the mod-11 check runs in accounts (FR-1).
+    orgNumber: text("org_number"),
+    // Stored trimmed and lower-cased by accounts. Nullable only so clients made before Story 2.1 migrate.
+    billingEmail: text("billing_email"),
+    // An active staff user, checked by accounts. Nullable for the same reason.
+    accountManagerId: uuid("account_manager_id").references((): AnyPgColumn => users.id, { onDelete: "restrict" }),
+    // Staff only: never shown on a contact page.
+    staffNotes: text("staff_notes").notNull().default(""),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    // The create form's nonce: a repeated submit finds the client it already made (Conventions: Idempotency).
+    formNonce: uuid("form_nonce"),
   },
-  (t) => [check("clients_status_check", sql`${t.status} in ('active', 'inactive')`)],
+  (t) => [
+    check("clients_status_check", sql`${t.status} in ('active', 'inactive')`),
+    check("clients_org_number_check", sql`${t.orgNumber} ~ '^[0-9]{9}$'`),
+    uniqueIndex("clients_form_nonce_unique").on(t.formNonce),
+  ],
 );
 
 export const users = pgTable(

@@ -3,10 +3,11 @@
 
 export const DEMO_PASSWORD = "crm-dam-demo-2026";
 
+// Each client has a valid (made-up) org number, a billing email and Ida as account manager (Story 2.1).
 export const fixtureClients = {
-  fjordkaffe: { name: "Fjordkaffe AS", status: "active" },
-  nordlys: { name: "Nordlys Sykkel AS", status: "active" },
-  gammelKunde: { name: "Gammel Kunde AS", status: "inactive" },
+  fjordkaffe: { name: "Fjordkaffe AS", status: "active", orgNumber: "921456786", billingEmail: "faktura@fjordkaffe.example", accountManager: "ida" },
+  nordlys: { name: "Nordlys Sykkel AS", status: "active", orgNumber: "923609016", billingEmail: "faktura@nordlys.example", accountManager: "ida" },
+  gammelKunde: { name: "Gammel Kunde AS", status: "inactive", orgNumber: "889640782", billingEmail: "faktura@gammelkunde.example", accountManager: "ida" },
 } as const;
 
 export type FixtureClientKey = keyof typeof fixtureClients;
@@ -23,6 +24,8 @@ export const fixtureUsers = {
   emil: { role: "contact", client: "nordlys", name: "Emil Strand", email: "emil@nordlys.example" },
   liv: { role: "contact", client: "gammelKunde", name: "Liv Moe", email: "liv@gammelkunde.example" },
 } as const satisfies Record<string, FixtureUser>;
+
+export type FixtureUserKey = keyof typeof fixtureUsers;
 
 // The sample library (Story 1.7): seed images under SEED_IMAGES_DIR, uploaded as Ida when the images
 // table is empty. Each entry below gives one file the state its access row needs, seen from Fjordkaffe

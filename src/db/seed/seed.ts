@@ -19,6 +19,7 @@ import {
   type FixtureClientKey,
   type FixtureImage,
   type FixtureUser,
+  type FixtureUserKey,
 } from "./fixture";
 
 // Any constant shared by every process that seeds; serialises concurrent starts.
@@ -34,16 +35,19 @@ export async function seedIfEmpty(db: Db): Promise<boolean> {
     const [{ count }] = await tx.select({ count: sql<number>`count(*)::int` }).from(users);
     if (count > 0) return false;
 
+    // Staff first: every client names one as its account manager.
+    const userIds = {} as Record<FixtureUserKey, string>;
+    for (const [key, user] of Object.entries(fixtureUsers) as [FixtureUserKey, FixtureUser][]) {
+      if (user.role === "staff") userIds[key] = await createUser(tx, user);
+    }
     const clientIds = {} as Record<FixtureClientKey, string>;
     for (const [key, client] of Object.entries(fixtureClients) as [FixtureClientKey, (typeof fixtureClients)[FixtureClientKey]][]) {
-      clientIds[key] = await createClient(tx, client);
+      const { accountManager, ...details } = client;
+      clientIds[key] = await createClient(tx, { ...details, accountManagerId: userIds[accountManager] });
     }
-    for (const user of Object.values(fixtureUsers)) {
-      const userId =
-        user.role === "staff"
-          ? await createUser(tx, user)
-          : await createUser(tx, { ...user, clientId: clientIds[user.client] });
-      await setPassword(tx, userId, DEMO_PASSWORD);
+    for (const [key, user] of Object.entries(fixtureUsers) as [FixtureUserKey, FixtureUser][]) {
+      if (user.role === "contact") userIds[key] = await createUser(tx, { ...user, clientId: clientIds[user.client] });
+      await setPassword(tx, userIds[key], DEMO_PASSWORD);
     }
     return true;
   });

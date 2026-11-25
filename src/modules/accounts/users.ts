@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { getDb, type Tx } from "@/db/client";
 import { users } from "@/db/schema";
 import { DEFAULT_TENANT_ID } from "@/db/tenant";
@@ -63,4 +63,13 @@ export async function getUser(userId: string): Promise<User> {
     .where(eq(users.id, userId));
   if (!row) throw new NotFound();
   return row;
+}
+
+// The staff users a client's account manager can be chosen from (FR-1), by name.
+export async function listActiveStaff(): Promise<{ id: string; name: string }[]> {
+  return getDb()
+    .select({ id: users.id, name: users.name })
+    .from(users)
+    .where(and(eq(users.role, "staff"), eq(users.status, "active")))
+    .orderBy(asc(users.name), asc(users.id));
 }
