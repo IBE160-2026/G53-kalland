@@ -31,3 +31,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-1-staff-create-and-manage-clients.md`
   summary: `accounts.createClient` is exported with no Actor or role check and now accepts org number, billing email and account manager without the mod-11 and active-staff checks.
   evidence: Pre-existing seed/factory function widened in 2.1. Story 2.4's guard test ("every exported module write function with a contact Actor expecting Forbidden") must either exempt it as seed/test-only or move it out of the public API.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-3-contacts-set-their-password-from-a-setup-link.md`
+  summary: Check that Next's request log never prints `/setup/<token>` paths (`logging.incomingRequests.ignore` in `next.config.ts`).
+  evidence: Review finding 5 (verification gap). Deleting the `logging` entry or breaking its regex passes every test; the "never reach the log" unit test mocks only the app logger. Settle with an e2e step that opens a setup link and greps the `app-test` output for `/setup/`.
