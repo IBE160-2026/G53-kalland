@@ -798,6 +798,56 @@ body {
   gap: 16px;
   max-width: 48rem;
 }
+.client-section + .client-section {
+  margin-top: 32px;
+}
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+/* A client's contacts (Story 2.2): one row per person, name and details left, status and actions right. */
+.contact-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+.contact-who {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.contact-name {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.contact-details {
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+.contact-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.contact-status-form {
+  display: contents;
+}
 .client-notes {
   display: grid;
   gap: 4px;

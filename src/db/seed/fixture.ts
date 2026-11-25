@@ -14,12 +14,12 @@ export type FixtureClientKey = keyof typeof fixtureClients;
 
 export type FixtureUser =
   | { role: "staff"; name: string; email: string }
-  | { role: "contact"; client: FixtureClientKey; name: string; email: string };
+  | { role: "contact"; client: FixtureClientKey; name: string; email: string; phone?: string };
 
 export const fixtureUsers = {
   ida: { role: "staff", name: "Ida Berg", email: "ida@agency.example" },
   per: { role: "staff", name: "Per Lund", email: "per@agency.example" },
-  jonas: { role: "contact", client: "fjordkaffe", name: "Jonas Fjell", email: "jonas@fjordkaffe.example" },
+  jonas: { role: "contact", client: "fjordkaffe", name: "Jonas Fjell", email: "jonas@fjordkaffe.example", phone: "+47 912 34 567" },
   kari: { role: "contact", client: "fjordkaffe", name: "Kari Vik", email: "kari@fjordkaffe.example" },
   emil: { role: "contact", client: "nordlys", name: "Emil Strand", email: "emil@nordlys.example" },
   liv: { role: "contact", client: "gammelKunde", name: "Liv Moe", email: "liv@gammelkunde.example" },

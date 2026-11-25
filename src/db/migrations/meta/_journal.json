@@ -57,6 +57,13 @@
       "when": 1795609952867,
       "tag": "0007_client-details",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795612095266,
+      "tag": "0008_contact-phone",
+      "breakpoints": true
     }
   ]
 }

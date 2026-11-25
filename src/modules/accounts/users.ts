@@ -9,8 +9,8 @@ import { normaliseEmail } from "@/modules/shared/email";
 import type { Status } from "./clients";
 
 export type NewUser =
-  | { role: "staff"; name: string; email: string; status?: Status }
-  | { role: "contact"; clientId: string; name: string; email: string; status?: Status };
+  | { role: "staff"; name: string; email: string; phone?: string; status?: Status }
+  | { role: "contact"; clientId: string; name: string; email: string; phone?: string; status?: Status };
 
 export type User = {
   id: string;
@@ -32,6 +32,7 @@ export async function createUser(tx: Tx, input: NewUser): Promise<string> {
         clientId: input.role === "contact" ? input.clientId : null,
         name: input.name.trim(),
         email: normaliseEmail(input.email),
+        phone: input.phone?.trim() || null,
         status: input.status ?? "active",
       })
       .returning({ id: users.id });

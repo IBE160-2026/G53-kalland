@@ -45,7 +45,7 @@
 # Story keys carry the heading's tier tag, cut at a fixed length (e.g. "...-rank-1" on
 # 6.3 is rank 14); the ranks above are the right ones.
 generated: 11-23-2026 10:20
-last_updated: 11-25-2026 13:48
+last_updated: 11-25-2026 14:20
 project: g53-kalland
 project_key: NOKEY
 tracking_system: file-system
@@ -65,7 +65,7 @@ development_status:
 
   epic-2: in-progress
   2-1-staff-create-and-manage-clients: review
-  2-2-staff-add-and-manage-contacts: backlog
+  2-2-staff-add-and-manage-contacts: review
   2-3-contacts-set-their-password-from-a-setup-link: backlog
   2-4-contacts-can-never-reach-staff-routes-or-data: backlog
   2-5-staff-see-everything-about-a-client-on-one-card-bonus-rank-9: backlog

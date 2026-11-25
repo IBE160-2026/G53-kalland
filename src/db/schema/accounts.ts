@@ -49,6 +49,8 @@ export const users = pgTable(
     name: text("name").notNull(),
     // Stored trimmed and lower-cased by accounts.createUser.
     email: text("email").notNull(),
+    // Optional, stored trimmed by accounts; null when none was given (Story 2.2).
+    phone: text("phone"),
     status: text("status", { enum: ["active", "inactive"] }).notNull().default("active"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
