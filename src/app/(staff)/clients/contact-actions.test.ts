@@ -1,14 +1,14 @@
 import { eq } from "drizzle-orm";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getDb } from "@/db/client";
-import { users } from "@/db/schema";
+import { setupLinks, users } from "@/db/schema";
 import { fixtureUsers, type FixtureUser } from "@/db/seed/fixture";
 import { getContactForStaff, getUser, listContactsForStaff } from "@/modules/accounts";
-import type { Actor } from "@/modules/auth";
+import { isSetupLinkValid, type Actor } from "@/modules/auth";
 import { SESSION_COOKIE } from "@/modules/auth/cookies";
 import { createTestClient, createTestContact } from "@/test/factories";
 import { loginAs } from "@/test/login-as";
-import { createContactAction, setContactStatusAction, updateContactAction } from "./contact-actions";
+import { createContactAction, newSetupLinkAction, setContactStatusAction, updateContactAction } from "./contact-actions";
 
 // The request the guard sees, as in actions.test.ts.
 const request = vi.hoisted(() => ({ cookies: new Map<string, string>() }));
@@ -51,6 +51,14 @@ function validFields(change: Record<string, string> = {}): Record<string, string
   return { name: "Nora Dahl", email: `nora-${crypto.randomUUID()}@contact.example`, phone: "+47 912 34 567", ...change };
 }
 
+const SETUP_URL = /^https?:\/\/[^/]+\/setup\/[A-Za-z0-9_-]{43}$/;
+// "2 December 2026, 10:05": the expiry in Oslo time.
+const OSLO_TIME = /^\d{1,2} [A-Z][a-z]+ \d{4}, \d{2}:\d{2}$/;
+
+function tokenOf(url: string): string {
+  return url.slice(url.lastIndexOf("/") + 1);
+}
+
 async function usersWithEmail(email: string) {
   return db.select({ id: users.id }).from(users).where(eq(users.email, email.trim().toLowerCase()));
 }
@@ -67,13 +75,16 @@ async function redirectOf(promise: Promise<unknown>): Promise<string> {
 }
 
 describe("createContactAction", () => {
-  it("creates the contact and redirects to its client", async () => {
+  it("creates the contact and shows its setup link instead of redirecting (FR-4)", async () => {
     const clientId = await createTestClient();
     const fields = validFields();
-    expect(await redirectOf(createContactAction(clientId, {}, form(fields)))).toBe(`/clients/${clientId}`);
-    expect(await listContactsForStaff(ida, clientId)).toEqual([
-      expect.objectContaining({ name: "Nora Dahl", email: fields.email, phone: "+47 912 34 567", status: "active" }),
-    ]);
+    const state = await createContactAction(clientId, {}, form(fields));
+    expect(state).toEqual({
+      created: { name: "Nora Dahl", link: { url: expect.stringMatching(SETUP_URL), expires: expect.stringMatching(OSLO_TIME) } },
+    });
+    const [contact] = await listContactsForStaff(ida, clientId);
+    expect(contact).toMatchObject({ name: "Nora Dahl", email: fields.email, phone: "+47 912 34 567", status: "active" });
+    expect(await isSetupLinkValid(tokenOf(state.created!.link.url))).toBe(true);
   });
 
   it("gives each invalid field its own error and saves nothing", async () => {
@@ -97,7 +108,7 @@ describe("createContactAction", () => {
   it("creates one contact when the same form is submitted twice", async () => {
     const clientId = await createTestClient();
     const fields = validFields();
-    await redirectOf(createContactAction(clientId, {}, form(fields)));
+    expect((await createContactAction(clientId, {}, form(fields))).created).toBeDefined();
     expect(await createContactAction(clientId, {}, form(fields))).toEqual({ fieldErrors: { email: "contacts.errors.emailTaken" } });
     expect(await usersWithEmail(fields.email)).toHaveLength(1);
   });
@@ -165,5 +176,29 @@ describe("setContactStatusAction", () => {
     await signIn(fixtureUsers.jonas);
     await expect(setContactStatusAction({}, form({ contactId: contact.userId, status: "inactive" }))).rejects.toThrow("forbidden");
     expect((await getUser(contact.userId)).status).toBe("active");
+  });
+});
+
+describe("newSetupLinkAction", () => {
+  it("shows a new link for the contact and cancels the earlier one (FR-4)", async () => {
+    const contact = await createTestContact();
+    const first = await newSetupLinkAction({}, form({ contactId: contact.userId }));
+    const second = await newSetupLinkAction({}, form({ contactId: contact.userId }));
+    expect(second).toEqual({ link: { url: expect.stringMatching(SETUP_URL), expires: expect.stringMatching(OSLO_TIME) } });
+    expect(await isSetupLinkValid(tokenOf(first.link!.url))).toBe(false);
+    expect(await isSetupLinkValid(tokenOf(second.link!.url))).toBe(true);
+  });
+
+  it("answers a staff user's id with the not-found message and a malformed id as invalid", async () => {
+    expect(await newSetupLinkAction({}, form({ contactId: ida.userId }))).toEqual({ error: "errors.notFound" });
+    expect(await newSetupLinkAction({}, form({ contactId: "not-a-uuid" }))).toEqual({ error: "errors.validation" });
+    expect(await db.select().from(setupLinks).where(eq(setupLinks.userId, ida.userId))).toEqual([]);
+  });
+
+  it("is forbidden for a contact, who makes no link", async () => {
+    const contact = await createTestContact();
+    await signIn(fixtureUsers.jonas);
+    await expect(newSetupLinkAction({}, form({ contactId: contact.userId }))).rejects.toThrow("forbidden");
+    expect(await db.select().from(setupLinks).where(eq(setupLinks.userId, contact.userId))).toEqual([]);
   });
 });

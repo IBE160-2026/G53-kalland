@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 import { beforeAll, describe, expect, it } from "vitest";
 import { getDb } from "@/db/client";
-import { licences, users } from "@/db/schema";
+import { licences, setupLinks, users } from "@/db/schema";
 import { fixtureUsers } from "@/db/seed/fixture";
-import { login, resolveSession, type Actor } from "@/modules/auth";
+import { isSetupLinkValid, login, resolveSession, SETUP_LINK_TTL_MS, type Actor } from "@/modules/auth";
 import { currentLicenceType, grantLicence } from "@/modules/licences";
 import { Forbidden, NotFound, Validation } from "@/modules/shared/errors";
 import { createTestClient, createTestContact, FACTORY_PASSWORD } from "@/test/factories";
@@ -15,6 +15,7 @@ import {
   getContactForStaff,
   getUser,
   listContactsForStaff,
+  newContactSetupLink,
   setClientStatus,
   setContactStatus,
   updateContact,
@@ -38,11 +39,24 @@ async function usersWithEmail(email: string) {
   return db.select({ id: users.id }).from(users).where(eq(users.email, email.trim().toLowerCase()));
 }
 
+// Setup links of a client's users. Other test files run at the same time, so never count all links.
+async function linkCountOfClient(clientId: string): Promise<number> {
+  const rows = await db.select({ id: setupLinks.id }).from(setupLinks).innerJoin(users, eq(users.id, setupLinks.userId)).where(eq(users.clientId, clientId));
+  return rows.length;
+}
+
+// The token at the end of a setup link's URL.
+function tokenOf(url: string): string {
+  const match = /^http[^ ]*\/setup\/([A-Za-z0-9_-]{43})$/.exec(url);
+  if (!match) throw new Error(`Not a setup link: ${url}`);
+  return match[1];
+}
+
 describe("createContact", () => {
   it("creates an active contact of the client with the values normalised", async () => {
     const clientId = await createTestClient();
     const email = `  Nora.${crypto.randomUUID()}@Contact.EXAMPLE `;
-    const id = await createContact(db, staff, clientId, input({ name: "  Nora Dahl ", email, phone: " +47 (912) 34-567 " }));
+    const { contactId: id } = await createContact(db, staff, clientId, input({ name: "  Nora Dahl ", email, phone: " +47 (912) 34-567 " }));
     expect(await getContactForStaff(staff, id)).toEqual({
       id,
       clientId,
@@ -54,16 +68,27 @@ describe("createContact", () => {
     expect((await getUser(id)).role).toBe("contact");
   });
 
+  it("creates the contact's first setup link in the same transaction (FR-4)", async () => {
+    const clientId = await createTestClient();
+    const before = Date.now();
+    const { contactId, link } = await createContact(db, staff, clientId, input());
+    expect(link.url.startsWith(`${new URL(process.env.APP_ORIGIN!).origin}/setup/`)).toBe(true);
+    expect(await isSetupLinkValid(tokenOf(link.url))).toBe(true);
+    expect(link.expiresAt.getTime() - before).toBeGreaterThanOrEqual(SETUP_LINK_TTL_MS);
+    const rows = await db.select().from(setupLinks).where(eq(setupLinks.userId, contactId));
+    expect(rows).toHaveLength(1);
+  });
+
   it("stores an empty phone as null", async () => {
     const clientId = await createTestClient();
-    const id = await createContact(db, staff, clientId, input({ phone: "   " }));
+    const { contactId: id } = await createContact(db, staff, clientId, input({ phone: "   " }));
     expect((await getContactForStaff(staff, id)).phone).toBeNull();
   });
 
   it("adds a contact to an inactive client", async () => {
     const clientId = await createTestClient();
     await setClientStatus(db, staff, clientId, "inactive");
-    const id = await createContact(db, staff, clientId, input());
+    const { contactId: id } = await createContact(db, staff, clientId, input());
     expect((await getContactForStaff(staff, id)).clientId).toBe(clientId);
   });
 
@@ -77,6 +102,18 @@ describe("createContact", () => {
     );
     expect(await usersWithEmail(email)).toHaveLength(1);
     expect(await listContactsForStaff(staff, clientId)).toEqual([]);
+  });
+
+  it("makes no setup link for a duplicate email, and leaves the caller's transaction usable", async () => {
+    const clientId = await createTestClient();
+    await db.transaction(async (tx) => {
+      await expect(createContact(tx, staff, clientId, input({ email: fixtureUsers.jonas.email }))).rejects.toEqual(
+        new Validation("contacts.errors.emailTaken"),
+      );
+      await createContact(tx, staff, clientId, input());
+    });
+    expect(await linkCountOfClient(clientId)).toBe(1);
+    expect(await listContactsForStaff(staff, clientId)).toHaveLength(1);
   });
 
   it("creates one user for a double submit; the second is refused as a duplicate", async () => {
@@ -216,12 +253,36 @@ describe("setContactStatus", () => {
   });
 });
 
+describe("newContactSetupLink", () => {
+  it("makes a new link that cancels the earlier unused one (FR-4)", async () => {
+    const clientId = await createTestClient();
+    const { contactId, link: first } = await createContact(db, staff, clientId, input());
+    const second = await newContactSetupLink(db, staff, contactId);
+    expect(second.url).not.toBe(first.url);
+    expect(await isSetupLinkValid(tokenOf(first.url))).toBe(false);
+    expect(await isSetupLinkValid(tokenOf(second.url))).toBe(true);
+  });
+
+  it("makes a link for an inactive contact too", async () => {
+    const contact = await createTestContact();
+    await setContactStatus(db, staff, contact.userId, "inactive");
+    expect(await isSetupLinkValid(tokenOf((await newContactSetupLink(db, staff, contact.userId)).url))).toBe(true);
+  });
+
+  it("throws NotFound for a staff user's id, an unknown id and a malformed id, and makes no staff link", async () => {
+    for (const id of [staff.userId, UNKNOWN, "not-a-uuid"]) {
+      await expect(newContactSetupLink(db, staff, id)).rejects.toBeInstanceOf(NotFound);
+    }
+    expect(await db.select().from(setupLinks).where(eq(setupLinks.userId, staff.userId))).toEqual([]);
+  });
+});
+
 describe("contact reads for staff", () => {
   it("list a client's contacts by name, inactive ones included, and no other client's", async () => {
     const clientId = await createTestClient();
     const other = await createTestContact();
-    const bravo = await createContact(db, staff, clientId, input({ name: "Bravo Berg" }));
-    const alpha = await createContact(db, staff, clientId, input({ name: "Alpha Aas", phone: "+47 912 34 567" }));
+    const { contactId: bravo } = await createContact(db, staff, clientId, input({ name: "Bravo Berg" }));
+    const { contactId: alpha } = await createContact(db, staff, clientId, input({ name: "Alpha Aas", phone: "+47 912 34 567" }));
     await setContactStatus(db, staff, bravo, "inactive");
 
     const listed = await listContactsForStaff(staff, clientId);
@@ -258,6 +319,8 @@ describe("contact functions need a staff Actor", () => {
     await expect(setContactStatus(db, contact, target.userId, "inactive")).rejects.toBeInstanceOf(Forbidden);
     await expect(listContactsForStaff(contact, target.clientId)).rejects.toBeInstanceOf(Forbidden);
     await expect(getContactForStaff(contact, target.userId)).rejects.toBeInstanceOf(Forbidden);
+    await expect(newContactSetupLink(db, contact, target.userId)).rejects.toBeInstanceOf(Forbidden);
+    expect(await linkCountOfClient(target.clientId)).toBe(0);
     expect(await usersWithEmail(values.email)).toHaveLength(0);
     expect(await getUser(target.userId)).toMatchObject({ email: target.email, status: "active" });
   });

@@ -10,7 +10,17 @@
     "submit": "Log in",
     "missing": "Enter your email and password.",
     "incorrect": "Incorrect email or password. Contact the agency to set up a new password.",
-    "inactive": "Your account is not active. Contact the agency."
+    "inactive": "Your account is not active. Contact the agency.",
+    "expired": "Link expired. Contact the agency for a new one."
+  },
+  "setPassword": {
+    "title": "Set your password",
+    "intro": "Choose the password you will log in with.",
+    "password": "New password",
+    "passwordHint": "At least 12 characters.",
+    "submit": "Set password",
+    "tooShort": "Use at least 12 characters.",
+    "tooLong": "Use at most 1024 characters."
   },
   "session": {
     "logout": "Log out"
@@ -289,6 +299,18 @@
       "email": "Enter a valid email address, for example name@example.com.",
       "emailTaken": "This email is already used by another user.",
       "phone": "Enter a valid phone number: 5 to 30 characters, using only digits, spaces, +, -, ( and )."
+    },
+    "newSetupLink": "New setup link",
+    "newSetupLinkLabel": "New setup link for {name}",
+    "added": "Contact added",
+    "addedText": "{name} can log in once they have set a password with the link below.",
+    "backTo": "Back to {client}",
+    "setupLink": {
+      "title": "Setup link for {name}",
+      "label": "Setup link",
+      "copy": "Copy link",
+      "copied": "Copied",
+      "hint": "Paste it into your own email to {name}: the app sends no email. The link works once and expires on {expires}. Making another link cancels this one."
     }
   },
   "forbidden": {

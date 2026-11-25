@@ -24,6 +24,7 @@ export default async function EditContactPage({ params }: PageProps<"/clients/[i
         action={updateContactAction.bind(null, client.id, contact.id)}
         initial={{ name: contact.name, email: contact.email, phone: contact.phone ?? "" }}
         cancelHref={`/clients/${client.id}`}
+        clientName={client.name}
       />
     </PageMain>
   );

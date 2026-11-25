@@ -848,6 +848,45 @@ body {
 .contact-status-form {
   display: contents;
 }
+/* A new setup link (Story 2.3): under its contact row, or after Add contact. */
+.contact-row-full {
+  flex-basis: 100%;
+}
+.setup-link {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--ds-color-neutral-background-tinted);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--radius-default);
+}
+.setup-link-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.setup-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.setup-link-url {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875rem;
+}
+.setup-link-copied {
+  color: var(--ds-color-success-text-subtle);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.setup-link-hint {
+  margin: 0;
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: 0.875rem;
+}
 .client-notes {
   display: grid;
   gap: 4px;

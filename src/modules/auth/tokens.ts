@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 
-// 256 random bits for the cookie; only the SHA-256 is stored (AD-5).
-export function newSessionToken(): string {
+// 256 random bits, for the session cookie and setup links; only the SHA-256 is stored (AD-5).
+export function newToken(): string {
   return randomBytes(32).toString("base64url");
 }
 

@@ -26,6 +26,7 @@ export {
   getContactForStaff,
   isValidPhone,
   listContactsForStaff,
+  newContactSetupLink,
   setContactStatus,
   updateContact,
   type Contact,

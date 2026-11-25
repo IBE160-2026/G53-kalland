@@ -5,7 +5,7 @@ import { normaliseEmail } from "@/modules/shared/email";
 import { Forbidden, Validation } from "@/modules/shared/errors";
 import type { Actor } from "./actor";
 import { getDummyHash, hashPassword, verifyPassword } from "./password";
-import { hashToken, newSessionToken } from "./tokens";
+import { hashToken, newToken } from "./tokens";
 
 export const IDLE_TIMEOUT_MS = 8 * 60 * 60 * 1000;
 export const LAST_SEEN_THROTTLE_MS = 60 * 1000;
@@ -29,17 +29,17 @@ export async function setPassword(tx: Tx, userId: string, password: string): Pro
   });
 }
 
-function toActor(row: { userId: string; role: "staff" | "contact"; clientId: string | null }): Actor {
+export function toActor(row: { userId: string; role: "staff" | "contact"; clientId: string | null }): Actor {
   if (row.role === "staff") return { userId: row.userId, role: "staff" };
   if (!row.clientId) throw new Error("A contact without a client.");
   return { userId: row.userId, role: "contact", clientId: row.clientId };
 }
 
-function isActive(row: { userStatus: string; clientStatus: string | null }): boolean {
+export function isActive(row: { userStatus: string; clientStatus: string | null }): boolean {
   return row.userStatus === "active" && (row.clientStatus === null || row.clientStatus === "active");
 }
 
-const accountColumns = {
+export const accountColumns = {
   userId: users.id,
   role: users.role,
   clientId: users.clientId,
@@ -63,15 +63,20 @@ export async function login(email: string, password: string, now = new Date()): 
   if (!row?.passwordHash || !passwordOk) throw new Validation("login.incorrect");
   if (!isActive(row)) throw new Forbidden("login.inactive");
 
-  const token = newSessionToken();
-  await db.transaction(async (tx) => {
-    await tx.insert(sessions).values({ tokenHash: hashToken(token), userId: row.userId, createdAt: now, lastSeenAt: now });
-    await tx
-      .update(credentials)
-      .set({ previousLoginAt: sql`${credentials.lastLoginAt}`, lastLoginAt: now })
-      .where(eq(credentials.userId, row.userId));
-  });
+  const token = await db.transaction((tx) => startSession(tx, row.userId, now));
   return { token, actor: toActor(row) };
+}
+
+// Starts a session for a user whose password was just checked or set, and records the login time.
+// Returns the cookie token; only its hash is stored.
+export async function startSession(tx: Tx, userId: string, now: Date): Promise<string> {
+  const token = newToken();
+  await tx.insert(sessions).values({ tokenHash: hashToken(token), userId, createdAt: now, lastSeenAt: now });
+  await tx
+    .update(credentials)
+    .set({ previousLoginAt: sql`${credentials.lastLoginAt}`, lastLoginAt: now })
+    .where(eq(credentials.userId, userId));
+  return token;
 }
 
 // Looks up the session for a cookie token at time `now`. Refused sessions (idle, or user or client

@@ -6,7 +6,7 @@ import { createContactAction } from "../../../contact-actions";
 import { ContactForm } from "../../../contact-form";
 import { loadClient } from "../../../load-client";
 
-// Add contact (FR-2), also for an inactive client. Save and Cancel return to the client.
+// Add contact (FR-2, FR-4), also for an inactive client. Saving shows the new setup link; Cancel returns to the client.
 export default async function NewContactPage({ params }: PageProps<"/clients/[id]/contacts/new">) {
   const actor = await requireStaff();
   const client = await loadClient(actor, (await params).id);
@@ -21,6 +21,7 @@ export default async function NewContactPage({ params }: PageProps<"/clients/[id
         action={createContactAction.bind(null, client.id)}
         initial={{ name: "", email: "", phone: "" }}
         cancelHref={`/clients/${client.id}`}
+        clientName={client.name}
       />
     </PageMain>
   );

@@ -3,20 +3,24 @@
 import { useActionState, useId, useState } from "react";
 import NextLink from "next/link";
 import { useTranslations } from "next-intl";
-import { Alert, Button, Field, Input, Label, Link, ValidationMessage } from "@digdir/designsystemet-react";
+import { Alert, Button, Field, Heading, Input, Label, Link, ValidationMessage } from "@digdir/designsystemet-react";
 import type { ContactField, ContactInput } from "@/modules/accounts";
 import type { ContactFormState } from "./contact-actions";
+import { SetupLinkPanel } from "./setup-link-panel";
 
 // The one form for Add contact and Edit contact (FR-2). Each field shows its own inline error; the fields
-// are controlled, so a refused save keeps every value entered.
+// are controlled, so a refused save keeps every value entered. After Add contact the form gives way to
+// "Contact added" with the new setup link (FR-4) and a link back to the client; Edit redirects instead.
 export function ContactForm({
   action,
   initial,
   cancelHref,
+  clientName,
 }: {
   action: (previous: ContactFormState, formData: FormData) => Promise<ContactFormState>;
   initial: ContactInput;
   cancelHref: string;
+  clientName: string;
 }) {
   const t = useTranslations("contacts.form");
   const tRoot = useTranslations();
@@ -24,6 +28,24 @@ export function ContactForm({
   const [state, formAction, pending] = useActionState(action, {});
   const [values, setValues] = useState(initial);
   const errors: Partial<Record<ContactField, string>> = state.fieldErrors ?? {};
+  const tContacts = useTranslations("contacts");
+
+  if (state.created) {
+    return (
+      <div className="form-stack client-form">
+        <Alert data-color="success" data-size="sm">
+          <Heading level={2} data-size="xs">
+            {tContacts("added")}
+          </Heading>
+          <p>{tContacts("addedText", { name: state.created.name })}</p>
+        </Alert>
+        <SetupLinkPanel name={state.created.name} link={state.created.link} />
+        <Link asChild>
+          <NextLink href={cancelHref}>{tContacts("backTo", { client: clientName })}</NextLink>
+        </Link>
+      </div>
+    );
+  }
 
   function field(
     name: ContactField,
