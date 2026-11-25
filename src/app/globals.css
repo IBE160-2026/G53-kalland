@@ -730,6 +730,96 @@ body {
   margin-top: 16px;
 }
 
+/* ---------- Staff Clients (UX-DR-8, FR-1) ---------- */
+.sidebar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 16px;
+}
+.sidebar-head .sidebar-heading {
+  margin: 0;
+}
+.client-list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.client-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-default);
+  color: inherit;
+  text-decoration: none;
+}
+.client-list a:hover {
+  background: var(--ds-color-neutral-surface-hover);
+}
+.client-list a[aria-current="true"] {
+  background: var(--ds-color-neutral-surface-active);
+}
+.client-list-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.client-list-name {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.client-list small {
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: 0.8125rem;
+}
+.client-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 24px;
+}
+.client-title,
+.client-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.client-section {
+  display: grid;
+  gap: 16px;
+  max-width: 48rem;
+}
+.client-notes {
+  display: grid;
+  gap: 4px;
+}
+.client-notes p {
+  margin: 0;
+}
+.client-notes-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.client-form {
+  max-width: 36rem;
+  margin-top: 24px;
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
 /* ---------- Breakpoints (UX-DR-49) ---------- */
 @media (max-width: 1240px) {
   /* The Details panel moves inline, above the wall. */

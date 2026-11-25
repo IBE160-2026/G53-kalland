@@ -50,6 +50,13 @@
       "when": 1795607540800,
       "tag": "0006_licences",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795609952867,
+      "tag": "0007_client-details",
+      "breakpoints": true
     }
   ]
 }

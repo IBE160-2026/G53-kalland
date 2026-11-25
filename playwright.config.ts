@@ -7,9 +7,11 @@ export default defineConfig({
   reporter: "list",
   use: { baseURL: process.env.APP_ORIGIN ?? "http://localhost:3000" },
   // The seeded-library and client access tests count the sample library exactly, so they run before
-  // every test that uploads or publishes.
+  // every test that uploads or publishes. The Clients tests set a seeded client inactive for a moment,
+  // so they run last, when no other test logs in as its contact.
   projects: [
     { name: "seeded library", testMatch: /(seed|client-access)\.spec\.ts$/ },
-    { name: "app", testIgnore: /(seed|client-access)\.spec\.ts$/, dependencies: ["seeded library"] },
+    { name: "app", testIgnore: /(seed|client-access|clients)\.spec\.ts$/, dependencies: ["seeded library"] },
+    { name: "clients", testMatch: /clients\.spec\.ts$/, dependencies: ["app"] },
   ],
 });

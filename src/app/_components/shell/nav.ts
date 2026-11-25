@@ -1,12 +1,13 @@
 // One tab list and one search target per shell (UX-DR-6). Tabs for later surfaces are added with their stories.
 export type Surface = "staff" | "client";
 
-export type Tab = { href: string; labelKey: "library" | "upload" | "licences" | "overview" | "findImages" };
+export type Tab = { href: string; labelKey: "library" | "upload" | "clients" | "licences" | "overview" | "findImages" };
 
 export const tabs: Record<Surface, readonly Tab[]> = {
   staff: [
     { href: "/library", labelKey: "library" },
     { href: "/upload", labelKey: "upload" },
+    { href: "/clients", labelKey: "clients" },
     { href: "/licences", labelKey: "licences" },
   ],
   client: [

@@ -23,6 +23,7 @@
   "nav": {
     "library": "Library",
     "upload": "Upload",
+    "clients": "Clients",
     "overview": "Overview",
     "findImages": "Find images",
     "licences": "Licences"
@@ -210,6 +211,53 @@
     "price": "Price",
     "date": "Date",
     "noContact": "None"
+  },
+  "clients": {
+    "title": "Clients",
+    "list": "Client list",
+    "listToggle": "Show or hide the client list",
+    "add": "Add client",
+    "empty": "There are no clients yet.",
+    "contactCount": "{n, plural, =0 {No contacts} one {# contact} other {# contacts}}",
+    "choose": "Choose a client in the list, or add a new one.",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "details": "Details",
+    "orgNumber": "Org number",
+    "billingEmail": "Billing email",
+    "accountManager": "Account manager",
+    "statusLabel": "Status",
+    "statusText": {
+      "active": "Active. Its contacts can log in.",
+      "inactive": "Inactive. Its contacts cannot log in."
+    },
+    "staffNotes": "Staff notes",
+    "staffOnly": "Staff only. Contacts never see notes or the account manager.",
+    "none": "None",
+    "edit": "Edit client",
+    "setInactive": "Set inactive",
+    "setActive": "Set active",
+    "form": {
+      "addTitle": "Add client",
+      "editTitle": "Edit {name}",
+      "name": "Name",
+      "orgNumber": "Org number (optional)",
+      "orgNumberHint": "Nine digits, for example 921 456 786.",
+      "billingEmail": "Billing email",
+      "accountManager": "Account manager",
+      "chooseAccountManager": "Choose a staff user",
+      "staffNotes": "Staff notes (optional)",
+      "save": "Save client",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "name": "Enter the client's name.",
+      "orgNumber": "Enter a valid org number: nine digits, for example 921 456 786.",
+      "billingEmail": "Enter a valid email address, for example faktura@example.com.",
+      "accountManager": "Choose an account manager from the active staff users."
+    }
   },
   "forbidden": {
     "title": "No access",

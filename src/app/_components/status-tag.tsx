@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { Tag } from "@digdir/designsystemet-react";
 
 // Status tag colours (UX-DR-14): Neutral (Draft, Queued, Archived), Info (Uploading), Accent (In progress),
-// Success (Ready, Published), Danger (Failed), Warning (Rejected). Always text-labelled.
+// Success (Ready, Published), Danger (Failed), Warning (Rejected). Always text-labelled. Clients: Active
+// (Success) and Inactive (Neutral).
 const TAG_COLOR = {
   draft: "neutral",
   queued: "neutral",
@@ -13,6 +14,8 @@ const TAG_COLOR = {
   published: "success",
   failed: "danger",
   rejected: "warning",
+  active: "success",
+  inactive: "neutral",
 } as const;
 
 export type TagState = keyof typeof TAG_COLOR;
