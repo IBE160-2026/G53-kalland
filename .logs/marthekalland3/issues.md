@@ -80,3 +80,6 @@
 - [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — test the shared wall pagination with more than 48 images (deferred-work.md)
 - [ ] 2026-11-23 [1-8-contact-finds-images](972-2026-11-23-20-47-02-1-8-contact-finds-images.md) — cover the Find images empty branch for a client that may see nothing (deferred-work.md)
 - [ ] 2026-11-23 [seed-image-prep-and-worktrees](972-2026-11-23-20-32-01-seed-image-prep-and-worktrees.md) — `finish.sh` stops if `git worktree remove` fails partway (Docker VM holding files) and skips the pull and branch cleanup
+- [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — check story 1.9 by hand with `docker compose up`: Jonas licenses A2, Ida sees it in Licences
+- [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — checkout needs JavaScript (form submits from `onSubmit`); revisit if a no-JS fallback is wanted
+- [ ] 2026-11-25 [1-9-contact-checks-out](971-2026-11-25-13-16-52-1-9-contact-checks-out.md) — Story 6.2: check the licence text version the contact saw at checkout (today the current version is recorded)
