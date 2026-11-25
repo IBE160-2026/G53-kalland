@@ -2,7 +2,7 @@ import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { exiftool } from "exiftool-vendored";
 import { afterAll, describe, expect, it } from "vitest";
-import { fixtureClients, fixtureImages, SEED_IMAGE_COUNT, SEED_IMAGES_DIR } from "./fixture";
+import { fixtureClients, fixtureImages, fixtureUsers, SEED_IMAGE_COUNT, SEED_IMAGES_DIR, type FixtureImage } from "./fixture";
 
 const seedFile = (file: string) => path.join(SEED_IMAGES_DIR, file);
 
@@ -19,6 +19,16 @@ describe("the sample library files (Story 1.7)", () => {
     for (const image of Object.values(fixtureImages)) {
       for (const client of image.clients) expect(Object.keys(fixtureClients)).toContain(client);
     }
+  });
+
+  it("licenses A3, A6, A8, A10 and A12, all paid, to Fjordkaffe, which has a contact to buy them (Story 1.9)", () => {
+    const licensed = (Object.values(fixtureImages) as FixtureImage[]).filter((image) => image.licensedTo);
+    expect(licensed.map((image) => image.row)).toEqual(["A3", "A6", "A8", "A10", "A12"]);
+    for (const image of licensed) {
+      expect(image.priceTier, image.row).toBe("paid");
+      expect(image.licensedTo, image.row).toEqual(["fjordkaffe"]);
+    }
+    expect(Object.values(fixtureUsers).some((user) => user.role === "contact" && user.client === "fjordkaffe")).toBe(true);
   });
 
   it("holds 20–40 images, each at most 1600 px and under 500 KB, with no camera model", async () => {

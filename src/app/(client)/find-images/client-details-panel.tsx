@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
+import NextLink from "next/link";
+import { Button } from "@digdir/designsystemet-react";
 import { getTranslations } from "next-intl/server";
 import type { ClientImage } from "@/modules/access";
 import { cameraName, formatDateTaken } from "./format";
@@ -89,6 +91,9 @@ export async function ClientDetailsPanel({ image, licence }: { image: ClientImag
           </p>
           <p className="licence-scope">{t("licence.scope")}</p>
           {licence.text && <LicenceTermsDialog name={licence.name} text={licence.text} />}
+          <Button asChild data-size="sm">
+            <NextLink href={`/checkout?image=${image.id}`}>{t("licence.licenseImage")}</NextLink>
+          </Button>
         </section>
       )}
 

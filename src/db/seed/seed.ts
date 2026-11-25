@@ -6,7 +6,7 @@ import { images, users } from "@/db/schema";
 import { createClient, createUser, listActiveClients } from "@/modules/accounts";
 import { setPassword, type Actor } from "@/modules/auth";
 import { archiveImage, completeUpload, createUploadRows, getLibraryImage, publishImage, saveAccess } from "@/modules/images";
-import { ensureStandardLicenceType } from "@/modules/licences";
+import { currentLicenceType, ensureStandardLicenceType, grantLicence } from "@/modules/licences";
 import { normaliseEmail } from "@/modules/shared/email";
 import { log } from "@/modules/shared/log";
 import {
@@ -18,6 +18,7 @@ import {
   SEED_IMAGES_DIR,
   type FixtureClientKey,
   type FixtureImage,
+  type FixtureUser,
 } from "./fixture";
 
 // Any constant shared by every process that seeds; serialises concurrent starts.
@@ -67,6 +68,45 @@ async function findIda(tx: Tx): Promise<Actor | null> {
   return ida ? { userId: ida.id, role: "staff" } : null;
 }
 
+// The client's first fixture contact (Jonas for Fjordkaffe), as an Actor; null when they are missing.
+async function findFirstContact(tx: Tx, client: FixtureClientKey): Promise<Actor | null> {
+  const user = (Object.values(fixtureUsers) as FixtureUser[]).find((candidate) => candidate.role === "contact" && candidate.client === client);
+  if (!user) return null;
+  const [row] = await tx
+    .select({ id: users.id, clientId: users.clientId })
+    .from(users)
+    .where(and(eq(users.email, normaliseEmail(user.email)), eq(users.role, "contact")));
+  return row?.clientId ? { userId: row.id, role: "contact", clientId: row.clientId } : null;
+}
+
+// Grants the fixture licences (A3, A6, A8, A10, A12) through licences.grantLicence, as a purchase by the
+// client's first contact at the current price (AD-18). Only for images that seeded completely: a licence
+// on a row left `uploading` would block the stale-upload sweep (foreign key restrict). One transaction per
+// licence; a failure is logged and the next goes on.
+async function grantFixtureLicences(db: Db, rows: { id: string; file: string }[]): Promise<void> {
+  for (const image of Object.values(fixtureImages) as FixtureImage[]) {
+    const row = rows.find((candidate) => candidate.file === image.file);
+    for (const client of image.licensedTo ?? []) {
+      try {
+        await db.transaction(async (tx) => {
+          const contact = await findFirstContact(tx, client);
+          const type = await currentLicenceType(tx);
+          if (!row || !contact || !type) throw new Error(`Seed licence for ${image.file} has no image, contact or licence type.`);
+          await grantLicence(tx, contact, {
+            imageId: row.id,
+            source: "purchase",
+            licenceTypeId: type.id,
+            priceMinor: type.priceMinor,
+            currency: type.currency,
+          });
+        });
+      } catch (error) {
+        log.error({ err: error, file: image.file }, "Could not grant a seed licence; going on with the next.");
+      }
+    }
+  }
+}
+
 // Copied from src/test/images.ts rather than importing test code into the app.
 async function* chunksOf(bytes: Buffer, size = 64 * 1024): AsyncGenerator<Uint8Array> {
   for (let i = 0; i < bytes.length; i += size) yield bytes.subarray(i, i + size);
@@ -101,7 +141,7 @@ async function seedOneImage(ida: Actor, imageId: string, file: string, clientIds
 // have users. Under the seed lock, when the images table is empty, it creates one `uploading` row per
 // seed file in one batch owned by Ida and commits them, so a concurrent start sees images and skips. Then
 // it uploads each file in its own step: a failure is logged and the next file goes on. Returns how many
-// files it planned and seeded, or null when it skipped.
+// files it planned and seeded, or null when it skipped. Last, it grants the fixture licences.
 export async function seedSampleLibrary(db: Db): Promise<{ planned: number; seeded: number } | null> {
   const planned = await db.transaction(async (tx) => {
     await tx.execute(sql`select pg_advisory_xact_lock(${SEED_LOCK_ID})`);
@@ -134,16 +174,17 @@ export async function seedSampleLibrary(db: Db): Promise<{ planned: number; seed
     if (found) clientIds.set(key, found.id);
   }
 
-  let seeded = 0;
+  const seededRows: { id: string; file: string }[] = [];
   for (const { id, file } of planned.rows) {
     try {
       await seedOneImage(planned.ida, id, file, clientIds);
-      seeded += 1;
+      seededRows.push({ id, file });
     } catch (error) {
       log.error({ err: error, file }, "Could not seed a sample image; going on with the next.");
     }
   }
-  return { planned: planned.rows.length, seeded };
+  await grantFixtureLicences(db, seededRows);
+  return { planned: planned.rows.length, seeded: seededRows.length };
 }
 
 // Called from src/instrumentation.ts when SEED_ON_START=true. The users first, then the sample library.

@@ -25,7 +25,7 @@ async function licenceOffer(image: ClientImage): Promise<LicenceOffer | null> {
   return {
     name: type.name,
     priceLabel: formatPrice(image.price.priceMinor, image.price.currency),
-    text: await currentLicenceText(db, type.id),
+    text: (await currentLicenceText(db, type.id))?.body ?? null,
   };
 }
 

@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { fixtureUsers, type FixtureUser } from "../../src/db/seed/fixture.ts";
-import { loginAs } from "./helpers.ts";
+import { loginAs, publishPaidImage } from "./helpers.ts";
 import { makePng } from "./png.ts";
 
 // Starts a batch and uploads one PNG, so the scan covers the bar and a file row.
@@ -56,6 +56,23 @@ async function openClientPanel(page: Page) {
   await expect(page.getByRole("heading", { name: "About the image" })).toBeVisible();
 }
 
+// Checkout of a paid image (A5), from its Details panel. Nothing is checked out.
+async function openCheckout(page: Page) {
+  await openClientPanel(page);
+  await page.getByRole("link", { name: "License this image" }).click();
+}
+
+// The confirmation of a checkout of an image published here, so the seeded rows stay as they are.
+async function openConfirmation(page: Page) {
+  const imageId = await publishPaidImage(page.context().browser()!, "fail-scan-checkout.png", `Scan ${crypto.randomUUID()}`);
+  await page.goto(`/checkout?image=${imageId}`);
+  await page.getByLabel("I accept the licence terms for this image on behalf of my organisation").check();
+  await page.getByRole("button", { name: "Check out" }).click();
+  await expect(page).toHaveURL(/\/checkout\/confirmation/);
+  // After the action's redirect the title streams in with the page's metadata; scan once it is there.
+  await expect(page).toHaveTitle("CRM-DAM");
+}
+
 // Every page goes on this list as it is built (NFR-5a). `as` logs in first; the 403 page is a
 // contact on a staff route. `h1` confirms which page was scanned; `setup` brings the page to the state scanned.
 const SCAN_LIST: { name: string; path: string; h1: string; as?: FixtureUser; setup?: (page: Page) => Promise<void> }[] = [
@@ -73,6 +90,9 @@ const SCAN_LIST: { name: string; path: string; h1: string; as?: FixtureUser; set
   { name: "Find images", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas },
   { name: "Find images with the Details panel", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas, setup: openClientPanel },
   { name: "Find images licence terms dialog", path: "/find-images", h1: "Find images", as: fixtureUsers.jonas, setup: openLicenceTerms },
+  { name: "Checkout", path: "/find-images", h1: "Check out", as: fixtureUsers.jonas, setup: openCheckout },
+  { name: "Checkout confirmation", path: "/find-images", h1: "Licence recorded", as: fixtureUsers.jonas, setup: openConfirmation },
+  { name: "Licences", path: "/licences", h1: "Licences", as: fixtureUsers.ida },
   { name: "404", path: "/find-images?image=00000000-0000-7000-8000-000000000000", h1: "Not found", as: fixtureUsers.jonas },
 ];
 

@@ -27,7 +27,7 @@ test.describe("staff shell", () => {
     const account = bar.getByRole("button", { name: firstName(fixtureUsers.ida) });
 
     await expect(search).toHaveAttribute("placeholder", STAFF_SEARCH);
-    await expect(nav.getByRole("link")).toHaveText(["Library", "Upload"]);
+    await expect(nav.getByRole("link")).toHaveText(["Library", "Upload", "Licences"]);
     await expect(nav.getByRole("link", { name: "Library" })).toHaveAttribute("aria-current", "page");
     await expect(nav.getByRole("link", { name: "Upload" })).not.toHaveAttribute("aria-current");
 

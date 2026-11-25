@@ -4,11 +4,11 @@ import pg from "pg";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { getDb, getPool, type Db } from "@/db/client";
 import { runMigrations } from "@/db/migrate";
-import { clients, imageClients, images, users } from "@/db/schema";
+import { clients, imageClients, images, licences, users } from "@/db/schema";
 import { MOCK_FIXTURES } from "@/modules/ai/providers/mock-fixtures";
 import { register } from "@/instrumentation";
 import { useTempFileStore } from "@/test/images";
-import { DEFAULT_SEED_IMAGE, fixtureClients, fixtureImages, fixtureUsers, SEED_IMAGES_DIR } from "./fixture";
+import { DEFAULT_SEED_IMAGE, fixtureClients, fixtureImages, fixtureUsers, SEED_IMAGES_DIR, type FixtureImage } from "./fixture";
 import { seedIfEmpty, seedSampleLibrary } from "./seed";
 
 // The sample library seeds only into an empty images table, which the shared test database never is
@@ -138,6 +138,38 @@ describe("seedSampleLibrary", () => {
         visibility: DEFAULT_SEED_IMAGE.visibility,
         priceTier: DEFAULT_SEED_IMAGE.priceTier,
         clientNames: [],
+      });
+    }
+  });
+
+  it("grants the fixture licences (A3, A6, A8, A10, A12) to Fjordkaffe as purchases by Jonas, at the current price", async () => {
+    const rows = await db
+      .select({
+        filename: images.filename,
+        client: clients.name,
+        contact: users.email,
+        source: licences.source,
+        imageTitle: licences.imageTitle,
+        priceMinor: licences.priceMinor,
+        currency: licences.currency,
+        revokedAt: licences.revokedAt,
+      })
+      .from(licences)
+      .innerJoin(images, eq(images.id, licences.imageId))
+      .innerJoin(clients, eq(clients.id, licences.clientId))
+      .innerJoin(users, eq(users.id, licences.contactId));
+    const licensed = (Object.values(fixtureImages) as FixtureImage[]).filter((image) => image.licensedTo);
+    expect(rows.map((row) => row.filename).sort()).toEqual(licensed.map((image) => image.file).sort());
+    for (const row of rows) {
+      expect(row, row.filename).toEqual({
+        filename: row.filename,
+        client: fixtureClients.fjordkaffe.name,
+        contact: fixtureUsers.jonas.email,
+        source: "purchase",
+        imageTitle: MOCK_FIXTURES[row.filename].title,
+        priceMinor: 9000,
+        currency: "USD",
+        revokedAt: null,
       });
     }
   });
